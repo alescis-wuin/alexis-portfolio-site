@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portfolio d’Alexis Guinot, développeur backend et concepteur d’applications : API, données, automatisation, desktop, IA locale, projets techniques et recherche d’alternance.">
+  <meta name="author" content="Alexis Guinot">
+  <meta name="color-scheme" content="dark light">
+  <meta property="og:title" content="Alexis Guinot — Développeur backend & concepteur d’applications">
+  <meta property="og:description" content="Portfolio d’Alexis Guinot, développeur backend et concepteur d’applications : API, données, automatisation, desktop, IA locale, projets techniques et recherche d’alternance.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
+  <meta name="theme-color" content="#0B1020">
+  <title>Alexis Guinot — Développeur backend & concepteur d’applications</title>
+  <link rel="icon" href="./assets/img/logo.svg" type="image/svg+xml">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="preload" href="./assets/img/photo-profil-480.webp" as="image" type="image/webp">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <script>
+    (() => {
+      document.documentElement.dataset.js = 'true';
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || savedTheme === 'light') {
+        document.documentElement.dataset.theme = savedTheme;
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu principal</a>
+  <header class="site-header" data-site-header>
+    <div class="container header-inner">
+      <a class="brand" href="./index.html#accueil" aria-label="Retour à l’accueil">
+        <img src="./assets/img/logo.svg" width="40" height="40" alt="" aria-hidden="true">
+        <span>Alexis Guinot</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navigation-principale" data-nav-toggle hidden>
+        <span class="nav-toggle-bars" aria-hidden="true"></span>
+        <span class="sr-only">Ouvrir le menu</span>
+      </button>
+      <nav class="site-nav" aria-label="Navigation principale" data-site-nav>
+        <ul id="navigation-principale" class="nav-list">
+          <li><a href="./index.html#accueil">Accueil</a></li>
+<li><a href="./index.html#projets">Projets</a></li>
+<li><a href="./index.html#competences">Compétences</a></li>
+<li><a href="./index.html#parcours">Parcours</a></li>
+<li><a href="./index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer le thème" aria-pressed="false">
+          <span aria-hidden="true">◐</span>
+        </button>
+        <a class="button button-small button-ghost" href="./assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <section id="accueil" class="hero section-lg" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow">Backend · API · Données · Applications métier</p>
+          <h1 id="hero-title">Développeur backend & concepteur d’applications</h1>
+          <p class="hero-lead">Je conçois des applications complètes : API, logique métier, bases de données, pipelines applicatifs, interfaces desktop et outils internes.</p>
+          <p class="availability">Recherche une alternance d’un an à partir d’octobre 2026 pour valider une troisième année de bachelor.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#projets">Voir les projets</a>
+            <a class="button button-secondary" href="assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
+          </div>
+          <ul class="hero-links" aria-label="Liens de contact rapides">
+            <li><a href="mailto:alexis.guinot@onsiea.com">E-mail</a></li>
+            <li><a href="https://www.linkedin.com/in/alexis-guinot/" rel="me noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://github.com/alescis-wuin" rel="me noopener noreferrer">GitHub</a></li>
+          </ul>
+        </div>
+        <aside class="hero-card" aria-label="Profil résumé" data-reveal>
+          <picture>
+            <source srcset="assets/img/photo-profil-480.webp 480w, assets/img/photo-profil-800.webp 800w" type="image/webp" sizes="(max-width: 780px) 220px, 320px">
+            <img src="assets/img/photo-profil.jpg" width="800" height="800" alt="Portrait professionnel d’Alexis Guinot" fetchpriority="high">
+          </picture>
+          <div class="profile-panel">
+            <p class="profile-role">Développeur et concepteur d’applications</p>
+            <div class="status-line"><span aria-hidden="true"></span>Disponible pour alternance backend / API / applications métier</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="positionnement-title">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Positionnement</p>
+          <h2 id="positionnement-title">Backend d’abord, sans enfermement dans un seul langage</h2>
+          <p>Java reste une base solide, mais le positionnement du portfolio met surtout en avant la capacité à construire des services, des API, des modèles de données et des applications exploitables.</p>
+        </div>
+        <div class="value-grid">
+          <article class="value-card" data-reveal>
+            <h3>API & services</h3>
+            <p>REST, GraphQL, validation, logique métier, OpenAPI, sécurité et contrats applicatifs.</p>
+          </article>
+          <article class="value-card" data-reveal>
+            <h3>Données & persistance</h3>
+            <p>PostgreSQL, SQL, Flyway, Redis, modèles de données, snapshots et historiques fiables.</p>
+          </article>
+          <article class="value-card" data-reveal>
+            <h3>Architecture applicative</h3>
+            <p>Découpage domaine/application/persistance, Maven multi-module, port/adaptateur, documentation.</p>
+          </article>
+          <article class="value-card" data-reveal>
+            <h3>Interfaces utiles</h3>
+            <p>JavaFX, applications desktop, UI métier, ergonomie, accessibilité et clarté des écrans.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projets" class="section section-alt" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Projets</p>
+          <h2 id="projects-title">Études de cas techniques</h2>
+          <p>Les projets sont présentés comme preuves de conception : problème traité, architecture, stack, décisions et limites.</p>
+        </div>
+        <div class="filters" aria-label="Filtrer les projets" data-project-filters>
+          <button type="button" class="filter-button" data-filter="all" aria-pressed="true">Tous</button>
+          <button type="button" class="filter-button" data-filter="backend" aria-pressed="false">Backend</button>
+          <button type="button" class="filter-button" data-filter="desktop" aria-pressed="false">Desktop</button>
+          <button type="button" class="filter-button" data-filter="donnees" aria-pressed="false">Données</button>
+          <button type="button" class="filter-button" data-filter="ia" aria-pressed="false">IA</button>
+          <button type="button" class="filter-button" data-filter="graphique" aria-pressed="false">Graphique</button>
+        </div>
+        <div class="project-grid">
+
+          <article class="project-card" data-project-card data-tags="backend full-stack donnees devops">
+            <a class="project-media" href="projets/streamfolio.html" aria-label="Lire l’étude de cas Streamfolio">
+              <img src="assets/img/projects/streamfolio.svg" width="960" height="540" loading="lazy" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-meta"><span>Plateforme de streaming vidéo</span><span>Finalisé</span></div>
+              <h3><a href="projets/streamfolio.html">Streamfolio</a></h3>
+              <p>Application web de streaming vidéo avec authentification, catalogue, administration média, upload, streaming MP4/HLS et pipeline FFmpeg.</p>
+              <div class="tag-list" aria-label="Technologies principales"><span class="tag">Spring Boot</span>
+<span class="tag">PostgreSQL</span>
+<span class="tag">Redis</span>
+<span class="tag">MinIO</span>
+<span class="tag">Docker</span>
+<span class="tag">HLS</span>
+<span class="tag">Playwright</span></div>
+              <div class="card-actions">
+                <a class="text-link" href="projets/streamfolio.html">Lire l’étude de cas</a>
+                <a href="https://github.com/alescis-wuin/streamfolio" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card" data-project-card data-tags="backend desktop donnees architecture">
+            <a class="project-media" href="projets/solvia.html" aria-label="Lire l’étude de cas Solvia">
+              <img src="assets/img/projects/solvia.svg" width="960" height="540" loading="lazy" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-meta"><span>Suivi patrimonial local-first</span><span>En cours</span></div>
+              <h3><a href="projets/solvia.html">Solvia</a></h3>
+              <p>Application local-first de suivi patrimonial : comptes, actifs, positions, snapshots, flux financiers, valorisation et indicateurs de performance.</p>
+              <div class="tag-list" aria-label="Technologies principales"><span class="tag">Java</span>
+<span class="tag">Spring Boot</span>
+<span class="tag">JavaFX</span>
+<span class="tag">PostgreSQL</span>
+<span class="tag">Flyway</span>
+<span class="tag">REST</span>
+<span class="tag">Maven</span></div>
+              <div class="card-actions">
+                <a class="text-link" href="projets/solvia.html">Lire l’étude de cas</a>
+                <a href="https://github.com/alescis-wuin/Solvia" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card" data-project-card data-tags="graphique architecture desktop">
+            <a class="project-media" href="projets/ludani.html" aria-label="Lire l’étude de cas Ludani">
+              <img src="assets/img/projects/ludani.svg" width="960" height="540" loading="lazy" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-meta"><span>Moteur et éditeur 2D/3D</span><span>Finalisé</span></div>
+              <h3><a href="projets/ludani.html">Ludani</a></h3>
+              <p>Moteur et éditeur de jeux vidéo en 2D et 3D permettant de concevoir ses propres jeux à l’aide d’outils graphiques.</p>
+              <div class="tag-list" aria-label="Technologies principales"><span class="tag">Java</span>
+<span class="tag">LWJGL</span>
+<span class="tag">OpenGL</span>
+<span class="tag">Vulkan</span>
+<span class="tag">GLSL</span></div>
+              <div class="card-actions">
+                <a class="text-link" href="projets/ludani.html">Lire l’étude de cas</a>
+                <span>Étude de cas</span>
+              </div>
+            </div>
+          </article>
+          <article class="project-card" data-project-card data-tags="ia automatisation backend desktop">
+            <a class="project-media" href="projets/alycia.html" aria-label="Lire l’étude de cas Alycia">
+              <img src="assets/img/projects/alycia.svg" width="960" height="540" loading="lazy" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-meta"><span>Plateforme d’outils IA locale</span><span>En cours</span></div>
+              <h3><a href="projets/alycia.html">Alycia</a></h3>
+              <p>Plateforme graphique d’assistants, workflows et automatisations boostés à l’IA, exécutables localement sans dépendre d’une connexion Internet.</p>
+              <div class="tag-list" aria-label="Technologies principales"><span class="tag">Ollama</span>
+<span class="tag">Llama.cpp</span>
+<span class="tag">LM Studio</span>
+<span class="tag">Hugging Face</span>
+<span class="tag">Python</span></div>
+              <div class="card-actions">
+                <a class="text-link" href="projets/alycia.html">Lire l’étude de cas</a>
+                <span>Étude de cas</span>
+              </div>
+            </div>
+          </article>
+          <article class="project-card" data-project-card data-tags="desktop accessibilite architecture">
+            <a class="project-media" href="projets/aelia.html" aria-label="Lire l’étude de cas Aelia">
+              <img src="assets/img/projects/aelia.svg" width="960" height="540" loading="lazy" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-meta"><span>Application météo desktop</span><span>Prototype</span></div>
+              <h3><a href="projets/aelia.html">Aelia</a></h3>
+              <p>Application météo JavaFX avec fournisseur simulé, données météo/air/UV/pollen, thème sombre, contraste renforcé et contrôles clavier.</p>
+              <div class="tag-list" aria-label="Technologies principales"><span class="tag">Java 21</span>
+<span class="tag">JavaFX</span>
+<span class="tag">AtlantaFX</span>
+<span class="tag">Maven</span>
+<span class="tag">Tests</span>
+<span class="tag">GitHub Actions</span></div>
+              <div class="card-actions">
+                <a class="text-link" href="projets/aelia.html">Lire l’étude de cas</a>
+                <a href="https://github.com/alescis-wuin/Aelia" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="competences" class="section" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Compétences</p>
+          <h2 id="skills-title">Compétences techniques regroupées par usage</h2>
+          <p>Une lecture orientée recruteur : pas une liste brute, mais des blocs directement reliés à des besoins projet.</p>
+        </div>
+        <div class="skills-grid">
+          <article class="skill-card" data-reveal><h3>API & backend</h3><p>Spring Boot, FastAPI, Flask, REST, GraphQL, OpenAPI, validation métier.</p></article>
+          <article class="skill-card" data-reveal><h3>Langages</h3><p>Java, Python, C, C++, Rust, JavaScript, TypeScript, SQL, Bash, PowerShell.</p></article>
+          <article class="skill-card" data-reveal><h3>Données</h3><p>PostgreSQL, MongoDB, SQL, Flyway, Redis, modélisation et historiques.</p></article>
+          <article class="skill-card" data-reveal><h3>Applications</h3><p>JavaFX, AtlantaFX, Swing, Android Java/Kotlin, Flutter, .NET MAUI.</p></article>
+          <article class="skill-card" data-reveal><h3>Frontend</h3><p>HTML, CSS, JavaScript, React, Angular, Vue.js, Svelte, UI responsive.</p></article>
+          <article class="skill-card" data-reveal><h3>IA locale</h3><p>Ollama, vLLM, Llama.cpp, LM Studio, Hugging Face, workflows et agents.</p></article>
+          <article class="skill-card" data-reveal><h3>DevOps & système</h3><p>Git, CI/CD, Docker Compose, Kubernetes, Maven, Gradle, Linux, SSH/SFTP.</p></article>
+          <article class="skill-card" data-reveal><h3>Qualité & projet</h3><p>Tests unitaires, tests E2E, analyse, Kanban, Jira, Trello, Notion, documentation.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="parcours" class="section section-alt" aria-labelledby="timeline-title">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Parcours</p>
+          <h2 id="timeline-title">Formation, expériences et impact</h2>
+        </div>
+        <div class="timeline" aria-label="Parcours chronologique">
+          <article class="timeline-item" data-reveal><span>2026 - 2027</span><div><h3>CESI — Bachelor Concepteur Développeur d’Applications</h3><p>Troisième année en alternance, objectif de validation bac+3.</p></div></article>
+          <article class="timeline-item" data-reveal><span>2025</span><div><h3>Caisse d’Épargne Normandie — stage de découverte</h3><p>Immersion au siège social : gestion de projet, organisation, management et équipe.</p></div></article>
+          <article class="timeline-item" data-reveal><span>2023 - 2025</span><div><h3>Familink — développeur informatique et électronicien en alternance</h3><p>Amélioration d’une application Android de partage photo/vidéo pour cadres connectés et conception d’un boîtier TV connecté B2D.</p></div></article>
+          <article class="timeline-item" data-reveal><span>2023 - 2025</span><div><h3>CESI — Bac +2 Développeur Informatique</h3><p>Formation en alternance.</p></div></article>
+          <article class="timeline-item" data-reveal><span>2025</span><div><h3>CCI — certification entrepreneur</h3><p>Comptabilité, juridique, communication et marketing.</p></div></article>
+          <article class="timeline-item" data-reveal><span>2021</span><div><h3>Bac scientifique</h3><p>Mathématiques, sciences de l’ingénieur, NSI, physique-chimie et mathématiques expertes.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="impact-title">
+      <div class="container impact-grid">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Impact</p>
+          <h2 id="impact-title">Accessibilité, inclusion et projets utiles</h2>
+          <p>Le portfolio garde une orientation technique, tout en montrant l’intérêt pour les projets à impact concret.</p>
+        </div>
+        <div class="impact-cards">
+          <article class="value-card" data-reveal><h3>Handisup</h3><p>Bénévolat et adhésion : accompagnement, ateliers d’aide à l’emploi et participation associative.</p></article>
+          <article class="value-card" data-reveal><h3>Cap’Able</h3><p>Projet à mission d’impact dédié à l’inclusion et à l’accessibilité du handicap.</p></article>
+          <article class="value-card" data-reveal><h3>Centres d’intérêt</h3><p>Sciences, numérique, informatique, électronique, IA locale et systèmes Linux.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section" aria-labelledby="contact-title">
+      <div class="container contact-card" data-reveal>
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2 id="contact-title">Échanger sur une alternance backend ou application métier</h2>
+          <p>Profil disponible pour une alternance d’un an à partir d’octobre 2026. Les contacts complets sont disponibles dans le CV PDF.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="button button-primary" href="mailto:alexis.guinot@onsiea.com">Envoyer un e-mail</a>
+          <a class="button button-secondary" href="https://www.linkedin.com/in/alexis-guinot/" rel="me noopener noreferrer">LinkedIn</a>
+          <a class="button button-secondary" href="https://github.com/alescis-wuin" rel="me noopener noreferrer">GitHub</a>
+          <a class="button button-ghost" href="assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-title">Alexis Guinot</p>
+        <p>Développeur backend & concepteur d’applications.</p>
+      </div>
+      <nav aria-label="Liens externes">
+        <ul class="footer-links">
+          <li><a href="mailto:alexis.guinot@onsiea.com">E-mail</a></li>
+          <li><a href="https://www.linkedin.com/in/alexis-guinot/" rel="me noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://github.com/alescis-wuin" rel="me noopener noreferrer">GitHub</a></li>
+          <li><a href="./assets/cv/CV_Alexis-GUINOT.pdf" download>CV PDF</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+  <script type="module" src="./assets/js/main.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Illustration Aelia</title>
+  <desc id="desc">Application météo desktop avec données simulées, qualité de l'air, UV et pollen</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#0C4A6E"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#FDE68A"/>
+      <stop offset="1" stop-color="#F97316"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" rx="36" fill="url(#bg)"/>
+  <rect x="95" y="78" width="770" height="384" rx="30" fill="#0B1020" stroke="#38BDF8" opacity=".95"/>
+  <rect x="135" y="122" width="275" height="296" rx="24" fill="#111827" stroke="#334155"/>
+  <circle cx="272" cy="225" r="58" fill="url(#sun)"/>
+  <path d="M224 268c0-28 23-51 51-51 22 0 41 14 48 34 4-2 9-3 14-3 23 0 42 19 42 42s-19 42-42 42H234c-26 0-47-21-47-47 0-8 2-15 5-21 9 3 18 4 32 4Z" fill="#E0F2FE" opacity=".95"/>
+  <rect x="462" y="122" width="150" height="128" rx="22" fill="#111827" stroke="#334155"/>
+  <rect x="644" y="122" width="150" height="128" rx="22" fill="#111827" stroke="#334155"/>
+  <rect x="462" y="290" width="332" height="128" rx="22" fill="#111827" stroke="#334155"/>
+  <g fill="#CBD5E1">
+    <rect x="494" y="158" width="70" height="12" rx="6"/>
+    <rect x="494" y="186" width="88" height="34" rx="12" fill="#38BDF8" opacity=".8"/>
+    <rect x="676" y="158" width="70" height="12" rx="6"/>
+    <rect x="676" y="186" width="88" height="34" rx="12" fill="#A78BFA" opacity=".8"/>
+    <rect x="494" y="324" width="240" height="14" rx="7"/>
+    <rect x="494" y="358" width="198" height="10" rx="5" fill="#64748B"/>
+  </g>
+</svg>
