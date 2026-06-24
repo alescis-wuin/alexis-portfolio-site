@@ -1,0 +1,75 @@
+/* Deterministic section-by-section scrolling.
+   CSS Scroll Snap is intentionally disabled here: the wheel controller in ai-home.js
+   decides when to move to the next section, while long sections keep an internal scroll area. */
+
+@media (min-width: 920px) and (min-height: 620px) {
+  html {
+    scroll-snap-type: none !important;
+    scroll-behavior: auto;
+  }
+
+  body.has-section-rail main {
+    scroll-snap-type: none !important;
+  }
+
+  body.has-section-rail .snap-section {
+    height: 100svh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: clip;
+    padding-block: clamp(2rem, 4vw, 4rem);
+  }
+
+  body.has-section-rail #accueil.snap-section {
+    height: calc(100svh - var(--header-height));
+    min-height: calc(100svh - var(--header-height));
+  }
+
+  body.has-section-rail #projets.snap-section,
+  body.has-section-rail #parcours.snap-section {
+    align-items: center;
+  }
+
+  body.has-section-rail .snap-section > .container {
+    max-height: calc(100svh - clamp(4rem, 8vw, 8rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-block: 0.15rem;
+  }
+
+  body.has-section-rail #accueil.snap-section > .container,
+  body.has-section-rail #contact.snap-section > .container {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  body.has-section-rail .snap-section > .container::-webkit-scrollbar {
+    width: 0.65rem;
+  }
+
+  body.has-section-rail .snap-section > .container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  body.has-section-rail .snap-section > .container::-webkit-scrollbar-thumb {
+    border: 0.2rem solid transparent;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--muted-2) 45%, transparent);
+    background-clip: content-box;
+  }
+}
+
+@media (max-width: 919px), (max-height: 619px) {
+  body.has-section-rail .snap-section {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  body.has-section-rail .snap-section > .container {
+    max-height: none;
+    overflow: visible;
+  }
+}
