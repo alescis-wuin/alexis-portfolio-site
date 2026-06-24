@@ -13,6 +13,74 @@ body {
   display: none !important;
 }
 
+.section-arrow-controls {
+  position: fixed;
+  right: clamp(1rem, 2.5vw, 2rem);
+  top: 50%;
+  z-index: 80;
+  display: grid;
+  gap: 0.8rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.section-arrow {
+  --arrow-svg: url("data:image/svg+xml,%3Csvg%20viewBox='0%200%2024%2024'%20xmlns='http://www.w3.org/2000/svg'%3E%3Cpath%20d='M6.7%209.3a1%201%200%200%201%201.4%200L12%2013.17l3.9-3.88a1%201%200%201%201%201.4%201.42l-4.6%204.58a1%201%200%200%201-1.4%200l-4.6-4.58a1%201%200%200%201%200-1.42Z'/%3E%3C/svg%3E");
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(2.85rem, 4vw, 3.25rem);
+  height: clamp(2.85rem, 4vw, 3.25rem);
+  border: 1px solid color-mix(in srgb, var(--border-strong) 84%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, #020617 68%, transparent);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(16px);
+  color: var(--text);
+  pointer-events: auto;
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, opacity 160ms ease;
+}
+
+.section-arrow::before {
+  content: '';
+  width: 1.35rem;
+  height: 1.35rem;
+  background: currentColor;
+  mask: var(--arrow-svg) center / contain no-repeat;
+  -webkit-mask: var(--arrow-svg) center / contain no-repeat;
+}
+
+.section-arrow-up::before {
+  transform: rotate(180deg);
+}
+
+.section-arrow:hover,
+.section-arrow:focus-visible {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--border-strong));
+  background: color-mix(in srgb, #020617 82%, transparent);
+}
+
+.section-arrow:active {
+  transform: translateY(0);
+}
+
+.section-arrow[hidden] {
+  display: none;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .section-arrow {
+    background: color-mix(in srgb, #ffffff 72%, transparent);
+    box-shadow: 0 18px 46px rgba(15, 23, 42, 0.16);
+  }
+}
+
+:root[data-theme='light'] .section-arrow {
+  background: color-mix(in srgb, #ffffff 72%, transparent);
+  box-shadow: 0 18px 46px rgba(15, 23, 42, 0.16);
+}
+
 @media (min-width: 920px) and (min-height: 620px) {
   html {
     scroll-snap-type: none !important;
@@ -82,5 +150,18 @@ body {
   body.has-section-rail .snap-section > .container {
     max-height: none;
     overflow: visible;
+  }
+
+  .section-arrow-controls {
+    right: 0.85rem;
+    bottom: 5.25rem;
+    top: auto;
+    transform: none;
+    gap: 0.55rem;
+  }
+
+  .section-arrow {
+    width: 2.65rem;
+    height: 2.65rem;
   }
 }
