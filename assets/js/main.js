@@ -202,5 +202,5 @@ initSectionRail();
 initPortfolioCleanup();
 
 if (!location.pathname.includes('/projets/')) {
-  import('./ai-home.js');
+  import('./ai-home.js').then(() => import('./section-flow-fix.js'));
 }
