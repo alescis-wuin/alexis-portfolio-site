@@ -2,7 +2,16 @@ const sectionOrder = ['accueil', 'valeur', 'projets', 'competences', 'methode', 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const pagedMedia = window.matchMedia('(min-width: 920px) and (min-height: 620px)');
 
+const SECTION_CHANGE_DELTA_THRESHOLD = 240;
+const SECTION_CHANGE_LOCK_MS = 720;
+const SECTION_SCROLL_DURATION_MS = 520;
+const WHEEL_ACCUMULATOR_RESET_MS = 280;
+
 let wheelLocked = false;
+let wheelAccumulator = 0;
+let wheelDirection = 0;
+let wheelResetTimer = 0;
+let activeAnimationFrame = 0;
 
 function orderedSections() {
   return sectionOrder.map((id) => document.getElementById(id)).filter(Boolean);
@@ -46,15 +55,70 @@ function nearestSectionIndex(sections = orderedSections()) {
   return bestIndex;
 }
 
-function instantScrollToSection(section) {
+function normalizeWheelDelta(event) {
+  if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) return event.deltaY * 16;
+  if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) return event.deltaY * window.innerHeight;
+  return event.deltaY;
+}
+
+function resetWheelAccumulator() {
+  wheelAccumulator = 0;
+  wheelDirection = 0;
+  window.clearTimeout(wheelResetTimer);
+}
+
+function scheduleAccumulatorReset() {
+  window.clearTimeout(wheelResetTimer);
+  wheelResetTimer = window.setTimeout(resetWheelAccumulator, WHEEL_ACCUMULATOR_RESET_MS);
+}
+
+function easeOutCubic(progress) {
+  return 1 - Math.pow(1 - progress, 3);
+}
+
+function targetTopForSection(section) {
+  return Math.round(section.getBoundingClientRect().top + window.scrollY);
+}
+
+function animateWindowScrollTo(targetTop, duration = SECTION_SCROLL_DURATION_MS) {
+  window.cancelAnimationFrame(activeAnimationFrame);
+
+  if (reduceMotion || duration <= 0) {
+    window.scrollTo(0, targetTop);
+    return;
+  }
+
+  const startTop = window.scrollY;
+  const distance = targetTop - startTop;
+  const startTime = performance.now();
+
+  const step = (now) => {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    window.scrollTo(0, Math.round(startTop + distance * easeOutCubic(progress)));
+
+    if (progress < 1) {
+      activeAnimationFrame = window.requestAnimationFrame(step);
+    } else {
+      window.scrollTo(0, targetTop);
+    }
+  };
+
+  activeAnimationFrame = window.requestAnimationFrame(step);
+}
+
+function scrollToSection(section, { animated = true } = {}) {
   if (!section) return;
-  const top = Math.round(section.getBoundingClientRect().top + window.scrollY);
-  window.scrollTo(0, top);
+  animateWindowScrollToSection(section, animated);
   setActiveRail(section.id);
   history.replaceState(null, '', `#${section.id}`);
 }
 
-function scrollToIndex(index) {
+function animateWindowScrollToSection(section, animated) {
+  animateWindowScrollTo(targetTopForSection(section), animated ? SECTION_SCROLL_DURATION_MS : 0);
+}
+
+function scrollToIndex(index, { animated = true } = {}) {
   const sections = orderedSections();
   if (sections.length === 0) return;
 
@@ -62,12 +126,13 @@ function scrollToIndex(index) {
   const nextSection = sections[nextIndex];
   if (!nextSection) return;
 
+  resetWheelAccumulator();
   wheelLocked = true;
-  instantScrollToSection(nextSection);
+  scrollToSection(nextSection, { animated });
 
   window.setTimeout(() => {
     wheelLocked = false;
-  }, reduceMotion ? 60 : 180);
+  }, reduceMotion ? 90 : SECTION_CHANGE_LOCK_MS);
 }
 
 function getSectionScroller(section) {
@@ -87,11 +152,29 @@ function canScroll(element, direction) {
 function handleInternalScroll(scroller, deltaY, direction) {
   if (!scroller || !canScroll(scroller, direction)) return false;
   scroller.scrollTop += deltaY;
+  resetWheelAccumulator();
   return true;
 }
 
+function shouldChangeSection(deltaY) {
+  const direction = deltaY > 0 ? 1 : -1;
+
+  if (direction !== wheelDirection) {
+    wheelAccumulator = 0;
+    wheelDirection = direction;
+  }
+
+  wheelAccumulator += Math.abs(deltaY);
+  scheduleAccumulatorReset();
+
+  return wheelAccumulator >= SECTION_CHANGE_DELTA_THRESHOLD;
+}
+
 function onWheelCapture(event) {
-  if (!pagedMedia.matches || Math.abs(event.deltaY) < 10) return;
+  if (!pagedMedia.matches) return;
+
+  const normalizedDeltaY = normalizeWheelDelta(event);
+  if (Math.abs(normalizedDeltaY) < 6) return;
 
   const sections = orderedSections();
   if (sections.length === 0) return;
@@ -101,12 +184,13 @@ function onWheelCapture(event) {
 
   if (wheelLocked) return;
 
-  const direction = event.deltaY > 0 ? 1 : -1;
+  const direction = normalizedDeltaY > 0 ? 1 : -1;
   const currentIndex = nearestSectionIndex(sections);
   const currentSection = sections[currentIndex];
   const scroller = getSectionScroller(currentSection);
 
-  if (handleInternalScroll(scroller, event.deltaY, direction)) return;
+  if (handleInternalScroll(scroller, normalizedDeltaY, direction)) return;
+  if (!shouldChangeSection(normalizedDeltaY)) return;
 
   scrollToIndex(currentIndex + direction);
 }
@@ -139,7 +223,7 @@ function onClickCapture(event) {
 
   event.preventDefault();
   event.stopImmediatePropagation();
-  instantScrollToSection(target);
+  scrollToSection(target, { animated: true });
 }
 
 function initSectionFlowFix() {
@@ -151,7 +235,7 @@ function initSectionFlowFix() {
   document.addEventListener('click', onClickCapture, { capture: true });
 
   const hashTarget = location.hash ? document.getElementById(location.hash.slice(1)) : null;
-  if (hashTarget?.matches('[data-section]')) instantScrollToSection(hashTarget);
+  if (hashTarget?.matches('[data-section]')) scrollToSection(hashTarget, { animated: false });
   else setActiveRail('accueil');
 }
 
