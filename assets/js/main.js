@@ -196,3 +196,7 @@ initProjectFilters();
 initReveal();
 initSectionRail();
 initPortfolioCleanup();
+
+if (!location.pathname.includes('/projets/')) {
+  import('./ai-home.js');
+}
