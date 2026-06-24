@@ -1,11 +1,22 @@
 /* Deterministic section-by-section scrolling.
-   CSS Scroll Snap is intentionally disabled here: the wheel controller in ai-home.js
+   CSS Scroll Snap is intentionally disabled here: the wheel controller in JS
    decides when to move to the next section, while long sections keep an internal scroll area. */
+
+html,
+body {
+  overscroll-behavior-y: none;
+  scroll-behavior: auto !important;
+}
+
+.site-header,
+.site-footer {
+  display: none !important;
+}
 
 @media (min-width: 920px) and (min-height: 620px) {
   html {
     scroll-snap-type: none !important;
-    scroll-behavior: auto;
+    scroll-behavior: auto !important;
   }
 
   body.has-section-rail main {
@@ -22,8 +33,8 @@
   }
 
   body.has-section-rail #accueil.snap-section {
-    height: calc(100svh - var(--header-height));
-    min-height: calc(100svh - var(--header-height));
+    height: 100svh;
+    min-height: 100svh;
   }
 
   body.has-section-rail #projets.snap-section,
