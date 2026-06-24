@@ -6,6 +6,7 @@ const SECTION_CHANGE_DELTA_THRESHOLD = 240;
 const SECTION_CHANGE_LOCK_MS = 720;
 const SECTION_SCROLL_DURATION_MS = 520;
 const WHEEL_ACCUMULATOR_RESET_MS = 280;
+const NAVIGATION_HINT_DURATION_MS = 3400;
 
 let wheelLocked = false;
 let wheelAccumulator = 0;
@@ -219,6 +220,18 @@ function createSectionArrowControls() {
   });
 }
 
+function triggerNavigationHint() {
+  if (reduceMotion) return;
+
+  document.body.classList.remove('section-navigation-hint');
+  window.requestAnimationFrame(() => {
+    document.body.classList.add('section-navigation-hint');
+    window.setTimeout(() => {
+      document.body.classList.remove('section-navigation-hint');
+    }, NAVIGATION_HINT_DURATION_MS);
+  });
+}
+
 function onWheelCapture(event) {
   if (!pagedMedia.matches) return;
 
@@ -291,6 +304,8 @@ function initSectionFlowFix() {
     setActiveRail('accueil');
     updateArrowControlState(0);
   }
+
+  triggerNavigationHint();
 }
 
 initSectionFlowFix();
