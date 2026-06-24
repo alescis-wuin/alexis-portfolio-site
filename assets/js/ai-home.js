@@ -284,6 +284,116 @@ function initRailState() {
   sections.forEach((section) => observer.observe(section));
 }
 
+function initPagedWheelScroll() {
+  const sections = [...document.querySelectorAll('[data-section]')];
+  if (sections.length === 0) return;
+
+  const media = window.matchMedia('(min-width: 920px) and (min-height: 620px)');
+  let locked = false;
+  let lastDirection = 0;
+
+  const sectionIndexFromViewport = () => {
+    let bestIndex = 0;
+    let bestDistance = Number.POSITIVE_INFINITY;
+
+    sections.forEach((section, index) => {
+      const distance = Math.abs(section.getBoundingClientRect().top);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestIndex = index;
+      }
+    });
+
+    return bestIndex;
+  };
+
+  const getSectionScroller = (section) => {
+    const container = section?.querySelector(':scope > .container');
+    if (!container) return null;
+    return container.scrollHeight > container.clientHeight + 4 ? container : null;
+  };
+
+  const canScroll = (element, direction) => {
+    if (!element) return false;
+    const maxScrollTop = element.scrollHeight - element.clientHeight;
+    if (maxScrollTop <= 4) return false;
+    if (direction > 0) return element.scrollTop < maxScrollTop - 2;
+    return element.scrollTop > 2;
+  };
+
+  const canScrollableAncestorMove = (target, section, direction) => {
+    let current = target instanceof Element ? target : target?.parentElement;
+    while (current && current !== document.body && current !== section) {
+      const style = getComputedStyle(current);
+      const canOverflow = /(auto|scroll|overlay)/.test(style.overflowY);
+      if (canOverflow && canScroll(current, direction)) return true;
+      current = current.parentElement;
+    }
+    return false;
+  };
+
+  const setActiveRail = (sectionId) => {
+    document.querySelectorAll('[data-section-link]').forEach((link) => {
+      const active = link.dataset.sectionLink === sectionId;
+      if (active) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
+  };
+
+  const goToIndex = (index, behavior = 'smooth') => {
+    const nextIndex = Math.min(Math.max(index, 0), sections.length - 1);
+    const nextSection = sections[nextIndex];
+    if (!nextSection) return;
+
+    locked = true;
+    nextSection.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : behavior });
+    setActiveRail(nextSection.id);
+    history.replaceState(null, '', `#${nextSection.id}`);
+
+    window.setTimeout(() => {
+      locked = false;
+      lastDirection = 0;
+    }, prefersReducedMotion ? 120 : 720);
+  };
+
+  const onWheel = (event) => {
+    if (!media.matches || Math.abs(event.deltaY) < 18) return;
+
+    const direction = event.deltaY > 0 ? 1 : -1;
+    const currentIndex = sectionIndexFromViewport();
+    const currentSection = sections[currentIndex];
+    const scroller = getSectionScroller(currentSection);
+
+    if (scroller && scroller.contains(event.target) && canScroll(scroller, direction)) return;
+    if (canScrollableAncestorMove(event.target, currentSection, direction)) return;
+
+    event.preventDefault();
+    if (locked && lastDirection === direction) return;
+
+    lastDirection = direction;
+    goToIndex(currentIndex + direction);
+  };
+
+  const onKeyDown = (event) => {
+    if (!media.matches) return;
+    const nextKeys = ['PageDown', 'ArrowDown', 'Space'];
+    const previousKeys = ['PageUp', 'ArrowUp'];
+    const direction = nextKeys.includes(event.code) ? 1 : previousKeys.includes(event.code) ? -1 : 0;
+    if (!direction) return;
+
+    const active = document.activeElement;
+    if (active && ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName)) return;
+
+    event.preventDefault();
+    if (locked && lastDirection === direction) return;
+    lastDirection = direction;
+    goToIndex(sectionIndexFromViewport() + direction);
+  };
+
+  window.addEventListener('wheel', onWheel, { passive: false });
+  window.addEventListener('keydown', onKeyDown);
+}
+
 function initHomeRedesign() {
   if (!byId('accueil') || location.pathname.includes('/projets/')) return;
   setMeta();
@@ -298,6 +408,7 @@ function initHomeRedesign() {
   updateParcours();
   updateContactAndFooter();
   initRailState();
+  initPagedWheelScroll();
 }
 
 initHomeRedesign();
