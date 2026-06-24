@@ -4,15 +4,19 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
 function initAiRedesignStyles() {
   const currentScript = document.currentScript;
-  const hasStaticLink = document.querySelector('link[href$="/assets/css/ai-redesign.css"], link[href="./assets/css/ai-redesign.css"], link[href="../assets/css/ai-redesign.css"]');
-  if (hasStaticLink) return;
-
   const scriptSrc = currentScript?.getAttribute('src') || '';
   const prefix = scriptSrc.startsWith('../') || location.pathname.includes('/projets/') ? '../' : './';
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = `${prefix}assets/css/ai-redesign.css`;
-  document.head.append(link);
+
+  ['ai-redesign.css', 'paged-scroll.css'].forEach((fileName) => {
+    const href = `${prefix}assets/css/${fileName}`;
+    const exists = document.querySelector(`link[href$="/assets/css/${fileName}"], link[href="./assets/css/${fileName}"], link[href="../assets/css/${fileName}"]`);
+    if (exists) return;
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.append(link);
+  });
 }
 
 function initNavigation() {
