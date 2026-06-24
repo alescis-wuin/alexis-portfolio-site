@@ -32,12 +32,36 @@ function removeTopAndBottomChrome() {
   document.body.style.overscrollBehaviorY = 'none';
 }
 
+function sectionIndexById(sectionId) {
+  return orderedSections().findIndex((section) => section.id === sectionId);
+}
+
+function updateArrowControlState(index = nearestSectionIndex()) {
+  const sections = orderedSections();
+  const previousButton = document.querySelector('[data-section-arrow="previous"]');
+  const nextButton = document.querySelector('[data-section-arrow="next"]');
+
+  if (!(previousButton instanceof HTMLButtonElement) || !(nextButton instanceof HTMLButtonElement)) return;
+
+  previousButton.hidden = index <= 0;
+  nextButton.hidden = index < 0 || index >= sections.length - 1;
+
+  const previousSection = sections[index - 1];
+  const nextSection = sections[index + 1];
+
+  previousButton.setAttribute('aria-label', previousSection ? `Section précédente : ${previousSection.dataset.label || previousSection.id}` : 'Aucune section précédente');
+  nextButton.setAttribute('aria-label', nextSection ? `Section suivante : ${nextSection.dataset.label || nextSection.id}` : 'Aucune section suivante');
+}
+
 function setActiveRail(sectionId) {
   document.querySelectorAll('[data-section-link]').forEach((link) => {
     const active = link.dataset.sectionLink === sectionId;
     if (active) link.setAttribute('aria-current', 'true');
     else link.removeAttribute('aria-current');
   });
+
+  const index = sectionIndexById(sectionId);
+  if (index >= 0) updateArrowControlState(index);
 }
 
 function nearestSectionIndex(sections = orderedSections()) {
@@ -170,6 +194,31 @@ function shouldChangeSection(deltaY) {
   return wheelAccumulator >= SECTION_CHANGE_DELTA_THRESHOLD;
 }
 
+function createSectionArrowControls() {
+  if (document.querySelector('[data-section-arrows]')) return;
+
+  const controls = document.createElement('div');
+  controls.className = 'section-arrow-controls';
+  controls.dataset.sectionArrows = '';
+  controls.setAttribute('aria-label', 'Navigation section par section');
+  controls.innerHTML = `
+    <button class="section-arrow section-arrow-up" type="button" data-section-arrow="previous" aria-label="Section précédente" hidden></button>
+    <button class="section-arrow section-arrow-down" type="button" data-section-arrow="next" aria-label="Section suivante"></button>`;
+
+  document.body.append(controls);
+
+  controls.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-section-arrow]');
+    if (!(button instanceof HTMLButtonElement)) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const direction = button.dataset.sectionArrow === 'previous' ? -1 : 1;
+    scrollToIndex(nearestSectionIndex() + direction);
+  });
+}
+
 function onWheelCapture(event) {
   if (!pagedMedia.matches) return;
 
@@ -229,14 +278,19 @@ function onClickCapture(event) {
 function initSectionFlowFix() {
   fixSectionDomOrder();
   removeTopAndBottomChrome();
+  createSectionArrowControls();
 
   window.addEventListener('wheel', onWheelCapture, { passive: false, capture: true });
   window.addEventListener('keydown', onKeyCapture, { capture: true });
   document.addEventListener('click', onClickCapture, { capture: true });
+  window.addEventListener('resize', () => updateArrowControlState(nearestSectionIndex()));
 
   const hashTarget = location.hash ? document.getElementById(location.hash.slice(1)) : null;
   if (hashTarget?.matches('[data-section]')) scrollToSection(hashTarget, { animated: false });
-  else setActiveRail('accueil');
+  else {
+    setActiveRail('accueil');
+    updateArrowControlState(0);
+  }
 }
 
 initSectionFlowFix();
