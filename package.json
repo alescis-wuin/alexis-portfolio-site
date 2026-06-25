@@ -1,0 +1,31 @@
+{
+  "name": "alexis-portfolio-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfolio statique d'Alexis Guinot.",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "serve": "python3 -m http.server 8080",
+    "format:check": "prettier --check \"**/*.{js,css,json,yml,yaml,md}\" --ignore-path .prettierignore",
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:html",
+    "lint:js": "eslint \"assets/**/*.js\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\"",
+    "lint:css": "stylelint \"assets/**/*.css\"",
+    "lint:html": "html-validate \"*.html\" \"projets/**/*.html\"",
+    "validate": "node scripts/validate-static-site.mjs",
+    "security:audit": "npm audit --omit=dev --audit-level=high",
+    "security:secrets": "secretlint \"**/*\" --secretlintrc .secretlintrc.json --maskSecrets --ignore-path .secretlintignore",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1",
+    "@secretlint/secretlint-rule-preset-recommend": "13.0.2",
+    "eslint": "10.5.0",
+    "html-validate": "11.5.3",
+    "prettier": "3.8.4",
+    "secretlint": "13.0.2",
+    "stylelint": "17.13.0"
+  }
+}
