@@ -18,21 +18,6 @@ function orderedSections() {
   return sectionOrder.map((id) => document.getElementById(id)).filter(Boolean);
 }
 
-function fixSectionDomOrder() {
-  const sections = orderedSections();
-  const main = document.querySelector('main');
-  if (!main || sections.length === 0) return;
-
-  sections.forEach((section) => main.append(section));
-}
-
-function removeTopAndBottomChrome() {
-  document.querySelector('.site-header')?.remove();
-  document.querySelector('.site-footer')?.remove();
-  document.documentElement.style.scrollBehavior = 'auto';
-  document.body.style.overscrollBehaviorY = 'none';
-}
-
 function sectionIndexById(sectionId) {
   return orderedSections().findIndex((section) => section.id === sectionId);
 }
@@ -195,25 +180,15 @@ function shouldChangeSection(deltaY) {
   return wheelAccumulator >= SECTION_CHANGE_DELTA_THRESHOLD;
 }
 
-function createSectionArrowControls() {
-  if (document.querySelector('[data-section-arrows]')) return;
-
-  const controls = document.createElement('div');
-  controls.className = 'section-arrow-controls';
-  controls.dataset.sectionArrows = '';
-  controls.setAttribute('aria-label', 'Navigation section par section');
-  controls.innerHTML = `
-    <button class="section-arrow section-arrow-up" type="button" data-section-arrow="previous" aria-label="Section précédente" hidden></button>
-    <button class="section-arrow section-arrow-down" type="button" data-section-arrow="next" aria-label="Section suivante"></button>`;
-
-  document.body.append(controls);
+function bindSectionArrowControls() {
+  const controls = document.querySelector('[data-section-arrows]');
+  if (!controls) return;
 
   controls.addEventListener('click', (event) => {
     const button = event.target.closest('[data-section-arrow]');
     if (!(button instanceof HTMLButtonElement)) return;
 
     event.preventDefault();
-    event.stopPropagation();
 
     const direction = button.dataset.sectionArrow === 'previous' ? -1 : 1;
     scrollToIndex(nearestSectionIndex() + direction);
@@ -242,7 +217,6 @@ function onWheelCapture(event) {
   if (sections.length === 0) return;
 
   event.preventDefault();
-  event.stopImmediatePropagation();
 
   if (wheelLocked) return;
 
@@ -269,7 +243,6 @@ function onKeyCapture(event) {
   if (active && ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName)) return;
 
   event.preventDefault();
-  event.stopImmediatePropagation();
 
   if (wheelLocked) return;
   scrollToIndex(nearestSectionIndex() + direction);
@@ -284,14 +257,11 @@ function onClickCapture(event) {
   if (!target?.matches('[data-section]')) return;
 
   event.preventDefault();
-  event.stopImmediatePropagation();
   scrollToSection(target, { animated: true });
 }
 
 function initSectionFlowFix() {
-  fixSectionDomOrder();
-  removeTopAndBottomChrome();
-  createSectionArrowControls();
+  bindSectionArrowControls();
 
   window.addEventListener('wheel', onWheelCapture, { passive: false, capture: true });
   window.addEventListener('keydown', onKeyCapture, { capture: true });
