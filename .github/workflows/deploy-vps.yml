@@ -1,0 +1,116 @@
+name: CD VPS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-vps
+  cancel-in-progress: false
+
+jobs:
+  quality-gate:
+    name: Quality gate before deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Dependency audit
+        run: npm run security:audit
+
+      - name: Secret scan
+        run: npm run security:secrets
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Static site validation
+        run: npm run validate
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: npm run test:e2e
+
+  deploy:
+    name: Deploy to VPS
+    needs: quality-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_PORT: ${{ secrets.VPS_PORT || '22' }}
+      VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+      VPS_DEPLOY_PATH: ${{ secrets.VPS_DEPLOY_PATH }}
+      VPS_RESTART_COMMAND: ${{ secrets.VPS_RESTART_COMMAND }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate deployment secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$VPS_HOST" || { echo 'VPS_HOST secret is missing.'; exit 1; }
+          test -n "$VPS_USER" || { echo 'VPS_USER secret is missing.'; exit 1; }
+          test -n "$VPS_SSH_KEY" || { echo 'VPS_SSH_KEY secret is missing.'; exit 1; }
+          test -n "$VPS_DEPLOY_PATH" || { echo 'VPS_DEPLOY_PATH secret is missing.'; exit 1; }
+
+      - name: Install SSH and rsync
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends openssh-client rsync
+
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "$VPS_PORT" -H "$VPS_HOST" >> ~/.ssh/known_hosts
+
+      - name: Deploy static files
+        shell: bash
+        run: |
+          set -euo pipefail
+          rsync -az --delete --delay-updates \
+            -e "ssh -i ~/.ssh/deploy_key -p $VPS_PORT -o StrictHostKeyChecking=yes" \
+            index.html site.webmanifest CNAME robots.txt sitemap.xml assets projets \
+            "$VPS_USER@$VPS_HOST:$VPS_DEPLOY_PATH/"
+
+      - name: Optional post-deploy command
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "$VPS_RESTART_COMMAND" ]; then
+            ssh -i ~/.ssh/deploy_key -p "$VPS_PORT" -o StrictHostKeyChecking=yes \
+              "$VPS_USER@$VPS_HOST" "$VPS_RESTART_COMMAND"
+          fi
