@@ -1,0 +1,13 @@
+node_modules/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+assets/cv/
+assets/img/**/*.jpg
+assets/img/**/*.jpeg
+assets/img/**/*.png
+assets/img/**/*.webp
+assets/img/**/*.svg
+*.pdf

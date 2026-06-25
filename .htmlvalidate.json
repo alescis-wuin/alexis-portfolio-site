@@ -1,0 +1,15 @@
+{
+  "extends": ["html-validate:recommended"],
+  "elements": ["html5"],
+  "rules": {
+    "aria-label-misuse": "off",
+    "attr-case": "off",
+    "doctype-style": "off",
+    "element-case": "off",
+    "no-inline-style": "off",
+    "no-raw-characters": "off",
+    "no-trailing-whitespace": "off",
+    "require-sri": "off",
+    "void-style": "off"
+  }
+}
