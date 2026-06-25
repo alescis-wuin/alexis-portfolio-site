@@ -4,12 +4,13 @@ Site web portfolio statique, sans dépendance de build.
 
 ## Contenu
 
-- `index.html` : page d'accueil complète.
-- `projets/*.html` : études de cas projet.
+- `index.html` : page d'accueil complète, avec rail de navigation, sections et cartes projets en HTML statique.
+- `projets/streamfolio.html`, `projets/solvia.html`, `projets/aelia.html` : études de cas actuellement mises en avant.
 - `assets/css/styles.css` : design system, responsive, accessibilité, thèmes clair/sombre.
-- `assets/css/ai-redesign.css` : rail de navigation, scroll snapping et améliorations UI/UX de la branche `ai`.
-- `assets/js/main.js` : thème, filtres de projets, révélations progressives, section active dans la navigation et rationalisation des CTA.
-- `assets/js/ai-home.js` : refonte progressive de la page d'accueil sur la branche `ai`.
+- `assets/css/ai-redesign.css` : rail de navigation, structure des sections et améliorations UI/UX de la branche `ai`.
+- `assets/css/paged-scroll.css` : navigation section par section et flèches déclarées dans le HTML.
+- `assets/js/main.js` : thème, menu mobile, révélations progressives, section active dans le rail et comportements interactifs.
+- `assets/js/section-flow-fix.js` : navigation section par section sans réécriture de contenu.
 - `assets/img/` : logo, photo optimisée, illustrations SVG.
 - `assets/cv/CV_Alexis-GUINOT.pdf` : CV fourni.
 - `docs/` : notes d'analyse, accessibilité, validation, personnalisation et améliorations de la branche `ai`.
@@ -42,4 +43,4 @@ www.alexis-guinot.fr
 - Le téléphone et la RQTH ne sont pas affichés dans les pages HTML ; ils restent uniquement dans le PDF fourni.
 - Adapter les liens si le domaine final change.
 - Remplacer les illustrations SVG par des captures réelles des projets lorsque disponibles.
-- Tester le rail latéral, la navigation mobile, le scroll snapping, les filtres et le thème clair/sombre.
+- Tester le rail latéral, les flèches haut/bas, la navigation mobile, le scroll section par section et le thème clair/sombre.
