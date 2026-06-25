@@ -5,39 +5,38 @@
 - Corriger le décalage de navigation entre sections.
 - Rendre la navigation plus lisible avec un rail latéral et un état actif.
 - Réduire les appels à l'action redondants.
-- Repositionner le profil comme développeur et concepteur d'applications, avec frontend, backend, desktop, données et IA locale.
+- Repositionner le profil comme développeur et concepteur d'applications, sans le limiter au backend.
 - Donner plus de valeur au site avec des preuves concrètes, une méthode de travail et une lecture plus simple.
+- Supprimer les réécritures de contenu côté JavaScript quand le HTML suffit.
 
 ## Modifications réalisées
 
-1. `assets/css/ai-redesign.css`
-   - Ajout du scroll snapping sur desktop.
-   - Ajout du rail latéral desktop et de la navigation compacte mobile.
-   - Réduction de la taille des titres principaux.
-   - Ajout de styles pour preuves projets, méthode et résumé professionnel.
+1. `index.html`
+   - Intégration directe du contenu final auparavant injecté par `ai-home.js`.
+   - Ajout statique du rail latéral, des sections et des flèches de navigation.
+   - Mise en avant de Streamfolio, Solvia et Aelia uniquement.
+   - Centralisation du contact et du CV.
 
 2. `assets/js/main.js`
-   - Chargement automatique de la couche CSS d'amélioration.
-   - Suppression à l'affichage des boutons CV dispersés sur les pages projet.
-   - Nettoyage des anciens éléments de navigation sur les pages projet.
-   - Chargement du module de refonte de la page d'accueil.
+   - Suppression du chargement dynamique de `ai-home.js`.
+   - Suppression des mutations de contenu et de la création dynamique de CSS.
+   - Conservation des comportements progressifs : thème, menu mobile, révélations, état actif du rail.
 
-3. `assets/js/ai-home.js`
-   - Ajout dynamique du rail latéral.
-   - Surbrillance automatique de la section visible via IntersectionObserver.
-   - Refonte du hero.
-   - Transformation de la section de positionnement en section Valeur ajoutée.
-   - Ajout d'une section Méthode.
-   - Refonte des filtres et preuves des projets.
-   - Centralisation des contacts et du téléchargement du CV.
+3. `assets/js/section-flow-fix.js`
+   - Suppression de la réorganisation de sections.
+   - Suppression de la suppression runtime du header/footer.
+   - Suppression de la création runtime des flèches.
+
+4. `assets/css/paged-scroll.css`
+   - Suppression du masquage CSS du header/footer.
+   - Styles conservés pour les flèches statiques et le défilement section par section.
 
 ## Points à tester manuellement
 
 - Défilement à la souris sur desktop.
 - Clic sur chaque entrée du rail latéral.
 - Surbrillance de section pendant le scroll.
-- Navigation clavier : Tab, Enter, Escape.
+- Navigation clavier : Tab, Enter, Escape, PageUp, PageDown.
 - Mode clair/sombre.
-- Filtres de projets.
 - Responsive mobile.
 - Téléchargement du CV depuis la section Contact.
