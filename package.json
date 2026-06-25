@@ -9,6 +9,7 @@
   },
   "scripts": {
     "serve": "python3 -m http.server 8080",
+    "format": "prettier --write \"*.{json,mjs}\" \".github/**/*.yml\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\" --ignore-path .prettierignore",
     "format:check": "prettier --check \"*.{json,mjs}\" \".github/**/*.yml\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\" --ignore-path .prettierignore",
     "lint": "npm run lint:js && npm run lint:css && npm run lint:html",
     "lint:js": "eslint \"assets/**/*.js\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\"",
@@ -17,7 +18,11 @@
     "validate": "node scripts/validate-static-site.mjs",
     "security:audit": "npm audit --omit=dev --audit-level=high",
     "security:secrets": "node scripts/run-secretlint.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "check:basic": "npm run format:check && npm run lint:js && npm run lint:css && npm run validate",
+    "check:ai": "npm run check:basic && npm run security:secrets && npm run lint:html && npm run test:e2e",
+    "check:strict": "npm run format:check && npm run security:audit && npm run security:secrets && npm run lint && npm run validate && npm run test:e2e",
+    "hooks:install": "git config core.hooksPath .githooks && chmod +x .githooks/*"
   },
   "devDependencies": {
     "@playwright/test": "1.61.1",

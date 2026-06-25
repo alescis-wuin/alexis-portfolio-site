@@ -1,0 +1,63 @@
+name: Testing PR
+
+on:
+  pull_request:
+    branches:
+      - testing
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: testing-pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guard-source-and-sync:
+    name: Guard source and sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Validate source branch
+        run: |
+          set -euo pipefail
+          if [ "${{ github.head_ref }}" != "develop" ]; then
+            echo "Only develop can be merged into testing."
+            exit 1
+          fi
+
+      - name: Ensure testing contains main
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          base_sha="${{ github.event.pull_request.base.sha }}"
+          if git merge-base --is-ancestor origin/main "$base_sha"; then
+            echo "testing is up to date with main."
+          else
+            echo "testing does not contain main. Merge main into testing before promoting develop."
+            exit 1
+          fi
+
+  release-candidate-checks:
+    name: Release candidate checks
+    needs: guard-source-and-sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: npm run check:strict
