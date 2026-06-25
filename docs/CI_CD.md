@@ -38,6 +38,8 @@ Le workflow relance d’abord la quality gate complète, puis synchronise unique
 - `index.html` ;
 - `site.webmanifest` ;
 - `CNAME` ;
+- `robots.txt` ;
+- `sitemap.xml` ;
 - `assets/` ;
 - `projets/`.
 
