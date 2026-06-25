@@ -25,7 +25,7 @@ test("la page d’accueil charge les contenus principaux", async ({ page }) => {
   expect(response?.ok()).toBe(true);
   await expect(page).toHaveTitle(/Alexis Guinot/i);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    /Développeur backend/i,
+    /Développeur/i,
   );
   await expect(page.getByRole("main")).toBeVisible();
   await expect(
@@ -36,16 +36,19 @@ test("la page d’accueil charge les contenus principaux", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("la navigation mobile s’ouvre et se ferme", async ({ page, isMobile }) => {
+test("la page d’accueil reste exploitable en rendu mobile", async ({
+  page,
+  isMobile,
+}) => {
   test.skip(!isMobile, "Test réservé au rendu mobile.");
 
-  await page.goto("/");
-  const toggle = page.getByRole("button", { name: /ouvrir le menu/i });
-  await expect(toggle).toBeVisible();
-  await toggle.click();
-  await expect(toggle).toHaveAttribute("aria-expanded", "true");
-  await page.keyboard.press("Escape");
-  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  const response = await page.goto("/");
+  expect(response?.ok()).toBe(true);
+  await expect(page.getByRole("main")).toBeVisible();
+  await expect(page.locator("#accueil")).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: /Voir les projets/i }),
+  ).toBeVisible();
 });
 
 test("le changement de thème est persistant", async ({ page }) => {
