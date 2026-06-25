@@ -8,7 +8,8 @@ Site web portfolio statique, sans dépendance de build.
 - `projets/streamfolio.html`, `projets/solvia.html`, `projets/aelia.html` : études de cas actuellement mises en avant.
 - `assets/css/styles.css` : design system, responsive, accessibilité, thèmes clair/sombre.
 - `assets/css/ai-redesign.css` : rail de navigation, structure des sections et améliorations UI/UX de la branche `ai`.
-- `assets/css/paged-scroll.css` : navigation section par section et flèches déclarées dans le HTML.
+- `assets/css/project-cards.css` : signalétique claire et cohérente des cartes projets.
+- `assets/css/paged-scroll.css` : navigation section par section, flèches déclarées dans le HTML et import de la couche cartes projets.
 - `assets/js/main.js` : thème, menu mobile, révélations progressives, section active dans le rail et comportements interactifs.
 - `assets/js/section-flow-fix.js` : navigation section par section sans réécriture de contenu.
 - `assets/img/` : logo, photo optimisée, illustrations SVG.
