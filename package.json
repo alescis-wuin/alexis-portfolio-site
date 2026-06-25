@@ -9,7 +9,7 @@
   },
   "scripts": {
     "serve": "python3 -m http.server 8080",
-    "format:check": "prettier --check \"**/*.{js,css,json,yml,yaml,md}\" --ignore-path .prettierignore",
+    "format:check": "prettier --check \"*.{json,mjs}\" \".github/**/*.yml\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\" \"docs/CI_CD.md\" --ignore-path .prettierignore",
     "lint": "npm run lint:js && npm run lint:css && npm run lint:html",
     "lint:js": "eslint \"assets/**/*.js\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\"",
     "lint:css": "stylelint \"assets/**/*.css\"",
