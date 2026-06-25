@@ -2,6 +2,23 @@ const root = document.documentElement;
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+function initAiRedesignStyles() {
+  const currentScript = document.currentScript;
+  const scriptSrc = currentScript?.getAttribute('src') || '';
+  const prefix = scriptSrc.startsWith('../') || location.pathname.includes('/projets/') ? '../' : './';
+
+  ['ai-redesign.css', 'paged-scroll.css'].forEach((fileName) => {
+    const href = `${prefix}assets/css/${fileName}`;
+    const exists = document.querySelector(`link[href$="/assets/css/${fileName}"], link[href="./assets/css/${fileName}"], link[href="../assets/css/${fileName}"]`);
+    if (exists) return;
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.append(link);
+  });
+}
+
 function initNavigation() {
   const toggle = document.querySelector('[data-nav-toggle]');
   const nav = document.querySelector('[data-site-nav]');
@@ -102,7 +119,88 @@ function initReveal() {
   targets.forEach((target) => observer.observe(target));
 }
 
+function initSectionRail() {
+  const sections = [...document.querySelectorAll('[data-section]')];
+  const links = [...document.querySelectorAll('[data-section-link]')];
+  if (sections.length === 0 || links.length === 0) return;
+
+  const setActive = (id) => {
+    links.forEach((link) => {
+      const active = link.dataset.sectionLink === id;
+      if (active) {
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+      link.classList.toggle('is-active', active);
+    });
+  };
+
+  links.forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const target = document.getElementById(link.dataset.sectionLink || '');
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      setActive(target.id);
+      history.replaceState(null, '', `#${target.id}`);
+    });
+  });
+
+  if (!('IntersectionObserver' in window)) return;
+
+  const visibilityById = new Map();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      visibilityById.set(entry.target.id, entry.intersectionRatio);
+    });
+
+    const best = sections
+      .map((section) => ({ id: section.id, ratio: visibilityById.get(section.id) || 0 }))
+      .sort((a, b) => b.ratio - a.ratio)[0];
+
+    if (best && best.ratio > 0) setActive(best.id);
+  }, {
+    threshold: [0.12, 0.24, 0.36, 0.48, 0.6, 0.72],
+    rootMargin: '-18% 0px -42% 0px',
+  });
+
+  sections.forEach((section) => observer.observe(section));
+}
+
+function initPortfolioCleanup() {
+  const isProjectPage = location.pathname.includes('/projets/');
+  if (!isProjectPage) return;
+
+  document.querySelector('[data-nav-toggle]')?.remove();
+  document.querySelector('[data-site-nav]')?.remove();
+
+  document.querySelectorAll('a[href$="CV_Alexis-GUINOT.pdf"]').forEach((link) => {
+    if (!link.closest('#contact')) link.remove();
+  });
+
+  const footerText = document.querySelector('.site-footer .footer-title + p');
+  if (footerText) footerText.textContent = 'Développeur et concepteur d’applications.';
+
+  const footerNav = document.querySelector('.site-footer nav');
+  if (footerNav) {
+    const contactLink = document.createElement('a');
+    contactLink.className = 'text-link';
+    contactLink.href = '../index.html#contact';
+    contactLink.textContent = 'Contact et CV';
+    footerNav.replaceWith(contactLink);
+  }
+}
+
+initAiRedesignStyles();
 initNavigation();
 initTheme();
 initProjectFilters();
 initReveal();
+initSectionRail();
+initPortfolioCleanup();
+
+if (!location.pathname.includes('/projets/')) {
+  import('./ai-home.js').then(() => import('./section-flow-fix.js'));
+}
