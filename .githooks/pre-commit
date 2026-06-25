@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "[pre-commit] Basic local checks"
+
+if git diff --cached --check; then
+  true
+else
+  echo "[pre-commit] Whitespace/conflict marker issue detected."
+  exit 1
+fi
+
+npm run check:basic
