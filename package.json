@@ -16,7 +16,7 @@
     "lint:html": "html-validate \"*.html\" \"projets/**/*.html\"",
     "validate": "node scripts/validate-static-site.mjs",
     "security:audit": "npm audit --omit=dev --audit-level=high",
-    "security:secrets": "secretlint \"**/*\" --secretlintrc .secretlintrc.json --maskSecrets --ignore-path .secretlintignore",
+    "security:secrets": "node scripts/run-secretlint.mjs",
     "test:e2e": "playwright test"
   },
   "devDependencies": {
