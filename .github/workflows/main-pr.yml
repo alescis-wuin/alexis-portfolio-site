@@ -1,0 +1,65 @@
+name: Main PR
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: main-pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guard-source:
+    name: Guard source branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate source branch
+        run: |
+          set -euo pipefail
+          if [ "${{ github.head_ref }}" != "testing" ]; then
+            echo "Only testing can be merged into main."
+            exit 1
+          fi
+
+  strict-checks:
+    name: Strict checks
+    needs: guard-source
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm install --no-audit --no-fund
+      - run: npm run check:strict
+
+  preproduction-smoke:
+    name: Preproduction smoke
+    needs: strict-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - name: Local static smoke test
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          sleep 2
+          curl -fsS http://127.0.0.1:4173/ >/dev/null
+          curl -fsS http://127.0.0.1:4173/site.webmanifest >/dev/null
+          test -d assets
+          test -d projets

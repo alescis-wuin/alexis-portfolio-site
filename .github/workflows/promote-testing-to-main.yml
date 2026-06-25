@@ -1,0 +1,39 @@
+name: Promote Testing to Main
+
+on:
+  push:
+    branches:
+      - testing
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: promote-testing-to-main
+  cancel-in-progress: false
+
+jobs:
+  open-or-update-pr:
+    name: Open or update PR testing to main
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Create PR if missing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          if gh pr view --repo "$REPO" --base main --head testing >/dev/null 2>&1; then
+            echo "PR testing -> main already exists."
+          else
+            gh pr create \
+              --repo "$REPO" \
+              --base main \
+              --head testing \
+              --title "release: promote testing to main" \
+              --body "Automatic release candidate promotion from testing to main."
+          fi

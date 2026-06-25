@@ -1,0 +1,75 @@
+name: Develop PR
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: develop-pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guard-source:
+    name: Guard source branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate source branch
+        run: |
+          set -euo pipefail
+          head="${{ github.head_ref }}"
+          case "$head" in
+            ia/*|feature/*|fix/*|refactor/*|chore/*|docs/*)
+              echo "Allowed source branch: $head"
+              ;;
+            *)
+              echo "Invalid source branch for develop: $head"
+              echo "Allowed: ia/*, feature/*, fix/*, refactor/*, chore/*, docs/*"
+              exit 1
+              ;;
+          esac
+
+  basic-checks:
+    name: Basic checks
+    needs: guard-source
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm install --no-audit --no-fund
+      - run: npm run check:basic
+
+  ai-checks:
+    name: AI extra checks
+    needs: basic-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm install --no-audit --no-fund
+      - name: Run AI checks when source branch starts with ia/
+        run: |
+          set -euo pipefail
+          head="${{ github.head_ref }}"
+          if [[ "$head" == ia/* ]]; then
+            npm run check:ai
+          else
+            echo "Not an IA branch; AI checks are intentionally skipped."
+          fi

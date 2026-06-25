@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+branch="$(git branch --show-current)"
+
+case "$branch" in
+  main|testing|develop)
+    echo "[pre-push] Direct push interdit sur $branch. Utilise une PR."
+    exit 1
+    ;;
+esac
+
+echo "[pre-push] Running local checks before push from $branch"
+npm run check:basic
