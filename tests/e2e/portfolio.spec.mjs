@@ -51,12 +51,15 @@ test("la page d’accueil reste exploitable en rendu mobile", async ({
   ).toBeVisible();
 });
 
-test("le changement de thème est persistant", async ({ page }) => {
-  await page.goto("/");
+test("le changement de thème est persistant sur une page projet", async ({
+  page,
+}) => {
+  await page.goto("/projets/streamfolio.html");
 
   const toggle = page.getByRole("button", { name: /thème/i });
-  const initialTheme = await page.locator("html").getAttribute("data-theme");
+  await expect(toggle).toBeVisible();
 
+  const initialTheme = await page.locator("html").getAttribute("data-theme");
   await toggle.click();
   const changedTheme = await page.locator("html").getAttribute("data-theme");
 
