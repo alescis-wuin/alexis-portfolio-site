@@ -2,6 +2,8 @@
    CSS Scroll Snap is intentionally disabled here: the wheel controller in JS
    decides when to move to the next section, while long sections keep an internal scroll area. */
 
+@import url('./project-cards.css');
+
 html,
 body {
   overscroll-behavior-y: none;
