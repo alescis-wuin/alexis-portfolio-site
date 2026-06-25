@@ -56,7 +56,7 @@ jobs:
     name: AI extra checks
     needs: basic-checks
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
@@ -69,6 +69,7 @@ jobs:
           set -euo pipefail
           head="${{ github.head_ref }}"
           if [[ "$head" == ia/* ]]; then
+            npx playwright install --with-deps chromium
             npm run check:ai
           else
             echo "Not an IA branch; AI checks are intentionally skipped."
