@@ -30,14 +30,26 @@ jobs:
       - name: Validate source branch
         run: |
           set -euo pipefail
-          if [ "${{ github.head_ref }}" != "develop" ]; then
-            echo "Only develop can be merged into testing."
-            exit 1
-          fi
+          head="${{ github.head_ref }}"
+          case "$head" in
+            develop|main)
+              echo "Allowed source branch for testing: $head"
+              ;;
+            *)
+              echo "Only develop or main can be merged into testing."
+              exit 1
+              ;;
+          esac
 
-      - name: Ensure testing contains main
+      - name: Ensure testing contains main before develop promotion
         run: |
           set -euo pipefail
+          head="${{ github.head_ref }}"
+          if [ "$head" = "main" ]; then
+            echo "Main sync PR detected; testing is being aligned with main."
+            exit 0
+          fi
+
           git fetch origin main
           base_sha="${{ github.event.pull_request.base.sha }}"
           if git merge-base --is-ancestor origin/main "$base_sha"; then
@@ -59,5 +71,14 @@ jobs:
           node-version: 24
           package-manager-cache: false
       - run: npm install --no-audit --no-fund
-      - run: npx playwright install --with-deps chromium
-      - run: npm run check:strict
+      - name: Run checks for develop promotion only
+        run: |
+          set -euo pipefail
+          head="${{ github.head_ref }}"
+          if [ "$head" = "main" ]; then
+            echo "Main sync PR detected; release candidate checks are not required."
+            exit 0
+          fi
+
+          npx playwright install --with-deps chromium
+          npm run check:strict
