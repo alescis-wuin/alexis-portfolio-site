@@ -35,7 +35,7 @@ jobs:
     name: Strict checks
     needs: guard-source
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
@@ -43,6 +43,7 @@ jobs:
           node-version: 24
           package-manager-cache: false
       - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
       - run: npm run check:strict
 
   preproduction-smoke:
