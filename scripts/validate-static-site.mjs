@@ -1,37 +1,40 @@
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const rootDir = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+);
 const ignoredDirectories = new Set([
-  '.git',
-  '.github',
-  'node_modules',
-  'dist',
-  'build',
-  'coverage',
-  'playwright-report',
-  'test-results'
+  ".git",
+  ".github",
+  "node_modules",
+  "dist",
+  "build",
+  "coverage",
+  "playwright-report",
+  "test-results",
 ]);
 
 const htmlFiles = walk(rootDir)
-  .filter((filePath) => filePath.endsWith('.html'))
+  .filter((filePath) => filePath.endsWith(".html"))
   .sort();
 
 const errors = [];
 
 if (htmlFiles.length === 0) {
-  errors.push('Aucun fichier HTML trouvé.');
+  errors.push("Aucun fichier HTML trouvé.");
 }
 
 for (const filePath of htmlFiles) {
-  const html = readFileSync(filePath, 'utf8');
+  const html = readFileSync(filePath, "utf8");
   validateHtmlDocument(filePath, html);
   validateReferences(filePath, html);
 }
 
 if (errors.length > 0) {
-  console.error('Validation statique échouée :');
+  console.error("Validation statique échouée :");
   for (const error of errors) {
     console.error(`- ${error}`);
   }
@@ -45,7 +48,7 @@ function walk(directory) {
   const files = [];
 
   for (const entry of entries) {
-    if (entry.name.startsWith('.') && !['.well-known'].includes(entry.name)) {
+    if (entry.name.startsWith(".") && ![".well-known"].includes(entry.name)) {
       if (ignoredDirectories.has(entry.name)) continue;
     }
 
@@ -66,18 +69,23 @@ function walk(directory) {
 function validateHtmlDocument(filePath, html) {
   const displayPath = toDisplayPath(filePath);
   const requiredPatterns = [
-    ['doctype', /<!doctype html>/i],
+    ["doctype", /<!doctype html>/i],
     ['lang="fr"', /<html\s+[^>]*lang=["']fr["']/i],
-    ['meta viewport', /<meta\s+[^>]*name=["']viewport["']/i],
-    ['meta description', /<meta\s+[^>]*name=["']description["'][^>]*content=["'][^"']{40,}["']/i],
-    ['title', /<title>[^<]{10,}<\/title>/i],
-    ['main', /<main\b/i],
-    ['h1', /<h1\b/i]
+    ["meta viewport", /<meta\s+[^>]*name=["']viewport["']/i],
+    [
+      "meta description",
+      /<meta\s+[^>]*name=["']description["'][^>]*content=["'][^"']{40,}["']/i,
+    ],
+    ["title", /<title>[^<]{10,}<\/title>/i],
+    ["main", /<main\b/i],
+    ["h1", /<h1\b/i],
   ];
 
   for (const [label, pattern] of requiredPatterns) {
     if (!pattern.test(html)) {
-      errors.push(`${displayPath} : balise ou métadonnée manquante (${label}).`);
+      errors.push(
+        `${displayPath} : balise ou métadonnée manquante (${label}).`,
+      );
     }
   }
 }
@@ -91,10 +99,10 @@ function validateReferences(filePath, html) {
   for (const reference of references) {
     if (shouldIgnoreReference(reference)) continue;
 
-    const [withoutQuery] = reference.split('?');
-    const [rawTargetPath, rawHash] = withoutQuery.split('#');
-    const targetPath = decodeURIComponent(rawTargetPath || '');
-    const hash = rawHash ? decodeURIComponent(rawHash) : '';
+    const [withoutQuery] = reference.split("?");
+    const [rawTargetPath, rawHash] = withoutQuery.split("#");
+    const targetPath = decodeURIComponent(rawTargetPath || "");
+    const hash = rawHash ? decodeURIComponent(rawHash) : "";
 
     if (!targetPath && hash) {
       if (!currentIds.has(hash)) {
@@ -111,12 +119,14 @@ function validateReferences(filePath, html) {
     }
 
     if (!existsSync(resolved)) {
-      errors.push(`${displayPath} : fichier référencé introuvable (${reference}).`);
+      errors.push(
+        `${displayPath} : fichier référencé introuvable (${reference}).`,
+      );
       continue;
     }
 
-    if (hash && resolved.endsWith('.html')) {
-      const targetHtml = readFileSync(resolved, 'utf8');
+    if (hash && resolved.endsWith(".html")) {
+      const targetHtml = readFileSync(resolved, "utf8");
       const targetIds = extractIds(targetHtml);
       if (!targetIds.has(hash)) {
         errors.push(`${displayPath} : ancre introuvable ${reference}.`);
@@ -124,7 +134,9 @@ function validateReferences(filePath, html) {
     }
 
     if (existsSync(resolved) && statSync(resolved).isDirectory()) {
-      errors.push(`${displayPath} : référence vers un dossier au lieu d'un fichier (${reference}).`);
+      errors.push(
+        `${displayPath} : référence vers un dossier au lieu d'un fichier (${reference}).`,
+      );
     }
   }
 }
@@ -139,7 +151,7 @@ function extractReferences(html) {
   }
 
   for (const match of html.matchAll(srcsetPattern)) {
-    for (const entry of match[2].split(',')) {
+    for (const entry of match[2].split(",")) {
       const url = entry.trim().split(/\s+/)[0];
       if (url) references.add(url);
     }
@@ -162,15 +174,15 @@ function extractIds(html) {
 function shouldIgnoreReference(reference) {
   return (
     reference.length === 0 ||
-    reference.startsWith('http://') ||
-    reference.startsWith('https://') ||
-    reference.startsWith('mailto:') ||
-    reference.startsWith('tel:') ||
-    reference.startsWith('data:') ||
-    reference.startsWith('javascript:')
+    reference.startsWith("http://") ||
+    reference.startsWith("https://") ||
+    reference.startsWith("mailto:") ||
+    reference.startsWith("tel:") ||
+    reference.startsWith("data:") ||
+    reference.startsWith("javascript:")
   );
 }
 
 function toDisplayPath(filePath) {
-  return path.relative(rootDir, filePath).replaceAll(path.sep, '/');
+  return path.relative(rootDir, filePath).replaceAll(path.sep, "/");
 }
