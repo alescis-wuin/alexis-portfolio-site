@@ -1,0 +1,135 @@
+/* Focused project cards: clear, consistent and slightly playful signal system. */
+
+.project-grid-focus {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.project-card-playful {
+  position: relative;
+  isolation: isolate;
+}
+
+.project-card-playful::after {
+  content: '';
+  position: absolute;
+  inset: auto 1rem 1rem auto;
+  z-index: -1;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  filter: blur(0.2rem);
+}
+
+.project-card-playful .project-body {
+  gap: 1rem;
+}
+
+.project-signal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.project-index,
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.85rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.project-index {
+  justify-content: center;
+  width: 2.25rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--accent-contrast);
+}
+
+.project-status {
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 72%, transparent);
+  color: var(--text);
+  padding: 0.25rem 0.65rem;
+}
+
+.project-summary {
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.52;
+}
+
+.project-facts {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.project-facts div {
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface-2) 54%, transparent);
+  padding: 0.75rem;
+}
+
+.project-facts dt {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.project-facts dd {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.42;
+}
+
+.project-actions {
+  margin-top: auto;
+  justify-content: space-between;
+}
+
+.project-actions a:last-child {
+  color: var(--muted);
+  font-weight: 760;
+}
+
+.project-actions a:last-child:hover {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.2em;
+}
+
+@media (max-width: 1120px) {
+  .project-grid-focus {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .project-grid-focus {
+    grid-template-columns: 1fr;
+  }
+
+  .project-signal {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .project-status {
+    width: fit-content;
+  }
+}

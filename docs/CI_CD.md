@@ -4,50 +4,62 @@
 
 Le dépôt contient un site statique sans étape de build applicatif. Le pipeline ajoute donc une couche qualité autour des fichiers HTML, CSS, JavaScript et automatise le déploiement VPS après validation de `main`.
 
-## Workflows ajoutés
+## Workflows principaux
 
-### `.github/workflows/ci.yml`
+### `.github/workflows/develop-pr.yml`
 
-Déclenchement :
+Déclenchement : pull request vers `develop`.
 
-- pull request vers `main`, `develop` ou `ai` ;
-- push direct vers `develop` ou `ai` ;
-- lancement manuel via `workflow_dispatch`.
+Rôle :
 
-Contrôles exécutés :
+- contrôler que la branche source respecte les préfixes autorisés, dont `ai/*` ;
+- lancer les checks de base ;
+- lancer les checks IA supplémentaires pour les branches `ai/*`.
 
-- installation des dépendances Node avec `npm install --no-audit --no-fund` ;
-- vérification de formatage Prettier ;
-- audit de dépendances de production avec `npm audit --omit=dev --audit-level=high` ;
-- scan de secrets avec Secretlint ;
-- lint JavaScript avec ESLint ;
-- lint CSS avec Stylelint ;
-- validation HTML avec html-validate ;
-- validation statique des liens, ancres, fichiers et métadonnées ;
-- tests E2E Playwright sur Chromium desktop et mobile.
+### `.github/workflows/testing-pr.yml`
 
-### `.github/workflows/deploy-vps.yml`
+Déclenchement : pull request vers `testing`.
+
+Rôle :
+
+- accepter uniquement les promotions depuis `develop` ou les synchronisations depuis `main` ;
+- vérifier que `testing` contient bien `main` avant promotion depuis `develop` ;
+- lancer les contrôles stricts avant release candidate.
+
+### `.github/workflows/main-pr.yml`
+
+Déclenchement : pull request vers `main`.
+
+Rôle :
+
+- accepter uniquement les promotions depuis `testing` ;
+- lancer les contrôles stricts ;
+- effectuer un smoke test local avant production.
+
+### `.github/workflows/main-deploy.yml`
 
 Déclenchement :
 
 - push sur `main` ;
 - lancement manuel via `workflow_dispatch`.
 
-Le workflow relance d’abord la quality gate complète, puis synchronise uniquement les fichiers statiques utiles vers le VPS avec `rsync` :
+Le workflow synchronise les fichiers statiques utiles vers le VPS avec `rsync` :
 
 - `index.html` ;
 - `site.webmanifest` ;
 - `CNAME` ;
+- `robots.txt` ;
+- `sitemap.xml` ;
 - `assets/` ;
 - `projets/`.
 
-### `.github/workflows/auto-merge.yml`
+### `.github/workflows/develop-automerge.yml`
 
-Déclenchement : pull request vers `develop` ou `ai`.
+Déclenchement : pull request vers `develop`.
 
 Le workflow active l’auto-merge natif de GitHub uniquement si :
 
-- la PR cible `develop` ou `ai` ;
+- la PR cible `develop` ;
 - la PR n’est pas en draft ;
 - la branche source appartient au même dépôt ;
 - la PR porte le label `auto-merge`.
@@ -58,14 +70,13 @@ Il ne checkout pas le code de la PR, afin d’éviter d’exécuter du code non 
 
 À créer dans `Settings > Secrets and variables > Actions > Repository secrets` :
 
-| Secret                | Obligatoire | Description                                                                               |
-| --------------------- | ----------- | ----------------------------------------------------------------------------------------- |
-| `VPS_HOST`            | Oui         | Nom de domaine ou IP du VPS.                                                              |
-| `VPS_USER`            | Oui         | Utilisateur SSH de déploiement.                                                           |
-| `VPS_SSH_KEY`         | Oui         | Clé privée SSH dédiée au déploiement.                                                     |
-| `VPS_DEPLOY_PATH`     | Oui         | Dossier cible servi par Nginx, Apache ou Caddy, par exemple `/var/www/alexis-portfolio-site`. |
-| `VPS_PORT`            | Non         | Port SSH. `22` par défaut.                                                                |
-| `VPS_RESTART_COMMAND` | Non         | Commande distante exécutée après `rsync`, par exemple `sudo systemctl reload nginx`.      |
+| Secret            | Obligatoire | Description                                                                               |
+| ----------------- | ----------- | ----------------------------------------------------------------------------------------- |
+| `VPS_HOST`        | Oui         | Nom de domaine ou IP du VPS.                                                              |
+| `VPS_USER`        | Oui         | Utilisateur SSH de déploiement.                                                           |
+| `VPS_SSH_KEY`     | Oui         | Clé privée SSH dédiée au déploiement.                                                     |
+| `VPS_DEPLOY_PATH` | Oui         | Dossier cible servi par Nginx, Apache ou Caddy, par exemple `/var/www/alexis-portfolio-site`. |
+| `VPS_PORT`        | Non         | Port SSH. `22` par défaut.                                                                |
 
 ## Préparation minimale du VPS
 
@@ -86,10 +97,11 @@ La clé publique correspondant à `VPS_SSH_KEY` doit être ajoutée dans `~deplo
 À configurer dans GitHub après merge des workflows :
 
 1. Activer l’auto-merge du dépôt dans `Settings > General > Pull Requests > Allow auto-merge`.
-2. Créer ou adapter des rulesets pour `ai`, `develop` et `main`.
-3. Rendre obligatoire le check `Quality gate` avant merge.
-4. Pour `main`, imposer les merges via PR depuis `develop` ou `ai`, puis laisser le CD déployer automatiquement après le push sur `main`.
-5. Ajouter le label `auto-merge` uniquement aux PRs qui peuvent être fusionnées automatiquement quand tous les checks passent.
+2. Créer ou adapter des rulesets pour `develop`, `testing` et `main`.
+3. Rendre obligatoire le check `Basic checks` avant merge vers `develop`.
+4. Rendre obligatoire les contrôles stricts avant merge vers `testing` et `main`.
+5. Pour `main`, imposer les merges via PR depuis `testing`, puis laisser le CD déployer automatiquement après le push sur `main`.
+6. Ajouter le label `auto-merge` uniquement aux PRs qui peuvent être fusionnées automatiquement quand tous les checks passent.
 
 ## Analyse de dépendances GitHub avancée
 
