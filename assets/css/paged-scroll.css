@@ -8,9 +8,12 @@ body {
   scroll-behavior: auto !important;
 }
 
-.site-header,
-.site-footer {
-  display: none !important;
+.theme-toggle-floating {
+  position: fixed;
+  top: clamp(0.9rem, 2.2vh, 1.45rem);
+  right: clamp(0.9rem, 2.2vw, 1.45rem);
+  z-index: 90;
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
 }
 
 .section-arrow-controls {
@@ -233,6 +236,11 @@ body {
   body.has-section-rail .snap-section > .container {
     max-height: none;
     overflow: visible;
+  }
+
+  .theme-toggle-floating {
+    top: 0.75rem;
+    right: 0.75rem;
   }
 
   .section-arrow-up {
