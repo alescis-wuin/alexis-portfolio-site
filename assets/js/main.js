@@ -1,23 +1,6 @@
 const root = document.documentElement;
-
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-function initAiRedesignStyles() {
-  const currentScript = document.currentScript;
-  const scriptSrc = currentScript?.getAttribute('src') || '';
-  const prefix = scriptSrc.startsWith('../') || location.pathname.includes('/projets/') ? '../' : './';
-
-  ['ai-redesign.css', 'paged-scroll.css'].forEach((fileName) => {
-    const href = `${prefix}assets/css/${fileName}`;
-    const exists = document.querySelector(`link[href$="/assets/css/${fileName}"], link[href="./assets/css/${fileName}"], link[href="../assets/css/${fileName}"]`);
-    if (exists) return;
-
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    document.head.append(link);
-  });
-}
+const isProjectPage = location.pathname.includes('/projets/');
 
 function initNavigation() {
   const toggle = document.querySelector('[data-nav-toggle]');
@@ -50,8 +33,8 @@ function initNavigation() {
 }
 
 function initTheme() {
-  const button = document.querySelector('[data-theme-toggle]');
-  if (!button) return;
+  const buttons = [...document.querySelectorAll('[data-theme-toggle]')];
+  if (buttons.length === 0) return;
 
   const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -63,15 +46,19 @@ function initTheme() {
 
   const apply = (theme, persist = true) => {
     root.dataset.theme = theme;
-    button.setAttribute('aria-pressed', String(theme === 'dark'));
-    button.setAttribute('aria-label', theme === 'dark' ? 'Activer le thème clair' : 'Activer le thème sombre');
+    buttons.forEach((button) => {
+      button.setAttribute('aria-pressed', String(theme === 'dark'));
+      button.setAttribute('aria-label', theme === 'dark' ? 'Activer le thème clair' : 'Activer le thème sombre');
+    });
     if (persist) localStorage.setItem('theme', theme);
   };
 
   apply(getCurrentTheme(), false);
 
-  button.addEventListener('click', () => {
-    apply(getCurrentTheme() === 'dark' ? 'light' : 'dark');
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      apply(getCurrentTheme() === 'dark' ? 'light' : 'dark');
+    });
   });
 }
 
@@ -169,38 +156,12 @@ function initSectionRail() {
   sections.forEach((section) => observer.observe(section));
 }
 
-function initPortfolioCleanup() {
-  const isProjectPage = location.pathname.includes('/projets/');
-  if (!isProjectPage) return;
-
-  document.querySelector('[data-nav-toggle]')?.remove();
-  document.querySelector('[data-site-nav]')?.remove();
-
-  document.querySelectorAll('a[href$="CV_Alexis-GUINOT.pdf"]').forEach((link) => {
-    if (!link.closest('#contact')) link.remove();
-  });
-
-  const footerText = document.querySelector('.site-footer .footer-title + p');
-  if (footerText) footerText.textContent = 'Développeur et concepteur d’applications.';
-
-  const footerNav = document.querySelector('.site-footer nav');
-  if (footerNav) {
-    const contactLink = document.createElement('a');
-    contactLink.className = 'text-link';
-    contactLink.href = '../index.html#contact';
-    contactLink.textContent = 'Contact et CV';
-    footerNav.replaceWith(contactLink);
-  }
-}
-
-initAiRedesignStyles();
 initNavigation();
 initTheme();
 initProjectFilters();
 initReveal();
 initSectionRail();
-initPortfolioCleanup();
 
-if (!location.pathname.includes('/projets/')) {
-  import('./ai-home.js').then(() => import('./section-flow-fix.js'));
+if (!isProjectPage) {
+  import('./section-flow-fix.js');
 }
