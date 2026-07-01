@@ -1,4 +1,4 @@
-const sectionOrder = ['accueil', 'valeur', 'projets', 'competences', 'methode', 'parcours', 'contact'];
+const sectionOrder = ['accueil', 'valeur', 'projets', 'competences', 'methode', 'parcours', 'documents', 'contact'];
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const pagedMedia = window.matchMedia('(min-width: 920px) and (min-height: 620px)');
 
@@ -19,11 +19,9 @@ function orderedSections() {
 }
 
 function fixSectionDomOrder() {
-  const sections = orderedSections();
   const main = document.querySelector('main');
-  if (!main || sections.length === 0) return;
-
-  sections.forEach((section) => main.append(section));
+  if (!main) return;
+  orderedSections().forEach((section) => main.append(section));
 }
 
 function removeTopAndBottomChrome() {
@@ -35,6 +33,21 @@ function removeTopAndBottomChrome() {
 
 function sectionIndexById(sectionId) {
   return orderedSections().findIndex((section) => section.id === sectionId);
+}
+
+function nearestSectionIndex(sections = orderedSections()) {
+  let bestIndex = 0;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  sections.forEach((section, index) => {
+    const distance = Math.abs(section.getBoundingClientRect().top);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestIndex = index;
+    }
+  });
+
+  return bestIndex;
 }
 
 function updateArrowControlState(index = nearestSectionIndex()) {
@@ -65,21 +78,6 @@ function setActiveRail(sectionId) {
   if (index >= 0) updateArrowControlState(index);
 }
 
-function nearestSectionIndex(sections = orderedSections()) {
-  let bestIndex = 0;
-  let bestDistance = Number.POSITIVE_INFINITY;
-
-  sections.forEach((section, index) => {
-    const distance = Math.abs(section.getBoundingClientRect().top);
-    if (distance < bestDistance) {
-      bestDistance = distance;
-      bestIndex = index;
-    }
-  });
-
-  return bestIndex;
-}
-
 function normalizeWheelDelta(event) {
   if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) return event.deltaY * 16;
   if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) return event.deltaY * window.innerHeight;
@@ -95,6 +93,20 @@ function resetWheelAccumulator() {
 function scheduleAccumulatorReset() {
   window.clearTimeout(wheelResetTimer);
   wheelResetTimer = window.setTimeout(resetWheelAccumulator, WHEEL_ACCUMULATOR_RESET_MS);
+}
+
+function shouldChangeSection(deltaY) {
+  const direction = deltaY > 0 ? 1 : -1;
+
+  if (direction !== wheelDirection) {
+    wheelAccumulator = 0;
+    wheelDirection = direction;
+  }
+
+  wheelAccumulator += Math.abs(deltaY);
+  scheduleAccumulatorReset();
+
+  return wheelAccumulator >= SECTION_CHANGE_DELTA_THRESHOLD;
 }
 
 function easeOutCubic(progress) {
@@ -134,13 +146,9 @@ function animateWindowScrollTo(targetTop, duration = SECTION_SCROLL_DURATION_MS)
 
 function scrollToSection(section, { animated = true } = {}) {
   if (!section) return;
-  animateWindowScrollToSection(section, animated);
+  animateWindowScrollTo(targetTopForSection(section), animated ? SECTION_SCROLL_DURATION_MS : 0);
   setActiveRail(section.id);
   history.replaceState(null, '', `#${section.id}`);
-}
-
-function animateWindowScrollToSection(section, animated) {
-  animateWindowScrollTo(targetTopForSection(section), animated ? SECTION_SCROLL_DURATION_MS : 0);
 }
 
 function scrollToIndex(index, { animated = true } = {}) {
@@ -181,20 +189,6 @@ function handleInternalScroll(scroller, deltaY, direction) {
   return true;
 }
 
-function shouldChangeSection(deltaY) {
-  const direction = deltaY > 0 ? 1 : -1;
-
-  if (direction !== wheelDirection) {
-    wheelAccumulator = 0;
-    wheelDirection = direction;
-  }
-
-  wheelAccumulator += Math.abs(deltaY);
-  scheduleAccumulatorReset();
-
-  return wheelAccumulator >= SECTION_CHANGE_DELTA_THRESHOLD;
-}
-
 function createSectionArrowControls() {
   if (document.querySelector('[data-section-arrows]')) return;
 
@@ -209,7 +203,8 @@ function createSectionArrowControls() {
   document.body.append(controls);
 
   controls.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-section-arrow]');
+    const target = event.target instanceof Element ? event.target : null;
+    const button = target?.closest('[data-section-arrow]');
     if (!(button instanceof HTMLButtonElement)) return;
 
     event.preventDefault();
@@ -276,16 +271,17 @@ function onKeyCapture(event) {
 }
 
 function onClickCapture(event) {
-  const link = event.target.closest?.('[data-section-link], a[href^="#"]');
+  const target = event.target instanceof Element ? event.target : null;
+  const link = target?.closest('[data-section-link], a[href^="#"]');
   if (!(link instanceof HTMLAnchorElement)) return;
 
   const id = link.dataset.sectionLink || link.getAttribute('href')?.slice(1);
-  const target = id ? document.getElementById(id) : null;
-  if (!target?.matches('[data-section]')) return;
+  const section = id ? document.getElementById(id) : null;
+  if (!section?.matches('[data-section]')) return;
 
   event.preventDefault();
   event.stopImmediatePropagation();
-  scrollToSection(target, { animated: true });
+  scrollToSection(section, { animated: true });
 }
 
 function initSectionFlowFix() {
