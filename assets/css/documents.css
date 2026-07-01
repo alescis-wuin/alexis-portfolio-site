@@ -1,24 +1,41 @@
 /* Dedicated candidate-document section for the AI home redesign. */
 @layer layout {
   #documents.snap-section {
-    align-items: flex-start;
+    align-items: center;
   }
 
   .documents-layout {
     display: grid;
-    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
-    gap: clamp(1.5rem, 4vw, 3rem);
-    align-items: start;
+    grid-template-columns: minmax(12rem, 0.52fr) minmax(0, 1.48fr);
+    gap: clamp(1.25rem, 4vw, 3rem);
+    align-items: center;
   }
 
   .documents-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  @media (max-width: 1180px) {
+    .documents-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 
   @media (max-width: 980px) {
-    .documents-layout,
+    .documents-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .documents-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 480px) {
     .documents-grid {
       grid-template-columns: 1fr;
     }
@@ -27,132 +44,152 @@
 
 @layer components {
   .documents-heading {
-    position: sticky;
-    top: 1.5rem;
+    margin-bottom: 0;
   }
 
-  .documents-summary {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-    margin-top: 0.4rem;
+  .documents-heading h2 {
+    max-width: 10ch;
   }
 
-  .documents-summary div,
-  .documents-panel,
-  .document-card {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: color-mix(in srgb, var(--surface) 82%, transparent);
-    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.08);
-  }
-
-  .documents-summary div {
-    padding: 0.95rem;
-  }
-
-  .documents-summary span {
-    display: block;
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 1.25rem;
-    font-weight: 900;
-    line-height: 1;
-  }
-
-  .documents-summary p {
-    margin-top: 0.35rem;
-    font-size: 0.92rem;
-    line-height: 1.35;
+  .documents-heading p:last-child {
+    max-width: 18rem;
   }
 
   .documents-panel {
-    display: grid;
-    gap: 1rem;
-    padding: clamp(1rem, 2vw, 1.25rem);
+    min-width: 0;
   }
 
   .document-card {
+    --document-accent: var(--accent);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     display: grid;
-    align-content: start;
-    gap: 0.9rem;
-    min-height: 100%;
-    padding: 1.1rem;
-    transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+    grid-template-rows: auto 1fr auto;
+    gap: 1rem;
+    min-height: 13rem;
+    border: 1px solid color-mix(in srgb, var(--document-accent) 32%, var(--border));
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--document-accent) 24%, transparent), transparent 7rem),
+      linear-gradient(155deg, color-mix(in srgb, var(--document-accent) 10%, transparent), color-mix(in srgb, var(--surface) 90%, transparent));
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.14);
+    padding: 1rem;
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
   }
 
   .document-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--border-strong);
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--document-accent) 62%, var(--border-strong));
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.2);
   }
 
-  .document-card-priority {
-    grid-column: 1 / -1;
-    background:
-      linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 46%),
-      color-mix(in srgb, var(--surface) 88%, transparent);
+  .document-card:focus-visible {
+    outline: 3px solid var(--document-accent);
+    outline-offset: 4px;
   }
 
-  .document-meta {
+  .document-card-cv {
+    --document-accent: #67e8f9;
+  }
+
+  .document-card-programme {
+    --document-accent: #a78bfa;
+  }
+
+  .document-card-candidat {
+    --document-accent: #34d399;
+  }
+
+  .document-card-aides {
+    --document-accent: #fbbf24;
+  }
+
+  .document-card-annexe {
+    --document-accent: #f472b6;
+  }
+
+  .document-glow {
+    position: absolute;
+    inset: auto -18% -28% auto;
+    z-index: -1;
+    width: 7rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--document-accent) 18%, transparent);
+    filter: blur(4px);
+  }
+
+  .document-visual {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 0.55rem;
-    color: var(--muted-2);
+    gap: 0.75rem;
+  }
+
+  .document-visual > span {
+    display: grid;
+    place-items: center;
+    width: 3.15rem;
+    height: 3.15rem;
+    border-radius: 1.05rem;
+    background: color-mix(in srgb, var(--document-accent) 22%, var(--surface));
+    color: var(--text);
     font-family: var(--font-mono);
-    font-size: 0.76rem;
-    font-weight: 850;
-    letter-spacing: 0.05em;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+  }
+
+  .document-visual small,
+  .document-label,
+  .document-open {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
+  .document-visual small {
+    border: 1px solid color-mix(in srgb, var(--document-accent) 42%, var(--border));
+    border-radius: 999px;
+    color: var(--document-accent);
+    padding: 0.25rem 0.45rem;
+  }
+
+  .document-content {
+    display: grid;
+    align-content: end;
+    gap: 0.45rem;
+  }
+
   .document-label {
-    color: var(--accent);
+    color: var(--document-accent);
   }
 
-  .document-card h3 {
-    margin-bottom: 0.45rem;
-    font-size: 1.14rem;
-    letter-spacing: -0.02em;
+  .document-content strong {
+    color: var(--text);
+    font-size: clamp(1rem, 1.25vw, 1.18rem);
+    letter-spacing: -0.04em;
+    line-height: 1.08;
   }
 
-  .document-card p {
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-
-  .document-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: auto;
-  }
-
-  .document-actions .button {
-    min-height: 2.35rem;
-    padding: 0.65rem 0.85rem;
-    font-size: 0.92rem;
-  }
-
-  .document-note {
-    border-left: 3px solid var(--accent);
+  .document-open {
+    width: fit-content;
     color: var(--muted);
-    font-size: 0.92rem;
-    line-height: 1.5;
-    padding-left: 0.85rem;
   }
 
-  @media (max-width: 980px) {
-    .documents-heading {
-      position: static;
+  .document-card:hover .document-open {
+    color: var(--text);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .document-card {
+      transition: none;
     }
-  }
 
-  @media (max-width: 680px) {
-    .documents-summary {
-      grid-template-columns: 1fr;
+    .document-card:hover {
+      transform: none;
     }
   }
 }
