@@ -2,11 +2,64 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
 const byId = (id) => document.getElementById(id);
 
+const candidateDocuments = [
+  {
+    title: 'CV',
+    href: './assets/cv/CV_Alexis-GUINOT.pdf',
+    kind: 'Profil',
+    description: 'Parcours, expériences, compétences techniques, projets et coordonnées.',
+  },
+  {
+    title: 'Fiche programme détaillée',
+    href: './assets/documents/formation-cda-programme-detaille.pdf',
+    kind: 'Formation',
+    description: 'Objectifs, rythme d’alternance, programme et blocs de compétences du Bachelor CDA CESI.',
+  },
+  {
+    title: 'Fiche métier / candidat',
+    href: './assets/documents/formation-cda-fiche-metier-candidat.pdf',
+    kind: 'Formation',
+    description: 'Métier préparé, compétences visées, débouchés, pédagogie et modalités d’admission.',
+  },
+  {
+    title: 'Plaquette aides alternance / RQTH',
+    href: './assets/documents/aides-alternance-rqth-cap-emploi.pdf',
+    kind: 'Employeur',
+    description: 'Repères sur les contrats d’alternance, les aides mobilisables et l’accompagnement employeur.',
+  },
+  {
+    title: 'Annexe RH alternance / RQTH',
+    href: './assets/documents/annexe-rh-alternance-rqth.pdf',
+    kind: 'RH',
+    description: 'Estimation indicative du coût employeur et synthèse des aides pour une alternance Bachelor CDA.',
+    priority: true,
+  },
+];
+
+function documentCardTemplate(documentItem) {
+  const priorityClass = documentItem.priority ? ' document-card-priority' : '';
+  return `
+    <article class="document-card${priorityClass} is-visible" data-reveal>
+      <div class="document-meta">
+        <span class="document-label">${documentItem.kind}</span>
+        <span aria-hidden="true">PDF</span>
+      </div>
+      <div>
+        <h3>${documentItem.title}</h3>
+        <p>${documentItem.description}</p>
+      </div>
+      <div class="document-actions">
+        <a class="button button-secondary" href="${documentItem.href}" target="_blank" rel="noopener noreferrer">Ouvrir</a>
+        <a class="text-link" href="${documentItem.href}" download>Télécharger</a>
+      </div>
+    </article>`;
+}
+
 function setMeta() {
   document.title = 'Alexis Guinot — Développeur & concepteur d’applications';
-  document.querySelector('meta[name="description"]')?.setAttribute('content', 'Portfolio d’Alexis Guinot, développeur et concepteur d’applications : interfaces web et desktop, API, données, automatisation, IA locale et projets applicatifs.');
+  document.querySelector('meta[name="description"]')?.setAttribute('content', 'Portfolio d’Alexis Guinot, développeur et concepteur d’applications : interfaces web et desktop, API, données, automatisation, IA locale, projets applicatifs et documents de candidature.');
   document.querySelector('meta[property="og:title"]')?.setAttribute('content', 'Alexis Guinot — Développeur & concepteur d’applications');
-  document.querySelector('meta[property="og:description"]')?.setAttribute('content', 'Interfaces web et desktop, API, données, automatisation, IA locale et projets applicatifs.');
+  document.querySelector('meta[property="og:description"]')?.setAttribute('content', 'Interfaces web et desktop, API, données, automatisation, IA locale, projets applicatifs et documents de candidature.');
 }
 
 function simplifyHeader() {
@@ -32,7 +85,8 @@ function createRail() {
         <li><a href="#competences" data-section-link="competences"><span class="rail-index">04</span><span class="rail-label">Compétences</span></a></li>
         <li><a href="#methode" data-section-link="methode"><span class="rail-index">05</span><span class="rail-label">Méthode</span></a></li>
         <li><a href="#parcours" data-section-link="parcours"><span class="rail-index">06</span><span class="rail-label">Parcours</span></a></li>
-        <li><a href="#contact" data-section-link="contact"><span class="rail-index">07</span><span class="rail-label">Contact</span></a></li>
+        <li><a href="#documents" data-section-link="documents"><span class="rail-index">07</span><span class="rail-label">Documents</span></a></li>
+        <li><a href="#contact" data-section-link="contact"><span class="rail-index">08</span><span class="rail-label">Contact</span></a></li>
       </ol>
     </nav>`;
   document.querySelector('.site-header')?.after(rail);
@@ -83,8 +137,8 @@ function updateHero() {
       link.textContent = 'Voir les projets';
       link.className = 'button button-primary';
     } else if (index === 1) {
-      link.href = '#competences';
-      link.textContent = 'Voir les compétences';
+      link.href = '#documents';
+      link.textContent = 'Documents utiles';
       link.className = 'button button-secondary';
       link.removeAttribute('download');
     } else {
@@ -101,7 +155,7 @@ function updateHero() {
     facts.innerHTML = `
       <div><dt>Orientation</dt><dd>Applications métier, outils internes, interfaces et données</dd></div>
       <div><dt>Formation</dt><dd>Bac+2 obtenu · Bachelor CDA visé</dd></div>
-      <div><dt>Preuves</dt><dd>5 études de cas, CV, GitHub et projets documentés</dd></div>`;
+      <div><dt>Dossier</dt><dd>CV, fiches formation et annexe RH accessibles</dd></div>`;
     hero.querySelector('.hero-copy')?.append(facts);
   }
 
@@ -231,12 +285,53 @@ function updateParcours() {
   section.querySelector('#timeline-title') && (section.querySelector('#timeline-title').textContent = 'Formation, expériences et projets utiles');
 }
 
+function createDocumentsSection() {
+  if (byId('documents')) return;
+
+  const contact = byId('contact');
+  if (!contact) return;
+
+  const section = document.createElement('section');
+  section.id = 'documents';
+  section.className = 'section section-alt snap-section documents-section';
+  section.dataset.section = 'documents';
+  section.setAttribute('aria-labelledby', 'documents-title');
+  section.innerHTML = `
+    <div class="container documents-layout">
+      <div class="section-heading documents-heading is-visible" data-reveal>
+        <p class="eyebrow">Documents</p>
+        <h2 id="documents-title">Dossier candidature rapidement accessible</h2>
+        <p>Un espace unique pour retrouver les documents utiles à un recruteur, à une école ou à un service RH : CV, fiches CESI, aides alternance/RQTH et annexe RH.</p>
+        <div class="documents-summary" aria-label="Résumé des documents">
+          <div><span>5</span><p>documents</p></div>
+          <div><span>PDF</span><p>ouvrables et téléchargeables</p></div>
+        </div>
+      </div>
+      <div class="documents-panel is-visible" data-reveal>
+        <div class="documents-grid">
+          ${candidateDocuments.map(documentCardTemplate).join('')}
+        </div>
+        <p class="document-note">Les montants, aides et conditions doivent être confirmés par le service RH/paie, CESI, l’OPCO compétent et les organismes concernés.</p>
+      </div>
+    </div>`;
+
+  contact.before(section);
+}
+
 function updateContactAndFooter() {
   const contact = byId('contact');
   if (contact) {
-    contact.querySelector('#contact-title') && (contact.querySelector('#contact-title').textContent = 'Contact et CV centralisés');
+    contact.querySelector('#contact-title') && (contact.querySelector('#contact-title').textContent = 'Contact et documents centralisés');
     const text = contact.querySelector('.contact-card p:not(.eyebrow)');
-    if (text) text.textContent = 'Un seul point d’entrée pour éviter les doublons : e-mail, LinkedIn, GitHub et CV PDF.';
+    if (text) text.textContent = 'Un seul point d’entrée pour échanger et accéder au dossier de candidature : e-mail, LinkedIn, GitHub, CV et documents RH.';
+    const actions = contact.querySelector('.contact-actions');
+    if (actions && !actions.querySelector('a[href="#documents"]')) {
+      const documentsLink = document.createElement('a');
+      documentsLink.className = 'button button-secondary';
+      documentsLink.href = '#documents';
+      documentsLink.textContent = 'Voir les documents';
+      actions.append(documentsLink);
+    }
   }
   const footerText = document.querySelector('.site-footer .footer-title + p');
   if (footerText) footerText.textContent = 'Développeur et concepteur d’applications.';
@@ -245,7 +340,7 @@ function updateContactAndFooter() {
     const contactLink = document.createElement('a');
     contactLink.className = 'text-link';
     contactLink.href = '#contact';
-    contactLink.textContent = 'Contact et CV';
+    contactLink.textContent = 'Contact et documents';
     footerNav.replaceWith(contactLink);
   }
 }
@@ -406,6 +501,7 @@ function initHomeRedesign() {
   updateSkills();
   updateMethodSection(impactSection);
   updateParcours();
+  createDocumentsSection();
   updateContactAndFooter();
   initRailState();
   initPagedWheelScroll();
