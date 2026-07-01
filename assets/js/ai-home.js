@@ -3,56 +3,21 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 const byId = (id) => document.getElementById(id);
 
 const candidateDocuments = [
-  {
-    title: 'CV',
-    href: './assets/cv/CV_Alexis-GUINOT.pdf',
-    kind: 'Profil',
-    description: 'Parcours, expériences, compétences techniques, projets et coordonnées.',
-  },
-  {
-    title: 'Fiche programme détaillée',
-    href: './assets/documents/formation-cda-programme-detaille.pdf',
-    kind: 'Formation',
-    description: 'Objectifs, rythme d’alternance, programme et blocs de compétences du Bachelor CDA CESI.',
-  },
-  {
-    title: 'Fiche métier / candidat',
-    href: './assets/documents/formation-cda-fiche-metier-candidat.pdf',
-    kind: 'Formation',
-    description: 'Métier préparé, compétences visées, débouchés, pédagogie et modalités d’admission.',
-  },
-  {
-    title: 'Plaquette aides alternance / RQTH',
-    href: './assets/documents/aides-alternance-rqth-cap-emploi.pdf',
-    kind: 'Employeur',
-    description: 'Repères sur les contrats d’alternance, les aides mobilisables et l’accompagnement employeur.',
-  },
-  {
-    title: 'Annexe RH alternance / RQTH',
-    href: './assets/documents/annexe-rh-alternance-rqth.pdf',
-    kind: 'RH',
-    description: 'Estimation indicative du coût employeur et synthèse des aides pour une alternance Bachelor CDA.',
-    priority: true,
-  },
+  { id: 'cv', title: 'CV', href: './assets/cv/CV_Alexis-GUINOT.pdf', kind: 'Profil', mark: 'CV' },
+  { id: 'programme', title: 'Programme CDA', href: './assets/documents/formation-cda-programme-detaille.pdf', kind: 'Formation', mark: 'P1' },
+  { id: 'candidat', title: 'Fiche candidat', href: './assets/documents/formation-cda-fiche-metier-candidat.pdf', kind: 'Formation', mark: 'P2' },
+  { id: 'aides', title: 'Aides alternance/RQTH', href: './assets/documents/aides-alternance-rqth-cap-emploi.pdf', kind: 'Employeur', mark: 'RH' },
+  { id: 'annexe', title: 'Annexe RH', href: './assets/documents/annexe-rh-alternance-rqth.pdf', kind: 'RH', mark: '€' },
 ];
 
 function documentCardTemplate(documentItem) {
-  const priorityClass = documentItem.priority ? ' document-card-priority' : '';
   return `
-    <article class="document-card${priorityClass} is-visible" data-reveal>
-      <div class="document-meta">
-        <span class="document-label">${documentItem.kind}</span>
-        <span aria-hidden="true">PDF</span>
-      </div>
-      <div>
-        <h3>${documentItem.title}</h3>
-        <p>${documentItem.description}</p>
-      </div>
-      <div class="document-actions">
-        <a class="button button-secondary" href="${documentItem.href}" target="_blank" rel="noopener noreferrer">Ouvrir</a>
-        <a class="text-link" href="${documentItem.href}" download>Télécharger</a>
-      </div>
-    </article>`;
+    <a class="document-card document-card-${documentItem.id} is-visible" data-reveal href="${documentItem.href}" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir ${documentItem.title} en PDF">
+      <span class="document-glow" aria-hidden="true"></span>
+      <span class="document-visual" aria-hidden="true"><span>${documentItem.mark}</span><small>PDF</small></span>
+      <span class="document-content"><span class="document-label">${documentItem.kind}</span><strong>${documentItem.title}</strong></span>
+      <span class="document-open" aria-hidden="true">Ouvrir</span>
+    </a>`;
 }
 
 function setMeta() {
@@ -155,7 +120,7 @@ function updateHero() {
     facts.innerHTML = `
       <div><dt>Orientation</dt><dd>Applications métier, outils internes, interfaces et données</dd></div>
       <div><dt>Formation</dt><dd>Bac+2 obtenu · Bachelor CDA visé</dd></div>
-      <div><dt>Dossier</dt><dd>CV, fiches formation et annexe RH accessibles</dd></div>`;
+      <div><dt>Dossier</dt><dd>CV, formation et RH accessibles</dd></div>`;
     hero.querySelector('.hero-copy')?.append(facts);
   }
 
@@ -300,18 +265,13 @@ function createDocumentsSection() {
     <div class="container documents-layout">
       <div class="section-heading documents-heading is-visible" data-reveal>
         <p class="eyebrow">Documents</p>
-        <h2 id="documents-title">Dossier candidature rapidement accessible</h2>
-        <p>Un espace unique pour retrouver les documents utiles à un recruteur, à une école ou à un service RH : CV, fiches CESI, aides alternance/RQTH et annexe RH.</p>
-        <div class="documents-summary" aria-label="Résumé des documents">
-          <div><span>5</span><p>documents</p></div>
-          <div><span>PDF</span><p>ouvrables et téléchargeables</p></div>
-        </div>
+        <h2 id="documents-title">Documents utiles</h2>
+        <p>CV, formation et RH en PDF.</p>
       </div>
       <div class="documents-panel is-visible" data-reveal>
         <div class="documents-grid">
           ${candidateDocuments.map(documentCardTemplate).join('')}
         </div>
-        <p class="document-note">Les montants, aides et conditions doivent être confirmés par le service RH/paie, CESI, l’OPCO compétent et les organismes concernés.</p>
       </div>
     </div>`;
 
