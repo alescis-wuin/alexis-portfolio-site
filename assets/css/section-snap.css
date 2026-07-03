@@ -1,0 +1,60 @@
+/* Native section snapping for the home page.
+   The browser keeps control of wheel, trackpad, scrollbar and touch behavior. */
+
+html {
+  scroll-behavior: auto;
+}
+
+@media (min-width: 920px) and (min-height: 620px) and (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-padding-top: 0;
+    scroll-snap-type: y mandatory;
+  }
+
+  body.portfolio-home {
+    overscroll-behavior-y: contain;
+  }
+
+  .portfolio-home .snap-section {
+    min-height: 100svh;
+    scroll-margin-top: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .portfolio-home .snap-section > .container {
+    max-height: calc(100svh - clamp(4rem, 8vw, 7rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+  }
+
+  .portfolio-home #accueil.snap-section > .container,
+  .portfolio-home #contact.snap-section > .container {
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
+@media (max-width: 919px), (max-height: 619px), (prefers-reduced-motion: reduce) {
+  html {
+    scroll-padding-top: 5rem;
+    scroll-snap-type: none;
+  }
+
+  body.portfolio-home {
+    overscroll-behavior-y: auto;
+  }
+
+  .portfolio-home .snap-section {
+    min-height: auto;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
+  .portfolio-home .snap-section > .container {
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
+}
