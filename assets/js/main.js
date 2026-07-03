@@ -2,6 +2,15 @@ const root = document.documentElement;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const pagedMedia = window.matchMedia('(min-width: 920px) and (min-height: 620px)');
 
+const BLOCK_SCROLL_DELTA_THRESHOLD = 80;
+const BLOCK_SCROLL_LOCK_MS = 420;
+const BLOCK_SCROLL_RESET_MS = 180;
+
+let blockScrollLocked = false;
+let blockScrollAccumulator = 0;
+let blockScrollDirection = 0;
+let blockScrollResetTimer = 0;
+
 function initNavigation() {
   const toggle = document.querySelector('[data-nav-toggle]');
   const nav = document.querySelector('[data-site-nav]');
@@ -127,9 +136,13 @@ function setActiveSection(sectionId) {
   nextButton.setAttribute('aria-label', list[index + 1] ? `Section suivante : ${list[index + 1].dataset.label || list[index + 1].id}` : 'Aucune section suivante');
 }
 
+function sectionTop(section) {
+  return Math.round(section.getBoundingClientRect().top + window.scrollY);
+}
+
 function scrollToSection(section) {
   if (!section) return;
-  section.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'instant' });
+  window.scrollTo({ top: sectionTop(section), left: 0, behavior: 'instant' });
   setActiveSection(section.id);
   if (location.hash !== `#${section.id}`) history.replaceState(null, '', `#${section.id}`);
 }
@@ -138,6 +151,84 @@ function scrollToIndex(index) {
   const list = sections();
   if (list.length === 0) return;
   scrollToSection(list[Math.min(Math.max(index, 0), list.length - 1)]);
+}
+
+function normalizeWheelDelta(event) {
+  if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) return event.deltaY * 16;
+  if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) return event.deltaY * window.innerHeight;
+  return event.deltaY;
+}
+
+function resetBlockScrollAccumulator() {
+  blockScrollAccumulator = 0;
+  blockScrollDirection = 0;
+  window.clearTimeout(blockScrollResetTimer);
+}
+
+function scheduleBlockScrollReset() {
+  window.clearTimeout(blockScrollResetTimer);
+  blockScrollResetTimer = window.setTimeout(resetBlockScrollAccumulator, BLOCK_SCROLL_RESET_MS);
+}
+
+function getSectionScroller(section) {
+  const container = section?.querySelector(':scope > .container');
+  if (!container) return null;
+  return container.scrollHeight > container.clientHeight + 4 ? container : null;
+}
+
+function canScrollElement(element, direction) {
+  if (!element) return false;
+  const maxScrollTop = element.scrollHeight - element.clientHeight;
+  if (maxScrollTop <= 4) return false;
+  if (direction > 0) return element.scrollTop < maxScrollTop - 2;
+  return element.scrollTop > 2;
+}
+
+function shouldTriggerBlockScroll(deltaY) {
+  const direction = deltaY > 0 ? 1 : -1;
+
+  if (direction !== blockScrollDirection) {
+    blockScrollAccumulator = 0;
+    blockScrollDirection = direction;
+  }
+
+  blockScrollAccumulator += Math.abs(deltaY);
+  scheduleBlockScrollReset();
+
+  return blockScrollAccumulator >= BLOCK_SCROLL_DELTA_THRESHOLD;
+}
+
+function initBlockWheelScroll() {
+  const list = sections();
+  if (list.length === 0) return;
+
+  window.addEventListener('wheel', (event) => {
+    if (!pagedMedia.matches || prefersReducedMotion) return;
+    if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+
+    const deltaY = normalizeWheelDelta(event);
+    if (Math.abs(deltaY) < 2) return;
+
+    const direction = deltaY > 0 ? 1 : -1;
+    const currentIndex = nearestSectionIndex(list);
+    const currentSection = list[currentIndex];
+    const scroller = getSectionScroller(currentSection);
+
+    if (scroller?.contains(event.target) && canScrollElement(scroller, direction)) return;
+
+    event.preventDefault();
+
+    if (blockScrollLocked) return;
+    if (!shouldTriggerBlockScroll(deltaY)) return;
+
+    resetBlockScrollAccumulator();
+    blockScrollLocked = true;
+    scrollToIndex(currentIndex + direction);
+
+    window.setTimeout(() => {
+      blockScrollLocked = false;
+    }, BLOCK_SCROLL_LOCK_MS);
+  }, { passive: false });
 }
 
 function initSectionNavigation() {
@@ -194,3 +285,4 @@ initTheme();
 initProjectFilters();
 initReveal();
 initSectionNavigation();
+initBlockWheelScroll();
