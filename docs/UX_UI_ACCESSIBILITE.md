@@ -11,10 +11,11 @@
 ## UX
 
 - Navigation latérale persistante sur desktop, transformée en barre basse compacte sur écrans plus étroits.
-- Scroll snap natif activé uniquement sur écran confortable afin de passer d’une section à l’autre avec le comportement navigateur standard.
-- Aucune interception globale de la molette : souris, trackpad, barre de défilement et tactile restent gérés par le navigateur.
-- Sauts de section instantanés pour les liens, le rail et les flèches, afin d’éviter une transition progressive entre deux sections.
-- Flèches de section disponibles pour guider la progression sans imposer un carrousel.
+- Sur desktop confortable, la molette change de section par bloc après un seuil court, sans défilement progressif visible entre deux sections.
+- Les liens d’ancre, le rail, les flèches et le clavier utilisent un positionnement instantané.
+- Le scroll interne des sections longues reste possible tant que la section peut encore défiler verticalement.
+- Le comportement par blocs est désactivé avec `prefers-reduced-motion`, sur mobile et sur petit viewport.
+- La feuille `section-snap.css` conserve le layout plein écran et sert de fallback natif si JavaScript n’est pas disponible.
 - Filtres de projets avec `aria-pressed` et statut de résultat en zone live discrète.
 - Contact et CV centralisés dans une section unique pour réduire les doublons et clarifier la conversion.
 
@@ -34,7 +35,7 @@
 - Cibles interactives dimensionnées autour d’au moins 44 px dans les principaux contrôles.
 - Contrastes renforcés entre textes, surfaces, liens et boutons.
 - Navigation utilisable au clavier : liens de section, boutons, filtres, flèches et changement de thème.
-- Respect de `prefers-reduced-motion` : le scroll snap strict est désactivé et les animations sont neutralisées si l’utilisateur réduit les mouvements.
+- Respect de `prefers-reduced-motion` : le scroll par blocs est désactivé et les animations sont neutralisées si l’utilisateur réduit les mouvements.
 - Les sections longues conservent un scroll interne sur desktop pour éviter le piégeage de contenu dans une section de hauteur viewport.
 - Images décoratives avec `alt=""`, portrait décrit, liens externes annoncés via `aria-label` lorsque nécessaire.
 
