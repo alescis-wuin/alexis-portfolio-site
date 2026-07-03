@@ -2,7 +2,7 @@
 
 ## Analyse du site
 
-- La page d’accueil est désormais structurée directement dans le HTML, sans réécriture complète côté JavaScript.
+- La page d’accueil est structurée directement dans le HTML, sans réécriture complète côté JavaScript.
 - Le message principal est élargi : conception et développement d’applications, interfaces, API, données, qualité et alternance Bac+3.
 - Les appels à l’action sont regroupés autour des usages principaux : consulter les projets, lire les compétences, contacter et télécharger le CV.
 - Les sections suivent un ordre de lecture stable : Accueil, Valeur, Projets, Compétences, Méthode, Parcours, Contact.
@@ -11,10 +11,11 @@
 ## UX
 
 - Navigation latérale persistante sur desktop, transformée en barre basse compacte sur écrans plus étroits.
-- Sur desktop confortable, la molette change de section par bloc après un seuil court, sans défilement progressif visible entre deux sections.
+- En desktop, chaque section de la page d’accueil occupe strictement toute la hauteur du viewport (`100dvh`), quelle que soit la résolution verticale.
+- La molette est capturée en amont sur desktop pour passer d’un bloc à l’autre sans scroll progressif visible.
 - Les liens d’ancre, le rail, les flèches et le clavier utilisent un positionnement instantané.
 - Le scroll interne des sections longues reste possible tant que la section peut encore défiler verticalement.
-- Le comportement par blocs est désactivé avec `prefers-reduced-motion`, sur mobile et sur petit viewport.
+- En dessous de 920 px de largeur, le site revient à un scroll web classique afin de préserver l’usage mobile.
 - La feuille `section-snap.css` conserve le layout plein écran et sert de fallback natif si JavaScript n’est pas disponible.
 - Filtres de projets avec `aria-pressed` et statut de résultat en zone live discrète.
 - Contact et CV centralisés dans une section unique pour réduire les doublons et clarifier la conversion.
@@ -35,8 +36,7 @@
 - Cibles interactives dimensionnées autour d’au moins 44 px dans les principaux contrôles.
 - Contrastes renforcés entre textes, surfaces, liens et boutons.
 - Navigation utilisable au clavier : liens de section, boutons, filtres, flèches et changement de thème.
-- Respect de `prefers-reduced-motion` : le scroll par blocs est désactivé et les animations sont neutralisées si l’utilisateur réduit les mouvements.
-- Les sections longues conservent un scroll interne sur desktop pour éviter le piégeage de contenu dans une section de hauteur viewport.
+- Les sections longues conservent un scroll interne sur desktop pour éviter le piégeage de contenu.
 - Images décoratives avec `alt=""`, portrait décrit, liens externes annoncés via `aria-label` lorsque nécessaire.
 
 ## Performance et maintenabilité
