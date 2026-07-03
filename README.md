@@ -7,7 +7,7 @@ Site web portfolio statique, sans dépendance de build.
 - `index.html` : page d’accueil complète, structurée en sections statiques.
 - `projets/*.html` : études de cas projet.
 - `assets/css/styles.css` : design system, responsive, thèmes clair/sombre, accessibilité, rail de navigation, cartes et composants.
-- `assets/css/section-snap.css` : layout plein écran des sections et fallback de scroll snap natif.
+- `assets/css/section-snap.css` : layout plein écran des sections de la page d’accueil et fallback de scroll snap natif sans smooth scroll.
 - `assets/js/main.js` : thème, navigation mobile, filtres de projets, révélations progressives, rail de section, flèches, navigation clavier et scroll souris par blocs sur desktop.
 - `assets/css/ai-redesign.css`, `assets/css/paged-scroll.css`, `assets/js/ai-home.js`, `assets/js/section-flow-fix.js` : anciens fichiers neutralisés et non chargés, conservés comme marqueurs historiques.
 - `assets/img/` : logo, photo optimisée et illustrations SVG.
