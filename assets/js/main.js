@@ -129,7 +129,7 @@ function setActiveSection(sectionId) {
 
 function scrollToSection(section) {
   if (!section) return;
-  section.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+  section.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'instant' });
   setActiveSection(section.id);
   if (location.hash !== `#${section.id}`) history.replaceState(null, '', `#${section.id}`);
 }
