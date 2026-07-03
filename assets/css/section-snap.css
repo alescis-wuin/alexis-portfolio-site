@@ -1,14 +1,19 @@
-/* Section layout and native snapping fallback for the home page.
-   JavaScript handles mouse-wheel block jumps on desktop when available. */
+/* Full-viewport section layout for the home page.
+   JavaScript handles wheel-based block jumps when available.
+   CSS keeps a no-JS fallback without smooth scrolling. */
 
 html {
   scroll-behavior: auto !important;
 }
 
-@media (min-width: 920px) and (min-height: 620px) and (prefers-reduced-motion: no-preference) {
+@media (min-width: 920px) {
   html {
     scroll-padding-top: 0;
     scroll-snap-type: y mandatory;
+  }
+
+  :root[data-js='true'] {
+    scroll-snap-type: none;
   }
 
   body.portfolio-home {
@@ -16,14 +21,23 @@ html {
   }
 
   .portfolio-home .snap-section {
-    min-height: 100svh;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+    overflow: hidden;
     scroll-margin-top: 0;
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }
 
   .portfolio-home .snap-section > .container {
-    max-height: calc(100svh - clamp(4rem, 8vw, 7rem));
+    max-height: calc(100dvh - clamp(2rem, 5vw, 5rem));
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable both-edges;
@@ -31,12 +45,12 @@ html {
 
   .portfolio-home #accueil.snap-section > .container,
   .portfolio-home #contact.snap-section > .container {
-    max-height: none;
-    overflow-y: visible;
+    max-height: calc(100dvh - clamp(2rem, 5vw, 5rem));
+    overflow-y: auto;
   }
 }
 
-@media (max-width: 919px), (max-height: 619px), (prefers-reduced-motion: reduce) {
+@media (max-width: 919px) {
   html {
     scroll-padding-top: 5rem;
     scroll-snap-type: none;
@@ -47,7 +61,10 @@ html {
   }
 
   .portfolio-home .snap-section {
+    height: auto;
     min-height: auto;
+    max-height: none;
+    overflow: visible;
     scroll-snap-align: none;
     scroll-snap-stop: normal;
   }
