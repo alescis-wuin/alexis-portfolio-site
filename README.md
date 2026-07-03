@@ -7,8 +7,8 @@ Site web portfolio statique, sans dépendance de build.
 - `index.html` : page d’accueil complète, structurée en sections statiques.
 - `projets/*.html` : études de cas projet.
 - `assets/css/styles.css` : design system, responsive, thèmes clair/sombre, accessibilité, rail de navigation, cartes et composants.
-- `assets/css/section-snap.css` : scroll snap natif de la page d’accueil, sans interception globale de la molette.
-- `assets/js/main.js` : thème, navigation mobile, filtres de projets, révélations progressives, rail de section, flèches et navigation clavier.
+- `assets/css/section-snap.css` : layout plein écran des sections et fallback de scroll snap natif.
+- `assets/js/main.js` : thème, navigation mobile, filtres de projets, révélations progressives, rail de section, flèches, navigation clavier et scroll souris par blocs sur desktop.
 - `assets/css/ai-redesign.css`, `assets/css/paged-scroll.css`, `assets/js/ai-home.js`, `assets/js/section-flow-fix.js` : anciens fichiers neutralisés et non chargés, conservés comme marqueurs historiques.
 - `assets/img/` : logo, photo optimisée et illustrations SVG.
 - `assets/cv/CV_Alexis-GUINOT.pdf` : CV fourni.
@@ -47,7 +47,6 @@ www.alexis-guinot.fr
 ## Points à vérifier avant publication
 
 - Vérifier que le CV PDF joint est bien la version publique souhaitée.
-- Le téléphone et la RQTH ne sont pas affichés dans les pages HTML ; ils restent uniquement dans le PDF fourni.
 - Adapter les liens si le domaine final change.
 - Remplacer les illustrations SVG par des captures réelles des projets lorsque disponibles.
-- Tester le rail latéral, la navigation mobile, les filtres, le thème clair/sombre, le clavier, les flèches de section et le scroll snap natif à la souris/trackpad.
+- Tester le rail latéral, la navigation mobile, les filtres, le thème clair/sombre, le clavier, les flèches de section et le scroll souris par blocs.
