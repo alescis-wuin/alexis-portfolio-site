@@ -142,7 +142,7 @@ function sectionTop(section) {
 
 function scrollToSection(section) {
   if (!section) return;
-  window.scrollTo({ top: sectionTop(section), left: 0, behavior: 'instant' });
+  window.scrollTo(0, sectionTop(section));
   setActiveSection(section.id);
   if (location.hash !== `#${section.id}`) history.replaceState(null, '', `#${section.id}`);
 }
