@@ -1,28 +1,10 @@
 const root = document.documentElement;
-
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-function initAiRedesignStyles() {
-  const currentScript = document.currentScript;
-  const scriptSrc = currentScript?.getAttribute('src') || '';
-  const prefix = scriptSrc.startsWith('../') || location.pathname.includes('/projets/') ? '../' : './';
-
-  ['ai-redesign.css', 'paged-scroll.css'].forEach((fileName) => {
-    const href = `${prefix}assets/css/${fileName}`;
-    const exists = document.querySelector(`link[href$="/assets/css/${fileName}"], link[href="./assets/css/${fileName}"], link[href="../assets/css/${fileName}"]`);
-    if (exists) return;
-
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    document.head.append(link);
-  });
-}
+const pagedMedia = window.matchMedia('(min-width: 920px) and (min-height: 620px)');
 
 function initNavigation() {
   const toggle = document.querySelector('[data-nav-toggle]');
   const nav = document.querySelector('[data-site-nav]');
-
   if (!toggle || !nav) return;
 
   toggle.hidden = false;
@@ -34,16 +16,10 @@ function initNavigation() {
     if (label) label.textContent = open ? 'Fermer le menu' : 'Ouvrir le menu';
   };
 
-  toggle.addEventListener('click', () => {
-    setOpen(!nav.classList.contains('is-open'));
-  });
-
+  toggle.addEventListener('click', () => setOpen(!nav.classList.contains('is-open')));
   nav.addEventListener('click', (event) => {
-    if (event.target instanceof HTMLAnchorElement) {
-      setOpen(false);
-    }
+    if (event.target instanceof HTMLAnchorElement) setOpen(false);
   });
-
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') setOpen(false);
   });
@@ -54,13 +30,11 @@ function initTheme() {
   if (!button) return;
 
   const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
-
-  const getCurrentTheme = () => {
+  const getTheme = () => {
     const saved = localStorage.getItem('theme');
     if (saved === 'dark' || saved === 'light') return saved;
     return systemDark.matches ? 'dark' : 'light';
   };
-
   const apply = (theme, persist = true) => {
     root.dataset.theme = theme;
     button.setAttribute('aria-pressed', String(theme === 'dark'));
@@ -68,34 +42,38 @@ function initTheme() {
     if (persist) localStorage.setItem('theme', theme);
   };
 
-  apply(getCurrentTheme(), false);
-
-  button.addEventListener('click', () => {
-    apply(getCurrentTheme() === 'dark' ? 'light' : 'dark');
-  });
+  apply(getTheme(), false);
+  button.addEventListener('click', () => apply(getTheme() === 'dark' ? 'light' : 'dark'));
 }
 
 function initProjectFilters() {
   const filters = document.querySelector('[data-project-filters]');
   const cards = [...document.querySelectorAll('[data-project-card]')];
+  const status = document.querySelector('[data-filter-status]');
   if (!filters || cards.length === 0) return;
 
+  const updateStatus = () => {
+    if (!status) return;
+    const count = cards.filter((card) => !card.hidden).length;
+    status.textContent = `${count} projet${count > 1 ? 's' : ''} affiché${count > 1 ? 's' : ''}.`;
+  };
+
   filters.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-filter]');
-    if (!(button instanceof HTMLButtonElement)) return;
+    const target = event.target instanceof Element ? event.target.closest('[data-filter]') : null;
+    if (!(target instanceof HTMLButtonElement)) return;
 
-    const value = button.dataset.filter;
-
-    filters.querySelectorAll('[data-filter]').forEach((filterButton) => {
-      filterButton.setAttribute('aria-pressed', String(filterButton === button));
+    const value = target.dataset.filter || 'all';
+    filters.querySelectorAll('[data-filter]').forEach((button) => {
+      button.setAttribute('aria-pressed', String(button === target));
     });
-
     cards.forEach((card) => {
-      const tags = (card.dataset.tags || '').split(' ');
-      const visible = value === 'all' || tags.includes(value);
-      card.hidden = !visible;
+      const tags = (card.dataset.tags || '').split(/\s+/).filter(Boolean);
+      card.hidden = !(value === 'all' || tags.includes(value));
     });
+    updateStatus();
   });
+
+  updateStatus();
 }
 
 function initReveal() {
@@ -119,88 +97,100 @@ function initReveal() {
   targets.forEach((target) => observer.observe(target));
 }
 
-function initSectionRail() {
-  const sections = [...document.querySelectorAll('[data-section]')];
-  const links = [...document.querySelectorAll('[data-section-link]')];
-  if (sections.length === 0 || links.length === 0) return;
-
-  const setActive = (id) => {
-    links.forEach((link) => {
-      const active = link.dataset.sectionLink === id;
-      if (active) {
-        link.setAttribute('aria-current', 'true');
-      } else {
-        link.removeAttribute('aria-current');
-      }
-      link.classList.toggle('is-active', active);
-    });
-  };
-
-  links.forEach((link) => {
-    link.addEventListener('click', (event) => {
-      const target = document.getElementById(link.dataset.sectionLink || '');
-      if (!target) return;
-      event.preventDefault();
-      target.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-      setActive(target.id);
-      history.replaceState(null, '', `#${target.id}`);
-    });
-  });
-
-  if (!('IntersectionObserver' in window)) return;
-
-  const visibilityById = new Map();
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      visibilityById.set(entry.target.id, entry.intersectionRatio);
-    });
-
-    const best = sections
-      .map((section) => ({ id: section.id, ratio: visibilityById.get(section.id) || 0 }))
-      .sort((a, b) => b.ratio - a.ratio)[0];
-
-    if (best && best.ratio > 0) setActive(best.id);
-  }, {
-    threshold: [0.12, 0.24, 0.36, 0.48, 0.6, 0.72],
-    rootMargin: '-18% 0px -42% 0px',
-  });
-
-  sections.forEach((section) => observer.observe(section));
+function sections() {
+  return [...document.querySelectorAll('[data-section]')];
 }
 
-function initPortfolioCleanup() {
-  const isProjectPage = location.pathname.includes('/projets/');
-  if (!isProjectPage) return;
+function nearestSectionIndex(list = sections()) {
+  return list.reduce((best, section, index) => {
+    const distance = Math.abs(section.getBoundingClientRect().top);
+    return distance < best.distance ? { index, distance } : best;
+  }, { index: 0, distance: Number.POSITIVE_INFINITY }).index;
+}
 
-  document.querySelector('[data-nav-toggle]')?.remove();
-  document.querySelector('[data-site-nav]')?.remove();
-
-  document.querySelectorAll('a[href$="CV_Alexis-GUINOT.pdf"]').forEach((link) => {
-    if (!link.closest('#contact')) link.remove();
+function setActiveSection(sectionId) {
+  document.querySelectorAll('[data-section-link]').forEach((link) => {
+    const active = link.dataset.sectionLink === sectionId;
+    if (active) link.setAttribute('aria-current', 'true');
+    else link.removeAttribute('aria-current');
   });
 
-  const footerText = document.querySelector('.site-footer .footer-title + p');
-  if (footerText) footerText.textContent = 'Développeur et concepteur d’applications.';
+  const list = sections();
+  const index = list.findIndex((section) => section.id === sectionId);
+  const previousButton = document.querySelector('[data-section-arrow="previous"]');
+  const nextButton = document.querySelector('[data-section-arrow="next"]');
+  if (!(previousButton instanceof HTMLButtonElement) || !(nextButton instanceof HTMLButtonElement)) return;
 
-  const footerNav = document.querySelector('.site-footer nav');
-  if (footerNav) {
-    const contactLink = document.createElement('a');
-    contactLink.className = 'text-link';
-    contactLink.href = '../index.html#contact';
-    contactLink.textContent = 'Contact et CV';
-    footerNav.replaceWith(contactLink);
+  previousButton.hidden = index <= 0;
+  nextButton.hidden = index < 0 || index >= list.length - 1;
+  previousButton.setAttribute('aria-label', list[index - 1] ? `Section précédente : ${list[index - 1].dataset.label || list[index - 1].id}` : 'Aucune section précédente');
+  nextButton.setAttribute('aria-label', list[index + 1] ? `Section suivante : ${list[index + 1].dataset.label || list[index + 1].id}` : 'Aucune section suivante');
+}
+
+function scrollToSection(section) {
+  if (!section) return;
+  section.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+  setActiveSection(section.id);
+  if (location.hash !== `#${section.id}`) history.replaceState(null, '', `#${section.id}`);
+}
+
+function scrollToIndex(index) {
+  const list = sections();
+  if (list.length === 0) return;
+  scrollToSection(list[Math.min(Math.max(index, 0), list.length - 1)]);
+}
+
+function initSectionNavigation() {
+  const list = sections();
+  if (list.length === 0) return;
+
+  document.addEventListener('click', (event) => {
+    const link = event.target instanceof Element ? event.target.closest('[data-section-link], a[href^="#"]') : null;
+    if (!(link instanceof HTMLAnchorElement)) return;
+
+    const id = link.dataset.sectionLink || link.getAttribute('href')?.slice(1);
+    const target = id ? document.getElementById(id) : null;
+    if (!target?.matches('[data-section]')) return;
+
+    event.preventDefault();
+    scrollToSection(target);
+  });
+
+  const controls = document.querySelector('[data-section-arrows]');
+  controls?.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest('[data-section-arrow]') : null;
+    if (!(button instanceof HTMLButtonElement)) return;
+
+    const direction = button.dataset.sectionArrow === 'previous' ? -1 : 1;
+    scrollToIndex(nearestSectionIndex() + direction);
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (!pagedMedia.matches || prefersReducedMotion) return;
+    const direction = ['PageDown', 'ArrowDown'].includes(event.code) ? 1 : ['PageUp', 'ArrowUp'].includes(event.code) ? -1 : 0;
+    if (!direction || document.activeElement?.matches('a, button, input, textarea, select')) return;
+
+    event.preventDefault();
+    scrollToIndex(nearestSectionIndex() + direction);
+  });
+
+  if ('IntersectionObserver' in window) {
+    const visibility = new Map();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => visibility.set(entry.target.id, entry.intersectionRatio));
+      const best = list.map((section) => ({ id: section.id, ratio: visibility.get(section.id) || 0 })).sort((a, b) => b.ratio - a.ratio)[0];
+      if (best?.ratio > 0) setActiveSection(best.id);
+    }, { threshold: [0.12, 0.24, 0.36, 0.48, 0.6], rootMargin: '-18% 0px -42% 0px' });
+    list.forEach((section) => observer.observe(section));
   }
+
+  const hashTarget = location.hash ? document.getElementById(location.hash.slice(1)) : null;
+  if (hashTarget?.matches('[data-section]')) scrollToSection(hashTarget);
+  else setActiveSection(list[0].id);
 }
 
-initAiRedesignStyles();
 initNavigation();
 initTheme();
 initProjectFilters();
 initReveal();
-initSectionRail();
-initPortfolioCleanup();
-
-if (!location.pathname.includes('/projets/')) {
-  import('./ai-home.js').then(() => import('./section-flow-fix.js'));
-}
+initSectionNavigation();
