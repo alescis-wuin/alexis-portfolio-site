@@ -1,10 +1,10 @@
 const root = document.documentElement;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const pagedMedia = window.matchMedia('(min-width: 920px) and (min-height: 620px)');
+const blockScrollMedia = window.matchMedia('(min-width: 920px)');
 
-const BLOCK_SCROLL_DELTA_THRESHOLD = 80;
-const BLOCK_SCROLL_LOCK_MS = 420;
-const BLOCK_SCROLL_RESET_MS = 180;
+const BLOCK_SCROLL_DELTA_THRESHOLD = 2;
+const BLOCK_SCROLL_LOCK_MS = 520;
+const BLOCK_SCROLL_RESET_MS = 160;
 
 let blockScrollLocked = false;
 let blockScrollAccumulator = 0;
@@ -203,11 +203,11 @@ function initBlockWheelScroll() {
   if (list.length === 0) return;
 
   window.addEventListener('wheel', (event) => {
-    if (!pagedMedia.matches || prefersReducedMotion) return;
+    if (!blockScrollMedia.matches) return;
     if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
 
     const deltaY = normalizeWheelDelta(event);
-    if (Math.abs(deltaY) < 2) return;
+    if (Math.abs(deltaY) < 1) return;
 
     const direction = deltaY > 0 ? 1 : -1;
     const currentIndex = nearestSectionIndex(list);
@@ -217,6 +217,7 @@ function initBlockWheelScroll() {
     if (scroller?.contains(event.target) && canScrollElement(scroller, direction)) return;
 
     event.preventDefault();
+    event.stopPropagation();
 
     if (blockScrollLocked) return;
     if (!shouldTriggerBlockScroll(deltaY)) return;
@@ -228,7 +229,7 @@ function initBlockWheelScroll() {
     window.setTimeout(() => {
       blockScrollLocked = false;
     }, BLOCK_SCROLL_LOCK_MS);
-  }, { passive: false });
+  }, { capture: true, passive: false });
 }
 
 function initSectionNavigation() {
@@ -257,8 +258,8 @@ function initSectionNavigation() {
   });
 
   window.addEventListener('keydown', (event) => {
-    if (!pagedMedia.matches || prefersReducedMotion) return;
-    const direction = ['PageDown', 'ArrowDown'].includes(event.code) ? 1 : ['PageUp', 'ArrowUp'].includes(event.code) ? -1 : 0;
+    if (!blockScrollMedia.matches) return;
+    const direction = ['PageDown', 'ArrowDown', 'Space'].includes(event.code) ? 1 : ['PageUp', 'ArrowUp'].includes(event.code) ? -1 : 0;
     if (!direction || document.activeElement?.matches('a, button, input, textarea, select')) return;
 
     event.preventDefault();
