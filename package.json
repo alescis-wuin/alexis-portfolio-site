@@ -27,7 +27,7 @@
   "devDependencies": {
     "@playwright/test": "1.61.1",
     "@secretlint/secretlint-rule-preset-recommend": "13.0.2",
-    "eslint": "10.5.0",
+    "eslint": "10.7.0",
     "html-validate": "11.5.3",
     "prettier": "3.8.4",
     "secretlint": "13.0.2",
