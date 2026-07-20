@@ -31,6 +31,6 @@
     "html-validate": "11.5.3",
     "prettier": "3.8.4",
     "secretlint": "13.0.2",
-    "stylelint": "17.13.0"
+    "stylelint": "17.14.1"
   }
 }
