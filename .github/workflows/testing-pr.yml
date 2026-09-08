@@ -70,7 +70,7 @@ jobs:
         with:
           node-version: 24
           package-manager-cache: false
-      - run: npm install --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
       - name: Run checks for develop promotion only
         run: |
           set -euo pipefail

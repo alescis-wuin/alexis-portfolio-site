@@ -16,7 +16,7 @@
     "lint:css": "stylelint \"assets/**/*.css\"",
     "lint:html": "html-validate \"*.html\" \"projets/**/*.html\"",
     "validate": "node scripts/validate-static-site.mjs",
-    "security:audit": "npm audit --omit=dev --audit-level=high",
+    "security:audit": "npm audit --audit-level=high",
     "security:secrets": "node scripts/run-secretlint.mjs",
     "test:e2e": "playwright test",
     "check:basic": "npm run format:check && npm run lint:js && npm run lint:css && npm run validate",
