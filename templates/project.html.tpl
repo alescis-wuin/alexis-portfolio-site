@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Application météo JavaFX avec fournisseur simulé, données météo/air/UV/pollen, thème sombre, contraste renforcé et contrôles clavier.">
+  <meta name="description" content="{{META_DESCRIPTION}}">
   <meta name="author" content="Alexis Guinot">
   <meta name="color-scheme" content="dark light">
-  <meta property="og:title" content="Aelia — Étude de cas | Alexis Guinot">
-  <meta property="og:description" content="Application météo JavaFX avec fournisseur simulé, données météo/air/UV/pollen, thème sombre, contraste renforcé et contrôles clavier.">
+  <meta property="og:title" content="{{NAME}} — Étude de cas | Alexis Guinot">
+  <meta property="og:description" content="{{META_DESCRIPTION}}">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/aelia.html">
+  <meta property="og:url" content="{{CANONICAL_URL}}">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
   <meta name="theme-color" content="#0B1020">
-  <title>Aelia — Étude de cas | Alexis Guinot</title>
-  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/aelia.html">
+  <title>{{NAME}} — Étude de cas | Alexis Guinot</title>
+  <link rel="canonical" href="{{CANONICAL_URL}}">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
@@ -63,19 +63,17 @@
       <div class="container project-detail-grid">
         <div class="project-detail-copy" data-reveal>
           <a class="breadcrumb" href="./index.html">← Retour aux projets</a>
-          <p class="eyebrow">Application météo desktop · Prototype</p>
-          <h1>Aelia</h1>
-          <p class="hero-lead">Application météo JavaFX avec fournisseur simulé, données météo/air/UV/pollen, thème sombre, contraste renforcé et contrôles clavier.</p>
-          <div class="tag-list"><span class="tag">Desktop</span>
-                <span class="tag">Accessibilité</span>
-                <span class="tag">Architecture</span></div>
+          <p class="eyebrow">{{SUBTITLE}} · {{STATUS_LABEL}}</p>
+          <h1>{{NAME}}</h1>
+          <p class="hero-lead">{{META_DESCRIPTION}}</p>
+          <div class="tag-list">{{TYPE_TAGS}}</div>
           <div class="hero-actions">
-            <a class="button button-secondary" href="https://github.com/alescis-wuin/Aelia" rel="noopener noreferrer">Voir le dépôt GitHub</a>
+            {{REPOSITORY_ACTION}}
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>
         <figure class="project-figure" data-reveal>
-          <img src="../assets/img/projects/aelia.svg" width="960" height="540" alt="Illustration du projet Aelia">
+          <img src="{{IMAGE}}" width="960" height="540" alt="{{IMAGE_ALT}}">
         </figure>
       </div>
     </article>
@@ -85,17 +83,11 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
-          <p>Préparer une application desktop extensible autour de fournisseurs météo, en conservant testabilité, accessibilité et séparation des ports/adaptateurs.</p>
+          <p>{{PROBLEM}}</p>
         </div>
         <aside class="content-aside" data-reveal>
           <h2>Stack</h2>
-          <div class="tag-list"><span class="tag">Java</span>
-                <span class="tag">Java 21</span>
-                <span class="tag">JavaFX</span>
-                <span class="tag">AtlantaFX</span>
-                <span class="tag">Maven</span>
-                <span class="tag">Tests</span>
-                <span class="tag">GitHub Actions</span></div>
+          <div class="tag-list">{{STACK_TAGS}}</div>
         </aside>
       </div>
     </section>
@@ -105,12 +97,12 @@
         <div data-reveal>
           <p class="eyebrow">Fonctionnalités</p>
           <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list"><li>Structure JavaFX MVC avec port orienté fournisseur.</li><li>Fournisseur local simulé pour météo, qualité de l’air, UV et pollen.</li><li>Requêtes de valeurs courantes et abonnements live configurables.</li><li>Tables de limites API et de données supportées.</li><li>Contrôles compatibles clavier, tooltips et métadonnées d’accessibilité JavaFX.</li><li>Build Maven, tests unitaires et workflow GitHub Actions.</li></ul>
+          <ul class="check-list">{{FEATURES}}</ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Preuve de compétence</p>
           <h2>Ce que ce projet démontre</h2>
-          <ul class="check-list"><li>Conception extensible par contrat d’adaptateur.</li><li>Attention à l’accessibilité dès le prototype.</li><li>Industrialisation avec tests et CI.</li></ul>
+          <ul class="check-list">{{PROOFS}}</ul>
         </div>
       </div>
     </section>

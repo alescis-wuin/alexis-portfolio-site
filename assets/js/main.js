@@ -181,7 +181,54 @@ function initSectionNavigation() {
   sections.forEach((section) => observer.observe(section));
 }
 
+function initProjectCatalogFilters() {
+  document.querySelectorAll('[data-project-catalog]').forEach((catalog) => {
+    const filters = catalog.querySelector('[data-project-filters]');
+    const cards = [...catalog.querySelectorAll('[data-project-card]')];
+    if (!filters || cards.length === 0) return;
+
+    const selects = [...filters.querySelectorAll('[data-filter-group]')];
+    const count = catalog.querySelector('[data-project-count]');
+    const empty = catalog.querySelector('[data-project-empty]');
+    const reset = catalog.querySelector('[data-filter-reset]');
+
+    const update = () => {
+      const state = Object.fromEntries(
+        selects.map((select) => [select.dataset.filterGroup, select.value]),
+      );
+
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const visible = Object.entries(state).every(([group, value]) => {
+          if (!group || value === 'all') return true;
+          const tokens = (card.dataset[group] || '').split(/\s+/).filter(Boolean);
+          return tokens.includes(value);
+        });
+
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+
+      if (count) count.textContent = `${visibleCount} projet${visibleCount > 1 ? 's' : ''}`;
+      if (empty) empty.hidden = visibleCount !== 0;
+    };
+
+    selects.forEach((select) => select.addEventListener('change', update));
+
+    reset?.addEventListener('click', () => {
+      selects.forEach((select) => {
+        select.value = 'all';
+      });
+      update();
+      selects[0]?.focus();
+    });
+
+    update();
+  });
+}
+
 initNavigation();
 initTheme();
 initReveal();
 initSectionNavigation();
+initProjectCatalogFilters();
