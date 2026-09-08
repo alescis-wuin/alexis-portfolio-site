@@ -1,6 +1,5 @@
 const root = document.documentElement;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const isProjectPage = location.pathname.includes('/projets/');
 
 function initNavigation() {
   const toggle = document.querySelector('[data-nav-toggle]');
@@ -62,29 +61,6 @@ function initTheme() {
   });
 }
 
-function initProjectFilters() {
-  const filters = document.querySelector('[data-project-filters]');
-  const cards = [...document.querySelectorAll('[data-project-card]')];
-  if (!filters || cards.length === 0) return;
-
-  filters.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-filter]');
-    if (!(button instanceof HTMLButtonElement)) return;
-
-    const value = button.dataset.filter;
-
-    filters.querySelectorAll('[data-filter]').forEach((filterButton) => {
-      filterButton.setAttribute('aria-pressed', String(filterButton === button));
-    });
-
-    cards.forEach((card) => {
-      const tags = (card.dataset.tags || '').split(' ');
-      const visible = value === 'all' || tags.includes(value);
-      card.hidden = !visible;
-    });
-  });
-}
-
 function initReveal() {
   const targets = [...document.querySelectorAll('[data-reveal]')];
   if (targets.length === 0) return;
@@ -106,51 +82,100 @@ function initReveal() {
   targets.forEach((target) => observer.observe(target));
 }
 
-function initSectionRail() {
+function initSectionNavigation() {
   const sections = [...document.querySelectorAll('[data-section]')];
+  if (sections.length === 0) return;
+
   const links = [...document.querySelectorAll('[data-section-link]')];
-  if (sections.length === 0 || links.length === 0) return;
+  const controls = document.querySelector('[data-section-arrows]');
+  const previousButton = document.querySelector('[data-section-arrow="previous"]');
+  const nextButton = document.querySelector('[data-section-arrow="next"]');
+
+  const sectionIndexById = (id) => sections.findIndex((section) => section.id === id);
+
+  const updateArrowState = (index) => {
+    if (previousButton instanceof HTMLButtonElement) {
+      const previousSection = sections[index - 1];
+      previousButton.hidden = !previousSection;
+      previousButton.setAttribute(
+        'aria-label',
+        previousSection ? `Section précédente : ${previousSection.dataset.label || previousSection.id}` : 'Aucune section précédente',
+      );
+    }
+
+    if (nextButton instanceof HTMLButtonElement) {
+      const nextSection = sections[index + 1];
+      nextButton.hidden = !nextSection;
+      nextButton.setAttribute(
+        'aria-label',
+        nextSection ? `Section suivante : ${nextSection.dataset.label || nextSection.id}` : 'Aucune section suivante',
+      );
+    }
+  };
 
   const setActive = (id) => {
+    const index = sectionIndexById(id);
+    if (index < 0) return;
+
     links.forEach((link) => {
       const active = link.dataset.sectionLink === id;
-      if (active) {
-        link.setAttribute('aria-current', 'true');
-      } else {
-        link.removeAttribute('aria-current');
-      }
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
       link.classList.toggle('is-active', active);
     });
+
+    updateArrowState(index);
+  };
+
+  const scrollToIndex = (index) => {
+    const target = sections[index];
+    if (!target) return;
+
+    target.scrollIntoView({
+      block: 'start',
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
+    history.replaceState(null, '', `#${target.id}`);
+    setActive(target.id);
   };
 
   links.forEach((link) => {
-    link.addEventListener('click', (event) => {
-      const target = document.getElementById(link.dataset.sectionLink || '');
-      if (!target) return;
-      event.preventDefault();
-      target.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-      setActive(target.id);
-      history.replaceState(null, '', `#${target.id}`);
+    link.addEventListener('click', () => {
+      const id = link.dataset.sectionLink;
+      if (id) setActive(id);
     });
   });
 
+  if (controls) {
+    controls.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-section-arrow]');
+      if (!(button instanceof HTMLButtonElement)) return;
+
+      const current = links.find((link) => link.getAttribute('aria-current') === 'location');
+      const currentIndex = current ? sectionIndexById(current.dataset.sectionLink || '') : 0;
+      const direction = button.dataset.sectionArrow === 'previous' ? -1 : 1;
+      scrollToIndex(currentIndex + direction);
+    });
+  }
+
+  const hashId = location.hash.slice(1);
+  setActive(sectionIndexById(hashId) >= 0 ? hashId : sections[0].id);
+
   if (!('IntersectionObserver' in window)) return;
 
-  const visibilityById = new Map();
-
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      visibilityById.set(entry.target.id, entry.intersectionRatio);
+    const visible = entries.filter((entry) => entry.isIntersecting);
+    if (visible.length === 0) return;
+
+    visible.sort((a, b) => {
+      const viewportReference = window.innerHeight * 0.4;
+      return Math.abs(a.boundingClientRect.top - viewportReference) - Math.abs(b.boundingClientRect.top - viewportReference);
     });
 
-    const best = sections
-      .map((section) => ({ id: section.id, ratio: visibilityById.get(section.id) || 0 }))
-      .sort((a, b) => b.ratio - a.ratio)[0];
-
-    if (best && best.ratio > 0) setActive(best.id);
+    setActive(visible[0].target.id);
   }, {
-    threshold: [0.12, 0.24, 0.36, 0.48, 0.6, 0.72],
-    rootMargin: '-18% 0px -42% 0px',
+    threshold: 0,
+    rootMargin: '-35% 0px -55% 0px',
   });
 
   sections.forEach((section) => observer.observe(section));
@@ -158,10 +183,5 @@ function initSectionRail() {
 
 initNavigation();
 initTheme();
-initProjectFilters();
 initReveal();
-initSectionRail();
-
-if (!isProjectPage) {
-  import('./section-flow-fix.js');
-}
+initSectionNavigation();

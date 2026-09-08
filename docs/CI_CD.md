@@ -2,7 +2,9 @@
 
 ## Objectif
 
-Le dépôt contient un site statique sans étape de build applicatif. Le pipeline ajoute donc une couche qualité autour des fichiers HTML, CSS, JavaScript et automatise le déploiement VPS après validation de `main`.
+Le dépôt contient un site statique sans étape de build applicatif. Le pipeline ajoute une couche qualité autour des fichiers HTML, CSS et JavaScript, puis automatise le déploiement VPS après validation de `main`.
+
+Le dépôt versionne `package-lock.json`. Les workflows utilisent `npm ci` afin de reproduire exactement l'arbre de dépendances validé. L'audit npm couvre également les dépendances de développement, qui constituent ici l'essentiel de la toolchain.
 
 ## Workflows principaux
 
@@ -13,6 +15,7 @@ Déclenchement : pull request vers `develop`.
 Rôle :
 
 - contrôler que la branche source respecte les préfixes autorisés, dont `ai/*` ;
+- installer les dépendances avec `npm ci` ;
 - lancer les checks de base ;
 - lancer les checks IA supplémentaires pour les branches `ai/*`.
 
@@ -24,6 +27,7 @@ Rôle :
 
 - accepter uniquement les promotions depuis `develop` ou les synchronisations depuis `main` ;
 - vérifier que `testing` contient bien `main` avant promotion depuis `develop` ;
+- installer les dépendances avec `npm ci` ;
 - lancer les contrôles stricts avant release candidate.
 
 ### `.github/workflows/main-pr.yml`
@@ -33,6 +37,7 @@ Déclenchement : pull request vers `main`.
 Rôle :
 
 - accepter uniquement les promotions depuis `testing` ;
+- installer les dépendances avec `npm ci` ;
 - lancer les contrôles stricts ;
 - effectuer un smoke test local avant production.
 
@@ -57,54 +62,42 @@ Le workflow synchronise les fichiers statiques utiles vers le VPS avec `rsync` :
 
 Déclenchement : pull request vers `develop`.
 
-Le workflow active l’auto-merge natif de GitHub uniquement si :
+Le workflow active l'auto-merge natif de GitHub uniquement si :
 
 - la PR cible `develop` ;
-- la PR n’est pas en draft ;
+- la PR n'est pas en draft ;
 - la branche source appartient au même dépôt ;
 - la PR porte le label `auto-merge`.
 
-Il ne checkout pas le code de la PR, afin d’éviter d’exécuter du code non fiable dans un contexte `pull_request_target`.
+Il ne checkout pas le code de la PR, afin d'éviter d'exécuter du code non fiable dans un contexte `pull_request_target`.
+
+## Quality gates
+
+`npm run check:strict` exécute :
+
+- contrôle Prettier ;
+- `npm audit --audit-level=high` sur l'ensemble des dépendances ;
+- Secretlint ;
+- ESLint ;
+- Stylelint ;
+- html-validate ;
+- validation statique des références et métadonnées ;
+- tests E2E Playwright.
 
 ## Secrets requis pour le déploiement VPS
 
-À créer dans `Settings > Secrets and variables > Actions > Repository secrets` :
+| Secret            | Obligatoire | Description |
+| ----------------- | ----------- | ----------- |
+| `VPS_HOST`        | Oui         | Nom de domaine ou IP du VPS. |
+| `VPS_USER`        | Oui         | Utilisateur SSH de déploiement. |
+| `VPS_SSH_KEY`     | Oui         | Clé privée SSH dédiée au déploiement. |
+| `VPS_DEPLOY_PATH` | Oui         | Dossier cible servi par Nginx, Apache ou Caddy. |
+| `VPS_PORT`        | Non         | Port SSH, `22` par défaut. |
 
-| Secret            | Obligatoire | Description                                                                               |
-| ----------------- | ----------- | ----------------------------------------------------------------------------------------- |
-| `VPS_HOST`        | Oui         | Nom de domaine ou IP du VPS.                                                              |
-| `VPS_USER`        | Oui         | Utilisateur SSH de déploiement.                                                           |
-| `VPS_SSH_KEY`     | Oui         | Clé privée SSH dédiée au déploiement.                                                     |
-| `VPS_DEPLOY_PATH` | Oui         | Dossier cible servi par Nginx, Apache ou Caddy, par exemple `/var/www/alexis-portfolio-site`. |
-| `VPS_PORT`        | Non         | Port SSH. `22` par défaut.                                                                |
+## Protection des branches
 
-## Préparation minimale du VPS
-
-Créer un utilisateur de déploiement dédié ou peu privilégié, puis lui donner accès uniquement au dossier cible.
-
-Exemple :
-
-```bash
-sudo mkdir -p /var/www/alexis-portfolio-site
-sudo chown -R deploy:www-data /var/www/alexis-portfolio-site
-sudo chmod -R 2755 /var/www/alexis-portfolio-site
-```
-
-La clé publique correspondant à `VPS_SSH_KEY` doit être ajoutée dans `~deploy/.ssh/authorized_keys`.
-
-## Protection des branches et auto-merge
-
-À configurer dans GitHub après merge des workflows :
-
-1. Activer l’auto-merge du dépôt dans `Settings > General > Pull Requests > Allow auto-merge`.
-2. Créer ou adapter des rulesets pour `develop`, `testing` et `main`.
-3. Rendre obligatoire le check `Basic checks` avant merge vers `develop`.
-4. Rendre obligatoire les contrôles stricts avant merge vers `testing` et `main`.
-5. Pour `main`, imposer les merges via PR depuis `testing`, puis laisser le CD déployer automatiquement après le push sur `main`.
-6. Ajouter le label `auto-merge` uniquement aux PRs qui peuvent être fusionnées automatiquement quand tous les checks passent.
-
-## Analyse de dépendances GitHub avancée
-
-Le dépôt étant privé, GitHub Dependency Review peut nécessiter GitHub Code Security ou GitHub Advanced Security selon le type de compte et d’organisation. Le pipeline actuel utilise donc `npm audit`, Dependabot et Secretlint sans supposer que cette option payante ou organisationnelle est active.
-
-Si Dependency Review est disponible, ajouter ensuite `actions/dependency-review-action` comme check obligatoire sur les pull requests.
+1. Rendre obligatoire le check `Basic checks` avant merge vers `develop`.
+2. Rendre obligatoires les contrôles stricts avant merge vers `testing` et `main`.
+3. Imposer pour `main` les merges via PR depuis `testing`.
+4. Laisser le CD déployer automatiquement après le push validé sur `main`.
+5. Réserver le label `auto-merge` aux PRs pouvant être fusionnées automatiquement après réussite des checks.

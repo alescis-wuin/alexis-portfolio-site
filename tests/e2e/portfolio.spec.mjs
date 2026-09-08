@@ -36,6 +36,37 @@ test("la page d’accueil charge les contenus principaux", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("la sélection de projets publique reste cohérente", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(page.locator("[data-project-card]")).toHaveCount(
+    projectPages.length,
+  );
+
+  for (const projectPage of projectPages) {
+    await expect(
+      page
+        .locator(`[data-project-card] a[href="${projectPage.path.slice(1)}"]`)
+        .first(),
+    ).toBeVisible();
+  }
+});
+
+test("les flèches utilisent le défilement natif", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+
+  const next = page.getByRole("button", { name: /Section suivante/i });
+  await expect(next).toBeVisible();
+  await next.click();
+
+  await expect(page).toHaveURL(/#valeur$/);
+  await expect(page.locator('[data-section-link="valeur"]')).toHaveAttribute(
+    "aria-current",
+    "location",
+  );
+});
+
 test("la page d’accueil reste exploitable en rendu mobile", async ({
   page,
   isMobile,
