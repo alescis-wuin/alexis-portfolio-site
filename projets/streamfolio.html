@@ -9,12 +9,13 @@
   <meta property="og:title" content="Streamfolio — Étude de cas | Alexis Guinot">
   <meta property="og:description" content="Application web de streaming vidéo avec authentification, catalogue, administration média, upload, streaming MP4/HLS et pipeline FFmpeg.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/streamfolio.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
   <meta name="theme-color" content="#0B1020">
   <title>Streamfolio — Étude de cas | Alexis Guinot</title>
+  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/streamfolio.html">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
-  <link rel="preload" href="../assets/img/photo-profil-480.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="../assets/css/styles.css">
   <script>
     (() => {
@@ -42,10 +43,10 @@
       <nav class="site-nav" aria-label="Navigation principale" data-site-nav>
         <ul id="navigation-principale" class="nav-list">
           <li><a href="../index.html#accueil">Accueil</a></li>
-<li><a href="../index.html#projets">Projets</a></li>
-<li><a href="../index.html#competences">Compétences</a></li>
-<li><a href="../index.html#parcours">Parcours</a></li>
-<li><a href="../index.html#contact">Contact</a></li>
+          <li><a href="./index.html">Projets</a></li>
+          <li><a href="../index.html#competences">Compétences</a></li>
+          <li><a href="../index.html#parcours">Parcours</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
         </ul>
       </nav>
       <div class="header-actions">
@@ -61,14 +62,14 @@
     <article class="project-detail section-lg">
       <div class="container project-detail-grid">
         <div class="project-detail-copy" data-reveal>
-          <a class="breadcrumb" href="../index.html#projets">← Retour aux projets</a>
+          <a class="breadcrumb" href="./index.html">← Retour aux projets</a>
           <p class="eyebrow">Plateforme de streaming vidéo · Finalisé</p>
           <h1>Streamfolio</h1>
           <p class="hero-lead">Application web de streaming vidéo avec authentification, catalogue, administration média, upload, streaming MP4/HLS et pipeline FFmpeg.</p>
           <div class="tag-list"><span class="tag">Backend</span>
-<span class="tag">Full-stack</span>
-<span class="tag">Données</span>
-<span class="tag">DevOps</span></div>
+                <span class="tag">Full-stack</span>
+                <span class="tag">Données</span>
+                <span class="tag">DevOps</span></div>
           <div class="hero-actions">
             <a class="button button-secondary" href="https://github.com/alescis-wuin/streamfolio" rel="noopener noreferrer">Voir le dépôt GitHub</a>
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
@@ -89,13 +90,14 @@
         </div>
         <aside class="content-aside" data-reveal>
           <h2>Stack</h2>
-          <div class="tag-list"><span class="tag">Spring Boot</span>
-<span class="tag">PostgreSQL</span>
-<span class="tag">Redis</span>
-<span class="tag">MinIO</span>
-<span class="tag">Docker</span>
-<span class="tag">HLS</span>
-<span class="tag">Playwright</span></div>
+          <div class="tag-list"><span class="tag">Java</span>
+                <span class="tag">Spring Boot</span>
+                <span class="tag">PostgreSQL</span>
+                <span class="tag">Redis</span>
+                <span class="tag">MinIO</span>
+                <span class="tag">Docker</span>
+                <span class="tag">HLS</span>
+                <span class="tag">Playwright</span></div>
         </aside>
       </div>
     </section>
@@ -105,16 +107,12 @@
         <div data-reveal>
           <p class="eyebrow">Fonctionnalités</p>
           <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list">
-            <li>Authentification avec Spring Security, BCrypt, cookies HttpOnly/SameSite et sessions Redis.</li><li>Catalogue films/séries avec recherche, filtres, watchlist et progression de lecture.</li><li>Streaming HTML5 : MP4 progressif, HTTP Range, WebVTT et HLS via hls.js.</li><li>Administration média : upload, métadonnées, miniatures, publication et relance de jobs.</li><li>Pipeline asynchrone : file persistante, retry exponentiel, reprise après redémarrage et annulation FFmpeg.</li><li>Persistance PostgreSQL/Flyway, stockage objet MinIO et environnement Docker reproductible.</li><li>Tests Maven, tests sécurité, streaming/admin, smoke tests, E2E Playwright et CI GitHub Actions.</li>
-          </ul>
+          <ul class="check-list"><li>Authentification avec Spring Security, BCrypt, cookies HttpOnly/SameSite et sessions Redis.</li><li>Catalogue films/séries avec recherche, filtres, watchlist et progression de lecture.</li><li>Streaming HTML5 : MP4 progressif, HTTP Range, WebVTT et HLS via hls.js.</li><li>Administration média : upload, métadonnées, miniatures, publication et relance de jobs.</li><li>Pipeline asynchrone : file persistante, retry exponentiel, reprise après redémarrage et annulation FFmpeg.</li><li>Persistance PostgreSQL/Flyway, stockage objet MinIO et environnement Docker reproductible.</li><li>Tests Maven, tests sécurité, streaming/admin, smoke tests, E2E Playwright et CI GitHub Actions.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Preuve de compétence</p>
           <h2>Ce que ce projet démontre</h2>
-          <ul class="check-list">
-            <li>Architecture applicative complète, pas seulement une interface.</li><li>Sensibilité aux contraintes backend : sécurité, sessions, stockage, files et robustesse.</li><li>Capacité à documenter les décisions techniques et les limites du projet.</li>
-          </ul>
+          <ul class="check-list"><li>Architecture applicative complète, pas seulement une interface.</li><li>Sensibilité aux contraintes backend : sécurité, sessions, stockage, files et robustesse.</li><li>Capacité à documenter les décisions techniques et les limites du projet.</li></ul>
         </div>
       </div>
     </section>
@@ -124,10 +122,10 @@
         <div>
           <p class="eyebrow">Suite</p>
           <h2 id="next-title">Voir le reste du portfolio</h2>
-          <p>Les autres études de cas permettent de comparer backend web, application métier, desktop, IA locale et rendu graphique.</p>
+          <p>Comparer les autres études de cas et filtrer le catalogue par langage, type, stack ou statut.</p>
         </div>
         <div class="contact-actions">
-          <a class="button button-primary" href="../index.html#projets">Tous les projets</a>
+          <a class="button button-primary" href="./index.html">Tous les projets</a>
           <a class="button button-secondary" href="../index.html#contact">Contact</a>
         </div>
       </div>
@@ -138,7 +136,7 @@
     <div class="container footer-grid">
       <div>
         <p class="footer-title">Alexis Guinot</p>
-        <p>Développeur backend & concepteur d’applications.</p>
+        <p>Développeur et concepteur d’applications.</p>
       </div>
       <nav aria-label="Liens externes">
         <ul class="footer-links">
@@ -153,4 +151,3 @@
   <script type="module" src="../assets/js/main.js"></script>
 </body>
 </html>
-

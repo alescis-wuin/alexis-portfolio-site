@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "site": {
+    "baseUrl": "https://www.alexis-guinot.fr",
+    "title": "Alexis Guinot — Développeur et concepteur d’applications",
+    "description": "Portfolio d’Alexis Guinot : interfaces métier, API, données, applications desktop et projets applicatifs documentés."
+  },
+  "taxonomy": {
+    "languages": {
+      "java": "Java",
+      "csharp": "C#",
+      "python": "Python",
+      "javascript": "JavaScript",
+      "typescript": "TypeScript",
+      "c": "C",
+      "cpp": "C++",
+      "rust": "Rust"
+    },
+    "types": {
+      "web": "Web",
+      "backend": "Backend",
+      "fullstack": "Full-stack",
+      "desktop": "Desktop",
+      "mobile": "Mobile",
+      "data": "Données",
+      "devops": "DevOps",
+      "architecture": "Architecture",
+      "accessibility": "Accessibilité",
+      "ai": "IA",
+      "graphics": "Graphique"
+    },
+    "stack": {
+      "spring-boot": "Spring Boot",
+      "postgresql": "PostgreSQL",
+      "redis": "Redis",
+      "minio": "MinIO",
+      "docker": "Docker",
+      "hls": "HLS",
+      "playwright": "Playwright",
+      "javafx": "JavaFX",
+      "atlantafx": "AtlantaFX",
+      "flyway": "Flyway",
+      "rest": "REST",
+      "maven": "Maven",
+      "tests": "Tests",
+      "github-actions": "GitHub Actions",
+      "java-21": "Java 21",
+      "dotnet": ".NET",
+      "aspnet-core": "ASP.NET Core",
+      "ef-core": "Entity Framework Core",
+      "avalonia": "Avalonia",
+      "wpf": "WPF",
+      "maui": ".NET MAUI",
+      "xunit": "xUnit",
+      "testcontainers": "Testcontainers"
+    },
+    "status": {
+      "finalized": "Finalisé",
+      "in-progress": "En cours",
+      "prototype": "Prototype",
+      "experimental": "Expérimental"
+    }
+  },
+  "projects": [
+    {
+      "id": "streamfolio",
+      "slug": "streamfolio",
+      "name": "Streamfolio",
+      "featured": true,
+      "featuredOrder": 1,
+      "status": "finalized",
+      "subtitle": "Plateforme de streaming vidéo",
+      "summary": "Plateforme de streaming vidéo complète : authentification, catalogue, administration média, upload, MP4/HLS, sessions Redis, MinIO et pipeline FFmpeg.",
+      "metaDescription": "Application web de streaming vidéo avec authentification, catalogue, administration média, upload, streaming MP4/HLS et pipeline FFmpeg.",
+      "mission": "Construire un produit web complet et démonstratif.",
+      "proof": "Sécurité, streaming, traitement asynchrone, Docker et tests.",
+      "problem": "Créer une plateforme portfolio proche d’un produit réel : accès sécurisé, expérience vidéo fluide, administration des médias et chaîne de traitement fiable.",
+      "repository": "https://github.com/alescis-wuin/streamfolio",
+      "image": "assets/img/projects/streamfolio.svg",
+      "imageAlt": "Illustration du projet Streamfolio",
+      "languages": ["java"],
+      "types": ["backend", "fullstack", "data", "devops"],
+      "stack": [
+        "spring-boot",
+        "postgresql",
+        "redis",
+        "minio",
+        "docker",
+        "hls",
+        "playwright"
+      ],
+      "homeStack": [
+        "spring-boot",
+        "postgresql",
+        "redis",
+        "minio",
+        "docker",
+        "hls"
+      ],
+      "features": [
+        "Authentification avec Spring Security, BCrypt, cookies HttpOnly/SameSite et sessions Redis.",
+        "Catalogue films/séries avec recherche, filtres, watchlist et progression de lecture.",
+        "Streaming HTML5 : MP4 progressif, HTTP Range, WebVTT et HLS via hls.js.",
+        "Administration média : upload, métadonnées, miniatures, publication et relance de jobs.",
+        "Pipeline asynchrone : file persistante, retry exponentiel, reprise après redémarrage et annulation FFmpeg.",
+        "Persistance PostgreSQL/Flyway, stockage objet MinIO et environnement Docker reproductible.",
+        "Tests Maven, tests sécurité, streaming/admin, smoke tests, E2E Playwright et CI GitHub Actions."
+      ],
+      "proofs": [
+        "Architecture applicative complète, pas seulement une interface.",
+        "Sensibilité aux contraintes backend : sécurité, sessions, stockage, files et robustesse.",
+        "Capacité à documenter les décisions techniques et les limites du projet."
+      ],
+      "sitemapPriority": 0.8
+    },
+    {
+      "id": "solvia",
+      "slug": "solvia",
+      "name": "Solvia",
+      "featured": true,
+      "featuredOrder": 2,
+      "status": "in-progress",
+      "subtitle": "Suivi patrimonial local-first",
+      "summary": "Application métier local-first pour suivre comptes, actifs, positions, snapshots, flux financiers, valorisation et indicateurs de performance.",
+      "metaDescription": "Application local-first de suivi patrimonial : comptes, actifs, positions, snapshots, flux financiers, valorisation et indicateurs de performance.",
+      "mission": "Structurer un domaine financier exploitable localement.",
+      "proof": "Modélisation, architecture multi-module, API et persistance.",
+      "problem": "Suivre des données financières personnelles en séparant clairement les valeurs saisies, les flux d’argent et les calculs de performance.",
+      "repository": "https://github.com/alescis-wuin/Solvia",
+      "image": "assets/img/projects/solvia.svg",
+      "imageAlt": "Illustration du projet Solvia",
+      "languages": ["java"],
+      "types": ["backend", "desktop", "data", "architecture"],
+      "stack": [
+        "spring-boot",
+        "javafx",
+        "postgresql",
+        "flyway",
+        "rest",
+        "maven"
+      ],
+      "homeStack": [
+        "javafx",
+        "spring-boot",
+        "postgresql",
+        "flyway",
+        "rest",
+        "maven"
+      ],
+      "features": [
+        "Comptes, enveloppes, actifs, positions, snapshots et flux financiers.",
+        "Historique de patrimoine net, graphiques par période et agrégations personnalisées.",
+        "Architecture Maven multi-module : domaine, application, persistance, backend, desktop.",
+        "API REST validée, documentation OpenAPI statique et persistance PostgreSQL/Flyway.",
+        "Interface desktop JavaFX/AtlantaFX et posture local-first sans télémétrie externe."
+      ],
+      "proofs": [
+        "Modélisation métier et découpage applicatif.",
+        "Fiabilité des calculs et séparation des responsabilités.",
+        "Capacité à concevoir une application métier maintenable."
+      ],
+      "sitemapPriority": 0.8
+    },
+    {
+      "id": "aelia",
+      "slug": "aelia",
+      "name": "Aelia",
+      "featured": true,
+      "featuredOrder": 3,
+      "status": "prototype",
+      "subtitle": "Application météo desktop",
+      "summary": "Application météo desktop JavaFX pensée pour agréger plusieurs fournisseurs, afficher des données utiles et garder une interface claire et testable.",
+      "metaDescription": "Application météo JavaFX avec fournisseur simulé, données météo/air/UV/pollen, thème sombre, contraste renforcé et contrôles clavier.",
+      "mission": "Rendre une donnée météo lisible dans une app desktop.",
+      "proof": "Adaptateurs, interface clavier, tests, Maven et CI.",
+      "problem": "Préparer une application desktop extensible autour de fournisseurs météo, en conservant testabilité, accessibilité et séparation des ports/adaptateurs.",
+      "repository": "https://github.com/alescis-wuin/Aelia",
+      "image": "assets/img/projects/aelia.svg",
+      "imageAlt": "Illustration du projet Aelia",
+      "languages": ["java"],
+      "types": ["desktop", "accessibility", "architecture"],
+      "stack": [
+        "java-21",
+        "javafx",
+        "atlantafx",
+        "maven",
+        "tests",
+        "github-actions"
+      ],
+      "homeStack": ["java-21", "javafx", "atlantafx", "maven", "tests"],
+      "features": [
+        "Structure JavaFX MVC avec port orienté fournisseur.",
+        "Fournisseur local simulé pour météo, qualité de l’air, UV et pollen.",
+        "Requêtes de valeurs courantes et abonnements live configurables.",
+        "Tables de limites API et de données supportées.",
+        "Contrôles compatibles clavier, tooltips et métadonnées d’accessibilité JavaFX.",
+        "Build Maven, tests unitaires et workflow GitHub Actions."
+      ],
+      "proofs": [
+        "Conception extensible par contrat d’adaptateur.",
+        "Attention à l’accessibilité dès le prototype.",
+        "Industrialisation avec tests et CI."
+      ],
+      "sitemapPriority": 0.8
+    }
+  ]
+}
