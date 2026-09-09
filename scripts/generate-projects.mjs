@@ -1,4 +1,10 @@
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  readFileSync,
+  readdirSync,
+  unlinkSync,
+  writeFileSync,
+} from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -15,6 +21,7 @@ const catalogTemplatePath = path.join(
   "templates",
   "projects-index.html.tpl",
 );
+const projectsDir = path.join(rootDir, "projets");
 
 const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
 validateCatalog(catalog);
@@ -25,17 +32,18 @@ const outputs = new Map();
 
 for (const project of catalog.projects) {
   outputs.set(
-    path.join(rootDir, "projets", `${project.slug}.html`),
+    path.join(projectsDir, `${project.slug}.html`),
     renderProjectPage(project),
   );
 }
 
-outputs.set(path.join(rootDir, "projets", "index.html"), renderCatalogPage());
+outputs.set(path.join(projectsDir, "index.html"), renderCatalogPage());
 outputs.set(path.join(rootDir, "sitemap.xml"), renderSitemap());
 
 const indexPath = path.join(rootDir, "index.html");
 const currentIndex = readFileSync(indexPath, "utf8");
 outputs.set(indexPath, renderHomeIndex(currentIndex));
+const orphanProjectPages = findOrphanProjectPages(outputs);
 
 if (checkOnly) {
   const stale = [];
@@ -44,6 +52,12 @@ if (checkOnly) {
     if (actual !== expected) {
       stale.push(path.relative(rootDir, filePath).replaceAll(path.sep, "/"));
     }
+  }
+
+  for (const filePath of orphanProjectPages) {
+    stale.push(
+      `${path.relative(rootDir, filePath).replaceAll(path.sep, "/")} (page projet orpheline)`,
+    );
   }
 
   if (stale.length > 0) {
@@ -57,11 +71,33 @@ if (checkOnly) {
   process.exit(0);
 }
 
+for (const filePath of orphanProjectPages) {
+  unlinkSync(filePath);
+  console.log(
+    `removed ${path.relative(rootDir, filePath).replaceAll(path.sep, "/")}`,
+  );
+}
+
 for (const [filePath, content] of outputs) {
   writeFileSync(filePath, content, "utf8");
   console.log(
     `generated ${path.relative(rootDir, filePath).replaceAll(path.sep, "/")}`,
   );
+}
+
+function findOrphanProjectPages(expectedOutputs) {
+  if (!existsSync(projectsDir)) return [];
+
+  return readdirSync(projectsDir, { withFileTypes: true })
+    .filter(
+      (entry) =>
+        entry.isFile() &&
+        entry.name.endsWith(".html") &&
+        entry.name !== "index.html",
+    )
+    .map((entry) => path.join(projectsDir, entry.name))
+    .filter((filePath) => !expectedOutputs.has(filePath))
+    .sort();
 }
 
 function validateCatalog(data) {
@@ -109,6 +145,11 @@ function validateCatalog(data) {
 
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.slug)) {
       throw new Error(`${project.id} : slug invalide (${project.slug}).`);
+    }
+    if (project.slug === "index") {
+      throw new Error(
+        `${project.id} : le slug index est réservé au catalogue.`,
+      );
     }
     if (ids.has(project.id))
       throw new Error(`ID projet dupliqué : ${project.id}`);
@@ -233,13 +274,19 @@ function renderHomeIndex(currentHtml) {
   const featured = catalog.projects
     .filter((project) => project.featured)
     .sort((a, b) => a.featuredOrder - b.featuredOrder);
+  const featuredCountText = `${featured.length} ${featured.length === 1 ? "étude de cas" : "études de cas"}, CV, GitHub et projets documentés`;
+  const featuredHeading =
+    featured.length === 1
+      ? "1 étude de cas orientée preuve"
+      : `${featured.length} études de cas orientées preuves`;
+  const homeHtml = replaceFeaturedProjectCount(currentHtml, featuredCountText);
 
   const section = `    ${startMarker}
     <section id="projets" class="section section-alt snap-section" aria-labelledby="projects-title" data-section data-label="Projets">
       <div class="container">
         <div class="section-heading" data-reveal>
           <p class="eyebrow">Projets</p>
-          <h2 id="projects-title">${featured.length} études de cas orientées preuves</h2>
+          <h2 id="projects-title">${featuredHeading}</h2>
           <p>Une sélection courte issue du catalogue complet pour montrer des compétences complémentaires. Les pages, métadonnées, filtres, sitemap et tests utilisent la même source de données.</p>
         </div>
         <div class="project-grid project-grid-focus">
@@ -256,14 +303,14 @@ function renderHomeIndex(currentHtml) {
     </section>
     ${endMarker}`;
 
-  if (currentHtml.includes(startMarker) && currentHtml.includes(endMarker)) {
-    const start = currentHtml.indexOf(startMarker);
-    const end = currentHtml.indexOf(endMarker, start) + endMarker.length;
-    return `${currentHtml.slice(0, start)}${section.trimStart()}${currentHtml.slice(end)}`;
+  if (homeHtml.includes(startMarker) && homeHtml.includes(endMarker)) {
+    const start = homeHtml.indexOf(startMarker);
+    const end = homeHtml.indexOf(endMarker, start) + endMarker.length;
+    return `${homeHtml.slice(0, start)}${section.trimStart()}${homeHtml.slice(end)}`;
   }
 
-  const projectStart = currentHtml.indexOf('    <section id="projets"');
-  const nextSection = currentHtml.indexOf(
+  const projectStart = homeHtml.indexOf('    <section id="projets"');
+  const nextSection = homeHtml.indexOf(
     '    <section id="competences"',
     projectStart,
   );
@@ -271,7 +318,22 @@ function renderHomeIndex(currentHtml) {
     throw new Error("index.html : impossible de localiser la section projets.");
   }
 
-  return `${currentHtml.slice(0, projectStart)}${section}\n\n${currentHtml.slice(nextSection)}`;
+  return `${homeHtml.slice(0, projectStart)}${section}\n\n${homeHtml.slice(nextSection)}`;
+}
+
+function replaceFeaturedProjectCount(html, text) {
+  const pattern = /<dd data-featured-project-count>[^<]*<\/dd>/;
+
+  if (!pattern.test(html)) {
+    throw new Error(
+      "index.html : compteur data-featured-project-count introuvable.",
+    );
+  }
+
+  return html.replace(
+    pattern,
+    `<dd data-featured-project-count>${escapeHtml(text)}</dd>`,
+  );
 }
 
 function renderProjectCard(project, index, assetPrefix, hrefPrefix) {

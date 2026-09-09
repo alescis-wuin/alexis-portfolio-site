@@ -44,6 +44,17 @@ test("la page d’accueil charge les contenus principaux", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("le résumé professionnel reflète les projets mis en avant", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  const expected = `${featuredProjects.length} ${featuredProjects.length === 1 ? "étude de cas" : "études de cas"}`;
+  await expect(page.locator("[data-featured-project-count]")).toContainText(
+    expected,
+  );
+});
+
 test("les projets mis en avant viennent du catalogue canonique", async ({
   page,
 }) => {

@@ -20,10 +20,12 @@
     "validate": "node scripts/validate-static-site.mjs",
     "security:audit": "npm audit --audit-level=high",
     "security:secrets": "node scripts/run-secretlint.mjs",
+    "test:generator": "node --test tests/generator/project-generation.test.mjs",
     "test:e2e": "playwright test",
-    "check:basic": "npm run generate:check && npm run format:check && npm run lint:js && npm run lint:css && npm run validate",
-    "check:ai": "npm run check:basic && npm run security:secrets && npm run lint:html && npm run test:e2e",
-    "check:strict": "npm run generate:check && npm run format:check && npm run security:audit && npm run security:secrets && npm run lint && npm run validate && npm run test:e2e",
+    "check:basic": "npm run generate:check && npm run test:generator && npm run format:check && npm run lint:js && npm run lint:css && npm run validate",
+    "check:extended": "npm run check:basic && npm run security:secrets && npm run lint:html && npm run test:e2e",
+    "check:ai": "npm run check:extended",
+    "check:strict": "npm run generate:check && npm run test:generator && npm run format:check && npm run security:audit && npm run security:secrets && npm run lint && npm run validate && npm run test:e2e",
     "hooks:install": "git config core.hooksPath .githooks && chmod +x .githooks/*"
   },
   "devDependencies": {
