@@ -101,8 +101,8 @@ function findOrphanProjectPages(expectedOutputs) {
 }
 
 function validateCatalog(data) {
-  if (data.schemaVersion !== 1) {
-    throw new Error("data/projects.json : schemaVersion doit valoir 1.");
+  if (data.schemaVersion !== 2) {
+    throw new Error("data/projects.json : schemaVersion doit valoir 2.");
   }
 
   for (const key of ["baseUrl", "title", "description"]) {
@@ -174,6 +174,8 @@ function validateCatalog(data) {
       throw new Error(`${project.id} : proofs doit être non vide.`);
     }
 
+    validateCaseStudy(project);
+
     if (project.featured) {
       if (
         !Number.isInteger(project.featuredOrder) ||
@@ -206,6 +208,59 @@ function validateCatalog(data) {
   if (![...data.projects].some((project) => project.featured)) {
     throw new Error("Au moins un projet doit être featured.");
   }
+}
+
+function validateCaseStudy(project) {
+  const caseStudy = project.caseStudy;
+  if (!caseStudy || typeof caseStudy !== "object" || Array.isArray(caseStudy)) {
+    throw new Error(`${project.id} : caseStudy doit être un objet.`);
+  }
+
+  assertNonEmpty(caseStudy.role, `${project.id}.caseStudy.role`);
+
+  for (const field of [
+    "architecture",
+    "tradeoffs",
+    "quality",
+    "delivery",
+    "outcomes",
+    "limitations",
+    "nextSteps",
+  ]) {
+    validateNonEmptyStringArray(
+      caseStudy[field],
+      `${project.id}.caseStudy.${field}`,
+    );
+  }
+
+  for (const field of ["decisions", "challenges"]) {
+    validateNamedItems(caseStudy[field], `${project.id}.caseStudy.${field}`);
+  }
+}
+
+function validateNonEmptyStringArray(values, field) {
+  if (!Array.isArray(values) || values.length === 0) {
+    throw new Error(`${field} doit être un tableau non vide.`);
+  }
+
+  values.forEach((value, index) => {
+    assertNonEmpty(value, `${field}[${index}]`);
+  });
+}
+
+function validateNamedItems(values, field) {
+  if (!Array.isArray(values) || values.length === 0) {
+    throw new Error(`${field} doit être un tableau non vide.`);
+  }
+
+  values.forEach((value, index) => {
+    if (!value || typeof value !== "object" || Array.isArray(value)) {
+      throw new Error(`${field}[${index}] doit être un objet.`);
+    }
+
+    assertNonEmpty(value.title, `${field}[${index}].title`);
+    assertNonEmpty(value.detail, `${field}[${index}].detail`);
+  });
 }
 
 function validateReferences(project, field, taxonomy) {
@@ -248,7 +303,17 @@ function renderProjectPage(project) {
       ...project.stack.map((id) => label("stack", id)),
     ]),
     PROBLEM: escapeHtml(project.problem),
+    ROLE: escapeHtml(project.caseStudy.role),
+    ARCHITECTURE: renderListItems(project.caseStudy.architecture),
+    DECISIONS: renderNamedListItems(project.caseStudy.decisions),
     FEATURES: renderListItems(project.features),
+    CHALLENGES: renderNamedListItems(project.caseStudy.challenges),
+    QUALITY: renderListItems(project.caseStudy.quality),
+    DELIVERY: renderListItems(project.caseStudy.delivery),
+    OUTCOMES: renderListItems(project.caseStudy.outcomes),
+    TRADEOFFS: renderListItems(project.caseStudy.tradeoffs),
+    LIMITATIONS: renderListItems(project.caseStudy.limitations),
+    NEXT_STEPS: renderListItems(project.caseStudy.nextSteps),
     PROOFS: renderListItems(project.proofs),
   };
 
@@ -449,6 +514,15 @@ function renderTags(values) {
   return values
     .map((value) => `<span class="tag">${escapeHtml(value)}</span>`)
     .join("\n                ");
+}
+
+function renderNamedListItems(items) {
+  return items
+    .map(
+      (item) =>
+        `<li><strong>${escapeHtml(item.title)}.</strong> ${escapeHtml(item.detail)}</li>`,
+    )
+    .join("");
 }
 
 function renderListItems(values) {

@@ -58,7 +58,7 @@
     </div>
   </header>
 
-  <main id="contenu">
+  <main id="contenu" data-case-study>
     <article class="project-detail section-lg">
       <div class="container project-detail-grid">
         <div class="project-detail-copy" data-reveal>
@@ -87,7 +87,10 @@
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
           <p>Préparer une application desktop extensible autour de fournisseurs météo, en conservant testabilité, accessibilité et séparation des ports/adaptateurs.</p>
         </div>
-        <aside class="content-aside" data-reveal>
+        <aside class="content-aside" data-reveal aria-labelledby="role-title">
+          <p class="eyebrow">Rôle</p>
+          <h2 id="role-title">Mon rôle</h2>
+          <p>Conception d’un prototype météo desktop JavaFX : architecture orientée fournisseur, composants UI, accessibilité, données typées, tests et documentation itérative.</p>
           <h2>Stack</h2>
           <div class="tag-list"><span class="tag">Java</span>
                 <span class="tag">Java 21</span>
@@ -100,32 +103,96 @@
       </div>
     </section>
 
-    <section class="section section-alt" aria-labelledby="features-title">
+    <section class="section section-alt" aria-labelledby="architecture-title">
       <div class="container two-columns">
         <div data-reveal>
-          <p class="eyebrow">Fonctionnalités</p>
-          <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list"><li>Structure JavaFX MVC avec port orienté fournisseur.</li><li>Fournisseur local simulé pour météo, qualité de l’air, UV et pollen.</li><li>Requêtes de valeurs courantes et abonnements live configurables.</li><li>Tables de limites API et de données supportées.</li><li>Contrôles compatibles clavier, tooltips et métadonnées d’accessibilité JavaFX.</li><li>Build Maven, tests unitaires et workflow GitHub Actions.</li></ul>
+          <p class="eyebrow">Architecture</p>
+          <h2 id="architecture-title">Comment le système est structuré</h2>
+          <ul class="check-list"><li>Interface JavaFX/AtlantaFX découpée autour de vues et composants dédiés au tableau de bord météo.</li><li>Port orienté fournisseur permettant de substituer le provider local simulé par des intégrations distantes.</li><li>Modèles météo typés, avec formatage des valeurs conservé dans la couche UI.</li><li>Exécution JavaFX classpath-based volontairement non modulaire pendant l’évolution rapide des composants.</li></ul>
         </div>
         <div data-reveal>
-          <p class="eyebrow">Preuve de compétence</p>
-          <h2>Ce que ce projet démontre</h2>
-          <ul class="check-list"><li>Conception extensible par contrat d’adaptateur.</li><li>Attention à l’accessibilité dès le prototype.</li><li>Industrialisation avec tests et CI.</li></ul>
+          <p class="eyebrow">Décisions</p>
+          <h2>Décisions techniques</h2>
+          <ul class="check-list"><li><strong>Commencer par un provider déterministe.</strong> Le fournisseur simulé stabilise l’interface et les tests pendant que le contrat destiné aux futures API distantes évolue.</li><li><strong>Conserver les valeurs typées jusqu’à la présentation.</strong> Les données temporelles et physiques ne sont pas stockées uniquement sous forme de chaînes ; le formatage est repoussé vers l’UI.</li><li><strong>Prioriser l’accessibilité du prototype.</strong> Navigation clavier, tooltips, contrastes et métadonnées d’accessibilité sont intégrés avant même le branchement à une API distante.</li><li><strong>Rester temporairement en classpath.</strong> Le lancement non modulaire simplifie Maven et IntelliJ tant que l’interface évolue fortement, au prix d’une frontière de modules moins stricte.</li></ul>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="next-title">
-      <div class="container contact-card" data-reveal>
-        <div>
+    <section class="section" aria-labelledby="features-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Implémentation</p>
+          <h2 id="features-title">Points techniques principaux</h2>
+          <ul class="check-list"><li>Structure JavaFX MVC avec port orienté fournisseur.</li><li>Fournisseur local simulé pour météo, qualité de l’air, UV et pollen.</li><li>Requêtes de valeurs courantes et abonnements live configurables.</li><li>Tables de limites API et de données supportées.</li><li>Contrôles compatibles clavier, tooltips et métadonnées d’accessibilité JavaFX.</li><li>Build Maven, tests unitaires et workflow GitHub Actions.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Difficultés</p>
+          <h2>Difficultés résolues</h2>
+          <ul class="check-list"><li><strong>Garder les indicateurs cohérents avec les données.</strong> Les jauges et cartes ont été progressivement détachées de progressions codées en dur pour dériver leur état de valeurs météo typées.</li><li><strong>Rendre un dashboard dense utilisable au clavier.</strong> Les contrôles doivent rester accessibles sans souris malgré le nombre de cartes, sélecteurs et indicateurs affichés.</li><li><strong>Préparer les API sans déstabiliser l’UI.</strong> Le contrat de provider permet de faire évoluer les sources de données sans réécrire les composants visuels.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="quality-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Qualité</p>
+          <h2 id="quality-title">Tests et garde-fous</h2>
+          <ul class="check-list"><li>Commandes Maven test et verify documentées pour la validation locale.</li><li>Tests unitaires autour des modèles, providers et comportements principaux.</li><li>Workflow GitHub Actions présent pour vérifier le build du projet.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Livraison</p>
+          <h2>Livraison et CI/CD</h2>
+          <ul class="check-list"><li>Lancement reproductible via mvn javafx:run.</li><li>Import optionnel des polices Luciole et Hack via Makefile, avec fallback système lorsque les fichiers ne sont pas présents.</li><li>Documentation versionnée décrivant architecture, accessibilité, UI/UX et corrections successives.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="outcomes-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Résultats</p>
+          <h2 id="outcomes-title">Résultats observables</h2>
+          <ul class="check-list"><li>Un dashboard météo desktop visuellement abouti malgré son statut de prototype.</li><li>Une base prête à recevoir des fournisseurs distants sans lier directement l’UI à une API particulière.</li><li>Une prise en compte de l’accessibilité et du clavier dès les premières itérations.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Compromis</p>
+          <h2>Compromis techniques</h2>
+          <ul class="check-list"><li>Le provider simulé garantit des scénarios reproductibles mais ne démontre pas encore la résilience face à une API météo réelle.</li><li>Le runtime classpath réduit la complexité de configuration mais reporte l’éventuel durcissement du module system.</li><li>Le projet privilégie la qualité de lecture et l’accessibilité à une intégration immédiate d’un grand nombre de fournisseurs.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="limits-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Limites</p>
+          <h2 id="limits-title">Limites assumées</h2>
+          <ul class="check-list"><li>Le provider principal reste simulé et aucune API météo distante n’est appelée dans l’état actuel.</li><li>Le projet demeure un prototype et ne couvre pas encore les pannes, quotas ou variations de schéma d’un fournisseur externe.</li><li>Le lancement non modulaire est assumé comme décision transitoire.</li></ul>
+        </div>
+        <div data-reveal>
           <p class="eyebrow">Suite</p>
-          <h2 id="next-title">Voir le reste du portfolio</h2>
+          <h2>Prochaines étapes</h2>
+          <ul class="check-list"><li>Implémenter au moins un adaptateur météo distant derrière le contrat existant.</li><li>Ajouter des tests d’intégration autour des erreurs réseau, quotas et données partielles.</li><li>Réévaluer le passage au module system lorsque la structure de l’interface sera suffisamment stabilisée.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="proof-title">
+      <div class="container content-grid">
+        <div class="content-block" data-reveal>
+          <p class="eyebrow">Preuve de compétence</p>
+          <h2 id="proof-title">Ce que ce projet démontre</h2>
+          <ul class="check-list"><li>Conception extensible par contrat d’adaptateur.</li><li>Attention à l’accessibilité dès le prototype.</li><li>Industrialisation avec tests et CI.</li></ul>
+        </div>
+        <aside class="content-aside" data-reveal aria-labelledby="continue-title">
+          <h2 id="continue-title">Continuer la visite</h2>
           <p>Comparer les autres études de cas et filtrer le catalogue par langage, type, stack ou statut.</p>
-        </div>
-        <div class="contact-actions">
-          <a class="button button-primary" href="./index.html">Tous les projets</a>
-          <a class="button button-secondary" href="../index.html#contact">Contact</a>
-        </div>
+          <div class="contact-actions">
+            <a class="button button-primary" href="./index.html">Tous les projets</a>
+            <a class="button button-secondary" href="../index.html#contact">Contact</a>
+          </div>
+        </aside>
       </div>
     </section>
   </main>
