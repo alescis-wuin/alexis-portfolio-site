@@ -28,7 +28,7 @@ La clé `taxonomy` centralise quatre familles d'identifiants stables :
 
 Les libellés affichés peuvent évoluer sans modifier les références utilisées dans les projets et les filtres.
 
-Des entrées C#/.NET sont déjà prévues dans la taxonomie mais ne sont pas affichées tant qu'aucun projet public ne les référence.
+Les entrées C#/.NET sont désormais utilisées par Calcufolio ; une technologie n'apparaît dans les filtres que lorsqu'au moins un projet public la référence.
 
 ## Structure minimale d'un projet
 

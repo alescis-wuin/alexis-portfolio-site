@@ -118,6 +118,28 @@ test("les filtres du catalogue combinent les facettes", async ({ page }) => {
   );
 });
 
+test("le filtre C# expose uniquement les projets C#", async ({ page }) => {
+  await page.goto("/projets/");
+
+  const csharpProjects = catalog.projects.filter((project) =>
+    project.languages.includes("csharp"),
+  );
+
+  expect(csharpProjects.length).toBeGreaterThan(0);
+  await page.locator('[data-filter-group="language"]').selectOption("csharp");
+  await expect(page.locator("[data-project-card]:visible")).toHaveCount(
+    csharpProjects.length,
+  );
+
+  for (const project of csharpProjects) {
+    await expect(
+      page.locator(
+        `[data-project-card][data-project-slug="${project.slug}"]:visible`,
+      ),
+    ).toBeVisible();
+  }
+});
+
 test("les flèches utilisent le défilement natif", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");

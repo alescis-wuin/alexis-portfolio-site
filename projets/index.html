@@ -73,7 +73,7 @@
               <span>Langage</span>
               <select data-filter-group="language">
                 <option value="all">Tous</option>
-                <option value="java">Java</option>
+                <option value="java">Java</option><option value="csharp">C#</option>
               </select>
             </label>
           <label class="project-filter-control">
@@ -87,7 +87,7 @@
               <span>Stack</span>
               <select data-filter-group="stack">
                 <option value="all">Tous</option>
-                <option value="spring-boot">Spring Boot</option><option value="postgresql">PostgreSQL</option><option value="redis">Redis</option><option value="minio">MinIO</option><option value="docker">Docker</option><option value="hls">HLS</option><option value="playwright">Playwright</option><option value="javafx">JavaFX</option><option value="atlantafx">AtlantaFX</option><option value="flyway">Flyway</option><option value="rest">REST</option><option value="maven">Maven</option><option value="tests">Tests</option><option value="github-actions">GitHub Actions</option><option value="java-21">Java 21</option>
+                <option value="spring-boot">Spring Boot</option><option value="postgresql">PostgreSQL</option><option value="redis">Redis</option><option value="minio">MinIO</option><option value="docker">Docker</option><option value="hls">HLS</option><option value="playwright">Playwright</option><option value="javafx">JavaFX</option><option value="atlantafx">AtlantaFX</option><option value="flyway">Flyway</option><option value="rest">REST</option><option value="maven">Maven</option><option value="tests">Tests</option><option value="github-actions">GitHub Actions</option><option value="java-21">Java 21</option><option value="avalonia">Avalonia</option><option value="xunit">xUnit</option><option value="dotnet-10">.NET 10</option><option value="communitytoolkit-mvvm">CommunityToolkit.Mvvm</option>
               </select>
             </label>
           <label class="project-filter-control">
@@ -100,7 +100,7 @@
         </div>
 
         <div class="project-catalog-status" aria-live="polite">
-          <span data-project-count>3 projet(s)</span>
+          <span data-project-count>4 projet(s)</span>
           <button class="button button-small button-ghost" type="button" data-filter-reset>Réinitialiser les filtres</button>
         </div>
 
@@ -175,13 +175,47 @@
               </div>
             </div>
           </article>
+          <article class="project-card project-card-playful" data-project-card data-project-slug="calcufolio" data-language="csharp" data-type="desktop architecture" data-stack="dotnet-10 avalonia communitytoolkit-mvvm xunit tests github-actions" data-status="in-progress" data-reveal>
+            <a class="project-media" href="./calcufolio.html" aria-label="Lire l’étude de cas Calcufolio">
+              <img src="../assets/img/projects/calcufolio.svg" width="960" height="540" loading="lazy" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-signal">
+                <span class="project-index" aria-hidden="true">03</span>
+                <span class="project-status">En cours</span>
+              </div>
+              <h3><a href="./calcufolio.html">Calcufolio</a></h3>
+              <p class="project-summary">Calculatrice desktop C#/.NET 10 avec Avalonia, moteur d’expressions séparé en tokenization, parsing et évaluation, MVVM, tests et CI.</p>
+              <dl class="project-facts">
+                <div>
+                  <dt>Mission</dt>
+                  <dd>Concevoir une calculatrice testable au-delà d’une simple logique d’interface.</dd>
+                </div>
+                <div>
+                  <dt>Preuve</dt>
+                  <dd>Parser, séparation des couches, MVVM, tests automatisés et CI .NET.</dd>
+                </div>
+              </dl>
+              <div class="tag-list" aria-label="Technologies principales">
+                <span class="tag">.NET 10</span>
+                <span class="tag">Avalonia</span>
+                <span class="tag">CommunityToolkit.Mvvm</span>
+                <span class="tag">xUnit</span>
+                <span class="tag">GitHub Actions</span>
+              </div>
+              <div class="card-actions project-actions">
+                <a class="text-link" href="./calcufolio.html">Lire l’étude de cas</a>
+                <a href="https://github.com/alescis-wuin/calcufolio" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </div>
+          </article>
           <article class="project-card project-card-playful" data-project-card data-project-slug="aelia" data-language="java" data-type="desktop accessibility architecture" data-stack="java-21 javafx atlantafx maven tests github-actions" data-status="prototype" data-reveal>
             <a class="project-media" href="./aelia.html" aria-label="Lire l’étude de cas Aelia">
               <img src="../assets/img/projects/aelia.svg" width="960" height="540" loading="lazy" alt="">
             </a>
             <div class="project-body">
               <div class="project-signal">
-                <span class="project-index" aria-hidden="true">03</span>
+                <span class="project-index" aria-hidden="true">04</span>
                 <span class="project-status">Prototype</span>
               </div>
               <h3><a href="./aelia.html">Aelia</a></h3>
