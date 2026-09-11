@@ -3,7 +3,7 @@
   "site": {
     "baseUrl": "https://www.alexis-guinot.fr",
     "title": "Alexis Guinot — Développeur et concepteur d’applications",
-    "description": "Portfolio d’Alexis Guinot : interfaces métier, API, données, applications desktop et projets applicatifs documentés."
+    "description": "Portfolio d’Alexis Guinot : Java, C#/.NET, interfaces métier, API, données, applications desktop et projets documentés."
   },
   "taxonomy": {
     "languages": {
@@ -52,7 +52,9 @@
       "wpf": "WPF",
       "maui": ".NET MAUI",
       "xunit": "xUnit",
-      "testcontainers": "Testcontainers"
+      "testcontainers": "Testcontainers",
+      "dotnet-10": ".NET 10",
+      "communitytoolkit-mvvm": "CommunityToolkit.Mvvm"
     },
     "status": {
       "finalized": "Finalisé",
@@ -162,11 +164,58 @@
       "sitemapPriority": 0.8
     },
     {
+      "id": "calcufolio",
+      "slug": "calcufolio",
+      "name": "Calcufolio",
+      "featured": true,
+      "featuredOrder": 3,
+      "status": "in-progress",
+      "subtitle": "Calculatrice desktop à moteur d’expressions",
+      "summary": "Calculatrice desktop C#/.NET 10 avec Avalonia, moteur d’expressions séparé en tokenization, parsing et évaluation, MVVM, tests et CI.",
+      "metaDescription": "Calculatrice desktop C#/.NET 10 avec Avalonia, moteur d’expressions tokenisé et parsé, MVVM, tests automatisés et CI GitHub Actions.",
+      "mission": "Concevoir une calculatrice testable au-delà d’une simple logique d’interface.",
+      "proof": "Parser, séparation des couches, MVVM, tests automatisés et CI .NET.",
+      "problem": "Construire une calculatrice desktop dont le parsing, l’édition, l’état d’interaction et l’interface restent découplés afin de tester les comportements complexes sans dépendre d’Avalonia.",
+      "repository": "https://github.com/alescis-wuin/calcufolio",
+      "image": "assets/img/projects/calcufolio.svg",
+      "imageAlt": "Illustration de Calcufolio, calculatrice C#/.NET avec moteur d’expressions",
+      "languages": ["csharp"],
+      "types": ["desktop", "architecture"],
+      "stack": [
+        "dotnet-10",
+        "avalonia",
+        "communitytoolkit-mvvm",
+        "xunit",
+        "tests",
+        "github-actions"
+      ],
+      "homeStack": [
+        "dotnet-10",
+        "avalonia",
+        "communitytoolkit-mvvm",
+        "xunit",
+        "github-actions"
+      ],
+      "features": [
+        "Moteur d’expressions séparé en tokenizer, parser, modèle syntaxique et évaluateur.",
+        "Services de calcul et d’évaluation indépendants de la couche Avalonia.",
+        "Modèle d’interaction avec contrôleur, actions, état d’éditeur, reducer, sélection, clavier et presse-papiers.",
+        "Présentation Avalonia structurée en MVVM avec CommunityToolkit.Mvvm, aperçu de calcul et historique.",
+        "Tests automatisés des couches Domain, Application et Presentation, notamment tokenizer, parser et évaluateur.",
+        "CI GitHub Actions : syntaxe, ShellCheck, restore, format, build, tests et audit des dépendances NuGet."
+      ],
+      "proofs": [
+        "Séparation nette entre parsing d’expressions, logique d’interaction et présentation.",
+        "Gestion testable des cas limites d’édition et d’évaluation.",
+        "Industrialisation .NET avec SDK épinglé, tests, formatage, audit et CI."
+      ],
+      "sitemapPriority": 0.8
+    },
+    {
       "id": "aelia",
       "slug": "aelia",
       "name": "Aelia",
-      "featured": true,
-      "featuredOrder": 3,
+      "featured": false,
       "status": "prototype",
       "subtitle": "Application météo desktop",
       "summary": "Application météo desktop JavaFX pensée pour agréger plusieurs fournisseurs, afficher des données utiles et garder une interface claire et testable.",
