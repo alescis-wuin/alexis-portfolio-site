@@ -58,7 +58,7 @@
     </div>
   </header>
 
-  <main id="contenu">
+  <main id="contenu" data-case-study>
     <article class="project-detail section-lg">
       <div class="container project-detail-grid">
         <div class="project-detail-copy" data-reveal>
@@ -85,39 +85,106 @@
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
           <p>{{PROBLEM}}</p>
         </div>
-        <aside class="content-aside" data-reveal>
+        <aside class="content-aside" data-reveal aria-labelledby="role-title">
+          <p class="eyebrow">Rôle</p>
+          <h2 id="role-title">Mon rôle</h2>
+          <p>{{ROLE}}</p>
           <h2>Stack</h2>
           <div class="tag-list">{{STACK_TAGS}}</div>
         </aside>
       </div>
     </section>
 
-    <section class="section section-alt" aria-labelledby="features-title">
+    <section class="section section-alt" aria-labelledby="architecture-title">
       <div class="container two-columns">
         <div data-reveal>
-          <p class="eyebrow">Fonctionnalités</p>
-          <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list">{{FEATURES}}</ul>
+          <p class="eyebrow">Architecture</p>
+          <h2 id="architecture-title">Comment le système est structuré</h2>
+          <ul class="check-list">{{ARCHITECTURE}}</ul>
         </div>
         <div data-reveal>
-          <p class="eyebrow">Preuve de compétence</p>
-          <h2>Ce que ce projet démontre</h2>
-          <ul class="check-list">{{PROOFS}}</ul>
+          <p class="eyebrow">Décisions</p>
+          <h2>Décisions techniques</h2>
+          <ul class="check-list">{{DECISIONS}}</ul>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="next-title">
-      <div class="container contact-card" data-reveal>
-        <div>
+    <section class="section" aria-labelledby="features-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Implémentation</p>
+          <h2 id="features-title">Points techniques principaux</h2>
+          <ul class="check-list">{{FEATURES}}</ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Difficultés</p>
+          <h2>Difficultés résolues</h2>
+          <ul class="check-list">{{CHALLENGES}}</ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="quality-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Qualité</p>
+          <h2 id="quality-title">Tests et garde-fous</h2>
+          <ul class="check-list">{{QUALITY}}</ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Livraison</p>
+          <h2>Livraison et CI/CD</h2>
+          <ul class="check-list">{{DELIVERY}}</ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="outcomes-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Résultats</p>
+          <h2 id="outcomes-title">Résultats observables</h2>
+          <ul class="check-list">{{OUTCOMES}}</ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Compromis</p>
+          <h2>Compromis techniques</h2>
+          <ul class="check-list">{{TRADEOFFS}}</ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="limits-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Limites</p>
+          <h2 id="limits-title">Limites assumées</h2>
+          <ul class="check-list">{{LIMITATIONS}}</ul>
+        </div>
+        <div data-reveal>
           <p class="eyebrow">Suite</p>
-          <h2 id="next-title">Voir le reste du portfolio</h2>
+          <h2>Prochaines étapes</h2>
+          <ul class="check-list">{{NEXT_STEPS}}</ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="proof-title">
+      <div class="container content-grid">
+        <div class="content-block" data-reveal>
+          <p class="eyebrow">Preuve de compétence</p>
+          <h2 id="proof-title">Ce que ce projet démontre</h2>
+          <ul class="check-list">{{PROOFS}}</ul>
+        </div>
+        <aside class="content-aside" data-reveal aria-labelledby="continue-title">
+          <h2 id="continue-title">Continuer la visite</h2>
           <p>Comparer les autres études de cas et filtrer le catalogue par langage, type, stack ou statut.</p>
-        </div>
-        <div class="contact-actions">
-          <a class="button button-primary" href="./index.html">Tous les projets</a>
-          <a class="button button-secondary" href="../index.html#contact">Contact</a>
-        </div>
+          <div class="contact-actions">
+            <a class="button button-primary" href="./index.html">Tous les projets</a>
+            <a class="button button-secondary" href="../index.html#contact">Contact</a>
+          </div>
+        </aside>
       </div>
     </section>
   </main>

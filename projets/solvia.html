@@ -58,7 +58,7 @@
     </div>
   </header>
 
-  <main id="contenu">
+  <main id="contenu" data-case-study>
     <article class="project-detail section-lg">
       <div class="container project-detail-grid">
         <div class="project-detail-copy" data-reveal>
@@ -88,7 +88,10 @@
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
           <p>Suivre des données financières personnelles en séparant clairement les valeurs saisies, les flux d’argent et les calculs de performance.</p>
         </div>
-        <aside class="content-aside" data-reveal>
+        <aside class="content-aside" data-reveal aria-labelledby="role-title">
+          <p class="eyebrow">Rôle</p>
+          <h2 id="role-title">Mon rôle</h2>
+          <p>Conception du domaine financier, architecture Maven multi-module, API Spring Boot, persistance JDBC/PostgreSQL/Flyway et client desktop JavaFX.</p>
           <h2>Stack</h2>
           <div class="tag-list"><span class="tag">Java</span>
                 <span class="tag">Spring Boot</span>
@@ -101,32 +104,96 @@
       </div>
     </section>
 
-    <section class="section section-alt" aria-labelledby="features-title">
+    <section class="section section-alt" aria-labelledby="architecture-title">
       <div class="container two-columns">
         <div data-reveal>
-          <p class="eyebrow">Fonctionnalités</p>
-          <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list"><li>Comptes, enveloppes, actifs, positions, snapshots et flux financiers.</li><li>Historique de patrimoine net, graphiques par période et agrégations personnalisées.</li><li>Architecture Maven multi-module : domaine, application, persistance, backend, desktop.</li><li>API REST validée, documentation OpenAPI statique et persistance PostgreSQL/Flyway.</li><li>Interface desktop JavaFX/AtlantaFX et posture local-first sans télémétrie externe.</li></ul>
+          <p class="eyebrow">Architecture</p>
+          <h2 id="architecture-title">Comment le système est structuré</h2>
+          <ul class="check-list"><li>Module Domain pour les comptes, actifs, positions, snapshots, flux, objets monétaires et calculs de valorisation.</li><li>Module Application pour les cas d’usage et contrats applicatifs.</li><li>Module de persistance dédié avec repositories JDBC, PostgreSQL et migrations Flyway.</li><li>Backend Spring Boot exposant REST, validation, gestion d’erreurs, readiness et contrat OpenAPI.</li><li>Client JavaFX/AtlantaFX communiquant avec le backend local et regroupant tableaux de bord, comptes, actifs, positions et entrées.</li></ul>
         </div>
         <div data-reveal>
-          <p class="eyebrow">Preuve de compétence</p>
-          <h2>Ce que ce projet démontre</h2>
-          <ul class="check-list"><li>Modélisation métier et découpage applicatif.</li><li>Fiabilité des calculs et séparation des responsabilités.</li><li>Capacité à concevoir une application métier maintenable.</li></ul>
+          <p class="eyebrow">Décisions</p>
+          <h2>Décisions techniques</h2>
+          <ul class="check-list"><li><strong>Séparer valeurs saisies, flux et performance.</strong> Le modèle évite de confondre dépôts, retraits ou dividendes avec une variation de performance d’investissement.</li><li><strong>Historiser plutôt qu’écraser.</strong> Snapshots et entrées historiques permettent de reconstruire le patrimoine et les séries temporelles sans perdre les états passés.</li><li><strong>Utiliser JDBC et Flyway explicitement.</strong> La persistance reste visible et maîtrisée via JdbcClient/repositories et migrations SQL plutôt que de déléguer l’ensemble du modèle à un ORM.</li><li><strong>Adopter une posture local-first.</strong> La V1 privilégie les données locales, la saisie manuelle et l’absence de télémétrie externe avant toute synchronisation bancaire ou cloud.</li></ul>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="next-title">
-      <div class="container contact-card" data-reveal>
-        <div>
+    <section class="section" aria-labelledby="features-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Implémentation</p>
+          <h2 id="features-title">Points techniques principaux</h2>
+          <ul class="check-list"><li>Comptes, enveloppes, actifs, positions, snapshots et flux financiers.</li><li>Historique de patrimoine net, graphiques par période et agrégations personnalisées.</li><li>Architecture Maven multi-module : domaine, application, persistance, backend, desktop.</li><li>API REST validée, documentation OpenAPI statique et persistance PostgreSQL/Flyway.</li><li>Interface desktop JavaFX/AtlantaFX et posture local-first sans télémétrie externe.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Difficultés</p>
+          <h2>Difficultés résolues</h2>
+          <ul class="check-list"><li><strong>Calculer la performance sans fausser les apports.</strong> Le domaine distingue les mouvements de trésorerie des variations de valorisation afin que les indicateurs reflètent réellement la performance.</li><li><strong>Construire des séries temporelles cohérentes.</strong> Snapshots, pas d’agrégation et filtres temporels doivent produire des courbes exploitables malgré des fréquences de saisie variables.</li><li><strong>Faire cohabiter desktop et backend local.</strong> Le client gère l’état de connexion, la readiness et les erreurs d’API au lieu de supposer que le backend est toujours disponible.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="quality-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Qualité</p>
+          <h2 id="quality-title">Tests et garde-fous</h2>
+          <ul class="check-list"><li>Tests de domaine sur objets monétaires, entités et calculateur de patrimoine net.</li><li>Tests MockMvc couvrant plusieurs familles de contrôleurs REST et le contrat OpenAPI.</li><li>Test d’intégration de persistance ainsi que tests desktop et smoke test JavaFX.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Livraison</p>
+          <h2>Livraison et CI/CD</h2>
+          <ul class="check-list"><li>Validation locale via Maven clean verify.</li><li>Docker Compose fournit PostgreSQL pour le développement.</li><li>Des scripts dédiés lancent le backend et le client desktop depuis le workspace.</li><li>Aucun workflow GitHub Actions n’est actuellement visible dans la branche develop ; l’automatisation CI reste donc à ajouter.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="outcomes-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Résultats</p>
+          <h2 id="outcomes-title">Résultats observables</h2>
+          <ul class="check-list"><li>Un domaine financier suffisamment riche pour modéliser comptes, positions, flux et valorisations historiques.</li><li>Une API REST couvrant le CRUD métier, les snapshots, les flux et plusieurs calculs de patrimoine/performance.</li><li>Un client desktop fonctionnel avec tableaux de bord, graphiques, filtres et gestion d’état du backend.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Compromis</p>
+          <h2>Compromis techniques</h2>
+          <ul class="check-list"><li>La V1 privilégie la saisie manuelle et des calculs fiables plutôt que la synchronisation bancaire, les ordres ou les données de marché temps réel.</li><li>Le client desktop et le backend sont séparés, ce qui ajoute des composants à lancer mais clarifie le contrat applicatif.</li><li>Le choix JDBC demande davantage de mapping explicite qu’un ORM mais garde les requêtes et migrations visibles.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="limits-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Limites</p>
+          <h2 id="limits-title">Limites assumées</h2>
+          <ul class="check-list"><li>Pas de synchronisation bancaire, placement d’ordres, conseil d’investissement ni automatisation fiscale complète dans la V1.</li><li>Pas d’application mobile ni d’hébergement cloud multi-utilisateur prévu dans le périmètre actuel.</li><li>L’absence de workflow CI distant réduit aujourd’hui la preuve d’intégration continue malgré une suite de tests locale substantielle.</li></ul>
+        </div>
+        <div data-reveal>
           <p class="eyebrow">Suite</p>
-          <h2 id="next-title">Voir le reste du portfolio</h2>
+          <h2>Prochaines étapes</h2>
+          <ul class="check-list"><li>Ajouter une CI GitHub Actions exécutant la validation Maven et les tests pertinents.</li><li>Poursuivre le découpage de certaines vues JavaFX devenues volumineuses afin de préserver la maintenabilité.</li><li>Finaliser les fonctions de sauvegarde/export prévues par le périmètre V1 avant d’envisager des intégrations externes.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="proof-title">
+      <div class="container content-grid">
+        <div class="content-block" data-reveal>
+          <p class="eyebrow">Preuve de compétence</p>
+          <h2 id="proof-title">Ce que ce projet démontre</h2>
+          <ul class="check-list"><li>Modélisation métier et découpage applicatif.</li><li>Fiabilité des calculs et séparation des responsabilités.</li><li>Capacité à concevoir une application métier maintenable.</li></ul>
+        </div>
+        <aside class="content-aside" data-reveal aria-labelledby="continue-title">
+          <h2 id="continue-title">Continuer la visite</h2>
           <p>Comparer les autres études de cas et filtrer le catalogue par langage, type, stack ou statut.</p>
-        </div>
-        <div class="contact-actions">
-          <a class="button button-primary" href="./index.html">Tous les projets</a>
-          <a class="button button-secondary" href="../index.html#contact">Contact</a>
-        </div>
+          <div class="contact-actions">
+            <a class="button button-primary" href="./index.html">Tous les projets</a>
+            <a class="button button-secondary" href="../index.html#contact">Contact</a>
+          </div>
+        </aside>
       </div>
     </section>
   </main>

@@ -64,6 +64,51 @@ Le slug `index` est réservé au catalogue `projets/index.html` et ne peut pas �
 
 Tous les fichiers `projets/*.html` autres que `projets/index.html` sont des sorties gérées. Une page qui ne correspond plus à un slug du catalogue est signalée par `npm run generate:check` et supprimée par `npm run generate`.
 
+
+## Étude de cas professionnelle — schéma v2
+
+Depuis P2.2, `schemaVersion` vaut `2` et chaque projet public doit contenir un objet `caseStudy`.
+Le générateur refuse une fiche incomplète : la qualité éditoriale devient un invariant au même titre
+que le slug, la taxonomie ou l'image.
+
+Structure obligatoire :
+
+```json
+{
+  "caseStudy": {
+    "role": "Responsabilités réellement exercées sur le projet.",
+    "architecture": ["Composant ou couche 1"],
+    "decisions": [
+      {
+        "title": "Décision",
+        "detail": "Pourquoi ce choix a été fait et quelle responsabilité il isole."
+      }
+    ],
+    "tradeoffs": ["Compromis explicite et assumé."],
+    "challenges": [
+      {
+        "title": "Difficulté",
+        "detail": "Réponse technique effectivement mise en œuvre."
+      }
+    ],
+    "quality": ["Tests, contrôles et garde-fous réellement présents."],
+    "delivery": ["Build, CI/CD, packaging ou procédure de lancement réellement présents."],
+    "outcomes": ["Résultat observable, sans inventer de métrique."],
+    "limitations": ["Limite actuelle du projet."],
+    "nextSteps": ["Suite cohérente avec l'état réel du projet."]
+  }
+}
+```
+
+Règles éditoriales :
+
+- ne pas inventer de métrique, d'usage en production ou de charge non mesurée ;
+- distinguer ce qui est implémenté de ce qui est seulement prévu ;
+- documenter les compromis et limites au lieu de les masquer ;
+- pour un projet collectif, décrire précisément le rôle personnel ;
+- une absence de CI, de provider réel ou de fonctionnalité prévue doit rester visible si elle est pertinente ;
+- `decisions` et `challenges` utilisent des objets `title` / `detail` afin de rendre le raisonnement technique lisible.
+
 ## Ajouter un projet
 
 1. Ajouter son image sous `assets/img/projects/`.

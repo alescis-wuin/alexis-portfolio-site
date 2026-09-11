@@ -95,6 +95,44 @@ test("le compteur du hero suit le nombre de projets mis en avant", () => {
   assertGeneratorSuccess(runGenerator("--check"));
 });
 
+test("une étude de cas professionnelle est obligatoire", () => {
+  const catalogPath = path.join(fixtureRoot, "data", "projects.json");
+  const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+  delete catalog.projects[0].caseStudy;
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  const result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /caseStudy/);
+});
+
+test("les sections professionnelles sont générées sur les pages projet", () => {
+  assertGeneratorSuccess(runGenerator());
+
+  const catalog = JSON.parse(
+    readFileSync(path.join(fixtureRoot, "data", "projects.json"), "utf8"),
+  );
+  const html = readFileSync(
+    path.join(fixtureRoot, "projets", `${catalog.projects[0].slug}.html`),
+    "utf8",
+  );
+
+  for (const label of [
+    "Mon rôle",
+    "Comment le système est structuré",
+    "Décisions techniques",
+    "Difficultés résolues",
+    "Tests et garde-fous",
+    "Livraison et CI/CD",
+    "Résultats observables",
+    "Compromis techniques",
+    "Limites assumées",
+    "Prochaines étapes",
+  ]) {
+    assert.ok(html.includes(label), `section absente: ${label}`);
+  }
+});
+
 function copyFixturePath(relativePath) {
   const source = path.join(repoRoot, relativePath);
   const destination = path.join(fixtureRoot, relativePath);

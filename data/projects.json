@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "site": {
     "baseUrl": "https://www.alexis-guinot.fr",
     "title": "Alexis Guinot — Développeur et concepteur d’applications",
@@ -113,7 +113,78 @@
         "Sensibilité aux contraintes backend : sécurité, sessions, stockage, files et robustesse.",
         "Capacité à documenter les décisions techniques et les limites du projet."
       ],
-      "sitemapPriority": 0.8
+      "sitemapPriority": 0.8,
+      "caseStudy": {
+        "role": "Conception et développement de bout en bout : architecture Spring Boot, sécurité, streaming, administration média, persistance, pipeline FFmpeg, tests et environnement Docker.",
+        "architecture": [
+          "Application web/PWA portée par Spring Boot pour le catalogue, l’authentification, l’administration et les endpoints de streaming.",
+          "PostgreSQL et Flyway pour les données métier durables ; Redis pour l’état de session runtime.",
+          "MinIO pour les originaux, sous-titres et sorties HLS/miniatures, avec disque local utilisé comme staging FFmpeg.",
+          "Pipeline média avec jobs persistés, workers bornés, ordonnanceur, retry et reprise après redémarrage."
+        ],
+        "decisions": [
+          {
+            "title": "Séparer données métier et état de session",
+            "detail": "PostgreSQL conserve les données durables tandis que Redis reste dédié aux sessions runtime, afin de ne pas mélanger deux responsabilités de persistance."
+          },
+          {
+            "title": "Conserver FFmpeg local et externaliser le stockage média",
+            "detail": "Le transcodage reste local pour garder une architecture portfolio maîtrisable, tandis que MinIO découple le stockage des originaux et sorties générées."
+          },
+          {
+            "title": "Persister les jobs de transcodage",
+            "detail": "Les traitements longs ne reposent pas sur une simple file mémoire : ils peuvent être relancés, repris après redémarrage et annulés de manière coopérative."
+          },
+          {
+            "title": "Valider les sources avant traitement",
+            "detail": "La validation combine extension, MIME, signature de conteneur, durée, présence de flux vidéo et politique codec avant de lancer le pipeline."
+          }
+        ],
+        "tradeoffs": [
+          "FFmpeg reste exécuté localement : le projet privilégie une démonstration reproductible plutôt qu’une ferme de transcodage distribuée.",
+          "MinIO représente un stockage objet local de démonstration, sans CDN multi-région ni réplication à l’échelle d’un service public.",
+          "Redis est utilisé en configuration simple dans l’environnement portfolio ; la haute disponibilité n’est pas traitée ici."
+        ],
+        "challenges": [
+          {
+            "title": "Servir efficacement des médias volumineux",
+            "detail": "Le lecteur combine MP4 progressif avec HTTP Range, WebVTT et HLS via hls.js afin de couvrir plusieurs modes de lecture."
+          },
+          {
+            "title": "Rendre les traitements média robustes",
+            "detail": "La file persistante, le retry exponentiel, la reprise après redémarrage et l’annulation FFmpeg évitent qu’un traitement long soit lié au cycle de vie d’une requête HTTP."
+          },
+          {
+            "title": "Sécuriser l’entrée média",
+            "detail": "Les contrôles sur le type et le contenu des fichiers réduisent le risque de traiter comme vidéo une entrée seulement renommée ou incohérente."
+          }
+        ],
+        "quality": [
+          "Tests Maven couvrant notamment sécurité, streaming et administration média.",
+          "Smoke tests et tests E2E Playwright sur les parcours principaux.",
+          "Script de validation du dépôt couvrant scripts, JavaScript, Python, Maven, Redis et profil local-media."
+        ],
+        "delivery": [
+          "Docker Compose fournit PostgreSQL, Redis et MinIO pour un environnement d’évaluation reproductible.",
+          "Le profil de production est configuré par variables d’environnement, avec cookie sécurisé prévu derrière HTTPS.",
+          "Un workflow Main Merge Validation relance la validation complète après intégration sur main."
+        ],
+        "outcomes": [
+          "Un parcours cohérent allant de l’administration et l’upload jusqu’au catalogue et à la lecture vidéo.",
+          "Un pipeline média capable de survivre aux redémarrages applicatifs et de reprendre les traitements persistés.",
+          "Une architecture dont les limites de production sont documentées au lieu d’être masquées."
+        ],
+        "limitations": [
+          "Pas de DRM ni de CDN global.",
+          "Redis reste mono-nœud dans l’environnement de démonstration.",
+          "Le transcodage FFmpeg n’est pas distribué sur plusieurs workers ou machines."
+        ],
+        "nextSteps": [
+          "Externaliser ou rendre hautement disponibles Redis et le stockage média si le projet devait devenir un service public.",
+          "Introduire CDN, DRM et stratégie de distribution multi-région uniquement si les besoins produit le justifient.",
+          "Compléter l’observabilité et les essais de charge pour caractériser précisément les limites du pipeline."
+        ]
+      }
     },
     {
       "id": "solvia",
@@ -161,7 +232,80 @@
         "Fiabilité des calculs et séparation des responsabilités.",
         "Capacité à concevoir une application métier maintenable."
       ],
-      "sitemapPriority": 0.8
+      "sitemapPriority": 0.8,
+      "caseStudy": {
+        "role": "Conception du domaine financier, architecture Maven multi-module, API Spring Boot, persistance JDBC/PostgreSQL/Flyway et client desktop JavaFX.",
+        "architecture": [
+          "Module Domain pour les comptes, actifs, positions, snapshots, flux, objets monétaires et calculs de valorisation.",
+          "Module Application pour les cas d’usage et contrats applicatifs.",
+          "Module de persistance dédié avec repositories JDBC, PostgreSQL et migrations Flyway.",
+          "Backend Spring Boot exposant REST, validation, gestion d’erreurs, readiness et contrat OpenAPI.",
+          "Client JavaFX/AtlantaFX communiquant avec le backend local et regroupant tableaux de bord, comptes, actifs, positions et entrées."
+        ],
+        "decisions": [
+          {
+            "title": "Séparer valeurs saisies, flux et performance",
+            "detail": "Le modèle évite de confondre dépôts, retraits ou dividendes avec une variation de performance d’investissement."
+          },
+          {
+            "title": "Historiser plutôt qu’écraser",
+            "detail": "Snapshots et entrées historiques permettent de reconstruire le patrimoine et les séries temporelles sans perdre les états passés."
+          },
+          {
+            "title": "Utiliser JDBC et Flyway explicitement",
+            "detail": "La persistance reste visible et maîtrisée via JdbcClient/repositories et migrations SQL plutôt que de déléguer l’ensemble du modèle à un ORM."
+          },
+          {
+            "title": "Adopter une posture local-first",
+            "detail": "La V1 privilégie les données locales, la saisie manuelle et l’absence de télémétrie externe avant toute synchronisation bancaire ou cloud."
+          }
+        ],
+        "tradeoffs": [
+          "La V1 privilégie la saisie manuelle et des calculs fiables plutôt que la synchronisation bancaire, les ordres ou les données de marché temps réel.",
+          "Le client desktop et le backend sont séparés, ce qui ajoute des composants à lancer mais clarifie le contrat applicatif.",
+          "Le choix JDBC demande davantage de mapping explicite qu’un ORM mais garde les requêtes et migrations visibles."
+        ],
+        "challenges": [
+          {
+            "title": "Calculer la performance sans fausser les apports",
+            "detail": "Le domaine distingue les mouvements de trésorerie des variations de valorisation afin que les indicateurs reflètent réellement la performance."
+          },
+          {
+            "title": "Construire des séries temporelles cohérentes",
+            "detail": "Snapshots, pas d’agrégation et filtres temporels doivent produire des courbes exploitables malgré des fréquences de saisie variables."
+          },
+          {
+            "title": "Faire cohabiter desktop et backend local",
+            "detail": "Le client gère l’état de connexion, la readiness et les erreurs d’API au lieu de supposer que le backend est toujours disponible."
+          }
+        ],
+        "quality": [
+          "Tests de domaine sur objets monétaires, entités et calculateur de patrimoine net.",
+          "Tests MockMvc couvrant plusieurs familles de contrôleurs REST et le contrat OpenAPI.",
+          "Test d’intégration de persistance ainsi que tests desktop et smoke test JavaFX."
+        ],
+        "delivery": [
+          "Validation locale via Maven clean verify.",
+          "Docker Compose fournit PostgreSQL pour le développement.",
+          "Des scripts dédiés lancent le backend et le client desktop depuis le workspace.",
+          "Aucun workflow GitHub Actions n’est actuellement visible dans la branche develop ; l’automatisation CI reste donc à ajouter."
+        ],
+        "outcomes": [
+          "Un domaine financier suffisamment riche pour modéliser comptes, positions, flux et valorisations historiques.",
+          "Une API REST couvrant le CRUD métier, les snapshots, les flux et plusieurs calculs de patrimoine/performance.",
+          "Un client desktop fonctionnel avec tableaux de bord, graphiques, filtres et gestion d’état du backend."
+        ],
+        "limitations": [
+          "Pas de synchronisation bancaire, placement d’ordres, conseil d’investissement ni automatisation fiscale complète dans la V1.",
+          "Pas d’application mobile ni d’hébergement cloud multi-utilisateur prévu dans le périmètre actuel.",
+          "L’absence de workflow CI distant réduit aujourd’hui la preuve d’intégration continue malgré une suite de tests locale substantielle."
+        ],
+        "nextSteps": [
+          "Ajouter une CI GitHub Actions exécutant la validation Maven et les tests pertinents.",
+          "Poursuivre le découpage de certaines vues JavaFX devenues volumineuses afin de préserver la maintenabilité.",
+          "Finaliser les fonctions de sauvegarde/export prévues par le périmètre V1 avant d’envisager des intégrations externes."
+        ]
+      }
     },
     {
       "id": "calcufolio",
@@ -209,7 +353,78 @@
         "Gestion testable des cas limites d’édition et d’évaluation.",
         "Industrialisation .NET avec SDK épinglé, tests, formatage, audit et CI."
       ],
-      "sitemapPriority": 0.8
+      "sitemapPriority": 0.8,
+      "caseStudy": {
+        "role": "Conception d’une application desktop C#/.NET 10 : moteur d’expressions, modèle d’interaction, architecture en couches, UI Avalonia/MVVM, tests et CI.",
+        "architecture": [
+          "Solution séparée en Domain, Application, Infrastructure et Presentation.",
+          "Moteur d’expressions dans la couche Application avec tokenization, parsing, modèle syntaxique, évaluation et erreurs typées.",
+          "Modèle d’interaction basé sur contrôleur, actions, état d’éditeur et reducer pour isoler les comportements de saisie.",
+          "Présentation Avalonia structurée en MVVM avec CommunityToolkit.Mvvm, historique et aperçu de calcul."
+        ],
+        "decisions": [
+          {
+            "title": "Découpler le moteur d’expressions de l’interface",
+            "detail": "Le parsing et l’évaluation restent testables sans instancier Avalonia, ce qui évite de placer la logique de calcul dans les événements de boutons."
+          },
+          {
+            "title": "Modéliser l’édition comme un état explicite",
+            "detail": "Caret, sélection, insertion, suppression et actions clavier passent par un état et des transformations dédiées plutôt que par des mutations dispersées."
+          },
+          {
+            "title": "Utiliser MVVM pour la présentation",
+            "detail": "CommunityToolkit.Mvvm réduit le code de liaison tout en gardant le ViewModel indépendant de la vue Avalonia."
+          },
+          {
+            "title": "Épingler la toolchain .NET",
+            "detail": "global.json fixe le SDK .NET 10 attendu et la CI utilise la même référence pour limiter les divergences entre poste local et runner."
+          }
+        ],
+        "tradeoffs": [
+          "L’architecture comporte davantage de couches qu’une calculatrice minimale, en échange d’une logique beaucoup plus isolable et testable.",
+          "Un moteur de parsing dédié demande plus de code qu’une évaluation directe depuis l’UI, mais permet de contrôler la syntaxe, les erreurs et la précédence.",
+          "Le projet est encore en cours : l’accent porte actuellement davantage sur les fondations et la qualité que sur un catalogue maximal de fonctions scientifiques."
+        ],
+        "challenges": [
+          {
+            "title": "Maintenir un éditeur cohérent",
+            "detail": "Insertion, backspace, suppression avant, sélection, déplacements du caret et presse-papiers doivent produire un état prévisible quelle que soit l’entrée."
+          },
+          {
+            "title": "Évaluer des expressions sans coupler la syntaxe à l’UI",
+            "detail": "Tokenizer, parser et evaluator doivent gérer précédence et erreurs de manière déterministe avant que le résultat soit projeté dans le ViewModel."
+          },
+          {
+            "title": "Synchroniser aperçu, résultat et historique",
+            "detail": "Le ViewModel dérive l’affichage depuis l’état applicatif et reconstruit l’historique sans déplacer la logique de calcul dans la présentation."
+          }
+        ],
+        "quality": [
+          "Tests automatisés sur les couches Domain, Application et Presentation, notamment tokenizer, parser, évaluateur et interactions.",
+          "Vérification dotnet format afin d’éviter les divergences de style dans la solution.",
+          "Audit des dépendances NuGet intégré à la quality gate."
+        ],
+        "delivery": [
+          "Workflow develop : syntaxe, ShellCheck, restore, format, build, tests et audit NuGet.",
+          "Workflows distincts également présents pour testing et main.",
+          "SDK .NET 10 épinglé par global.json et commandes de validation exposées par le Makefile."
+        ],
+        "outcomes": [
+          "Une calculatrice dont le moteur d’expressions peut être testé indépendamment du framework graphique.",
+          "Un modèle d’édition capable de représenter sélection et caret plutôt qu’une simple chaîne concaténée.",
+          "Une chaîne CI .NET reproductible qui vérifie compilation, tests, formatage et dépendances."
+        ],
+        "limitations": [
+          "Le projet reste en cours et n’est pas présenté comme une application finalisée.",
+          "Le README public actuel reste très succinct par rapport à la richesse réelle du dépôt.",
+          "Le périmètre fonctionnel doit encore être consolidé avant de considérer une release utilisateur stable."
+        ],
+        "nextSteps": [
+          "Enrichir le README public avec architecture, captures, lancement, tests et limites.",
+          "Poursuivre les fonctions de calcul et les comportements d’édition sans contourner le moteur d’état existant.",
+          "Préparer un packaging/release utilisateur lorsque le périmètre fonctionnel sera suffisamment stabilisé."
+        ]
+      }
     },
     {
       "id": "aelia",
@@ -250,7 +465,78 @@
         "Attention à l’accessibilité dès le prototype.",
         "Industrialisation avec tests et CI."
       ],
-      "sitemapPriority": 0.8
+      "sitemapPriority": 0.8,
+      "caseStudy": {
+        "role": "Conception d’un prototype météo desktop JavaFX : architecture orientée fournisseur, composants UI, accessibilité, données typées, tests et documentation itérative.",
+        "architecture": [
+          "Interface JavaFX/AtlantaFX découpée autour de vues et composants dédiés au tableau de bord météo.",
+          "Port orienté fournisseur permettant de substituer le provider local simulé par des intégrations distantes.",
+          "Modèles météo typés, avec formatage des valeurs conservé dans la couche UI.",
+          "Exécution JavaFX classpath-based volontairement non modulaire pendant l’évolution rapide des composants."
+        ],
+        "decisions": [
+          {
+            "title": "Commencer par un provider déterministe",
+            "detail": "Le fournisseur simulé stabilise l’interface et les tests pendant que le contrat destiné aux futures API distantes évolue."
+          },
+          {
+            "title": "Conserver les valeurs typées jusqu’à la présentation",
+            "detail": "Les données temporelles et physiques ne sont pas stockées uniquement sous forme de chaînes ; le formatage est repoussé vers l’UI."
+          },
+          {
+            "title": "Prioriser l’accessibilité du prototype",
+            "detail": "Navigation clavier, tooltips, contrastes et métadonnées d’accessibilité sont intégrés avant même le branchement à une API distante."
+          },
+          {
+            "title": "Rester temporairement en classpath",
+            "detail": "Le lancement non modulaire simplifie Maven et IntelliJ tant que l’interface évolue fortement, au prix d’une frontière de modules moins stricte."
+          }
+        ],
+        "tradeoffs": [
+          "Le provider simulé garantit des scénarios reproductibles mais ne démontre pas encore la résilience face à une API météo réelle.",
+          "Le runtime classpath réduit la complexité de configuration mais reporte l’éventuel durcissement du module system.",
+          "Le projet privilégie la qualité de lecture et l’accessibilité à une intégration immédiate d’un grand nombre de fournisseurs."
+        ],
+        "challenges": [
+          {
+            "title": "Garder les indicateurs cohérents avec les données",
+            "detail": "Les jauges et cartes ont été progressivement détachées de progressions codées en dur pour dériver leur état de valeurs météo typées."
+          },
+          {
+            "title": "Rendre un dashboard dense utilisable au clavier",
+            "detail": "Les contrôles doivent rester accessibles sans souris malgré le nombre de cartes, sélecteurs et indicateurs affichés."
+          },
+          {
+            "title": "Préparer les API sans déstabiliser l’UI",
+            "detail": "Le contrat de provider permet de faire évoluer les sources de données sans réécrire les composants visuels."
+          }
+        ],
+        "quality": [
+          "Commandes Maven test et verify documentées pour la validation locale.",
+          "Tests unitaires autour des modèles, providers et comportements principaux.",
+          "Workflow GitHub Actions présent pour vérifier le build du projet."
+        ],
+        "delivery": [
+          "Lancement reproductible via mvn javafx:run.",
+          "Import optionnel des polices Luciole et Hack via Makefile, avec fallback système lorsque les fichiers ne sont pas présents.",
+          "Documentation versionnée décrivant architecture, accessibilité, UI/UX et corrections successives."
+        ],
+        "outcomes": [
+          "Un dashboard météo desktop visuellement abouti malgré son statut de prototype.",
+          "Une base prête à recevoir des fournisseurs distants sans lier directement l’UI à une API particulière.",
+          "Une prise en compte de l’accessibilité et du clavier dès les premières itérations."
+        ],
+        "limitations": [
+          "Le provider principal reste simulé et aucune API météo distante n’est appelée dans l’état actuel.",
+          "Le projet demeure un prototype et ne couvre pas encore les pannes, quotas ou variations de schéma d’un fournisseur externe.",
+          "Le lancement non modulaire est assumé comme décision transitoire."
+        ],
+        "nextSteps": [
+          "Implémenter au moins un adaptateur météo distant derrière le contrat existant.",
+          "Ajouter des tests d’intégration autour des erreurs réseau, quotas et données partielles.",
+          "Réévaluer le passage au module system lorsque la structure de l’interface sera suffisamment stabilisée."
+        ]
+      }
     }
   ]
 }

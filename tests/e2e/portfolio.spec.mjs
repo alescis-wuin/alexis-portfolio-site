@@ -206,5 +206,22 @@ for (const projectPage of projectPages) {
     await expect(
       page.getByRole("link", { name: /Retour aux projets/i }),
     ).toBeVisible();
+    await expect(page.locator("[data-case-study]")).toBeVisible();
+
+    for (const heading of [
+      /Comment le système est structuré/i,
+      /Décisions techniques/i,
+      /Difficultés résolues/i,
+      /Tests et garde-fous/i,
+      /Livraison et CI\/CD/i,
+      /Résultats observables/i,
+      /Compromis techniques/i,
+      /Limites assumées/i,
+      /Prochaines étapes/i,
+    ]) {
+      await expect(
+        page.getByRole("heading", { level: 2, name: heading }),
+      ).toBeVisible();
+    }
   });
 }

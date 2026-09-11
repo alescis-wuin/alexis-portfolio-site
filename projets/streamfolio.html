@@ -58,7 +58,7 @@
     </div>
   </header>
 
-  <main id="contenu">
+  <main id="contenu" data-case-study>
     <article class="project-detail section-lg">
       <div class="container project-detail-grid">
         <div class="project-detail-copy" data-reveal>
@@ -88,7 +88,10 @@
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
           <p>Créer une plateforme portfolio proche d’un produit réel : accès sécurisé, expérience vidéo fluide, administration des médias et chaîne de traitement fiable.</p>
         </div>
-        <aside class="content-aside" data-reveal>
+        <aside class="content-aside" data-reveal aria-labelledby="role-title">
+          <p class="eyebrow">Rôle</p>
+          <h2 id="role-title">Mon rôle</h2>
+          <p>Conception et développement de bout en bout : architecture Spring Boot, sécurité, streaming, administration média, persistance, pipeline FFmpeg, tests et environnement Docker.</p>
           <h2>Stack</h2>
           <div class="tag-list"><span class="tag">Java</span>
                 <span class="tag">Spring Boot</span>
@@ -102,32 +105,96 @@
       </div>
     </section>
 
-    <section class="section section-alt" aria-labelledby="features-title">
+    <section class="section section-alt" aria-labelledby="architecture-title">
       <div class="container two-columns">
         <div data-reveal>
-          <p class="eyebrow">Fonctionnalités</p>
-          <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list"><li>Authentification avec Spring Security, BCrypt, cookies HttpOnly/SameSite et sessions Redis.</li><li>Catalogue films/séries avec recherche, filtres, watchlist et progression de lecture.</li><li>Streaming HTML5 : MP4 progressif, HTTP Range, WebVTT et HLS via hls.js.</li><li>Administration média : upload, métadonnées, miniatures, publication et relance de jobs.</li><li>Pipeline asynchrone : file persistante, retry exponentiel, reprise après redémarrage et annulation FFmpeg.</li><li>Persistance PostgreSQL/Flyway, stockage objet MinIO et environnement Docker reproductible.</li><li>Tests Maven, tests sécurité, streaming/admin, smoke tests, E2E Playwright et CI GitHub Actions.</li></ul>
+          <p class="eyebrow">Architecture</p>
+          <h2 id="architecture-title">Comment le système est structuré</h2>
+          <ul class="check-list"><li>Application web/PWA portée par Spring Boot pour le catalogue, l’authentification, l’administration et les endpoints de streaming.</li><li>PostgreSQL et Flyway pour les données métier durables ; Redis pour l’état de session runtime.</li><li>MinIO pour les originaux, sous-titres et sorties HLS/miniatures, avec disque local utilisé comme staging FFmpeg.</li><li>Pipeline média avec jobs persistés, workers bornés, ordonnanceur, retry et reprise après redémarrage.</li></ul>
         </div>
         <div data-reveal>
-          <p class="eyebrow">Preuve de compétence</p>
-          <h2>Ce que ce projet démontre</h2>
-          <ul class="check-list"><li>Architecture applicative complète, pas seulement une interface.</li><li>Sensibilité aux contraintes backend : sécurité, sessions, stockage, files et robustesse.</li><li>Capacité à documenter les décisions techniques et les limites du projet.</li></ul>
+          <p class="eyebrow">Décisions</p>
+          <h2>Décisions techniques</h2>
+          <ul class="check-list"><li><strong>Séparer données métier et état de session.</strong> PostgreSQL conserve les données durables tandis que Redis reste dédié aux sessions runtime, afin de ne pas mélanger deux responsabilités de persistance.</li><li><strong>Conserver FFmpeg local et externaliser le stockage média.</strong> Le transcodage reste local pour garder une architecture portfolio maîtrisable, tandis que MinIO découple le stockage des originaux et sorties générées.</li><li><strong>Persister les jobs de transcodage.</strong> Les traitements longs ne reposent pas sur une simple file mémoire : ils peuvent être relancés, repris après redémarrage et annulés de manière coopérative.</li><li><strong>Valider les sources avant traitement.</strong> La validation combine extension, MIME, signature de conteneur, durée, présence de flux vidéo et politique codec avant de lancer le pipeline.</li></ul>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="next-title">
-      <div class="container contact-card" data-reveal>
-        <div>
+    <section class="section" aria-labelledby="features-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Implémentation</p>
+          <h2 id="features-title">Points techniques principaux</h2>
+          <ul class="check-list"><li>Authentification avec Spring Security, BCrypt, cookies HttpOnly/SameSite et sessions Redis.</li><li>Catalogue films/séries avec recherche, filtres, watchlist et progression de lecture.</li><li>Streaming HTML5 : MP4 progressif, HTTP Range, WebVTT et HLS via hls.js.</li><li>Administration média : upload, métadonnées, miniatures, publication et relance de jobs.</li><li>Pipeline asynchrone : file persistante, retry exponentiel, reprise après redémarrage et annulation FFmpeg.</li><li>Persistance PostgreSQL/Flyway, stockage objet MinIO et environnement Docker reproductible.</li><li>Tests Maven, tests sécurité, streaming/admin, smoke tests, E2E Playwright et CI GitHub Actions.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Difficultés</p>
+          <h2>Difficultés résolues</h2>
+          <ul class="check-list"><li><strong>Servir efficacement des médias volumineux.</strong> Le lecteur combine MP4 progressif avec HTTP Range, WebVTT et HLS via hls.js afin de couvrir plusieurs modes de lecture.</li><li><strong>Rendre les traitements média robustes.</strong> La file persistante, le retry exponentiel, la reprise après redémarrage et l’annulation FFmpeg évitent qu’un traitement long soit lié au cycle de vie d’une requête HTTP.</li><li><strong>Sécuriser l’entrée média.</strong> Les contrôles sur le type et le contenu des fichiers réduisent le risque de traiter comme vidéo une entrée seulement renommée ou incohérente.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="quality-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Qualité</p>
+          <h2 id="quality-title">Tests et garde-fous</h2>
+          <ul class="check-list"><li>Tests Maven couvrant notamment sécurité, streaming et administration média.</li><li>Smoke tests et tests E2E Playwright sur les parcours principaux.</li><li>Script de validation du dépôt couvrant scripts, JavaScript, Python, Maven, Redis et profil local-media.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Livraison</p>
+          <h2>Livraison et CI/CD</h2>
+          <ul class="check-list"><li>Docker Compose fournit PostgreSQL, Redis et MinIO pour un environnement d’évaluation reproductible.</li><li>Le profil de production est configuré par variables d’environnement, avec cookie sécurisé prévu derrière HTTPS.</li><li>Un workflow Main Merge Validation relance la validation complète après intégration sur main.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="outcomes-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Résultats</p>
+          <h2 id="outcomes-title">Résultats observables</h2>
+          <ul class="check-list"><li>Un parcours cohérent allant de l’administration et l’upload jusqu’au catalogue et à la lecture vidéo.</li><li>Un pipeline média capable de survivre aux redémarrages applicatifs et de reprendre les traitements persistés.</li><li>Une architecture dont les limites de production sont documentées au lieu d’être masquées.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Compromis</p>
+          <h2>Compromis techniques</h2>
+          <ul class="check-list"><li>FFmpeg reste exécuté localement : le projet privilégie une démonstration reproductible plutôt qu’une ferme de transcodage distribuée.</li><li>MinIO représente un stockage objet local de démonstration, sans CDN multi-région ni réplication à l’échelle d’un service public.</li><li>Redis est utilisé en configuration simple dans l’environnement portfolio ; la haute disponibilité n’est pas traitée ici.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="limits-title">
+      <div class="container two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Limites</p>
+          <h2 id="limits-title">Limites assumées</h2>
+          <ul class="check-list"><li>Pas de DRM ni de CDN global.</li><li>Redis reste mono-nœud dans l’environnement de démonstration.</li><li>Le transcodage FFmpeg n’est pas distribué sur plusieurs workers ou machines.</li></ul>
+        </div>
+        <div data-reveal>
           <p class="eyebrow">Suite</p>
-          <h2 id="next-title">Voir le reste du portfolio</h2>
+          <h2>Prochaines étapes</h2>
+          <ul class="check-list"><li>Externaliser ou rendre hautement disponibles Redis et le stockage média si le projet devait devenir un service public.</li><li>Introduire CDN, DRM et stratégie de distribution multi-région uniquement si les besoins produit le justifient.</li><li>Compléter l’observabilité et les essais de charge pour caractériser précisément les limites du pipeline.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="proof-title">
+      <div class="container content-grid">
+        <div class="content-block" data-reveal>
+          <p class="eyebrow">Preuve de compétence</p>
+          <h2 id="proof-title">Ce que ce projet démontre</h2>
+          <ul class="check-list"><li>Architecture applicative complète, pas seulement une interface.</li><li>Sensibilité aux contraintes backend : sécurité, sessions, stockage, files et robustesse.</li><li>Capacité à documenter les décisions techniques et les limites du projet.</li></ul>
+        </div>
+        <aside class="content-aside" data-reveal aria-labelledby="continue-title">
+          <h2 id="continue-title">Continuer la visite</h2>
           <p>Comparer les autres études de cas et filtrer le catalogue par langage, type, stack ou statut.</p>
-        </div>
-        <div class="contact-actions">
-          <a class="button button-primary" href="./index.html">Tous les projets</a>
-          <a class="button button-secondary" href="../index.html#contact">Contact</a>
-        </div>
+          <div class="contact-actions">
+            <a class="button button-primary" href="./index.html">Tous les projets</a>
+            <a class="button button-secondary" href="../index.html#contact">Contact</a>
+          </div>
+        </aside>
       </div>
     </section>
   </main>
