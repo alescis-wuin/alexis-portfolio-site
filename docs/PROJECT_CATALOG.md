@@ -2,7 +2,7 @@
 
 ## Objectif
 
-`data/projects.json` est la source canonique de tous les projets publics du portfolio.
+`data/projects.json` est la source canonique des projets connus du portfolio ; la propriété `published` décide lesquels appartiennent à la surface publique.
 
 Il pilote automatiquement :
 
@@ -37,6 +37,7 @@ Les entrées C#/.NET sont désormais utilisées par Calcufolio ; une technologie
   "id": "mon-projet",
   "slug": "mon-projet",
   "name": "Mon projet",
+  "published": true,
   "featured": false,
   "status": "in-progress",
   "subtitle": "Application métier",
@@ -60,16 +61,29 @@ Les entrées C#/.NET sont désormais utilisées par Calcufolio ; une technologie
 
 `featuredOrder` est obligatoire uniquement lorsque `featured` vaut `true`.
 
+## Politique de publication — schéma v3
+
+Depuis P2.3-A.1, `schemaVersion` vaut `3` et chaque projet déclare explicitement `published`.
+
+- `published: true` : le projet peut être généré dans le catalogue, les pages projet, les filtres, la sélection featured et le sitemap ;
+- `published: false` : les données restent conservées et validées dans la source canonique, mais aucune surface publique n'est générée ;
+- un projet non publié ne peut pas être `featured` ;
+- `publicationNote` est obligatoire lorsqu'un projet est non publié afin de conserver la raison éditoriale de ce choix ;
+- les taxonomies visibles sont calculées uniquement à partir des projets publiés.
+
+Cette politique permet de conserver un projet en refonte sans exposer une page obsolète ni perdre son étude de cas structurée.
+
 Le slug `index` est réservé au catalogue `projets/index.html` et ne peut pas être utilisé par un projet.
 
 Tous les fichiers `projets/*.html` autres que `projets/index.html` sont des sorties gérées. Une page qui ne correspond plus à un slug du catalogue est signalée par `npm run generate:check` et supprimée par `npm run generate`.
 
 
-## Étude de cas professionnelle — schéma v2
+## Étude de cas professionnelle — introduite au schéma v2
 
-Depuis P2.2, `schemaVersion` vaut `2` et chaque projet public doit contenir un objet `caseStudy`.
+P2.2 a introduit l'objet obligatoire `caseStudy`. Le schéma courant vaut désormais `3`,
+mais les mêmes invariants éditoriaux restent appliqués à tous les projets, publiés ou non.
 Le générateur refuse une fiche incomplète : la qualité éditoriale devient un invariant au même titre
-que le slug, la taxonomie ou l'image.
+que le slug, la taxonomie, l'image ou la politique de publication.
 
 Structure obligatoire :
 

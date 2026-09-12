@@ -5,12 +5,16 @@ import { expect, test } from "@playwright/test";
 const catalog = JSON.parse(
   readFileSync(new URL("../../data/projects.json", import.meta.url), "utf8"),
 );
-const projectPages = catalog.projects.map((project) => ({
+const publishedProjects = catalog.projects.filter(
+  (project) => project.published,
+);
+const hiddenProjects = catalog.projects.filter((project) => !project.published);
+const projectPages = publishedProjects.map((project) => ({
   ...project,
   path: `/projets/${project.slug}.html`,
   title: new RegExp(project.name, "i"),
 }));
-const featuredProjects = catalog.projects
+const featuredProjects = publishedProjects
   .filter((project) => project.featured)
   .sort((a, b) => a.featuredOrder - b.featuredOrder);
 
@@ -83,7 +87,7 @@ test("le catalogue complet expose tous les projets", async ({ page }) => {
     /Projets/i,
   );
   await expect(page.locator("[data-project-card]")).toHaveCount(
-    catalog.projects.length,
+    publishedProjects.length,
   );
 });
 
@@ -91,7 +95,7 @@ test("les filtres du catalogue combinent les facettes", async ({ page }) => {
   await page.goto("/projets/");
 
   const statusCounts = new Map();
-  for (const project of catalog.projects) {
+  for (const project of publishedProjects) {
     statusCounts.set(
       project.status,
       (statusCounts.get(project.status) || 0) + 1,
@@ -99,7 +103,7 @@ test("les filtres du catalogue combinent les facettes", async ({ page }) => {
   }
 
   const target = [...statusCounts].find(
-    ([, count]) => count > 0 && count < catalog.projects.length,
+    ([, count]) => count > 0 && count < publishedProjects.length,
   );
   test.skip(!target, "Aucun statut discriminant dans le catalogue.");
 
@@ -114,14 +118,14 @@ test("les filtres du catalogue combinent les facettes", async ({ page }) => {
 
   await page.getByRole("button", { name: /Réinitialiser/i }).click();
   await expect(page.locator("[data-project-card]:visible")).toHaveCount(
-    catalog.projects.length,
+    publishedProjects.length,
   );
 });
 
 test("le filtre C# expose uniquement les projets C#", async ({ page }) => {
   await page.goto("/projets/");
 
-  const csharpProjects = catalog.projects.filter((project) =>
+  const csharpProjects = publishedProjects.filter((project) =>
     project.languages.includes("csharp"),
   );
 
@@ -137,6 +141,28 @@ test("le filtre C# expose uniquement les projets C#", async ({ page }) => {
         `[data-project-card][data-project-slug="${project.slug}"]:visible`,
       ),
     ).toBeVisible();
+  }
+});
+
+test("les projets non publiés restent hors de la surface publique", async ({
+  page,
+  request,
+}) => {
+  const response = await page.goto("/projets/");
+  expect(response?.ok()).toBe(true);
+
+  const sitemapResponse = await request.get("/sitemap.xml");
+  expect(sitemapResponse.ok()).toBe(true);
+  const sitemap = await sitemapResponse.text();
+
+  for (const project of hiddenProjects) {
+    await expect(
+      page.locator(`[data-project-card][data-project-slug="${project.slug}"]`),
+    ).toHaveCount(0);
+    expect(sitemap).not.toContain(`/projets/${project.slug}.html`);
+
+    const detailResponse = await request.get(`/projets/${project.slug}.html`);
+    expect(detailResponse.status()).toBe(404);
   }
 });
 
