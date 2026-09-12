@@ -25,12 +25,15 @@ const projectsDir = path.join(rootDir, "projets");
 
 const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
 validateCatalog(catalog);
+const publishedProjects = catalog.projects.filter(
+  (project) => project.published,
+);
 
 const projectTemplate = readFileSync(projectTemplatePath, "utf8");
 const catalogTemplate = readFileSync(catalogTemplatePath, "utf8");
 const outputs = new Map();
 
-for (const project of catalog.projects) {
+for (const project of publishedProjects) {
   outputs.set(
     path.join(projectsDir, `${project.slug}.html`),
     renderProjectPage(project),
@@ -101,8 +104,8 @@ function findOrphanProjectPages(expectedOutputs) {
 }
 
 function validateCatalog(data) {
-  if (data.schemaVersion !== 2) {
-    throw new Error("data/projects.json : schemaVersion doit valoir 2.");
+  if (data.schemaVersion !== 3) {
+    throw new Error("data/projects.json : schemaVersion doit valoir 3.");
   }
 
   for (const key of ["baseUrl", "title", "description"]) {
@@ -141,6 +144,18 @@ function validateCatalog(data) {
       "imageAlt",
     ]) {
       assertNonEmpty(project[field], `projects.${project.id || "?"}.${field}`);
+    }
+
+    if (typeof project.published !== "boolean") {
+      throw new Error(`${project.id} : published doit être un booléen.`);
+    }
+    if (!project.published) {
+      assertNonEmpty(project.publicationNote, `${project.id}.publicationNote`);
+      if (project.featured) {
+        throw new Error(
+          `${project.id} : un projet non publié ne peut pas être featured.`,
+        );
+      }
     }
 
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.slug)) {
@@ -205,8 +220,12 @@ function validateCatalog(data) {
     }
   }
 
-  if (![...data.projects].some((project) => project.featured)) {
-    throw new Error("Au moins un projet doit être featured.");
+  const publicProjects = data.projects.filter((project) => project.published);
+  if (publicProjects.length === 0) {
+    throw new Error("Au moins un projet doit être publié.");
+  }
+  if (!publicProjects.some((project) => project.featured)) {
+    throw new Error("Au moins un projet publié doit être featured.");
   }
 }
 
@@ -324,8 +343,8 @@ function renderCatalogPage() {
   return renderTemplate(catalogTemplate, {
     CANONICAL_URL: escapeAttr(`${catalog.site.baseUrl}/projets/`),
     FILTERS: renderFilters(),
-    PROJECT_COUNT: String(catalog.projects.length),
-    PROJECT_CARDS: catalog.projects
+    PROJECT_COUNT: String(publishedProjects.length),
+    PROJECT_CARDS: publishedProjects
       .map((project, index) =>
         renderProjectCard(project, index + 1, "../", "./"),
       )
@@ -336,7 +355,7 @@ function renderCatalogPage() {
 function renderHomeIndex(currentHtml) {
   const startMarker = "<!-- GENERATED:HOME-PROJECTS:START -->";
   const endMarker = "<!-- GENERATED:HOME-PROJECTS:END -->";
-  const featured = catalog.projects
+  const featured = publishedProjects
     .filter((project) => project.featured)
     .sort((a, b) => a.featuredOrder - b.featuredOrder);
   const featuredCountText = `${featured.length} ${featured.length === 1 ? "étude de cas" : "études de cas"}, CV, GitHub et projets documentés`;
@@ -477,7 +496,7 @@ function renderFilters() {
 
 function usedTaxonomyValues(group) {
   const used = new Set();
-  for (const project of catalog.projects) {
+  for (const project of publishedProjects) {
     if (group === "status") {
       used.add(project.status);
     } else {
@@ -491,7 +510,7 @@ function renderSitemap() {
   const urls = [
     [`${catalog.site.baseUrl}/`, "1.0"],
     [`${catalog.site.baseUrl}/projets/`, "0.9"],
-    ...catalog.projects.map((project) => [
+    ...publishedProjects.map((project) => [
       `${catalog.site.baseUrl}/projets/${project.slug}.html`,
       project.sitemapPriority.toFixed(1),
     ]),

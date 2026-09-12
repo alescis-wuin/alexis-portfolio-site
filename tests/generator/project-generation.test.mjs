@@ -133,6 +133,41 @@ test("les sections professionnelles sont générées sur les pages projet", () =
   }
 });
 
+test("la politique de publication est obligatoire", () => {
+  const catalogPath = path.join(fixtureRoot, "data", "projects.json");
+  const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+  delete catalog.projects[0].published;
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  const result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /published doit être un booléen/);
+});
+
+test("un projet non publié reste hors de toutes les sorties publiques", () => {
+  const catalog = JSON.parse(
+    readFileSync(path.join(fixtureRoot, "data", "projects.json"), "utf8"),
+  );
+  const hidden = catalog.projects.find((project) => !project.published);
+  assert.ok(hidden, "le fixture doit contenir un projet non publié");
+
+  assertGeneratorSuccess(runGenerator());
+
+  const hiddenPage = path.join(fixtureRoot, "projets", `${hidden.slug}.html`);
+  assert.equal(existsSync(hiddenPage), false);
+
+  const catalogHtml = readFileSync(
+    path.join(fixtureRoot, "projets", "index.html"),
+    "utf8",
+  );
+  const homeHtml = readFileSync(path.join(fixtureRoot, "index.html"), "utf8");
+  const sitemap = readFileSync(path.join(fixtureRoot, "sitemap.xml"), "utf8");
+
+  assert.ok(!catalogHtml.includes(`data-project-slug="${hidden.slug}"`));
+  assert.ok(!homeHtml.includes(`data-project-slug="${hidden.slug}"`));
+  assert.ok(!sitemap.includes(`/projets/${hidden.slug}.html`));
+});
+
 function copyFixturePath(relativePath) {
   const source = path.join(repoRoot, relativePath);
   const destination = path.join(fixtureRoot, relativePath);
