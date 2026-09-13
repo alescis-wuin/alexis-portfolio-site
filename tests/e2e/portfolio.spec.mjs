@@ -234,6 +234,57 @@ for (const projectPage of projectPages) {
     ).toBeVisible();
     await expect(page.locator("[data-case-study]")).toBeVisible();
 
+    const hero = page.locator("[data-project-hero] img");
+    const architecture = page.locator("[data-project-architecture] img");
+    const gallery = page.locator("[data-project-gallery] [data-gallery-item]");
+
+    await expect(hero).toHaveAttribute(
+      "src",
+      `../${projectPage.visuals.hero.src}`,
+    );
+    await expect(hero).toHaveAttribute("fetchpriority", "high");
+    await expect(architecture).toHaveAttribute(
+      "src",
+      `../${projectPage.visuals.architecture.src}`,
+    );
+    await expect(architecture).toHaveAttribute("loading", "lazy");
+    await expect(gallery).toHaveCount(projectPage.visuals.gallery.length);
+
+    expect(
+      await hero.evaluate(
+        (node) =>
+          node.complete && node.naturalWidth > 0 && node.naturalHeight > 0,
+      ),
+    ).toBe(true);
+
+    await architecture.scrollIntoViewIfNeeded();
+    await expect
+      .poll(() =>
+        architecture.evaluate(
+          (node) =>
+            node.complete && node.naturalWidth > 0 && node.naturalHeight > 0,
+        ),
+      )
+      .toBe(true);
+
+    for (
+      let index = 0;
+      index < projectPage.visuals.gallery.length;
+      index += 1
+    ) {
+      const image = gallery.nth(index).locator("img");
+      await expect(image).toHaveAttribute("loading", "lazy");
+      await image.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() =>
+          image.evaluate(
+            (node) =>
+              node.complete && node.naturalWidth > 0 && node.naturalHeight > 0,
+          ),
+        )
+        .toBe(true);
+    }
+
     for (const heading of [
       /Comment le système est structuré/i,
       /Décisions techniques/i,

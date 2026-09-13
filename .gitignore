@@ -38,3 +38,7 @@ coverage/
 *.tar.gz
 tmp/
 temp/
+
+# Playwright runtime artifacts
+test-results/
+playwright-report/

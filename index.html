@@ -71,7 +71,7 @@
             </div>
             <div>
               <dt>Preuves</dt>
-              <dd data-featured-project-count>2 études de cas, CV, GitHub et projets documentés</dd>
+              <dd data-featured-project-count>4 études de cas, CV, GitHub et projets documentés</dd>
             </div>
           </dl>
         </div>
@@ -125,13 +125,13 @@
       <div class="container">
         <div class="section-heading" data-reveal>
           <p class="eyebrow">Projets</p>
-          <h2 id="projects-title">2 études de cas orientées preuves</h2>
+          <h2 id="projects-title">4 études de cas orientées preuves</h2>
           <p>Une sélection courte issue du catalogue complet pour montrer des compétences complémentaires. Les pages, métadonnées, filtres, sitemap et tests utilisent la même source de données.</p>
         </div>
         <div class="project-grid project-grid-focus">
           <article class="project-card project-card-playful" data-project-card data-project-slug="streamfolio" data-language="java" data-type="backend fullstack data devops" data-stack="spring-boot postgresql redis minio docker hls playwright" data-status="finalized" data-reveal>
             <a class="project-media" href="projets/streamfolio.html" aria-label="Lire l’étude de cas Streamfolio">
-              <img src="assets/img/projects/streamfolio.svg" width="960" height="540" loading="lazy" alt="">
+              <img src="assets/img/projects/streamfolio.svg" width="960" height="540" loading="lazy" decoding="async" alt="">
             </a>
             <div class="project-body">
               <div class="project-signal">
@@ -164,13 +164,81 @@
               </div>
             </div>
           </article>
-          <article class="project-card project-card-playful" data-project-card data-project-slug="calcufolio" data-language="csharp" data-type="desktop architecture" data-stack="dotnet-10 avalonia communitytoolkit-mvvm xunit tests github-actions" data-status="in-progress" data-reveal>
-            <a class="project-media" href="projets/calcufolio.html" aria-label="Lire l’étude de cas Calcufolio">
-              <img src="assets/img/projects/calcufolio.svg" width="960" height="540" loading="lazy" alt="">
+          <article class="project-card project-card-playful" data-project-card data-project-slug="kanban" data-language="csharp" data-type="web backend fullstack architecture accessibility" data-stack="dotnet-10 aspnet-core blazor ef-core sqlite rest xunit tests github-actions" data-status="in-progress" data-reveal>
+            <a class="project-media" href="projets/kanban.html" aria-label="Lire l’étude de cas Kanban">
+              <img src="assets/img/projects/kanban/hero.webp" width="2400" height="1005" loading="lazy" decoding="async" alt="">
             </a>
             <div class="project-body">
               <div class="project-signal">
                 <span class="project-index" aria-hidden="true">02</span>
+                <span class="project-status">En cours</span>
+              </div>
+              <h3><a href="projets/kanban.html">Kanban</a></h3>
+              <p class="project-summary">Gestionnaire C#/.NET 10 avec vues Liste/Kanban, tâches et sous-tâches, limites WIP, récurrence, historique, import/export, API REST et EF Core/SQLite.</p>
+              <dl class="project-facts">
+                <div>
+                  <dt>Mission</dt>
+                  <dd>Construire une application métier Web au-delà d’un CRUD de tâches.</dd>
+                </div>
+                <div>
+                  <dt>Preuve</dt>
+                  <dd>Règles WIP, Blazor, API, EF Core, accessibilité, tests et CI.</dd>
+                </div>
+              </dl>
+              <div class="tag-list" aria-label="Technologies principales">
+                <span class="tag">.NET 10</span>
+                <span class="tag">Blazor</span>
+                <span class="tag">Entity Framework Core</span>
+                <span class="tag">SQLite</span>
+                <span class="tag">GitHub Actions</span>
+              </div>
+              <div class="card-actions project-actions">
+                <a class="text-link" href="projets/kanban.html">Lire l’étude de cas</a>
+                <a href="https://github.com/alescis-wuin/kanban" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card project-card-playful" data-project-card data-project-slug="agenda" data-language="csharp" data-type="web mobile backend architecture accessibility" data-stack="dotnet-10 aspnet-core blazor maui ef-core sqlite rest xunit tests github-actions" data-status="prototype" data-reveal>
+            <a class="project-media" href="projets/agenda.html" aria-label="Lire l’étude de cas Agenda">
+              <img src="assets/img/projects/agenda/hero.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-signal">
+                <span class="project-index" aria-hidden="true">03</span>
+                <span class="project-status">Prototype</span>
+              </div>
+              <h3><a href="projets/agenda.html">Agenda</a></h3>
+              <p class="project-summary">Agenda C#/.NET 10 avec calendrier mensuel, CRUD d’événements, interface Blazor partagée entre Web et MAUI, API REST et persistance EF Core/SQLite.</p>
+              <dl class="project-facts">
+                <div>
+                  <dt>Mission</dt>
+                  <dd>Partager une même interface métier entre Web et application hybride.</dd>
+                </div>
+                <div>
+                  <dt>Preuve</dt>
+                  <dd>Blazor, MAUI, API, EF Core, architecture multi-hôte, tests et CI.</dd>
+                </div>
+              </dl>
+              <div class="tag-list" aria-label="Technologies principales">
+                <span class="tag">.NET 10</span>
+                <span class="tag">Blazor</span>
+                <span class="tag">.NET MAUI</span>
+                <span class="tag">Entity Framework Core</span>
+                <span class="tag">SQLite</span>
+              </div>
+              <div class="card-actions project-actions">
+                <a class="text-link" href="projets/agenda.html">Lire l’étude de cas</a>
+                <a href="https://github.com/alescis-wuin/agenda" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card project-card-playful" data-project-card data-project-slug="calcufolio" data-language="csharp" data-type="desktop architecture" data-stack="dotnet-10 avalonia communitytoolkit-mvvm xunit tests github-actions" data-status="in-progress" data-reveal>
+            <a class="project-media" href="projets/calcufolio.html" aria-label="Lire l’étude de cas Calcufolio">
+              <img src="assets/img/projects/calcufolio.svg" width="960" height="540" loading="lazy" decoding="async" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-signal">
+                <span class="project-index" aria-hidden="true">04</span>
                 <span class="project-status">En cours</span>
               </div>
               <h3><a href="projets/calcufolio.html">Calcufolio</a></h3>

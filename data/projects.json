@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "site": {
     "baseUrl": "https://www.alexis-guinot.fr",
     "title": "Alexis Guinot — Développeur et concepteur d’applications",
@@ -54,7 +54,9 @@
       "xunit": "xUnit",
       "testcontainers": "Testcontainers",
       "dotnet-10": ".NET 10",
-      "communitytoolkit-mvvm": "CommunityToolkit.Mvvm"
+      "communitytoolkit-mvvm": "CommunityToolkit.Mvvm",
+      "blazor": "Blazor",
+      "sqlite": "SQLite"
     },
     "status": {
       "finalized": "Finalisé",
@@ -184,6 +186,335 @@
           "Externaliser ou rendre hautement disponibles Redis et le stockage média si le projet devait devenir un service public.",
           "Introduire CDN, DRM et stratégie de distribution multi-région uniquement si les besoins produit le justifient.",
           "Compléter l’observabilité et les essais de charge pour caractériser précisément les limites du pipeline."
+        ]
+      },
+      "visuals": {
+        "hero": {
+          "src": "assets/img/projects/streamfolio/hero.webp",
+          "alt": "Accueil de Streamfolio affichant le film Aurora Drift, la navigation, la recherche et le catalogue.",
+          "caption": "Catalogue et navigation de Streamfolio, avec recherche, filtres et contenu de démonstration.",
+          "width": 1920,
+          "height": 1080
+        },
+        "architecture": {
+          "src": "assets/img/projects/streamfolio/architecture.svg",
+          "alt": "Schéma d’architecture de Streamfolio reliant le navigateur, Spring Boot, PostgreSQL, Redis, MinIO, les jobs média et FFmpeg.",
+          "caption": "Architecture applicative et pipeline média persisté de Streamfolio.",
+          "width": 1600,
+          "height": 900
+        },
+        "gallery": [
+          {
+            "src": "assets/img/projects/streamfolio/details.webp",
+            "alt": "Page de détail Streamfolio pour le film Aurora Drift avec métadonnées et actions de lecture.",
+            "caption": "Fiche de contenu avant lecture.",
+            "width": 1920,
+            "height": 1080
+          },
+          {
+            "src": "assets/img/projects/streamfolio/player.webp",
+            "alt": "Lecteur vidéo Streamfolio affichant le média de démonstration Canopées urbaines.",
+            "caption": "Lecteur HTML5 utilisé dans le parcours de streaming.",
+            "width": 1920,
+            "height": 1080
+          }
+        ]
+      }
+    },
+    {
+      "id": "kanban",
+      "slug": "kanban",
+      "name": "Kanban",
+      "published": true,
+      "featured": true,
+      "featuredOrder": 2,
+      "status": "in-progress",
+      "subtitle": "Gestionnaire de tâches et Kanban avancé",
+      "summary": "Gestionnaire C#/.NET 10 avec vues Liste/Kanban, tâches et sous-tâches, limites WIP, récurrence, historique, import/export, API REST et EF Core/SQLite.",
+      "metaDescription": "Gestionnaire de tâches C#/.NET 10 avec Blazor, Kanban avancé, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.",
+      "mission": "Construire une application métier Web au-delà d’un CRUD de tâches.",
+      "proof": "Règles WIP, Blazor, API, EF Core, accessibilité, tests et CI.",
+      "problem": "Créer un gestionnaire de tâches qui combine interactions Kanban, règles métier, historique, import/export et API sans dupliquer la logique entre l’interface Web et les endpoints HTTP.",
+      "repository": "https://github.com/alescis-wuin/kanban",
+      "image": "assets/img/projects/kanban/hero.webp",
+      "imageAlt": "Aperçu du tableau Kanban en thème sombre",
+      "languages": ["csharp"],
+      "types": ["web", "backend", "fullstack", "architecture", "accessibility"],
+      "stack": [
+        "dotnet-10",
+        "aspnet-core",
+        "blazor",
+        "ef-core",
+        "sqlite",
+        "rest",
+        "xunit",
+        "tests",
+        "github-actions"
+      ],
+      "homeStack": [
+        "dotnet-10",
+        "blazor",
+        "ef-core",
+        "sqlite",
+        "github-actions"
+      ],
+      "features": [
+        "Création, modification, suppression, achèvement et réouverture de tâches.",
+        "Sous-tâches, étiquettes, priorités, échéances, rappels, récurrence et historique horodaté.",
+        "Vues Liste et Kanban avec glisser-déposer, réorganisation persistante et alternative clavier.",
+        "Cinq colonnes configurables avec nom, ordre, couleur, visibilité et limite WIP.",
+        "Import/export JSON ou CSV, thèmes clair/sombre et réduction des animations.",
+        "API REST pour tâches, tableau, paramètres, historique et données.",
+        "Persistance EF Core/SQLite, tests multi-couches, formatage, audit NuGet et CI GitHub Actions."
+      ],
+      "proofs": [
+        "Règles métier explicites autour des colonnes et limites WIP.",
+        "Réutilisation des mêmes couches Application/Domain depuis l’interface Blazor et l’API.",
+        "Attention portée à l’accessibilité, à la persistance des interactions et à l’industrialisation .NET."
+      ],
+      "sitemapPriority": 0.8,
+      "caseStudy": {
+        "role": "Conception et développement d’un gestionnaire de tâches C#/.NET 10 : domaine métier, application, persistance EF Core/SQLite, interface Blazor, API REST, interactions Kanban, tests et CI.",
+        "architecture": [
+          "Todo.Domain contient tâches, sous-tâches, étiquettes, colonnes, historique, paramètres et invariants.",
+          "Todo.Contracts regroupe DTO, requêtes, formats d’import/export et exceptions contractuelles.",
+          "Todo.Application orchestre les cas d’usage et le transfert de données.",
+          "Todo.Infrastructure fournit EF Core, SQLite, repository et initialisation/mise à niveau de la base.",
+          "Todo.Ui porte l’interface Razor, tandis que Todo.Web l’héberge en Blazor Interactive Server.",
+          "Todo.Api expose les mêmes capacités applicatives via des Minimal APIs et OpenAPI."
+        ],
+        "decisions": [
+          {
+            "title": "Faire des limites WIP une règle métier",
+            "detail": "La limite d’une colonne n’est pas un simple avertissement visuel : le domaine la modélise et les déplacements/API réutilisent cette règle."
+          },
+          {
+            "title": "Partager les cas d’usage entre Web et API",
+            "detail": "Todo.Web et Todo.Api s’appuient sur Todo.Application afin d’éviter une logique métier différente selon le point d’entrée."
+          },
+          {
+            "title": "Persister la configuration du tableau",
+            "detail": "Ordre, visibilité, couleur et limites WIP des colonnes sont conservés en base plutôt que reconstruits uniquement dans l’état de l’interface."
+          },
+          {
+            "title": "Prévoir une alternative clavier au drag-and-drop",
+            "detail": "Les déplacements restent accessibles sans dépendre exclusivement du glisser-déposer."
+          }
+        ],
+        "tradeoffs": [
+          "SQLite rend le projet simple à lancer et à conserver localement, mais ne vise pas un service collaboratif distribué.",
+          "Les rappels sont signalés lorsque l’application Web est ouverte ; aucune infrastructure de notification native ou serveur n’est incluse.",
+          "Le projet reste volontairement mono-utilisateur et sans authentification pour concentrer la démonstration sur le domaine et les interactions."
+        ],
+        "challenges": [
+          {
+            "title": "Maintenir la cohérence des déplacements Kanban",
+            "detail": "Le changement de colonne, l’ordre persistant et les limites WIP doivent rester cohérents pour le drag-and-drop, le clavier et l’API."
+          },
+          {
+            "title": "Historiser sans polluer les vues",
+            "detail": "Les actions importantes sont persistées et exposées par un historique dédié plutôt que dispersées dans l’état UI."
+          },
+          {
+            "title": "Faire évoluer une base SQLite locale",
+            "detail": "Le prototype applique des mises à niveau additives afin de préserver les données créées par les versions précédentes."
+          }
+        ],
+        "quality": [
+          "Tests du domaine, de l’application, de l’infrastructure SQLite et du formatage d’interface.",
+          "dotnet format vérifie le style avant build et tests.",
+          "La CI audite également les dépendances NuGet directes et transitives vulnérables."
+        ],
+        "delivery": [
+          "GitHub Actions exécute restore, format, build Release, tests et audit NuGet sur develop, main et pull requests.",
+          "Le Makefile expose make verify et les commandes de lancement Web/API.",
+          "Nullable, analyse statique et builds déterministes renforcent la quality gate .NET."
+        ],
+        "outcomes": [
+          "Un gestionnaire qui combine liste, Kanban avancé et règles métier dans une même application.",
+          "Des colonnes configurables et limites WIP persistées plutôt qu’un tableau uniquement visuel.",
+          "Une API REST et des formats d’import/export qui réutilisent les mêmes données métier."
+        ],
+        "limitations": [
+          "Le branding public reste encore partagé entre le nom du dépôt Kanban et le nom interne Todo.",
+          "L’authentification et la collaboration multi-utilisateur ne sont pas incluses.",
+          "Les notifications natives et la synchronisation hors ligne avec l’API ne sont pas implémentées."
+        ],
+        "nextSteps": [
+          "Harmoniser le branding Kanban/Todo avant une release utilisateur stable.",
+          "Ajouter authentification et collaboration uniquement si le projet doit dépasser le périmètre mono-utilisateur local.",
+          "Externaliser les rappels/notifications si l’application doit prévenir l’utilisateur lorsqu’elle n’est pas ouverte."
+        ]
+      },
+      "visuals": {
+        "hero": {
+          "src": "assets/img/projects/kanban/hero.webp",
+          "alt": "Tableau Kanban en thème sombre avec cinq colonnes, tâches, priorités et limites WIP visibles.",
+          "caption": "Tableau configurable montrant tâches, priorités et limites WIP.",
+          "width": 2400,
+          "height": 1005
+        },
+        "architecture": {
+          "src": "assets/img/projects/kanban/architecture.svg",
+          "alt": "Schéma du gestionnaire Kanban reliant l’hôte Web Blazor et l’API aux couches UI, Application, Domain, Contracts et Infrastructure SQLite.",
+          "caption": "Architecture Web métier avec règles WIP dans le domaine et persistance EF Core/SQLite.",
+          "width": 1600,
+          "height": 900
+        },
+        "gallery": [
+          {
+            "src": "assets/img/projects/kanban/theme-light.webp",
+            "alt": "Tableau Kanban en thème clair avec cinq colonnes et plusieurs tâches réparties selon leur état.",
+            "caption": "Même tableau en thème clair.",
+            "width": 2400,
+            "height": 1006
+          }
+        ]
+      }
+    },
+    {
+      "id": "agenda",
+      "slug": "agenda",
+      "name": "Agenda",
+      "published": true,
+      "featured": true,
+      "featuredOrder": 3,
+      "status": "prototype",
+      "subtitle": "Agenda accessible Web et MAUI",
+      "summary": "Agenda C#/.NET 10 avec calendrier mensuel, CRUD d’événements, interface Blazor partagée entre Web et MAUI, API REST et persistance EF Core/SQLite.",
+      "metaDescription": "Agenda C#/.NET 10 avec Blazor, MAUI Blazor Hybrid, API REST, EF Core/SQLite, interface partagée, validation métier et accessibilité clavier.",
+      "mission": "Partager une même interface métier entre Web et application hybride.",
+      "proof": "Blazor, MAUI, API, EF Core, architecture multi-hôte, tests et CI.",
+      "problem": "Concevoir un agenda accessible dont les mêmes composants Razor et cas d’usage peuvent fonctionner dans plusieurs hôtes sans confondre interface, règles métier et persistance locale.",
+      "repository": "https://github.com/alescis-wuin/agenda",
+      "image": "assets/img/projects/agenda/hero.webp",
+      "imageAlt": "Aperçu du calendrier mensuel Agenda en thème sombre",
+      "languages": ["csharp"],
+      "types": ["web", "mobile", "backend", "architecture", "accessibility"],
+      "stack": [
+        "dotnet-10",
+        "aspnet-core",
+        "blazor",
+        "maui",
+        "ef-core",
+        "sqlite",
+        "rest",
+        "xunit",
+        "tests",
+        "github-actions"
+      ],
+      "homeStack": ["dotnet-10", "blazor", "maui", "ef-core", "sqlite"],
+      "features": [
+        "Calendrier mensuel avec navigation, sélection de journée et aperçu des événements.",
+        "Création, modification et suppression d’événements horaires ou sur une journée entière.",
+        "Interface Razor partagée entre Blazor Interactive Server et MAUI Blazor Hybrid.",
+        "API REST dédiée avec Minimal APIs et document OpenAPI en développement.",
+        "Persistance locale EF Core/SQLite avec migrations et données de démonstration.",
+        "Validation métier des périodes et longueurs de texte, interface responsive et navigation clavier.",
+        "Tests séparés par couche, vérification du formatage, audit NuGet et CI GitHub Actions."
+      ],
+      "proofs": [
+        "Réutilisation d’une même UI et des mêmes cas d’usage dans plusieurs modèles d’hébergement .NET.",
+        "Séparation claire entre domaine, contrats, application, infrastructure et hôtes.",
+        "Prise en compte de l’accessibilité, de la persistance locale et de la qualité logicielle."
+      ],
+      "sitemapPriority": 0.8,
+      "caseStudy": {
+        "role": "Conception et développement d’un agenda .NET 10 multi-hôte : domaine, cas d’usage, persistance EF Core/SQLite, interface Razor partagée, Web Blazor, API Minimal API et hôte MAUI Blazor Hybrid.",
+        "architecture": [
+          "Agenda.Domain porte les événements, catégories et invariants métier.",
+          "Agenda.Contracts définit les DTO et contrats d’entrée/sortie utilisés par les hôtes.",
+          "Agenda.Application orchestre les cas d’usage et dépend d’une abstraction de repository.",
+          "Agenda.Infrastructure fournit EF Core, SQLite, migrations et initialisation de la base.",
+          "Agenda.Ui contient les composants Razor réutilisés par Agenda.Web et Agenda.Maui.",
+          "Agenda.Api expose les cas d’usage via des Minimal APIs, tandis que l’hôte MAUI conserve sa propre base locale privée."
+        ],
+        "decisions": [
+          {
+            "title": "Partager l’interface plutôt que la dupliquer",
+            "detail": "Les composants Razor restent dans Agenda.Ui afin que Web et MAUI utilisent la même interface métier au lieu de maintenir deux implémentations séparées."
+          },
+          {
+            "title": "Garder les cas d’usage hors des hôtes",
+            "detail": "Web, API et MAUI s’appuient sur Agenda.Application afin que les règles d’orchestration ne dépendent pas du mode d’hébergement."
+          },
+          {
+            "title": "Assumer une persistance locale par hôte",
+            "detail": "L’application MAUI utilise une base dans son répertoire privé ; aucune synchronisation implicite avec l’API n’est inventée tant que cette fonction n’est pas implémentée."
+          },
+          {
+            "title": "Versionner le schéma SQLite",
+            "detail": "EF Core et les migrations maintiennent l’évolution du stockage local au lieu de recréer systématiquement la base."
+          }
+        ],
+        "tradeoffs": [
+          "Le partage Razor réduit la duplication mais impose de conserver les composants UI compatibles avec les contraintes du Web et de MAUI.",
+          "La base locale MAUI rend l’application exploitable hors ligne, mais les données ne sont pas synchronisées avec l’API dans cette version.",
+          "La solution Web/API reste indépendante des workloads MAUI pour garder une CI légère, au prix de deux solutions/outils de build à maintenir."
+        ],
+        "challenges": [
+          {
+            "title": "Partager une UI entre deux modèles d’hébergement",
+            "detail": "Les composants Razor doivent fonctionner à la fois dans Blazor Interactive Server et dans le WebView MAUI sans déplacer les cas d’usage dans les vues."
+          },
+          {
+            "title": "Conserver des règles temporelles cohérentes",
+            "detail": "Le domaine valide notamment que la fin d’un événement est postérieure au début et normalise les dates avant persistance."
+          },
+          {
+            "title": "Adapter le stockage à chaque hôte",
+            "detail": "Web/API utilisent une base de développement au niveau du dépôt alors que MAUI cible FileSystem.AppDataDirectory sans changer le contrat applicatif."
+          }
+        ],
+        "quality": [
+          "Nullable activé, avertissements traités comme des erreurs et builds déterministes.",
+          "Tests séparés pour le domaine, l’application, l’infrastructure et l’interface.",
+          "Vérification du formatage et audit des vulnérabilités NuGet transitives."
+        ],
+        "delivery": [
+          "make verify exécute la chaîne de validation locale.",
+          "GitHub Actions installe .NET 10 puis exécute make verify sur develop, branches de travail et pull requests.",
+          "Des commandes séparées lancent l’hôte Web, l’API et les workflows MAUI/Android."
+        ],
+        "outcomes": [
+          "Une application Web opérationnelle pour le CRUD d’événements et le calendrier mensuel.",
+          "Une API REST/OpenAPI utilisant les mêmes cas d’usage que l’interface.",
+          "Un hôte MAUI Blazor Hybrid intégré avec persistance SQLite locale privée."
+        ],
+        "limitations": [
+          "La synchronisation MAUI ↔ API n’est pas implémentée.",
+          "Les notifications natives ne sont pas implémentées.",
+          "L’authentification et les comptes multiples ne font pas partie de ce prototype."
+        ],
+        "nextSteps": [
+          "Définir un vrai protocole de synchronisation et de résolution de conflits avant de relier la base MAUI à l’API.",
+          "Ajouter les notifications natives lorsque leur cycle de vie peut être testé sur les plateformes ciblées.",
+          "Introduire authentification et multi-utilisateur uniquement si le projet évolue au-delà du prototype local."
+        ]
+      },
+      "visuals": {
+        "hero": {
+          "src": "assets/img/projects/agenda/hero.webp",
+          "alt": "Calendrier mensuel Agenda en thème sombre pour août 2026 avec un événement sélectionné et son panneau de détail.",
+          "caption": "Vue mensuelle et panneau d’événement en thème sombre.",
+          "width": 1920,
+          "height": 1080
+        },
+        "architecture": {
+          "src": "assets/img/projects/agenda/architecture.svg",
+          "alt": "Schéma multi-hôte d’Agenda reliant Web Blazor, MAUI Blazor Hybrid et API aux couches UI, Application, Domain et Infrastructure.",
+          "caption": "Architecture multi-hôte avec interface Razor partagée et persistance SQLite locale.",
+          "width": 1600,
+          "height": 900
+        },
+        "gallery": [
+          {
+            "src": "assets/img/projects/agenda/theme-light.webp",
+            "alt": "Calendrier mensuel Agenda en thème clair avec un événement sélectionné et son panneau de détail.",
+            "caption": "Même interface en thème clair.",
+            "width": 1920,
+            "height": 1080
+          }
         ]
       }
     },
@@ -315,7 +646,7 @@
       "name": "Calcufolio",
       "published": true,
       "featured": true,
-      "featuredOrder": 2,
+      "featuredOrder": 4,
       "status": "in-progress",
       "subtitle": "Calculatrice desktop à moteur d’expressions",
       "summary": "Calculatrice desktop C#/.NET 10 avec Avalonia, moteur d’expressions séparé en tokenization, parsing et évaluation, MVVM, tests et CI.",
@@ -426,6 +757,31 @@
           "Enrichir le README public avec architecture, captures, lancement, tests et limites.",
           "Poursuivre les fonctions de calcul et les comportements d’édition sans contourner le moteur d’état existant.",
           "Préparer un packaging/release utilisateur lorsque le périmètre fonctionnel sera suffisamment stabilisé."
+        ]
+      },
+      "visuals": {
+        "hero": {
+          "src": "assets/img/projects/calcufolio/hero.webp",
+          "alt": "Fenêtre Calcufolio affichant le résultat 72 et plusieurs calculs dans le panneau History.",
+          "caption": "Résultat courant et historique de plusieurs expressions évaluées.",
+          "width": 1920,
+          "height": 1199
+        },
+        "architecture": {
+          "src": "assets/img/projects/calcufolio/architecture.svg",
+          "alt": "Schéma du flux Calcufolio depuis Avalonia et les contrôleurs applicatifs jusqu’au tokenizer, parser, évaluateur et moteur de calcul.",
+          "caption": "Flux d’interaction et moteur d’expressions de Calcufolio.",
+          "width": 1600,
+          "height": 900
+        },
+        "gallery": [
+          {
+            "src": "assets/img/projects/calcufolio/editing.webp",
+            "alt": "Fenêtre Calcufolio avec une expression arithmétique et la sous-expression 8 + 4 sélectionnée.",
+            "caption": "Édition d’expression avec sélection explicite avant évaluation.",
+            "width": 1920,
+            "height": 1199
+          }
         ]
       }
     },
@@ -539,6 +895,31 @@
           "Implémenter au moins un adaptateur météo distant derrière le contrat existant.",
           "Ajouter des tests d’intégration autour des erreurs réseau, quotas et données partielles.",
           "Réévaluer le passage au module system lorsque la structure de l’interface sera suffisamment stabilisée."
+        ]
+      },
+      "visuals": {
+        "hero": {
+          "src": "assets/img/projects/aelia/hero.webp",
+          "alt": "Tableau de bord météo Aelia pour Tokyo avec prévisions, qualité de l’air, UV et focus clavier visible.",
+          "caption": "Dashboard météo dense avec navigation clavier et états de focus visibles.",
+          "width": 1920,
+          "height": 1204
+        },
+        "architecture": {
+          "src": "assets/img/projects/aelia/architecture.svg",
+          "alt": "Schéma d’Aelia reliant l’interface JavaFX au contrat WeatherDashboardProvider, au provider simulé et au modèle météo typé.",
+          "caption": "Séparation entre interface, contrat provider, simulation et modèle typé.",
+          "width": 1600,
+          "height": 900
+        },
+        "gallery": [
+          {
+            "src": "assets/img/projects/aelia/map.webp",
+            "alt": "Vue cartographique d’Aelia affichant la France, la navigation de carte et le panneau de zone sélectionnée.",
+            "caption": "Vue cartographique complémentaire au dashboard météo.",
+            "width": 1920,
+            "height": 1080
+          }
         ]
       }
     }
