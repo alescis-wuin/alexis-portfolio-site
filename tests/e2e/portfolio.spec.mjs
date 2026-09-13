@@ -229,6 +229,10 @@ for (const projectPage of projectPages) {
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       projectPage.name,
     );
+    await expect(page.locator("body")).toHaveAttribute(
+      "data-project-slug",
+      projectPage.slug,
+    );
     await expect(
       page.getByRole("link", { name: /Retour aux projets/i }),
     ).toBeVisible();

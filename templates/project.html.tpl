@@ -28,7 +28,7 @@
   </script>
 </head>
 
-<body>
+<body data-project-slug="{{PROJECT_SLUG}}">
   <a class="skip-link" href="#contenu">Aller au contenu principal</a>
   <header class="site-header" data-site-header>
     <div class="container header-inner">

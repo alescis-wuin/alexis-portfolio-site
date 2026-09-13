@@ -208,3 +208,157 @@
     width: fit-content;
   }
 }
+
+/* P2.4-B: media-first project cards and project identity */
+.project-card-playful[data-project-slug] {
+  overflow: hidden;
+  border-color: color-mix(
+    in srgb,
+    var(--project-accent) 34%,
+    var(--border)
+  );
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--project-accent) 9%, transparent),
+      transparent 46%
+    ),
+    var(--surface);
+  box-shadow:
+    inset 0 0.24rem 0 var(--project-accent),
+    var(--shadow);
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.project-card-playful[data-project-slug]::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--project-pattern-image);
+  background-size: var(--project-pattern-size);
+  background-position: center;
+  opacity: 0.34;
+}
+
+.project-card-playful[data-project-slug]::after {
+  width: 8rem;
+  height: 8rem;
+  background: var(--project-glow);
+  filter: blur(0.45rem);
+}
+
+.project-card-playful[data-project-slug] .project-media,
+.project-card-playful[data-project-slug] .project-body {
+  position: relative;
+  z-index: 1;
+}
+
+.project-card-playful[data-project-slug] .project-media {
+  display: block;
+  overflow: hidden;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--project-accent) 32%, var(--border));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--project-accent) 13%, var(--surface-2)),
+    color-mix(in srgb, var(--project-accent-2) 8%, var(--surface))
+  );
+}
+
+.project-card-playful[data-project-slug] .project-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 180ms ease;
+}
+
+.project-card-playful[data-project-slug] .project-index {
+  border: 1px solid
+    color-mix(in srgb, var(--project-accent) 52%, var(--border));
+  background: color-mix(
+    in srgb,
+    var(--project-accent) 16%,
+    var(--surface-2)
+  );
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--project-accent-2) 14%, transparent);
+}
+
+.project-card-playful[data-project-slug] .project-facts div {
+  border-color: color-mix(
+    in srgb,
+    var(--project-accent) 22%,
+    var(--border)
+  );
+  background: color-mix(
+    in srgb,
+    var(--project-accent) 5%,
+    var(--surface-2)
+  );
+  box-shadow: inset 0.18rem 0 0
+    color-mix(in srgb, var(--project-accent) 64%, transparent);
+}
+
+.project-card-playful[data-project-slug] .project-facts dt {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text);
+}
+
+.project-card-playful[data-project-slug] .project-facts dt::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    var(--project-accent),
+    var(--project-accent-2)
+  );
+}
+
+.project-card-playful[data-project-slug] .project-actions .text-link {
+  color: color-mix(in srgb, var(--project-accent) 42%, var(--text));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card-playful[data-project-slug]:hover,
+  .project-card-playful[data-project-slug]:focus-within {
+    border-color: color-mix(
+      in srgb,
+      var(--project-accent) 68%,
+      var(--border-strong)
+    );
+    box-shadow:
+      inset 0 0.24rem 0 var(--project-accent),
+      0 1.25rem 3.5rem var(--project-glow);
+    transform: translateY(-0.15rem);
+  }
+
+  .project-card-playful[data-project-slug]:hover .project-media img,
+  .project-card-playful[data-project-slug]:focus-within .project-media img {
+    transform: scale(1.012);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card-playful[data-project-slug],
+  .project-card-playful[data-project-slug] .project-media img {
+    transition: none;
+  }
+
+  .project-card-playful[data-project-slug]:hover,
+  .project-card-playful[data-project-slug]:focus-within,
+  .project-card-playful[data-project-slug]:hover .project-media img,
+  .project-card-playful[data-project-slug]:focus-within .project-media img {
+    transform: none;
+  }
+}
