@@ -74,8 +74,9 @@
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>
-        <figure class="project-figure" data-reveal>
-          <img src="../assets/img/projects/aelia.svg" width="960" height="540" alt="Illustration du projet Aelia">
+        <figure class="project-figure case-study-media" data-project-hero data-reveal>
+          <img src="../assets/img/projects/aelia/hero.webp" width="1920" height="1204" decoding="async" fetchpriority="high" alt="Tableau de bord météo Aelia pour Tokyo avec prévisions, qualité de l’air, UV et focus clavier visible.">
+          <figcaption>Dashboard météo dense avec navigation clavier et états de focus visibles.</figcaption>
         </figure>
       </div>
     </article>
@@ -115,6 +116,20 @@
           <h2>Décisions techniques</h2>
           <ul class="check-list"><li><strong>Commencer par un provider déterministe.</strong> Le fournisseur simulé stabilise l’interface et les tests pendant que le contrat destiné aux futures API distantes évolue.</li><li><strong>Conserver les valeurs typées jusqu’à la présentation.</strong> Les données temporelles et physiques ne sont pas stockées uniquement sous forme de chaînes ; le formatage est repoussé vers l’UI.</li><li><strong>Prioriser l’accessibilité du prototype.</strong> Navigation clavier, tooltips, contrastes et métadonnées d’accessibilité sont intégrés avant même le branchement à une API distante.</li><li><strong>Rester temporairement en classpath.</strong> Le lancement non modulaire simplifie Maven et IntelliJ tant que l’interface évolue fortement, au prix d’une frontière de modules moins stricte.</li></ul>
         </div>
+      </div>
+    </section>
+
+    <section class="section project-visual-section" aria-labelledby="architecture-visual-title">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Schéma</p>
+          <h2 id="architecture-visual-title">Vue d’ensemble de l’architecture</h2>
+          <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
+        </div>
+        <figure class="case-study-media case-study-architecture" data-project-architecture data-reveal>
+          <img src="../assets/img/projects/aelia/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma d’Aelia reliant l’interface JavaFX au contrat WeatherDashboardProvider, au provider simulé et au modèle météo typé.">
+          <figcaption>Séparation entre interface, contrat provider, simulation et modèle typé.</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -174,6 +189,22 @@
           <p class="eyebrow">Suite</p>
           <h2>Prochaines étapes</h2>
           <ul class="check-list"><li>Implémenter au moins un adaptateur météo distant derrière le contrat existant.</li><li>Ajouter des tests d’intégration autour des erreurs réseau, quotas et données partielles.</li><li>Réévaluer le passage au module system lorsque la structure de l’interface sera suffisamment stabilisée.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section project-visual-section" aria-labelledby="gallery-title" data-project-gallery>
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Captures</p>
+          <h2 id="gallery-title">Le produit en situation</h2>
+          <p>Des états complémentaires sélectionnés pour montrer l’interface et les parcours réellement implémentés.</p>
+        </div>
+        <div class="case-study-gallery">
+          <figure class="case-study-media" data-gallery-item data-gallery-index="0">
+          <img src="../assets/img/projects/aelia/map.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Vue cartographique d’Aelia affichant la France, la navigation de carte et le panneau de zone sélectionnée.">
+          <figcaption>Vue cartographique complémentaire au dashboard météo.</figcaption>
+        </figure>
         </div>
       </div>
     </section>

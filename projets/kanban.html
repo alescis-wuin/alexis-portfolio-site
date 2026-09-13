@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Calculatrice desktop C#/.NET 10 avec Avalonia, moteur d’expressions tokenisé et parsé, MVVM, tests automatisés et CI GitHub Actions.">
+  <meta name="description" content="Gestionnaire de tâches C#/.NET 10 avec Blazor, Kanban avancé, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.">
   <meta name="author" content="Alexis Guinot">
   <meta name="color-scheme" content="dark light">
-  <meta property="og:title" content="Calcufolio — Étude de cas | Alexis Guinot">
-  <meta property="og:description" content="Calculatrice desktop C#/.NET 10 avec Avalonia, moteur d’expressions tokenisé et parsé, MVVM, tests automatisés et CI GitHub Actions.">
+  <meta property="og:title" content="Kanban — Étude de cas | Alexis Guinot">
+  <meta property="og:description" content="Gestionnaire de tâches C#/.NET 10 avec Blazor, Kanban avancé, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/calcufolio.html">
+  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/kanban.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
   <meta name="theme-color" content="#0B1020">
-  <title>Calcufolio — Étude de cas | Alexis Guinot</title>
-  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/calcufolio.html">
+  <title>Kanban — Étude de cas | Alexis Guinot</title>
+  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/kanban.html">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
@@ -63,19 +63,22 @@
       <div class="container project-detail-grid">
         <div class="project-detail-copy" data-reveal>
           <a class="breadcrumb" href="./index.html">← Retour aux projets</a>
-          <p class="eyebrow">Calculatrice desktop à moteur d’expressions · En cours</p>
-          <h1>Calcufolio</h1>
-          <p class="hero-lead">Calculatrice desktop C#/.NET 10 avec Avalonia, moteur d’expressions tokenisé et parsé, MVVM, tests automatisés et CI GitHub Actions.</p>
-          <div class="tag-list"><span class="tag">Desktop</span>
-                <span class="tag">Architecture</span></div>
+          <p class="eyebrow">Gestionnaire de tâches et Kanban avancé · En cours</p>
+          <h1>Kanban</h1>
+          <p class="hero-lead">Gestionnaire de tâches C#/.NET 10 avec Blazor, Kanban avancé, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.</p>
+          <div class="tag-list"><span class="tag">Web</span>
+                <span class="tag">Backend</span>
+                <span class="tag">Full-stack</span>
+                <span class="tag">Architecture</span>
+                <span class="tag">Accessibilité</span></div>
           <div class="hero-actions">
-            <a class="button button-secondary" href="https://github.com/alescis-wuin/calcufolio" rel="noopener noreferrer">Voir le dépôt GitHub</a>
+            <a class="button button-secondary" href="https://github.com/alescis-wuin/kanban" rel="noopener noreferrer">Voir le dépôt GitHub</a>
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>
         <figure class="project-figure case-study-media" data-project-hero data-reveal>
-          <img src="../assets/img/projects/calcufolio/hero.webp" width="1920" height="1199" decoding="async" fetchpriority="high" alt="Fenêtre Calcufolio affichant le résultat 72 et plusieurs calculs dans le panneau History.">
-          <figcaption>Résultat courant et historique de plusieurs expressions évaluées.</figcaption>
+          <img src="../assets/img/projects/kanban/hero.webp" width="2400" height="1005" decoding="async" fetchpriority="high" alt="Tableau Kanban en thème sombre avec cinq colonnes, tâches, priorités et limites WIP visibles.">
+          <figcaption>Tableau configurable montrant tâches, priorités et limites WIP.</figcaption>
         </figure>
       </div>
     </article>
@@ -85,17 +88,20 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
-          <p>Construire une calculatrice desktop dont le parsing, l’édition, l’état d’interaction et l’interface restent découplés afin de tester les comportements complexes sans dépendre d’Avalonia.</p>
+          <p>Créer un gestionnaire de tâches qui combine interactions Kanban, règles métier, historique, import/export et API sans dupliquer la logique entre l’interface Web et les endpoints HTTP.</p>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="role-title">
           <p class="eyebrow">Rôle</p>
           <h2 id="role-title">Mon rôle</h2>
-          <p>Conception d’une application desktop C#/.NET 10 : moteur d’expressions, modèle d’interaction, architecture en couches, UI Avalonia/MVVM, tests et CI.</p>
+          <p>Conception et développement d’un gestionnaire de tâches C#/.NET 10 : domaine métier, application, persistance EF Core/SQLite, interface Blazor, API REST, interactions Kanban, tests et CI.</p>
           <h2>Stack</h2>
           <div class="tag-list"><span class="tag">C#</span>
                 <span class="tag">.NET 10</span>
-                <span class="tag">Avalonia</span>
-                <span class="tag">CommunityToolkit.Mvvm</span>
+                <span class="tag">ASP.NET Core</span>
+                <span class="tag">Blazor</span>
+                <span class="tag">Entity Framework Core</span>
+                <span class="tag">SQLite</span>
+                <span class="tag">REST</span>
                 <span class="tag">xUnit</span>
                 <span class="tag">Tests</span>
                 <span class="tag">GitHub Actions</span></div>
@@ -108,12 +114,12 @@
         <div data-reveal>
           <p class="eyebrow">Architecture</p>
           <h2 id="architecture-title">Comment le système est structuré</h2>
-          <ul class="check-list"><li>Solution séparée en Domain, Application, Infrastructure et Presentation.</li><li>Moteur d’expressions dans la couche Application avec tokenization, parsing, modèle syntaxique, évaluation et erreurs typées.</li><li>Modèle d’interaction basé sur contrôleur, actions, état d’éditeur et reducer pour isoler les comportements de saisie.</li><li>Présentation Avalonia structurée en MVVM avec CommunityToolkit.Mvvm, historique et aperçu de calcul.</li></ul>
+          <ul class="check-list"><li>Todo.Domain contient tâches, sous-tâches, étiquettes, colonnes, historique, paramètres et invariants.</li><li>Todo.Contracts regroupe DTO, requêtes, formats d’import/export et exceptions contractuelles.</li><li>Todo.Application orchestre les cas d’usage et le transfert de données.</li><li>Todo.Infrastructure fournit EF Core, SQLite, repository et initialisation/mise à niveau de la base.</li><li>Todo.Ui porte l’interface Razor, tandis que Todo.Web l’héberge en Blazor Interactive Server.</li><li>Todo.Api expose les mêmes capacités applicatives via des Minimal APIs et OpenAPI.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Décisions</p>
           <h2>Décisions techniques</h2>
-          <ul class="check-list"><li><strong>Découpler le moteur d’expressions de l’interface.</strong> Le parsing et l’évaluation restent testables sans instancier Avalonia, ce qui évite de placer la logique de calcul dans les événements de boutons.</li><li><strong>Modéliser l’édition comme un état explicite.</strong> Caret, sélection, insertion, suppression et actions clavier passent par un état et des transformations dédiées plutôt que par des mutations dispersées.</li><li><strong>Utiliser MVVM pour la présentation.</strong> CommunityToolkit.Mvvm réduit le code de liaison tout en gardant le ViewModel indépendant de la vue Avalonia.</li><li><strong>Épingler la toolchain .NET.</strong> global.json fixe le SDK .NET 10 attendu et la CI utilise la même référence pour limiter les divergences entre poste local et runner.</li></ul>
+          <ul class="check-list"><li><strong>Faire des limites WIP une règle métier.</strong> La limite d’une colonne n’est pas un simple avertissement visuel : le domaine la modélise et les déplacements/API réutilisent cette règle.</li><li><strong>Partager les cas d’usage entre Web et API.</strong> Todo.Web et Todo.Api s’appuient sur Todo.Application afin d’éviter une logique métier différente selon le point d’entrée.</li><li><strong>Persister la configuration du tableau.</strong> Ordre, visibilité, couleur et limites WIP des colonnes sont conservés en base plutôt que reconstruits uniquement dans l’état de l’interface.</li><li><strong>Prévoir une alternative clavier au drag-and-drop.</strong> Les déplacements restent accessibles sans dépendre exclusivement du glisser-déposer.</li></ul>
         </div>
       </div>
     </section>
@@ -126,8 +132,8 @@
           <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
         </div>
         <figure class="case-study-media case-study-architecture" data-project-architecture data-reveal>
-          <img src="../assets/img/projects/calcufolio/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma du flux Calcufolio depuis Avalonia et les contrôleurs applicatifs jusqu’au tokenizer, parser, évaluateur et moteur de calcul.">
-          <figcaption>Flux d’interaction et moteur d’expressions de Calcufolio.</figcaption>
+          <img src="../assets/img/projects/kanban/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma du gestionnaire Kanban reliant l’hôte Web Blazor et l’API aux couches UI, Application, Domain, Contracts et Infrastructure SQLite.">
+          <figcaption>Architecture Web métier avec règles WIP dans le domaine et persistance EF Core/SQLite.</figcaption>
         </figure>
       </div>
     </section>
@@ -137,12 +143,12 @@
         <div data-reveal>
           <p class="eyebrow">Implémentation</p>
           <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list"><li>Moteur d’expressions séparé en tokenizer, parser, modèle syntaxique et évaluateur.</li><li>Services de calcul et d’évaluation indépendants de la couche Avalonia.</li><li>Modèle d’interaction avec contrôleur, actions, état d’éditeur, reducer, sélection, clavier et presse-papiers.</li><li>Présentation Avalonia structurée en MVVM avec CommunityToolkit.Mvvm, aperçu de calcul et historique.</li><li>Tests automatisés des couches Domain, Application et Presentation, notamment tokenizer, parser et évaluateur.</li><li>CI GitHub Actions : syntaxe, ShellCheck, restore, format, build, tests et audit des dépendances NuGet.</li></ul>
+          <ul class="check-list"><li>Création, modification, suppression, achèvement et réouverture de tâches.</li><li>Sous-tâches, étiquettes, priorités, échéances, rappels, récurrence et historique horodaté.</li><li>Vues Liste et Kanban avec glisser-déposer, réorganisation persistante et alternative clavier.</li><li>Cinq colonnes configurables avec nom, ordre, couleur, visibilité et limite WIP.</li><li>Import/export JSON ou CSV, thèmes clair/sombre et réduction des animations.</li><li>API REST pour tâches, tableau, paramètres, historique et données.</li><li>Persistance EF Core/SQLite, tests multi-couches, formatage, audit NuGet et CI GitHub Actions.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Difficultés</p>
           <h2>Difficultés résolues</h2>
-          <ul class="check-list"><li><strong>Maintenir un éditeur cohérent.</strong> Insertion, backspace, suppression avant, sélection, déplacements du caret et presse-papiers doivent produire un état prévisible quelle que soit l’entrée.</li><li><strong>Évaluer des expressions sans coupler la syntaxe à l’UI.</strong> Tokenizer, parser et evaluator doivent gérer précédence et erreurs de manière déterministe avant que le résultat soit projeté dans le ViewModel.</li><li><strong>Synchroniser aperçu, résultat et historique.</strong> Le ViewModel dérive l’affichage depuis l’état applicatif et reconstruit l’historique sans déplacer la logique de calcul dans la présentation.</li></ul>
+          <ul class="check-list"><li><strong>Maintenir la cohérence des déplacements Kanban.</strong> Le changement de colonne, l’ordre persistant et les limites WIP doivent rester cohérents pour le drag-and-drop, le clavier et l’API.</li><li><strong>Historiser sans polluer les vues.</strong> Les actions importantes sont persistées et exposées par un historique dédié plutôt que dispersées dans l’état UI.</li><li><strong>Faire évoluer une base SQLite locale.</strong> Le prototype applique des mises à niveau additives afin de préserver les données créées par les versions précédentes.</li></ul>
         </div>
       </div>
     </section>
@@ -152,12 +158,12 @@
         <div data-reveal>
           <p class="eyebrow">Qualité</p>
           <h2 id="quality-title">Tests et garde-fous</h2>
-          <ul class="check-list"><li>Tests automatisés sur les couches Domain, Application et Presentation, notamment tokenizer, parser, évaluateur et interactions.</li><li>Vérification dotnet format afin d’éviter les divergences de style dans la solution.</li><li>Audit des dépendances NuGet intégré à la quality gate.</li></ul>
+          <ul class="check-list"><li>Tests du domaine, de l’application, de l’infrastructure SQLite et du formatage d’interface.</li><li>dotnet format vérifie le style avant build et tests.</li><li>La CI audite également les dépendances NuGet directes et transitives vulnérables.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Livraison</p>
           <h2>Livraison et CI/CD</h2>
-          <ul class="check-list"><li>Workflow develop : syntaxe, ShellCheck, restore, format, build, tests et audit NuGet.</li><li>Workflows distincts également présents pour testing et main.</li><li>SDK .NET 10 épinglé par global.json et commandes de validation exposées par le Makefile.</li></ul>
+          <ul class="check-list"><li>GitHub Actions exécute restore, format, build Release, tests et audit NuGet sur develop, main et pull requests.</li><li>Le Makefile expose make verify et les commandes de lancement Web/API.</li><li>Nullable, analyse statique et builds déterministes renforcent la quality gate .NET.</li></ul>
         </div>
       </div>
     </section>
@@ -167,12 +173,12 @@
         <div data-reveal>
           <p class="eyebrow">Résultats</p>
           <h2 id="outcomes-title">Résultats observables</h2>
-          <ul class="check-list"><li>Une calculatrice dont le moteur d’expressions peut être testé indépendamment du framework graphique.</li><li>Un modèle d’édition capable de représenter sélection et caret plutôt qu’une simple chaîne concaténée.</li><li>Une chaîne CI .NET reproductible qui vérifie compilation, tests, formatage et dépendances.</li></ul>
+          <ul class="check-list"><li>Un gestionnaire qui combine liste, Kanban avancé et règles métier dans une même application.</li><li>Des colonnes configurables et limites WIP persistées plutôt qu’un tableau uniquement visuel.</li><li>Une API REST et des formats d’import/export qui réutilisent les mêmes données métier.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Compromis</p>
           <h2>Compromis techniques</h2>
-          <ul class="check-list"><li>L’architecture comporte davantage de couches qu’une calculatrice minimale, en échange d’une logique beaucoup plus isolable et testable.</li><li>Un moteur de parsing dédié demande plus de code qu’une évaluation directe depuis l’UI, mais permet de contrôler la syntaxe, les erreurs et la précédence.</li><li>Le projet est encore en cours : l’accent porte actuellement davantage sur les fondations et la qualité que sur un catalogue maximal de fonctions scientifiques.</li></ul>
+          <ul class="check-list"><li>SQLite rend le projet simple à lancer et à conserver localement, mais ne vise pas un service collaboratif distribué.</li><li>Les rappels sont signalés lorsque l’application Web est ouverte ; aucune infrastructure de notification native ou serveur n’est incluse.</li><li>Le projet reste volontairement mono-utilisateur et sans authentification pour concentrer la démonstration sur le domaine et les interactions.</li></ul>
         </div>
       </div>
     </section>
@@ -182,12 +188,12 @@
         <div data-reveal>
           <p class="eyebrow">Limites</p>
           <h2 id="limits-title">Limites assumées</h2>
-          <ul class="check-list"><li>Le projet reste en cours et n’est pas présenté comme une application finalisée.</li><li>Le README public actuel reste très succinct par rapport à la richesse réelle du dépôt.</li><li>Le périmètre fonctionnel doit encore être consolidé avant de considérer une release utilisateur stable.</li></ul>
+          <ul class="check-list"><li>Le branding public reste encore partagé entre le nom du dépôt Kanban et le nom interne Todo.</li><li>L’authentification et la collaboration multi-utilisateur ne sont pas incluses.</li><li>Les notifications natives et la synchronisation hors ligne avec l’API ne sont pas implémentées.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Suite</p>
           <h2>Prochaines étapes</h2>
-          <ul class="check-list"><li>Enrichir le README public avec architecture, captures, lancement, tests et limites.</li><li>Poursuivre les fonctions de calcul et les comportements d’édition sans contourner le moteur d’état existant.</li><li>Préparer un packaging/release utilisateur lorsque le périmètre fonctionnel sera suffisamment stabilisé.</li></ul>
+          <ul class="check-list"><li>Harmoniser le branding Kanban/Todo avant une release utilisateur stable.</li><li>Ajouter authentification et collaboration uniquement si le projet doit dépasser le périmètre mono-utilisateur local.</li><li>Externaliser les rappels/notifications si l’application doit prévenir l’utilisateur lorsqu’elle n’est pas ouverte.</li></ul>
         </div>
       </div>
     </section>
@@ -201,8 +207,8 @@
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0">
-          <img src="../assets/img/projects/calcufolio/editing.webp" width="1920" height="1199" loading="lazy" decoding="async" alt="Fenêtre Calcufolio avec une expression arithmétique et la sous-expression 8 + 4 sélectionnée.">
-          <figcaption>Édition d’expression avec sélection explicite avant évaluation.</figcaption>
+          <img src="../assets/img/projects/kanban/theme-light.webp" width="2400" height="1006" loading="lazy" decoding="async" alt="Tableau Kanban en thème clair avec cinq colonnes et plusieurs tâches réparties selon leur état.">
+          <figcaption>Même tableau en thème clair.</figcaption>
         </figure>
         </div>
       </div>
@@ -213,7 +219,7 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Preuve de compétence</p>
           <h2 id="proof-title">Ce que ce projet démontre</h2>
-          <ul class="check-list"><li>Séparation nette entre parsing d’expressions, logique d’interaction et présentation.</li><li>Gestion testable des cas limites d’édition et d’évaluation.</li><li>Industrialisation .NET avec SDK épinglé, tests, formatage, audit et CI.</li></ul>
+          <ul class="check-list"><li>Règles métier explicites autour des colonnes et limites WIP.</li><li>Réutilisation des mêmes couches Application/Domain depuis l’interface Blazor et l’API.</li><li>Attention portée à l’accessibilité, à la persistance des interactions et à l’industrialisation .NET.</li></ul>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="continue-title">
           <h2 id="continue-title">Continuer la visite</h2>

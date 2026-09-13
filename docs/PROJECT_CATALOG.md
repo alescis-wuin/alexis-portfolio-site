@@ -28,7 +28,7 @@ La clé `taxonomy` centralise quatre familles d'identifiants stables :
 
 Les libellés affichés peuvent évoluer sans modifier les références utilisées dans les projets et les filtres.
 
-Les entrées C#/.NET sont désormais utilisées par Calcufolio ; une technologie n'apparaît dans les filtres que lorsqu'au moins un projet public la référence.
+Les entrées C#/.NET sont utilisées par Calcufolio, Agenda et Kanban ; une technologie n'apparaît dans les filtres que lorsqu'au moins un projet public la référence.
 
 ## Structure minimale d'un projet
 
@@ -49,6 +49,31 @@ Les entrées C#/.NET sont désormais utilisées par Calcufolio ; une technologie
   "repository": "https://github.com/...",
   "image": "assets/img/projects/mon-projet.svg",
   "imageAlt": "Illustration du projet Mon projet",
+  "visuals": {
+    "hero": {
+      "src": "assets/img/projects/mon-projet/hero.webp",
+      "alt": "Description de la capture principale",
+      "caption": "Légende courte.",
+      "width": 1920,
+      "height": 1080
+    },
+    "architecture": {
+      "src": "assets/img/projects/mon-projet/architecture.svg",
+      "alt": "Description du schéma",
+      "caption": "Légende du schéma.",
+      "width": 1600,
+      "height": 900
+    },
+    "gallery": [
+      {
+        "src": "assets/img/projects/mon-projet/detail.webp",
+        "alt": "Description de la capture",
+        "caption": "État complémentaire du produit.",
+        "width": 1920,
+        "height": 1080
+      }
+    ]
+  },
   "languages": ["csharp"],
   "types": ["backend"],
   "stack": ["dotnet", "aspnet-core"],
@@ -61,9 +86,9 @@ Les entrées C#/.NET sont désormais utilisées par Calcufolio ; une technologie
 
 `featuredOrder` est obligatoire uniquement lorsque `featured` vaut `true`.
 
-## Politique de publication — schéma v3
+## Politique de publication — introduite au schéma v3
 
-Depuis P2.3-A.1, `schemaVersion` vaut `3` et chaque projet déclare explicitement `published`.
+P2.3-A.1 a introduit `published`. Le schéma courant vaut désormais `4`, mais les mêmes règles de publication restent applicables.
 
 - `published: true` : le projet peut être généré dans le catalogue, les pages projet, les filtres, la sélection featured et le sitemap ;
 - `published: false` : les données restent conservées et validées dans la source canonique, mais aucune surface publique n'est générée ;
@@ -78,9 +103,36 @@ Le slug `index` est réservé au catalogue `projets/index.html` et ne peut pas �
 Tous les fichiers `projets/*.html` autres que `projets/index.html` sont des sorties gérées. Une page qui ne correspond plus à un slug du catalogue est signalée par `npm run generate:check` et supprimée par `npm run generate`.
 
 
+
+## Preuves visuelles — schéma v4
+
+P2.3-D fait passer `schemaVersion` à `4`. Chaque projet **publié** doit fournir un objet
+`visuals` complet ; un projet masqué peut rester sans visuels.
+
+Le contrat contient :
+
+- `hero` : capture produit principale au format WebP ;
+- `architecture` : schéma SVG sourcé ;
+- `gallery` : une ou plusieurs captures WebP complémentaires ;
+- pour chaque élément : `src`, `alt`, `caption`, `width` et `height`.
+
+Invariants :
+
+- les chemins restent sous `assets/img/projects/<id>/` ;
+- le hero et la galerie utilisent des WebP ; le schéma utilise un SVG ;
+- les chemins normalisés ne peuvent pas traverser hors du répertoire du projet ;
+- tous les fichiers doivent exister au moment de la génération ;
+- `alt` et `caption` sont non vides ;
+- `width` et `height` sont des entiers positifs ;
+- une même source visuelle ne peut pas être réutilisée deux fois dans le même projet.
+
+Les pages générées utilisent le hero comme preuve principale, affichent ensuite le schéma
+d’architecture et une galerie statique. Le comportement de lightbox et la navigation
+interactive appartiennent à P2.3-E.
+
 ## Étude de cas professionnelle — introduite au schéma v2
 
-P2.2 a introduit l'objet obligatoire `caseStudy`. Le schéma courant vaut désormais `3`,
+P2.2 a introduit l'objet obligatoire `caseStudy`. Le schéma courant vaut désormais `4`,
 mais les mêmes invariants éditoriaux restent appliqués à tous les projets, publiés ou non.
 Le générateur refuse une fiche incomplète : la qualité éditoriale devient un invariant au même titre
 que le slug, la taxonomie, l'image ou la politique de publication.

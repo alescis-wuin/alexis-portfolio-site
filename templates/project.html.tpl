@@ -72,8 +72,9 @@
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>
-        <figure class="project-figure" data-reveal>
-          <img src="{{IMAGE}}" width="960" height="540" alt="{{IMAGE_ALT}}">
+        <figure class="project-figure case-study-media" data-project-hero data-reveal>
+          <img src="{{HERO_IMAGE}}" width="{{HERO_WIDTH}}" height="{{HERO_HEIGHT}}" decoding="async" fetchpriority="high" alt="{{HERO_ALT}}">
+          <figcaption>{{HERO_CAPTION}}</figcaption>
         </figure>
       </div>
     </article>
@@ -107,6 +108,20 @@
           <h2>Décisions techniques</h2>
           <ul class="check-list">{{DECISIONS}}</ul>
         </div>
+      </div>
+    </section>
+
+    <section class="section project-visual-section" aria-labelledby="architecture-visual-title">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Schéma</p>
+          <h2 id="architecture-visual-title">Vue d’ensemble de l’architecture</h2>
+          <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
+        </div>
+        <figure class="case-study-media case-study-architecture" data-project-architecture data-reveal>
+          <img src="{{ARCHITECTURE_IMAGE}}" width="{{ARCHITECTURE_WIDTH}}" height="{{ARCHITECTURE_HEIGHT}}" loading="lazy" decoding="async" alt="{{ARCHITECTURE_ALT}}">
+          <figcaption>{{ARCHITECTURE_CAPTION}}</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -166,6 +181,19 @@
           <p class="eyebrow">Suite</p>
           <h2>Prochaines étapes</h2>
           <ul class="check-list">{{NEXT_STEPS}}</ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section project-visual-section" aria-labelledby="gallery-title" data-project-gallery>
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Captures</p>
+          <h2 id="gallery-title">Le produit en situation</h2>
+          <p>Des états complémentaires sélectionnés pour montrer l’interface et les parcours réellement implémentés.</p>
+        </div>
+        <div class="case-study-gallery">
+          {{GALLERY}}
         </div>
       </div>
     </section>

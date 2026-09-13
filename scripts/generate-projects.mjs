@@ -104,8 +104,8 @@ function findOrphanProjectPages(expectedOutputs) {
 }
 
 function validateCatalog(data) {
-  if (data.schemaVersion !== 3) {
-    throw new Error("data/projects.json : schemaVersion doit valoir 3.");
+  if (data.schemaVersion !== 4) {
+    throw new Error("data/projects.json : schemaVersion doit valoir 4.");
   }
 
   for (const key of ["baseUrl", "title", "description"]) {
@@ -190,6 +190,9 @@ function validateCatalog(data) {
     }
 
     validateCaseStudy(project);
+    if (project.published || project.visuals !== undefined) {
+      validateVisuals(project);
+    }
 
     if (project.featured) {
       if (
@@ -257,6 +260,81 @@ function validateCaseStudy(project) {
   }
 }
 
+function validateVisuals(project) {
+  const visuals = project.visuals;
+  if (!visuals || typeof visuals !== "object" || Array.isArray(visuals)) {
+    throw new Error(
+      `${project.id} : visuals doit être un objet pour un projet publié.`,
+    );
+  }
+
+  validateVisualItem(project, visuals.hero, "visuals.hero", ".webp");
+  validateVisualItem(
+    project,
+    visuals.architecture,
+    "visuals.architecture",
+    ".svg",
+  );
+
+  if (!Array.isArray(visuals.gallery) || visuals.gallery.length === 0) {
+    throw new Error(
+      `${project.id}.visuals.gallery doit être un tableau non vide.`,
+    );
+  }
+
+  const sources = new Set([visuals.hero.src, visuals.architecture.src]);
+  visuals.gallery.forEach((item, index) => {
+    validateVisualItem(project, item, `visuals.gallery[${index}]`, ".webp");
+    if (sources.has(item.src)) {
+      throw new Error(
+        `${project.id} : source visuelle dupliquée (${item.src}).`,
+      );
+    }
+    sources.add(item.src);
+  });
+}
+
+function validateVisualItem(project, item, field, expectedExtension) {
+  if (!item || typeof item !== "object" || Array.isArray(item)) {
+    throw new Error(`${project.id}.${field} doit être un objet.`);
+  }
+
+  for (const key of ["src", "alt", "caption"]) {
+    assertNonEmpty(item[key], `${project.id}.${field}.${key}`);
+  }
+
+  for (const key of ["width", "height"]) {
+    if (!Number.isInteger(item[key]) || item[key] < 1) {
+      throw new Error(
+        `${project.id}.${field}.${key} doit être un entier positif.`,
+      );
+    }
+  }
+
+  const prefix = `assets/img/projects/${project.id}/`;
+  if (!item.src.startsWith(prefix)) {
+    throw new Error(
+      `${project.id}.${field}.src doit rester sous ${prefix} (${item.src}).`,
+    );
+  }
+
+  const normalized = path.posix.normalize(item.src);
+  if (normalized !== item.src || item.src.includes("..")) {
+    throw new Error(`${project.id}.${field}.src invalide (${item.src}).`);
+  }
+
+  if (path.posix.extname(item.src) !== expectedExtension) {
+    throw new Error(
+      `${project.id}.${field}.src doit utiliser ${expectedExtension} (${item.src}).`,
+    );
+  }
+
+  const filePath = path.join(rootDir, item.src);
+  if (!existsSync(filePath)) {
+    throw new Error(`${project.id} : visuel introuvable (${item.src}).`);
+  }
+}
+
 function validateNonEmptyStringArray(values, field) {
   if (!Array.isArray(values) || values.length === 0) {
     throw new Error(`${field} doit être un tableau non vide.`);
@@ -315,8 +393,17 @@ function renderProjectPage(project) {
     REPOSITORY_ACTION: project.repository
       ? `<a class="button button-secondary" href="${escapeAttr(project.repository)}" rel="noopener noreferrer">Voir le dépôt GitHub</a>`
       : "",
-    IMAGE: escapeAttr(`../${project.image}`),
-    IMAGE_ALT: escapeAttr(project.imageAlt),
+    HERO_IMAGE: escapeAttr(`../${project.visuals.hero.src}`),
+    HERO_ALT: escapeAttr(project.visuals.hero.alt),
+    HERO_CAPTION: escapeHtml(project.visuals.hero.caption),
+    HERO_WIDTH: String(project.visuals.hero.width),
+    HERO_HEIGHT: String(project.visuals.hero.height),
+    ARCHITECTURE_IMAGE: escapeAttr(`../${project.visuals.architecture.src}`),
+    ARCHITECTURE_ALT: escapeAttr(project.visuals.architecture.alt),
+    ARCHITECTURE_CAPTION: escapeHtml(project.visuals.architecture.caption),
+    ARCHITECTURE_WIDTH: String(project.visuals.architecture.width),
+    ARCHITECTURE_HEIGHT: String(project.visuals.architecture.height),
+    GALLERY: renderGallery(project.visuals.gallery),
     STACK_TAGS: renderTags([
       ...project.languages.map((id) => label("languages", id)),
       ...project.stack.map((id) => label("stack", id)),
@@ -426,10 +513,14 @@ function renderProjectCard(project, index, assetPrefix, hrefPrefix) {
   const stackTokens = project.stack.join(" ");
   const homeStack = project.homeStack.map((id) => label("stack", id));
   const href = `${hrefPrefix}${project.slug}.html`;
+  const cardVisual =
+    project.visuals?.hero?.src === project.image ? project.visuals.hero : null;
+  const cardWidth = cardVisual?.width ?? 960;
+  const cardHeight = cardVisual?.height ?? 540;
 
   return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
             <a class="project-media" href="${escapeAttr(href)}" aria-label="Lire l’étude de cas ${escapeAttr(project.name)}">
-              <img src="${escapeAttr(`${assetPrefix}${project.image}`)}" width="960" height="540" loading="lazy" alt="">
+              <img src="${escapeAttr(`${assetPrefix}${project.image}`)}" width="${cardWidth}" height="${cardHeight}" loading="lazy" decoding="async" alt="">
             </a>
             <div class="project-body">
               <div class="project-signal">
@@ -461,6 +552,20 @@ function renderProjectCard(project, index, assetPrefix, hrefPrefix) {
               </div>
             </div>
           </article>`;
+}
+
+function renderGallery(items) {
+  return items
+    .map(
+      (
+        item,
+        index,
+      ) => `<figure class="case-study-media" data-gallery-item data-gallery-index="${index}">
+          <img src="${escapeAttr(`../${item.src}`)}" width="${item.width}" height="${item.height}" loading="lazy" decoding="async" alt="${escapeAttr(item.alt)}">
+          <figcaption>${escapeHtml(item.caption)}</figcaption>
+        </figure>`,
+    )
+    .join("\n        ");
 }
 
 function renderFilters() {

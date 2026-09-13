@@ -168,6 +168,56 @@ test("un projet non publié reste hors de toutes les sorties publiques", () => {
   assert.ok(!sitemap.includes(`/projets/${hidden.slug}.html`));
 });
 
+test("les visuels sont obligatoires pour les projets publiés", () => {
+  const catalogPath = path.join(fixtureRoot, "data", "projects.json");
+  const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+  const published = catalog.projects.find((project) => project.published);
+  assert.ok(published);
+  delete published.visuals;
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  const result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /visuals doit être un objet/);
+});
+
+test("les chemins visuels restent confinés au projet", () => {
+  const catalogPath = path.join(fixtureRoot, "data", "projects.json");
+  const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+  const published = catalog.projects.find((project) => project.published);
+  assert.ok(published);
+  published.visuals.hero.src = "assets/img/projects/autre/hero.webp";
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  const result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /doit rester sous assets\/img\/projects/);
+});
+
+test("les pages projet génèrent hero, architecture et galerie depuis visuals", () => {
+  assertGeneratorSuccess(runGenerator());
+
+  const catalog = JSON.parse(
+    readFileSync(path.join(fixtureRoot, "data", "projects.json"), "utf8"),
+  );
+  const published = catalog.projects.find((project) => project.published);
+  assert.ok(published);
+
+  const html = readFileSync(
+    path.join(fixtureRoot, "projets", `${published.slug}.html`),
+    "utf8",
+  );
+
+  assert.ok(html.includes("data-project-hero"));
+  assert.ok(html.includes("data-project-architecture"));
+  assert.ok(html.includes("data-project-gallery"));
+  assert.ok(html.includes(`../${published.visuals.hero.src}`));
+  assert.ok(html.includes(`../${published.visuals.architecture.src}`));
+  for (const item of published.visuals.gallery) {
+    assert.ok(html.includes(`../${item.src}`));
+  }
+});
+
 function copyFixturePath(relativePath) {
   const source = path.join(repoRoot, relativePath);
   const destination = path.join(fixtureRoot, relativePath);
