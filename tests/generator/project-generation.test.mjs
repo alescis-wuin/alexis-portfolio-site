@@ -208,6 +208,7 @@ test("les pages projet génèrent hero, architecture et galerie depuis visuals",
     "utf8",
   );
 
+  assert.ok(html.includes(`<body data-project-slug="${published.slug}">`));
   assert.ok(html.includes("data-project-hero"));
   assert.ok(html.includes("data-project-architecture"));
   assert.ok(html.includes("data-project-gallery"));

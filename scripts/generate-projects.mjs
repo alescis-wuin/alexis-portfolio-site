@@ -383,6 +383,7 @@ function assertNonEmpty(value, field) {
 function renderProjectPage(project) {
   const values = {
     META_DESCRIPTION: escapeAttr(project.metaDescription),
+    PROJECT_SLUG: escapeAttr(project.slug),
     NAME: escapeHtml(project.name),
     CANONICAL_URL: escapeAttr(
       `${catalog.site.baseUrl}/projets/${project.slug}.html`,
