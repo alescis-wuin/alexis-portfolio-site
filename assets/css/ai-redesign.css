@@ -483,3 +483,10 @@
     }
   }
 }
+
+/* P2.4-C: release the rail reservation once the ultrawide frame has its own margins. */
+@media (min-width: 200rem) {
+  body.has-section-rail {
+    padding-left: 0;
+  }
+}

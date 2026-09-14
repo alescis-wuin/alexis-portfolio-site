@@ -32,7 +32,7 @@
 <body>
   <a class="skip-link" href="#contenu">Aller au contenu principal</a>
   <header class="site-header" data-site-header>
-    <div class="container header-inner">
+    <div class="content-shell header-inner">
       <a class="brand" href="../index.html#accueil" aria-label="Retour à l’accueil">
         <img src="../assets/img/logo.svg" width="40" height="40" alt="" aria-hidden="true">
         <span>Alexis Guinot</span>
@@ -61,8 +61,8 @@
 
   <main id="contenu">
     <section class="section-lg">
-      <div class="container" data-project-catalog>
-        <div class="section-heading">
+      <div class="frame" data-project-catalog>
+        <div class="section-heading reading">
           <p class="eyebrow">Catalogue</p>
           <h1>Projets et études de cas</h1>
           <p>Les filtres sont produits depuis la même source de données que les pages projet, le portfolio d’accueil, le sitemap et les tests.</p>
@@ -85,7 +85,7 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-grid">
+    <div class="content-shell footer-grid">
       <div>
         <p class="footer-title">Alexis Guinot</p>
         <p>Développeur et concepteur d’applications.</p>

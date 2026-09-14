@@ -1,7 +1,7 @@
 /* Focused project cards: clear, consistent and slightly playful signal system. */
 
 .project-grid-focus {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .project-card-playful {
@@ -123,6 +123,7 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.85rem;
+  max-width: 80rem;
   margin-bottom: 1rem;
 }
 
@@ -169,7 +170,7 @@
 }
 
 .project-grid-catalog {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .project-catalog-empty {
@@ -360,5 +361,36 @@
   .project-card-playful[data-project-slug]:hover .project-media img,
   .project-card-playful[data-project-slug]:focus-within .project-media img {
     transform: none;
+  }
+}
+
+/* P2.4-C: density follows the available frame instead of the legacy container. */
+@media (max-width: 45rem) {
+  .project-grid-focus,
+  .project-grid-catalog,
+  .project-filters {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 80rem) {
+  .project-grid-catalog {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 105rem) {
+  .project-grid-focus {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .project-grid-catalog {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 190rem) {
+  .project-grid-catalog {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }

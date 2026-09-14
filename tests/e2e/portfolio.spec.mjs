@@ -18,6 +18,52 @@ const featuredProjects = publishedProjects
   .filter((project) => project.featured)
   .sort((a, b) => a.featuredOrder - b.featuredOrder);
 
+const responsiveProfiles = [
+  { name: "mobile", width: 390, height: 844, featured: 1, catalog: 1 },
+  { name: "tablet", width: 768, height: 1024, featured: 2, catalog: 2 },
+  {
+    name: "tablet-landscape",
+    width: 1024,
+    height: 768,
+    featured: 2,
+    catalog: 2,
+  },
+  { name: "laptop", width: 1280, height: 800, featured: 2, catalog: 3 },
+  { name: "desktop", width: 1440, height: 900, featured: 2, catalog: 3 },
+  { name: "full-hd", width: 1920, height: 1080, featured: 4, catalog: 4 },
+  { name: "ultrawide", width: 2560, height: 1080, featured: 4, catalog: 4 },
+  {
+    name: "ultrawide-large",
+    width: 3440,
+    height: 1440,
+    featured: 4,
+    catalog: 5,
+  },
+  { name: "4k", width: 3840, height: 2160, featured: 4, catalog: 5 },
+];
+
+async function expectNoHorizontalOverflow(page) {
+  const geometry = await page.evaluate(() => ({
+    clientWidth: globalThis.document.documentElement.clientWidth,
+    scrollWidth: globalThis.document.documentElement.scrollWidth,
+  }));
+  expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.clientWidth + 1);
+}
+
+async function countGridColumns(locator) {
+  return locator.evaluateAll((nodes) => {
+    const visible = nodes.filter((node) => {
+      const style = globalThis.getComputedStyle(node);
+      return style.display !== "none" && style.visibility !== "hidden";
+    });
+    if (visible.length === 0) return 0;
+    const firstTop = visible[0].getBoundingClientRect().top;
+    return visible.filter(
+      (node) => Math.abs(node.getBoundingClientRect().top - firstTop) <= 2,
+    ).length;
+  });
+}
+
 test.beforeEach(async ({ page }) => {
   const browserErrors = [];
   page.on("pageerror", (error) => browserErrors.push(error.message));
@@ -306,3 +352,101 @@ for (const projectPage of projectPages) {
     }
   });
 }
+
+test.describe("P2.4-C responsive large et ultrawide", () => {
+  for (const profile of responsiveProfiles) {
+    test(`${profile.name} ${profile.width}x${profile.height}`, async ({
+      page,
+      isMobile,
+    }) => {
+      test.skip(
+        isMobile,
+        "La matrice explicite est exécutée une seule fois sur Chromium desktop.",
+      );
+      await page.setViewportSize({
+        width: profile.width,
+        height: profile.height,
+      });
+
+      await page.goto("/");
+      await expectNoHorizontalOverflow(page);
+
+      const featuredCards = page.locator("#projets [data-project-card]");
+      await expect(featuredCards).toHaveCount(featuredProjects.length);
+      expect(await countGridColumns(featuredCards)).toBe(profile.featured);
+
+      const heroLeadWidth = await page
+        .locator("#accueil .hero-lead")
+        .evaluate((node) => node.getBoundingClientRect().width);
+      expect(heroLeadWidth).toBeLessThanOrEqual(760);
+
+      const homeFrame = page.locator("#projets .frame");
+      if (profile.width >= 1440) {
+        expect(
+          await homeFrame.evaluate(
+            (node) => node.getBoundingClientRect().width,
+          ),
+        ).toBeGreaterThan(1152);
+      }
+
+      if (profile.width >= 1180) {
+        const rail = page.locator(".section-rail");
+        const featured = page.locator("#projets .project-grid-focus");
+        const [railBox, featuredBox] = await Promise.all([
+          rail.boundingBox(),
+          featured.boundingBox(),
+        ]);
+        expect(railBox).not.toBeNull();
+        expect(featuredBox).not.toBeNull();
+        if (railBox && featuredBox) {
+          expect(railBox.x + railBox.width).toBeLessThanOrEqual(
+            featuredBox.x + 2,
+          );
+        }
+      }
+
+      await page.goto("/projets/");
+      await expectNoHorizontalOverflow(page);
+      const catalogCards = page.locator(
+        "[data-project-catalog] [data-project-card]",
+      );
+      await expect(catalogCards).toHaveCount(publishedProjects.length);
+      expect(await countGridColumns(catalogCards)).toBe(profile.catalog);
+
+      const catalogFrameWidth = await page
+        .locator("[data-project-catalog]")
+        .evaluate((node) => node.getBoundingClientRect().width);
+      if (profile.width >= 1440) {
+        expect(catalogFrameWidth).toBeGreaterThan(1152);
+      }
+      if (profile.width >= 3440) {
+        expect(catalogFrameWidth).toBeLessThanOrEqual(2800 + 1);
+      }
+
+      await page.goto(projectPages[0].path);
+      await expectNoHorizontalOverflow(page);
+      const architecture = page.locator("[data-project-architecture] img");
+      await architecture.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() =>
+          architecture.evaluate(
+            (node) =>
+              node.complete && node.naturalWidth > 0 && node.naturalHeight > 0,
+          ),
+        )
+        .toBe(true);
+
+      const architectureWidth = await architecture.evaluate(
+        (node) => node.getBoundingClientRect().width,
+      );
+      if (profile.width >= 1920) {
+        expect(architectureWidth).toBeGreaterThan(1152);
+      }
+
+      const projectLeadWidth = await page
+        .locator(".project-detail-copy .hero-lead")
+        .evaluate((node) => node.getBoundingClientRect().width);
+      expect(projectLeadWidth).toBeLessThanOrEqual(760);
+    });
+  }
+});
