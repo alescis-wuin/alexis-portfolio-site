@@ -929,6 +929,12 @@
     }
   }
 
+  @media (max-width: 68rem) {
+    body[data-project-slug] .header-actions .button-small {
+      display: none;
+    }
+  }
+
   @media (max-width: 920px) {
     .header-actions .button-small {
       display: none;
