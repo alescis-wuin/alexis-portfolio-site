@@ -42,3 +42,6 @@ temp/
 # Playwright runtime artifacts
 test-results/
 playwright-report/
+
+# Deterministic visual QA artifacts
+artifacts/

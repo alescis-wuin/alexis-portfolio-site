@@ -32,9 +32,9 @@
   <a class="skip-link" href="#contenu">Aller au contenu principal</a>
   <header class="site-header" data-site-header>
     <div class="content-shell header-inner">
-      <a class="brand" href="../index.html#accueil" aria-label="Retour à l’accueil">
-        <img src="../assets/img/logo.svg" width="40" height="40" alt="" aria-hidden="true">
-        <span>Alexis Guinot</span>
+      <a class="project-back-link" href="./index.html" aria-label="Retour aux autres projets">
+        <span aria-hidden="true">←</span>
+        <span>Retour aux autres projets</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navigation-principale" data-nav-toggle hidden>
         <span class="nav-toggle-bars" aria-hidden="true"></span>
@@ -62,17 +62,32 @@
     <article class="project-detail section-lg">
       <div class="frame project-detail-grid">
         <div class="project-detail-copy" data-reveal>
-          <a class="breadcrumb" href="./index.html">← Retour aux projets</a>
-          <p class="eyebrow">Gestionnaire de tâches et Kanban avancé · En cours</p>
+          <div class="project-detail-signal">
+            <p class="eyebrow">Gestionnaire de tâches et Kanban avancé</p>
+            <span class="project-detail-status">En cours</span>
+          </div>
           <h1>Kanban</h1>
-          <p class="hero-lead">Gestionnaire de tâches C#/.NET 10 avec Blazor, Kanban avancé, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.</p>
-          <div class="tag-list"><span class="tag">Web</span>
+          <p class="hero-lead">Gestionnaire .NET 10 orienté métier : vues Liste/Kanban, règles WIP, récurrence, API REST et persistance SQLite.</p>
+          <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
+            <div>
+              <dt>Objectif</dt>
+              <dd>Construire une application métier Web au-delà d’un CRUD de tâches.</dd>
+            </div>
+            <div>
+              <dt>Démonstration</dt>
+              <dd>Règles WIP, Blazor, API, EF Core, accessibilité, tests et CI.</dd>
+            </div>
+          </dl>
+          <div class="project-taxonomy" aria-label="Domaines du projet">
+            <span class="project-metadata-label">Domaines</span>
+            <div class="tag-list"><span class="tag">Web</span>
                 <span class="tag">Backend</span>
                 <span class="tag">Full-stack</span>
                 <span class="tag">Architecture</span>
                 <span class="tag">Accessibilité</span></div>
+          </div>
           <div class="hero-actions">
-            <a class="button button-secondary" href="https://github.com/alescis-wuin/kanban" rel="noopener noreferrer">Voir le dépôt GitHub</a>
+            <a class="button button-secondary project-repository-button" href="https://github.com/alescis-wuin/kanban" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>

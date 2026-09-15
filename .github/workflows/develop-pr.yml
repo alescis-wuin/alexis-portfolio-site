@@ -81,7 +81,7 @@ jobs:
             run_extended=true
           elif [[ -n "$BASE_SHA" && -n "$HEAD_SHA" ]]; then
             git diff --name-only "$BASE_SHA" "$HEAD_SHA" | tee /tmp/changed-files.txt
-            if grep -Eq '^(data/|templates/|projets/|assets/(css|js)/|tests/e2e/|index\.html$|sitemap\.xml$|scripts/generate-projects\.mjs$|playwright\.config\.mjs$|package(-lock)?\.json$)' /tmp/changed-files.txt; then
+            if grep -Eq '^(data/|templates/|projets/|assets/(css|js)/|tests/(e2e|qa|visual)/|index\.html$|sitemap\.xml$|scripts/(generate-projects|run-visual-qa)\.mjs$|playwright(\.visual)?\.config\.mjs$|package(-lock)?\.json$)' /tmp/changed-files.txt; then
               run_extended=true
             fi
           fi
@@ -95,6 +95,19 @@ jobs:
       - name: Run extended checks
         if: steps.scope.outputs.run_extended == 'true'
         run: npm run check:extended
+
+      - name: Capture deterministic visual QA
+        if: steps.scope.outputs.run_extended == 'true'
+        run: npm run capture:visual
+
+      - name: Upload visual QA artifact
+        if: always() && steps.scope.outputs.run_extended == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-qa-develop-pr-${{ github.event.pull_request.number || github.run_id }}
+          path: artifacts/visual
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Explain skipped browser checks
         if: steps.scope.outputs.run_extended != 'true'

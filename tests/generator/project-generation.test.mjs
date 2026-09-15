@@ -194,6 +194,65 @@ test("les chemins visuels restent confinés au projet", () => {
   assert.match(result.stderr, /doit rester sous assets\/img\/projects/);
 });
 
+test("les cartes projet utilisent le hero produit et des actions explicites", () => {
+  assertGeneratorSuccess(runGenerator());
+
+  const catalog = JSON.parse(
+    readFileSync(path.join(fixtureRoot, "data", "projects.json"), "utf8"),
+  );
+  const published = catalog.projects.filter((project) => project.published);
+  const catalogHtml = readFileSync(
+    path.join(fixtureRoot, "projets", "index.html"),
+    "utf8",
+  );
+
+  for (const project of published) {
+    assert.ok(
+      catalogHtml.includes(`../${project.visuals.hero.src}`),
+      `hero absent de la carte ${project.slug}`,
+    );
+    assert.ok(
+      catalogHtml.includes(
+        `aria-label="Voir le dépôt GitHub de ${project.name}"`,
+      ),
+      `CTA GitHub absent pour ${project.slug}`,
+    );
+  }
+
+  assert.ok(catalogHtml.includes('class="project-kicker"'));
+  assert.ok(catalogHtml.includes('class="project-stack"'));
+  assert.ok(
+    catalogHtml.includes('class="project-metadata-label">Technologies'),
+  );
+  assert.ok(catalogHtml.includes('class="project-repository-link"'));
+});
+
+test("le hero éditorial expose objectif et démonstration", () => {
+  assertGeneratorSuccess(runGenerator());
+
+  const catalog = JSON.parse(
+    readFileSync(path.join(fixtureRoot, "data", "projects.json"), "utf8"),
+  );
+  const published = catalog.projects.find((project) => project.published);
+  assert.ok(published);
+
+  const html = readFileSync(
+    path.join(fixtureRoot, "projets", `${published.slug}.html`),
+    "utf8",
+  );
+
+  assert.ok(html.includes("data-project-overview"));
+  assert.ok(html.includes("<dt>Objectif</dt>"));
+  assert.ok(html.includes("<dt>Démonstration</dt>"));
+  assert.ok(html.includes(published.mission));
+  assert.ok(html.includes(published.proof));
+  assert.ok(html.includes(`<p class="hero-lead">${published.summary}</p>`));
+  assert.ok(html.includes('class="project-back-link"'));
+  assert.ok(html.includes("Retour aux autres projets"));
+  assert.ok(!html.includes('class="breadcrumb"'));
+  assert.ok(html.includes('class="project-metadata-label">Domaines'));
+});
+
 test("les pages projet génèrent hero, architecture et galerie depuis visuals", () => {
   assertGeneratorSuccess(runGenerator());
 

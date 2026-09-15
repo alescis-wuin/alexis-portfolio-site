@@ -2,49 +2,52 @@
 <title id="title">Aelia — séparation UI / provider météo</title>
 <desc id="desc">Interface JavaFX dépendant d’un contrat WeatherDashboardProvider, implémenté par le provider simulé, avec valeurs typées et formatage UI ; adaptateur distant futur non implémenté.</desc>
 <defs>
-  <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto-start-reverse">
-    <path d="M0,0 L12,6 L0,12 z" fill="#334155"/>
+  <marker id="arrow" markerWidth="9" markerHeight="9" refX="9" refY="4.5" orient="auto-start-reverse" markerUnits="userSpaceOnUse" viewBox="0 0 9 9">
+    <path d="M0,0 L9,4.5 L0,9 z" fill="#334155"/>
   </marker>
   <style>
-    .heading { font: 700 40px Inter, system-ui, sans-serif; fill: #0f172a; }
-    .subtitle { font: 400 20px Inter, system-ui, sans-serif; fill: #475569; }
+    .heading { font: 700 30px Inter, system-ui, sans-serif; fill: #0f172a; }
+    .subtitle { font: 400 16px Inter, system-ui, sans-serif; fill: #475569; }
     .title { font-family: Inter, system-ui, sans-serif; font-weight: 700; fill: #0f172a; }
     .body { font-family: Inter, system-ui, sans-serif; font-weight: 400; fill: #475569; }
-    .edge { font: 600 16px Inter, system-ui, sans-serif; fill: #475569; paint-order: stroke; stroke: #f8fafc; stroke-width: 8px; stroke-linejoin: round; }
-    .note { font: 500 17px Inter, system-ui, sans-serif; fill: #475569; }
+    .edge { font: 600 13px Inter, system-ui, sans-serif; fill: #475569; paint-order: stroke; stroke: #f8fafc; stroke-width: 5px; stroke-linejoin: round; }
+    .note { font: 500 14px Inter, system-ui, sans-serif; fill: #475569; }
   </style>
 </defs>
 <rect width="1600" height="900" fill="#f8fafc"/>
 <text x="70" y="70" class="heading">Aelia — séparation UI / provider météo</text>
 <text x="70" y="108" class="subtitle">Java 21 · JavaFX · AtlantaFX · provider simulé déterministe</text>
 <rect x="70" y="260" width="300" height="220" rx="22" fill="#e0e7ff" stroke="#334155" stroke-width="2"/>
-<text x="94" y="298" class="title" font-size="24">JavaFX / AtlantaFX</text>
-<text x="94" y="330" class="body" font-size="18">Dashboard météo</text>
-<text x="94" y="358" class="body" font-size="18">cartes, gauges, prévisions</text>
-<text x="94" y="386" class="body" font-size="18">recherche / carte</text>
-<text x="94" y="414" class="body" font-size="18">navigation clavier</text><rect x="500" y="220" width="300" height="150" rx="22" fill="#dbeafe" stroke="#334155" stroke-width="2"/>
-<text x="524" y="258" class="title" font-size="24">WeatherDashboardProvider</text>
-<text x="524" y="290" class="body" font-size="18">Port stable lu par l’UI</text>
-<text x="524" y="318" class="body" font-size="18">snapshot + métriques +</text>
-<text x="524" y="346" class="body" font-size="18">abonnements</text><rect x="500" y="520" width="300" height="150" rx="22" fill="#fef3c7" stroke="#334155" stroke-width="2"/>
-<text x="524" y="558" class="title" font-size="24">UiFormatters + GaugeMath</text>
-<text x="524" y="590" class="body" font-size="18">Transformations d’affichage</text>
-<text x="524" y="618" class="body" font-size="18">formatage hors du modèle</text><rect x="930" y="170" width="320" height="180" rx="22" fill="#dcfce7" stroke="#334155" stroke-width="2"/>
-<text x="954" y="208" class="title" font-size="24">SimulatedWeatherDashboardProvider</text>
-<text x="954" y="240" class="body" font-size="18">Valeurs déterministes</text>
-<text x="954" y="268" class="body" font-size="18">variations bornées</text>
-<text x="954" y="296" class="body" font-size="18">aucune API distante</text><rect x="930" y="480" width="320" height="160" rx="22" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
-<text x="954" y="518" class="title" font-size="24">Modèle météo typé</text>
-<text x="954" y="550" class="body" font-size="18">CurrentWeather, métriques,</text>
-<text x="954" y="578" class="body" font-size="18">états temporels et catégories</text><rect x="1320" y="190" width="220" height="150" rx="22" fill="#fff7ed" stroke="#334155" stroke-width="2" stroke-dasharray="10 8"/>
-<text x="1344" y="228" class="title" font-size="22">Adaptateur distant</text>
-<text x="1344" y="260" class="body" font-size="16">Future</text>
-<text x="1344" y="286" class="body" font-size="16">implémentation du</text>
-<text x="1344" y="312" class="body" font-size="16">même port</text><line x1="370" y1="330" x2="500" y2="295" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="435.0" y="302.5" text-anchor="middle" class="edge">dépend du port</text><line x1="930" y1="260" x2="800" y2="295" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="865.0" y="267.5" text-anchor="middle" class="edge">implémente</text><line x1="1090" y1="350" x2="1090" y2="480" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="1090.0" y="405.0" text-anchor="middle" class="edge">produit</text><line x1="930" y1="560" x2="800" y2="595" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="865.0" y="567.5" text-anchor="middle" class="edge">valeurs typées</text><line x1="500" y1="595" x2="370" y2="410" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="435.0" y="492.5" text-anchor="middle" class="edge">formatage UI</text><line x1="1320" y1="265" x2="1250" y2="260" stroke="#334155" stroke-width="3" marker-end="url(#arrow)" stroke-dasharray="9 7"/>
-<text x="1285.0" y="252.5" text-anchor="middle" class="edge">non implémenté</text><text x="70" y="860" class="note">Le diagramme ne montre aucune API météo réelle : la version auditée utilise uniquement le provider simulé déterministe.</text>
+<text x="94" y="298" class="title" font-size="20">JavaFX / AtlantaFX</text>
+<text x="94" y="330" class="body" font-size="15">Dashboard météo</text>
+<text x="94" y="358" class="body" font-size="15">cartes, gauges, prévisions</text>
+<text x="94" y="386" class="body" font-size="15">recherche / carte</text>
+<text x="94" y="414" class="body" font-size="15">navigation clavier</text><rect x="500" y="220" width="300" height="150" rx="22" fill="#dbeafe" stroke="#334155" stroke-width="2"/>
+<text x="524" y="258" class="title" font-size="20">WeatherDashboardProvider</text>
+<text x="524" y="290" class="body" font-size="15">Port stable lu par l’UI</text>
+<text x="524" y="318" class="body" font-size="15">snapshot + métriques +</text>
+<text x="524" y="346" class="body" font-size="15">abonnements</text><rect x="500" y="520" width="300" height="150" rx="22" fill="#fef3c7" stroke="#334155" stroke-width="2"/>
+<text x="524" y="558" class="title" font-size="20">UiFormatters + GaugeMath</text>
+<text x="524" y="590" class="body" font-size="15">Transformations d’affichage</text>
+<text x="524" y="618" class="body" font-size="15">formatage hors du modèle</text><rect x="930" y="170" width="320" height="180" rx="22" fill="#dcfce7" stroke="#334155" stroke-width="2"/>
+<text x="954" y="205" class="title" font-size="17">
+  <tspan x="954" dy="0">SimulatedWeather</tspan>
+  <tspan x="954" dy="21">DashboardProvider</tspan>
+</text>
+<text x="954" y="260" class="body" font-size="15">Valeurs déterministes</text>
+<text x="954" y="288" class="body" font-size="15">variations bornées</text>
+<text x="954" y="316" class="body" font-size="15">aucune API distante</text><rect x="930" y="480" width="320" height="160" rx="22" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
+<text x="954" y="518" class="title" font-size="20">Modèle météo typé</text>
+<text x="954" y="550" class="body" font-size="15">CurrentWeather, métriques,</text>
+<text x="954" y="578" class="body" font-size="15">états temporels et catégories</text><rect x="1320" y="190" width="220" height="150" rx="22" fill="#fff7ed" stroke="#334155" stroke-width="2" stroke-dasharray="10 8"/>
+<text x="1344" y="228" class="title" font-size="18">Adaptateur distant</text>
+<text x="1344" y="260" class="body" font-size="13">Future</text>
+<text x="1344" y="286" class="body" font-size="13">implémentation du</text>
+<text x="1344" y="312" class="body" font-size="13">même port</text><line x1="370" y1="330" x2="500" y2="295" stroke="#334155" stroke-width="2.4" marker-end="url(#arrow)"/>
+<text x="435.0" y="302.5" text-anchor="middle" class="edge">dépend du port</text><line x1="930" y1="260" x2="800" y2="295" stroke="#334155" stroke-width="2.4" marker-end="url(#arrow)"/>
+<text x="865.0" y="267.5" text-anchor="middle" class="edge">implémente</text><line x1="1090" y1="350" x2="1090" y2="480" stroke="#334155" stroke-width="2.4" marker-end="url(#arrow)"/>
+<text x="1090.0" y="405.0" text-anchor="middle" class="edge">produit</text><line x1="930" y1="560" x2="800" y2="595" stroke="#334155" stroke-width="2.4" marker-end="url(#arrow)"/>
+<text x="865.0" y="567.5" text-anchor="middle" class="edge">valeurs typées</text><line x1="500" y1="595" x2="370" y2="410" stroke="#334155" stroke-width="2.4" marker-end="url(#arrow)"/>
+<text x="435.0" y="492.5" text-anchor="middle" class="edge">formatage UI</text><line x1="1320" y1="265" x2="1250" y2="260" stroke="#334155" stroke-width="2.4" marker-end="url(#arrow)" stroke-dasharray="9 7"/>
+<text x="70" y="860" class="note">Le diagramme ne montre aucune API météo réelle : la version auditée utilise uniquement le provider simulé déterministe.</text>
 </svg>

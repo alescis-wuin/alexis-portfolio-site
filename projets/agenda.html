@@ -32,9 +32,9 @@
   <a class="skip-link" href="#contenu">Aller au contenu principal</a>
   <header class="site-header" data-site-header>
     <div class="content-shell header-inner">
-      <a class="brand" href="../index.html#accueil" aria-label="Retour à l’accueil">
-        <img src="../assets/img/logo.svg" width="40" height="40" alt="" aria-hidden="true">
-        <span>Alexis Guinot</span>
+      <a class="project-back-link" href="./index.html" aria-label="Retour aux autres projets">
+        <span aria-hidden="true">←</span>
+        <span>Retour aux autres projets</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navigation-principale" data-nav-toggle hidden>
         <span class="nav-toggle-bars" aria-hidden="true"></span>
@@ -62,17 +62,32 @@
     <article class="project-detail section-lg">
       <div class="frame project-detail-grid">
         <div class="project-detail-copy" data-reveal>
-          <a class="breadcrumb" href="./index.html">← Retour aux projets</a>
-          <p class="eyebrow">Agenda accessible Web et MAUI · Prototype</p>
+          <div class="project-detail-signal">
+            <p class="eyebrow">Agenda accessible Web et MAUI</p>
+            <span class="project-detail-status">Prototype</span>
+          </div>
           <h1>Agenda</h1>
-          <p class="hero-lead">Agenda C#/.NET 10 avec Blazor, MAUI Blazor Hybrid, API REST, EF Core/SQLite, interface partagée, validation métier et accessibilité clavier.</p>
-          <div class="tag-list"><span class="tag">Web</span>
+          <p class="hero-lead">Agenda .NET 10 partagé entre Web Blazor et MAUI, avec calendrier, événements, API REST et persistance SQLite.</p>
+          <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
+            <div>
+              <dt>Objectif</dt>
+              <dd>Partager une même interface métier entre Web et application hybride.</dd>
+            </div>
+            <div>
+              <dt>Démonstration</dt>
+              <dd>Blazor, MAUI, API, EF Core, architecture multi-hôte, tests et CI.</dd>
+            </div>
+          </dl>
+          <div class="project-taxonomy" aria-label="Domaines du projet">
+            <span class="project-metadata-label">Domaines</span>
+            <div class="tag-list"><span class="tag">Web</span>
                 <span class="tag">Mobile</span>
                 <span class="tag">Backend</span>
                 <span class="tag">Architecture</span>
                 <span class="tag">Accessibilité</span></div>
+          </div>
           <div class="hero-actions">
-            <a class="button button-secondary" href="https://github.com/alescis-wuin/agenda" rel="noopener noreferrer">Voir le dépôt GitHub</a>
+            <a class="button button-secondary project-repository-button" href="https://github.com/alescis-wuin/agenda" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>
