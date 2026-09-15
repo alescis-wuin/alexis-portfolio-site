@@ -13,6 +13,7 @@ const ignoredDirectories = new Set([
   "dist",
   "build",
   "coverage",
+  "artifacts",
   "playwright-report",
   "test-results",
 ]);

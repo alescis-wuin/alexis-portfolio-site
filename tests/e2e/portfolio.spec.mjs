@@ -125,6 +125,68 @@ test("les projets mis en avant viennent du catalogue canonique", async ({
   }
 });
 
+test("les cartes P2.4-D privilégient le produit et des actions lisibles", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  for (const project of featuredProjects) {
+    const card = page.locator(
+      `#projets [data-project-card][data-project-slug="${project.slug}"]`,
+    );
+    const image = card.locator(".project-media img");
+    const repository = card.locator(".project-repository-link");
+
+    await expect(image).toHaveAttribute("src", project.visuals.hero.src);
+    expect(
+      await image.evaluate(
+        (node) => globalThis.getComputedStyle(node).objectFit,
+      ),
+    ).toBe("contain");
+
+    const decorations = await card.evaluate((node) => ({
+      before: globalThis.getComputedStyle(node, "::before").content,
+      after: globalThis.getComputedStyle(node, "::after").content,
+    }));
+    expect(decorations.before).toBe("none");
+    expect(decorations.after).toBe("none");
+
+    await expect(card.locator(".project-metadata-label")).toContainText(
+      "Technologies",
+    );
+
+    if (project.repository) {
+      await expect(repository).toBeVisible();
+      await expect(repository).toHaveAttribute(
+        "aria-label",
+        `Voir le dépôt GitHub de ${project.name}`,
+      );
+      const box = await repository.boundingBox();
+      expect(box).not.toBeNull();
+      if (box) expect(box.height).toBeGreaterThanOrEqual(43);
+
+      const roles = await card.evaluate((node) => {
+        const tag = node.querySelector(".tag");
+        const button = node.querySelector(".project-repository-link");
+        if (!tag || !button) return null;
+        return {
+          tagRadius: Number.parseFloat(
+            globalThis.getComputedStyle(tag).borderTopLeftRadius,
+          ),
+          buttonRadius: Number.parseFloat(
+            globalThis.getComputedStyle(button).borderTopLeftRadius,
+          ),
+        };
+      });
+      expect(roles).not.toBeNull();
+      if (roles) {
+        expect(roles.tagRadius).toBeLessThan(12);
+        expect(roles.buttonRadius).toBeGreaterThan(20);
+      }
+    }
+  }
+});
+
 test("le catalogue complet expose tous les projets", async ({ page }) => {
   const response = await page.goto("/projets/");
 
@@ -218,6 +280,15 @@ test("les flèches utilisent le défilement natif", async ({ page }) => {
 
   const next = page.getByRole("button", { name: /Section suivante/i });
   await expect(next).toBeVisible();
+  const arrowPresentation = await next.evaluate((node) => {
+    const style = globalThis.getComputedStyle(node);
+    return {
+      boxShadow: style.boxShadow,
+      width: node.getBoundingClientRect().width,
+    };
+  });
+  expect(arrowPresentation.boxShadow).toBe("none");
+  expect(arrowPresentation.width).toBeLessThanOrEqual(52);
   await next.click();
 
   await expect(page).toHaveURL(/#valeur$/);
@@ -279,10 +350,29 @@ for (const projectPage of projectPages) {
       "data-project-slug",
       projectPage.slug,
     );
-    await expect(
-      page.getByRole("link", { name: /Retour aux projets/i }),
-    ).toBeVisible();
+    const backLink = page
+      .locator("header")
+      .getByRole("link", { name: /Retour aux autres projets/i });
+    await expect(backLink).toBeVisible();
+    expect(
+      await backLink.evaluate(
+        (node) => globalThis.getComputedStyle(node).backgroundColor,
+      ),
+    ).toBe("rgba(0, 0, 0, 0)");
+    await expect(page.locator(".project-detail .breadcrumb")).toHaveCount(0);
     await expect(page.locator("[data-case-study]")).toBeVisible();
+    const overview = page.locator("[data-project-overview]");
+    await expect(overview).toBeVisible();
+    await expect(overview).toContainText(projectPage.mission);
+    await expect(overview).toContainText(projectPage.proof);
+
+    if (projectPage.repository) {
+      const repository = page.locator(".project-repository-button");
+      await expect(repository).toBeVisible();
+      const box = await repository.boundingBox();
+      expect(box).not.toBeNull();
+      if (box) expect(box.height).toBeGreaterThanOrEqual(43);
+    }
 
     const hero = page.locator("[data-project-hero] img");
     const architecture = page.locator("[data-project-architecture] img");
@@ -308,6 +398,7 @@ for (const projectPage of projectPages) {
     ).toBe(true);
 
     await architecture.scrollIntoViewIfNeeded();
+    await expect(backLink).toBeVisible();
     await expect
       .poll(() =>
         architecture.evaluate(
@@ -352,6 +443,31 @@ for (const projectPage of projectPages) {
     }
   });
 }
+
+test("P2.4-D garde le masthead et le schéma lisibles dans un viewport large et bas", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "Test de densité réservé au projet desktop.");
+  await page.setViewportSize({ width: 1920, height: 800 });
+  await page.goto("/projets/calcufolio.html");
+  await expectNoHorizontalOverflow(page);
+
+  const detail = page.locator(".project-detail");
+  const detailBox = await detail.boundingBox();
+  expect(detailBox).not.toBeNull();
+  if (detailBox) {
+    expect(detailBox.y + detailBox.height).toBeLessThanOrEqual(802);
+  }
+
+  const architecture = page.locator("[data-project-architecture] img");
+  await architecture.scrollIntoViewIfNeeded();
+  const architectureBox = await architecture.boundingBox();
+  expect(architectureBox).not.toBeNull();
+  if (architectureBox) {
+    expect(architectureBox.height).toBeLessThanOrEqual(546);
+  }
+});
 
 test.describe("P2.4-C responsive large et ultrawide", () => {
   for (const profile of responsiveProfiles) {

@@ -389,10 +389,13 @@ function renderProjectPage(project) {
       `${catalog.site.baseUrl}/projets/${project.slug}.html`,
     ),
     SUBTITLE: escapeHtml(project.subtitle),
+    SUMMARY: escapeHtml(project.summary),
     STATUS_LABEL: escapeHtml(label("status", project.status)),
+    MISSION: escapeHtml(project.mission),
+    PROOF: escapeHtml(project.proof),
     TYPE_TAGS: renderTags(project.types.map((id) => label("types", id))),
     REPOSITORY_ACTION: project.repository
-      ? `<a class="button button-secondary" href="${escapeAttr(project.repository)}" rel="noopener noreferrer">Voir le dépôt GitHub</a>`
+      ? `<a class="button button-secondary project-repository-button" href="${escapeAttr(project.repository)}" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>`
       : "",
     HERO_IMAGE: escapeAttr(`../${project.visuals.hero.src}`),
     HERO_ALT: escapeAttr(project.visuals.hero.alt),
@@ -514,21 +517,21 @@ function renderProjectCard(project, index, assetPrefix, hrefPrefix) {
   const stackTokens = project.stack.join(" ");
   const homeStack = project.homeStack.map((id) => label("stack", id));
   const href = `${hrefPrefix}${project.slug}.html`;
-  const cardVisual =
-    project.visuals?.hero?.src === project.image ? project.visuals.hero : null;
-  const cardWidth = cardVisual?.width ?? 960;
-  const cardHeight = cardVisual?.height ?? 540;
+  const cardVisual = project.visuals.hero;
 
   return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
             <a class="project-media" href="${escapeAttr(href)}" aria-label="Lire l’étude de cas ${escapeAttr(project.name)}">
-              <img src="${escapeAttr(`${assetPrefix}${project.image}`)}" width="${cardWidth}" height="${cardHeight}" loading="lazy" decoding="async" alt="">
+              <img src="${escapeAttr(`${assetPrefix}${cardVisual.src}`)}" width="${cardVisual.width}" height="${cardVisual.height}" loading="lazy" decoding="async" alt="">
             </a>
             <div class="project-body">
               <div class="project-signal">
                 <span class="project-index" aria-hidden="true">${String(index).padStart(2, "0")}</span>
                 <span class="project-status">${escapeHtml(label("status", project.status))}</span>
               </div>
-              <h3><a href="${escapeAttr(href)}">${escapeHtml(project.name)}</a></h3>
+              <div class="project-heading">
+                <p class="project-kicker">${escapeHtml(project.subtitle)}</p>
+                <h3><a href="${escapeAttr(href)}">${escapeHtml(project.name)}</a></h3>
+              </div>
               <p class="project-summary">${escapeHtml(project.summary)}</p>
               <dl class="project-facts">
                 <div>
@@ -540,14 +543,17 @@ function renderProjectCard(project, index, assetPrefix, hrefPrefix) {
                   <dd>${escapeHtml(project.proof)}</dd>
                 </div>
               </dl>
-              <div class="tag-list" aria-label="Technologies principales">
-                ${renderTags(homeStack)}
+              <div class="project-stack" aria-label="Technologies principales">
+                <span class="project-metadata-label">Technologies</span>
+                <div class="tag-list">
+                  ${renderTags(homeStack)}
+                </div>
               </div>
               <div class="card-actions project-actions">
-                <a class="text-link" href="${escapeAttr(href)}">Lire l’étude de cas</a>
+                <a class="project-read-link" href="${escapeAttr(href)}">Étude de cas <span aria-hidden="true">→</span></a>
                 ${
                   project.repository
-                    ? `<a href="${escapeAttr(project.repository)}" rel="noopener noreferrer">GitHub</a>`
+                    ? `<a class="project-repository-link" href="${escapeAttr(project.repository)}" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de ${escapeAttr(project.name)}">GitHub <span aria-hidden="true">↗</span></a>`
                     : ""
                 }
               </div>

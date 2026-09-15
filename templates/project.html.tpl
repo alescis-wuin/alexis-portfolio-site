@@ -32,9 +32,9 @@
   <a class="skip-link" href="#contenu">Aller au contenu principal</a>
   <header class="site-header" data-site-header>
     <div class="content-shell header-inner">
-      <a class="brand" href="../index.html#accueil" aria-label="Retour à l’accueil">
-        <img src="../assets/img/logo.svg" width="40" height="40" alt="" aria-hidden="true">
-        <span>Alexis Guinot</span>
+      <a class="project-back-link" href="./index.html" aria-label="Retour aux autres projets">
+        <span aria-hidden="true">←</span>
+        <span>Retour aux autres projets</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navigation-principale" data-nav-toggle hidden>
         <span class="nav-toggle-bars" aria-hidden="true"></span>
@@ -62,11 +62,26 @@
     <article class="project-detail section-lg">
       <div class="frame project-detail-grid">
         <div class="project-detail-copy" data-reveal>
-          <a class="breadcrumb" href="./index.html">← Retour aux projets</a>
-          <p class="eyebrow">{{SUBTITLE}} · {{STATUS_LABEL}}</p>
+          <div class="project-detail-signal">
+            <p class="eyebrow">{{SUBTITLE}}</p>
+            <span class="project-detail-status">{{STATUS_LABEL}}</span>
+          </div>
           <h1>{{NAME}}</h1>
-          <p class="hero-lead">{{META_DESCRIPTION}}</p>
-          <div class="tag-list">{{TYPE_TAGS}}</div>
+          <p class="hero-lead">{{SUMMARY}}</p>
+          <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
+            <div>
+              <dt>Objectif</dt>
+              <dd>{{MISSION}}</dd>
+            </div>
+            <div>
+              <dt>Démonstration</dt>
+              <dd>{{PROOF}}</dd>
+            </div>
+          </dl>
+          <div class="project-taxonomy" aria-label="Domaines du projet">
+            <span class="project-metadata-label">Domaines</span>
+            <div class="tag-list">{{TYPE_TAGS}}</div>
+          </div>
           <div class="hero-actions">
             {{REPOSITORY_ACTION}}
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
