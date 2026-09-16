@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Architecture d’Alycia</title>
+  <desc id="desc">Schéma des couches Desktop, Presentation, Application, Domain et Infrastructure, avec l’adaptateur local llama.cpp.</desc>
+  <rect width="1600" height="900" fill="#0a0e1a"/>
+  <style>
+    .box{fill:#111827;stroke:#64748b;stroke-width:3;rx:20}.accent{stroke:#8b9dff;stroke-width:5;fill:none}.t{fill:#eef2ff;font:700 28px system-ui,sans-serif}.s{fill:#cbd5e1;font:22px system-ui,sans-serif}.h{fill:#a5b4fc;font:700 40px system-ui,sans-serif}
+  </style>
+  <text x="90" y="85" class="h">Alycia — architecture vérifiée</text>
+  <rect x="90" y="170" width="250" height="150" class="box"/><text x="135" y="235" class="t">Desktop</text><text x="120" y="280" class="s">Composition root</text>
+  <rect x="430" y="170" width="270" height="150" class="box"/><text x="465" y="235" class="t">Presentation</text><text x="470" y="280" class="s">Avalonia / UI</text>
+  <rect x="790" y="170" width="270" height="150" class="box"/><text x="835" y="235" class="t">Application</text><text x="822" y="280" class="s">Cas d’usage / ports</text>
+  <rect x="1150" y="170" width="270" height="150" class="box"/><text x="1215" y="235" class="t">Domain</text><text x="1192" y="280" class="s">Modèle conversation</text>
+  <path d="M340 245H430M700 245H790M1060 245H1150" class="accent"/>
+  <rect x="430" y="500" width="350" height="180" class="box"/><text x="470" y="565" class="t">Infrastructure</text><text x="470" y="610" class="s">JSON local · HTTP · runtime</text><text x="470" y="650" class="s">adaptateurs fournisseur</text>
+  <rect x="940" y="500" width="390" height="180" class="box"/><text x="1000" y="565" class="t">llama.cpp CUDA</text><text x="995" y="610" class="s">GGUF Hugging Face</text><text x="995" y="650" class="s">SSE contenu / reasoning</text>
+  <path d="M215 320V590H430M780 590H940" class="accent"/>
+  <path d="M605 500V390H925V320" class="accent"/>
+  <text x="90" y="815" class="s">Les contrats applicatifs restent indépendants de llama.cpp ; l’hôte desktop sélectionne les implémentations d’infrastructure.</text>
+</svg>

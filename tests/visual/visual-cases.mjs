@@ -13,6 +13,7 @@ export const visualProjectSlugs = Object.freeze([
   "agenda",
   "calcufolio",
   "aelia",
+  "alycia",
 ]);
 
 const allProfiles = visualProfiles.map((profile) => profile.id);

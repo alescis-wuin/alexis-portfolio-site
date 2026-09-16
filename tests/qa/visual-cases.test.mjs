@@ -29,7 +29,7 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
 
   assert.equal(new Set(profileIds).size, profileIds.length);
   assert.equal(new Set(sceneIds).size, sceneIds.length);
-  assert.equal(visualCaptureCount(), 34);
+  assert.equal(visualCaptureCount(), 39);
 
   for (const profile of visualProfiles) {
     assert.ok(profile.width >= 320);

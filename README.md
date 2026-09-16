@@ -4,7 +4,8 @@ Site web portfolio statique, sans dépendance de build applicatif en production.
 
 ## Architecture
 
-- `data/projects.json` : source de vérité unique du catalogue projets et de sa taxonomie.
+- `docs/SOURCE_DE_VERITE.md` : référence éditoriale pour le profil, la formation, les expériences, l’état des projets et les garde-fous de publication.
+- `data/projects.json` : source structurée du catalogue projets et de sa taxonomie.
 - `templates/*.html.tpl` : gabarits statiques des pages projet et du catalogue.
 - `scripts/generate-projects.mjs` : génère les pages projet, `/projets/index.html`, la section projets de l'accueil et `sitemap.xml`.
 - `index.html` : page d'accueil statique ; sa section projets est générée et versionnée.
@@ -15,6 +16,7 @@ Site web portfolio statique, sans dépendance de build applicatif en production.
 - `assets/js/main.js` : thème, menu mobile, révélations, navigation de sections et filtres du catalogue.
 - `tests/e2e/portfolio.spec.mjs` : tests Playwright pilotés par `data/projects.json`.
 - `docs/PROJECT_CATALOG.md` : documentation du modèle de données et procédure d'ajout d'un projet.
+- `docs/archive/` : anciennes analyses et décisions conservées à titre historique ; elles ne sont plus normatives.
 
 Le navigateur conserve le contrôle de la molette, des touches de déplacement et du défilement. Sur grand écran, CSS Scroll Snap utilise le mode `proximity` ; il est désactivé pour les tailles plus petites et avec `prefers-reduced-motion`.
 
@@ -64,8 +66,9 @@ La production actuelle est déployée vers un VPS par GitHub Actions après prom
 
 ## Points à vérifier avant publication
 
-- Vérifier que le CV PDF joint est bien la version publique souhaitée.
-- Le téléphone et la RQTH ne sont pas affichés dans les pages HTML ; ils restent uniquement dans le PDF fourni.
+- Vérifier tout contenu éditorial contre `docs/SOURCE_DE_VERITE.md`.
+- Remplacer le CV public actuel par une version sans numéro de téléphone avant la publication de la refonte.
+- Synchroniser les versions GitHub de référence d’Aelia et d’Alycia avant de publier les capacités présentes uniquement dans les versions locales ou branches de travail.
+- Régénérer les pages après toute modification de `data/projects.json` et vérifier que `npm run generate:check` reste vert.
 - Adapter les liens si le domaine final change.
-- Remplacer les illustrations SVG par des captures réelles des projets lorsque disponibles.
-- Tester le rail latéral, les flèches haut/bas, le défilement natif, le responsive, les filtres et le thème clair/sombre.
+- Exécuter `npm run check:strict` avant promotion vers `main`.
