@@ -29,7 +29,9 @@ jobs:
         run: npm ci --no-audit --no-fund
 
       - name: Apply phase 2.1 changes
-        run: python3 scripts/p2-1-temp.py
+        run: |
+          python3 scripts/p2-1-temp.py
+          python3 scripts/p2-1-order-fix.py
 
       - name: Regenerate project pages
         run: npm run generate
