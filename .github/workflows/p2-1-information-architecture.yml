@@ -1,0 +1,55 @@
+name: Temporary P2.1 information architecture
+
+on:
+  push:
+    branches:
+      - feature/p2.1-information-architecture
+
+permissions:
+  contents: write
+
+jobs:
+  apply-and-validate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/p2.1-information-architecture
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Apply phase 2.1 changes
+        run: python3 scripts/p2-1-temp.py
+
+      - name: Regenerate project pages
+        run: npm run generate
+
+      - name: Format temporary and changed text files
+        run: |
+          npx prettier --write .github/workflows/p2-1-information-architecture.yml tests/qa/public-content.test.mjs tests/e2e/portfolio.spec.mjs
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run extended checks
+        run: |
+          npm run check:extended
+          git diff --check
+
+      - name: Commit phase 2.1 implementation
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html assets/js/main.js assets/css/ai-redesign.css templates/project.html.tpl templates/projects-index.html.tpl projets tests/qa/public-content.test.mjs tests/e2e/portfolio.spec.mjs
+          git commit -m 'refactor(home): establish phase 2.1 information architecture'
+          git push origin HEAD:feature/p2.1-information-architecture
