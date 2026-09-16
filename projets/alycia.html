@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Application météo JavaFX avec Open-Meteo, fallbacks configurables, qualité de l’air, UV, pollens, carte OpenStreetMap native, géocodage et cache de tuiles.">
+  <meta name="description" content="Application desktop d’IA locale en C#/.NET et Avalonia avec conversations persistantes, llama.cpp CUDA, modèles GGUF Hugging Face, streaming et configuration de génération.">
   <meta name="author" content="Alexis Guinot">
   <meta name="color-scheme" content="dark light">
-  <meta property="og:title" content="Aelia — Étude de cas | Alexis Guinot">
-  <meta property="og:description" content="Application météo JavaFX avec Open-Meteo, fallbacks configurables, qualité de l’air, UV, pollens, carte OpenStreetMap native, géocodage et cache de tuiles.">
+  <meta property="og:title" content="Alycia — Étude de cas | Alexis Guinot">
+  <meta property="og:description" content="Application desktop d’IA locale en C#/.NET et Avalonia avec conversations persistantes, llama.cpp CUDA, modèles GGUF Hugging Face, streaming et configuration de génération.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/aelia.html">
+  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/alycia.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
   <meta name="theme-color" content="#0B1020">
-  <title>Aelia — Étude de cas | Alexis Guinot</title>
-  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/aelia.html">
+  <title>Alycia — Étude de cas | Alexis Guinot</title>
+  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/alycia.html">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
@@ -28,7 +28,7 @@
   </script>
 </head>
 
-<body data-project-slug="aelia">
+<body data-project-slug="alycia">
   <a class="skip-link" href="#contenu">Aller au contenu principal</a>
   <header class="site-header" data-site-header>
     <div class="content-shell header-inner">
@@ -63,36 +63,35 @@
       <div class="frame project-detail-grid">
         <div class="project-detail-copy" data-reveal>
           <div class="project-detail-signal">
-            <p class="eyebrow">Application météo desktop multi-fournisseurs</p>
+            <p class="eyebrow">Application desktop d’IA locale</p>
             <span class="project-detail-status">En cours</span>
           </div>
-          <h1>Aelia</h1>
-          <p class="hero-lead">Application météo JavaFX avec fournisseurs distants et fallback, qualité de l’air, UV, pollens et carte interactive native.</p>
+          <h1>Alycia</h1>
+          <p class="hero-lead">Application desktop C#/.NET et Avalonia pour conversations persistantes et inférence locale via llama.cpp CUDA et modèles GGUF.</p>
           <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
             <div>
               <dt>Objectif</dt>
-              <dd>Agréger plusieurs sources météo dans une interface desktop lisible et résiliente.</dd>
+              <dd>Fournir une expérience de conversation locale en gardant le fournisseur d’inférence derrière des contrats applicatifs.</dd>
             </div>
             <div>
               <dt>Démonstration</dt>
-              <dd>Fournisseurs distants, stratégie de fallback, carte JavaFX native, cache, tests Maven et CI.</dd>
+              <dd>Architecture en couches, persistance locale, llama.cpp CUDA, GGUF Hugging Face, streaming contenu/raisonnement, tests et observabilité locale.</dd>
             </div>
           </dl>
           <div class="project-taxonomy" aria-label="Domaines du projet">
             <span class="project-metadata-label">Domaines</span>
             <div class="tag-list"><span class="tag">Desktop</span>
-                <span class="tag">Accessibilité</span>
-                <span class="tag">Architecture</span>
-                <span class="tag">Données</span></div>
+                <span class="tag">IA</span>
+                <span class="tag">Architecture</span></div>
           </div>
           <div class="hero-actions">
-            <a class="button button-secondary project-repository-button" href="https://github.com/alescis-wuin/Aelia" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary project-repository-button" href="https://github.com/alescis-wuin/alycia" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>
         <figure class="project-figure case-study-media" data-project-hero data-reveal>
-          <img src="../assets/img/projects/aelia/hero.webp" width="1920" height="1204" decoding="async" fetchpriority="high" alt="Tableau de bord météo Aelia.">
-          <figcaption>Dashboard météo desktop Aelia.</figcaption>
+          <img src="../assets/img/projects/alycia/hero.webp" width="1280" height="720" decoding="async" fetchpriority="high" alt="Illustration schématique d’Alycia montrant une interface de conversation locale et les technologies principales.">
+          <figcaption>Illustration schématique du flux de conversation locale Alycia.</figcaption>
         </figure>
       </div>
     </article>
@@ -102,18 +101,20 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
-          <p>Présenter des données météo riches sans coupler l’interface à un fournisseur unique et sans multiplier inutilement les requêtes cartographiques.</p>
+          <p>Intégrer une inférence locale réelle sans coupler le domaine de conversation au runtime llama.cpp, tout en contrôlant installation, configuration, streaming, annulation et erreurs.</p>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="role-title">
           <p class="eyebrow">Rôle</p>
           <h2 id="role-title">Mon rôle</h2>
-          <p>Conception et développement d’une application météo desktop JavaFX : fournisseurs distants, stratégie de fallback, données environnementales, carte native, cache, tests et CI.</p>
+          <p>Conception et développement d’une application desktop d’IA locale en C#/.NET et Avalonia : conversations, persistance, génération/streaming, adaptateur llama.cpp CUDA, configuration modèle, tests et observabilité.</p>
           <h2>Stack</h2>
-          <div class="tag-list"><span class="tag">Java</span>
-                <span class="tag">Java 26</span>
-                <span class="tag">JavaFX</span>
-                <span class="tag">AtlantaFX</span>
-                <span class="tag">Maven</span>
+          <div class="tag-list"><span class="tag">C#</span>
+                <span class="tag">.NET 10</span>
+                <span class="tag">Avalonia</span>
+                <span class="tag">llama.cpp</span>
+                <span class="tag">Hugging Face</span>
+                <span class="tag">GGUF</span>
+                <span class="tag">xUnit</span>
                 <span class="tag">Tests</span>
                 <span class="tag">GitHub Actions</span></div>
         </aside>
@@ -125,12 +126,12 @@
         <div data-reveal>
           <p class="eyebrow">Architecture</p>
           <h2 id="architecture-title">Comment le système est structuré</h2>
-          <ul class="check-list"><li>L’interface JavaFX consomme un contrat WeatherDashboardProvider.</li><li>RemoteWeatherDashboardProvider orchestre Open-Meteo puis les fallbacks configurés.</li><li>WorldMapView affiche des tuiles OSM sans WebView ; MapTileCache gère mémoire, disque, priorité et rafraîchissement.</li></ul>
+          <ul class="check-list"><li>La couche Domain porte le modèle de conversation ; Application définit les cas d’usage et ports.</li><li>Presentation fournit l’interface Avalonia ; Desktop sert de composition root.</li><li>Infrastructure contient la persistance JSON, les appels HTTP et l’adaptateur llama.cpp local.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Décisions</p>
           <h2>Décisions techniques</h2>
-          <ul class="check-list"><li><strong>Prioriser Open-Meteo.</strong> Une source sans clé sert de référence ; les fournisseurs à clé restent des fallbacks explicites.</li><li><strong>Limiter les requêtes cartographiques.</strong> Seules les tuiles utiles à la vue courante sont prioritaires et un cache disque prolonge leur réutilisation.</li></ul>
+          <ul class="check-list"><li><strong>Garder le fournisseur hors du domaine.</strong> Les contrats de génération et de cycle de vie sont définis côté Application puis implémentés par Infrastructure.</li><li><strong>Ne pas rejouer automatiquement une génération.</strong> Les retries automatiques restent limités aux GET idempotents ; une nouvelle génération exige une action utilisateur explicite.</li><li><strong>Séparer contenu et reasoning.</strong> Le flux UI distingue les deltas visibles du raisonnement et ne persiste que la réponse Assistant terminée.</li></ul>
         </div>
       </div>
     </section>
@@ -143,8 +144,8 @@
           <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
         </div>
         <figure class="case-study-media case-study-architecture" data-project-architecture data-reveal>
-          <img src="../assets/img/projects/aelia/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma d’architecture d’Aelia.">
-          <figcaption>Interface JavaFX, contrat fournisseur et intégrations météo/cartographiques.</figcaption>
+          <img src="../assets/img/projects/alycia/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma des couches Desktop, Presentation, Application, Domain et Infrastructure d’Alycia avec llama.cpp.">
+          <figcaption>Architecture en couches et adaptateur local llama.cpp.</figcaption>
         </figure>
       </div>
     </section>
@@ -154,12 +155,12 @@
         <div data-reveal>
           <p class="eyebrow">Implémentation</p>
           <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list"><li>Modes simulated, auto et api.</li><li>Open-Meteo en source principale avec fallbacks WeatherAPI.com, Visual Crossing, OpenWeather, Weatherbit et Pirate Weather lorsque configurés.</li><li>Qualité de l’air Open-Meteo : AQI européen, PM2.5, PM10, NO₂ et pollens.</li><li>Carte JavaFX native avec tuiles OpenStreetMap, déplacement, zoom, sélection de localisation et géocodage inverse Nominatim.</li><li>Cache mémoire et disque des tuiles ; les tuiles visibles sont prioritaires.</li><li>Tests Maven et workflow GitHub Actions sous Java 26.</li></ul>
+          <ul class="check-list"><li>Cœur de conversation indépendant du fournisseur avec persistance locale JSON et opérations de cycle de vie testées.</li><li>Interface Avalonia avec espaces Conversations, Provider et Models.</li><li>Adaptateur local llama.cpp CUDA réel, détection/installation gérée sur Linux x64 et cycle de vie explicite.</li><li>Configuration d’un modèle GGUF Hugging Face et des paramètres de génération, dont le reasoning borné.</li><li>Streaming SSE séparant contenu visible et reasoning ; seule la réponse Assistant terminée est persistée.</li><li>Stop et retry explicite sans replay automatique des requêtes de génération.</li><li>Observabilité locale bornée et sans contenu : latences, tokens, version fournisseur et classification sûre des échecs.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Difficultés</p>
           <h2>Difficultés résolues</h2>
-          <ul class="check-list"><li><strong>Tolérer les indisponibilités fournisseur.</strong> Le mode auto tente les sources distantes puis revient à la simulation si aucune ne répond.</li><li><strong>Construire une carte native.</strong> Zoom, déplacement, sélection et géocodage sont réalisés en JavaFX sans WebView.</li></ul>
+          <ul class="check-list"><li><strong>Piloter un runtime local.</strong> Détection, installation, démarrage, readiness, ownership et arrêt sont gérés sans exposer de secrets sur la ligne de commande.</li><li><strong>Conserver une UI lisible pendant le streaming.</strong> Le suivi de scroll, l’annulation et le retry restent contrôlés par l’utilisateur.</li></ul>
         </div>
       </div>
     </section>
@@ -169,12 +170,12 @@
         <div data-reveal>
           <p class="eyebrow">Qualité</p>
           <h2 id="quality-title">Tests et garde-fous</h2>
-          <ul class="check-list"><li>Tests unitaires Maven.</li><li>CI GitHub Actions alignée sur Java 26.</li></ul>
+          <ul class="check-list"><li>Tests des couches Domain, Application, Infrastructure, Presentation et Architecture.</li><li>La frontière Presentation → Infrastructure est vérifiée automatiquement.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Livraison</p>
           <h2>Livraison et CI/CD</h2>
-          <ul class="check-list"><li>Lancement Maven/JavaFX documenté.</li><li>Le projet reste une application desktop locale.</li></ul>
+          <ul class="check-list"><li>Toolchain .NET 10 épinglée.</li><li>Les commandes Makefile regroupent build, tests, architecture et vérifications.</li></ul>
         </div>
       </div>
     </section>
@@ -184,12 +185,12 @@
         <div data-reveal>
           <p class="eyebrow">Résultats</p>
           <h2 id="outcomes-title">Résultats observables</h2>
-          <ul class="check-list"><li>Données météo réelles et fallback multi-fournisseurs.</li><li>Carte native avec sélection de localisation et cache de tuiles.</li></ul>
+          <ul class="check-list"><li>Conversation locale persistante avec génération et streaming réels via llama.cpp.</li><li>Gestion explicite du fournisseur, du modèle et de la maintenance locale.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Compromis</p>
           <h2>Compromis techniques</h2>
-          <ul class="check-list"><li>Les fallbacks à clé exigent une configuration utilisateur.</li><li>Le cache cartographique ne constitue pas un téléchargement hors ligne du monde.</li></ul>
+          <ul class="check-list"><li>L’installation gérée de llama.cpp CUDA cible actuellement Linux x64 avec NVIDIA ; les autres hôtes peuvent utiliser un runtime compatible déjà installé.</li><li>Le reasoning affiché reste un snapshot Presentation en mémoire dans l’état actuel.</li></ul>
         </div>
       </div>
     </section>
@@ -199,12 +200,12 @@
         <div data-reveal>
           <p class="eyebrow">Limites</p>
           <h2 id="limits-title">Limites assumées</h2>
-          <ul class="check-list"><li>Pas de préchargement de zones complètes.</li><li>Les fournisseurs à clé ne fonctionnent qu’après configuration des identifiants nécessaires.</li></ul>
+          <ul class="check-list"><li>Pas de tool calling, RAG/retrieval, pièces jointes ou multimodalité.</li><li>Installation gérée CUDA limitée à Linux x64 pour le lot actuel.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Suite</p>
           <h2>Prochaines étapes</h2>
-          <ul class="check-list"><li>Poursuivre les tests d’intégration sur erreurs réseau, quotas et données partielles.</li></ul>
+          <ul class="check-list"><li>Étendre les capacités uniquement par lots atomiques derrière les contrats existants.</li></ul>
         </div>
       </div>
     </section>
@@ -218,8 +219,8 @@
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0">
-          <img src="../assets/img/projects/aelia/map.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Carte interactive Aelia.">
-          <figcaption>Carte JavaFX native avec sélection de localisation.</figcaption>
+          <img src="../assets/img/projects/alycia/configuration.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Illustration schématique des espaces Provider, Models et Conversation d’Alycia.">
+          <figcaption>Illustration schématique de la configuration fournisseur, modèle et conversation.</figcaption>
         </figure>
         </div>
       </div>
@@ -230,7 +231,7 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Preuve de compétence</p>
           <h2 id="proof-title">Ce que ce projet démontre</h2>
-          <ul class="check-list"><li>L’interface n’est pas liée à un fournisseur météo unique.</li><li>La carte charge prioritairement les tuiles visibles et les conserve dans des caches mémoire et disque afin de limiter les requêtes au fournisseur cartographique.</li><li>Les limites sont explicites : pas de préchargement d’une zone entière ni de cache mondial hors ligne.</li></ul>
+          <ul class="check-list"><li>Les contrats Application restent indépendants de llama.cpp, CUDA et HTTP.</li><li>Les conversations et la configuration fournisseur/modèle sont persistées localement sans stocker les secrets dans les documents de conversation.</li><li>Tool calling, retrieval/RAG, attachments et multimodalité sont explicitement différés et ne sont pas présentés comme implémentés.</li></ul>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="continue-title">
           <h2 id="continue-title">Continuer la visite</h2>
