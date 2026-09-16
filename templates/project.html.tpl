@@ -74,7 +74,7 @@
               <dd>{{MISSION}}</dd>
             </div>
             <div>
-              <dt>Démonstration</dt>
+              <dt>Points clés</dt>
               <dd>{{PROOF}}</dd>
             </div>
           </dl>
@@ -216,8 +216,8 @@
     <section class="section" aria-labelledby="proof-title">
       <div class="content-shell content-grid">
         <div class="content-block" data-reveal>
-          <p class="eyebrow">Preuve de compétence</p>
-          <h2 id="proof-title">Ce que ce projet démontre</h2>
+          <p class="eyebrow">Synthèse</p>
+          <h2 id="proof-title">Compétences et techniques mobilisées</h2>
           <ul class="check-list">{{PROOFS}}</ul>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="continue-title">

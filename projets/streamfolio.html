@@ -71,10 +71,10 @@
           <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
             <div>
               <dt>Objectif</dt>
-              <dd>Construire un produit web complet et démonstratif.</dd>
+              <dd>Construire une plateforme web couvrant catalogue, sécurité, administration média et streaming.</dd>
             </div>
             <div>
-              <dt>Démonstration</dt>
+              <dt>Points clés</dt>
               <dd>Sécurité, streaming, traitement asynchrone, Docker et tests.</dd>
             </div>
           </dl>
@@ -92,7 +92,7 @@
         </div>
         <figure class="project-figure case-study-media" data-project-hero data-reveal>
           <img src="../assets/img/projects/streamfolio/hero.webp" width="1920" height="1080" decoding="async" fetchpriority="high" alt="Accueil de Streamfolio affichant le film Aurora Drift, la navigation, la recherche et le catalogue.">
-          <figcaption>Catalogue et navigation de Streamfolio, avec recherche, filtres et contenu de démonstration.</figcaption>
+          <figcaption>Catalogue et navigation de Streamfolio, avec recherche, filtres et contenu d’exemple.</figcaption>
         </figure>
       </div>
     </article>
@@ -190,7 +190,7 @@
         <div data-reveal>
           <p class="eyebrow">Compromis</p>
           <h2>Compromis techniques</h2>
-          <ul class="check-list"><li>FFmpeg reste exécuté localement : le projet privilégie une démonstration reproductible plutôt qu’une ferme de transcodage distribuée.</li><li>MinIO représente un stockage objet local de démonstration, sans CDN multi-région ni réplication à l’échelle d’un service public.</li><li>Redis est utilisé en configuration simple dans l’environnement portfolio ; la haute disponibilité n’est pas traitée ici.</li></ul>
+          <ul class="check-list"><li>FFmpeg reste exécuté localement : le projet privilégie un environnement reproductible plutôt qu’une ferme de transcodage distribuée.</li><li>MinIO fournit un stockage objet local, sans CDN multi-région ni réplication à l’échelle d’un service public.</li><li>Redis est utilisé en configuration simple dans l’environnement portfolio ; la haute disponibilité n’est pas traitée ici.</li></ul>
         </div>
       </div>
     </section>
@@ -200,7 +200,7 @@
         <div data-reveal>
           <p class="eyebrow">Limites</p>
           <h2 id="limits-title">Limites assumées</h2>
-          <ul class="check-list"><li>Pas de DRM ni de CDN global.</li><li>Redis reste mono-nœud dans l’environnement de démonstration.</li><li>Le transcodage FFmpeg n’est pas distribué sur plusieurs workers ou machines.</li></ul>
+          <ul class="check-list"><li>Pas de DRM ni de CDN global.</li><li>Redis reste mono-nœud dans l’environnement local.</li><li>Le transcodage FFmpeg n’est pas distribué sur plusieurs workers ou machines.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Suite</p>
@@ -223,7 +223,7 @@
           <figcaption>Fiche de contenu avant lecture.</figcaption>
         </figure>
         <figure class="case-study-media" data-gallery-item data-gallery-index="1">
-          <img src="../assets/img/projects/streamfolio/player.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Lecteur vidéo Streamfolio affichant le média de démonstration Canopées urbaines.">
+          <img src="../assets/img/projects/streamfolio/player.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Lecteur vidéo Streamfolio affichant le média d’exemple Canopées urbaines.">
           <figcaption>Lecteur HTML5 utilisé dans le parcours de streaming.</figcaption>
         </figure>
         </div>
@@ -233,8 +233,8 @@
     <section class="section" aria-labelledby="proof-title">
       <div class="content-shell content-grid">
         <div class="content-block" data-reveal>
-          <p class="eyebrow">Preuve de compétence</p>
-          <h2 id="proof-title">Ce que ce projet démontre</h2>
+          <p class="eyebrow">Synthèse</p>
+          <h2 id="proof-title">Compétences et techniques mobilisées</h2>
           <ul class="check-list"><li>Architecture applicative complète, pas seulement une interface.</li><li>Sensibilité aux contraintes backend : sécurité, sessions, stockage, files et robustesse.</li><li>Capacité à documenter les décisions techniques et les limites du projet.</li></ul>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="continue-title">

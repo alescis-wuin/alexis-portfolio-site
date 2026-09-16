@@ -80,7 +80,7 @@
       "subtitle": "Plateforme de streaming vidéo",
       "summary": "Plateforme de streaming full-stack : catalogue, sécurité, administration média et pipeline MP4/HLS avec FFmpeg.",
       "metaDescription": "Application web de streaming vidéo avec authentification, catalogue, administration média, upload, streaming MP4/HLS et pipeline FFmpeg.",
-      "mission": "Construire un produit web complet et démonstratif.",
+      "mission": "Construire une plateforme web couvrant catalogue, sécurité, administration média et streaming.",
       "proof": "Sécurité, streaming, traitement asynchrone, Docker et tests.",
       "problem": "Créer une plateforme portfolio proche d’un produit réel : accès sécurisé, expérience vidéo fluide, administration des médias et chaîne de traitement fiable.",
       "repository": "https://github.com/alescis-wuin/streamfolio",
@@ -147,8 +147,8 @@
           }
         ],
         "tradeoffs": [
-          "FFmpeg reste exécuté localement : le projet privilégie une démonstration reproductible plutôt qu’une ferme de transcodage distribuée.",
-          "MinIO représente un stockage objet local de démonstration, sans CDN multi-région ni réplication à l’échelle d’un service public.",
+          "FFmpeg reste exécuté localement : le projet privilégie un environnement reproductible plutôt qu’une ferme de transcodage distribuée.",
+          "MinIO fournit un stockage objet local, sans CDN multi-région ni réplication à l’échelle d’un service public.",
           "Redis est utilisé en configuration simple dans l’environnement portfolio ; la haute disponibilité n’est pas traitée ici."
         ],
         "challenges": [
@@ -182,7 +182,7 @@
         ],
         "limitations": [
           "Pas de DRM ni de CDN global.",
-          "Redis reste mono-nœud dans l’environnement de démonstration.",
+          "Redis reste mono-nœud dans l’environnement local.",
           "Le transcodage FFmpeg n’est pas distribué sur plusieurs workers ou machines."
         ],
         "nextSteps": [
@@ -195,7 +195,7 @@
         "hero": {
           "src": "assets/img/projects/streamfolio/hero.webp",
           "alt": "Accueil de Streamfolio affichant le film Aurora Drift, la navigation, la recherche et le catalogue.",
-          "caption": "Catalogue et navigation de Streamfolio, avec recherche, filtres et contenu de démonstration.",
+          "caption": "Catalogue et navigation de Streamfolio, avec recherche, filtres et contenu d’exemple.",
           "width": 1920,
           "height": 1080
         },
@@ -216,7 +216,7 @@
           },
           {
             "src": "assets/img/projects/streamfolio/player.webp",
-            "alt": "Lecteur vidéo Streamfolio affichant le média de démonstration Canopées urbaines.",
+            "alt": "Lecteur vidéo Streamfolio affichant le média d’exemple Canopées urbaines.",
             "caption": "Lecteur HTML5 utilisé dans le parcours de streaming.",
             "width": 1920,
             "height": 1080
@@ -307,7 +307,7 @@
         "tradeoffs": [
           "SQLite rend le projet simple à lancer et à conserver localement, mais ne vise pas un service collaboratif distribué.",
           "Les rappels sont signalés lorsque l’application Web est ouverte ; aucune infrastructure de notification native ou serveur n’est incluse.",
-          "Le projet reste volontairement mono-utilisateur et sans authentification pour concentrer la démonstration sur le domaine et les interactions."
+          "Le projet reste volontairement mono-utilisateur et sans authentification afin de concentrer le périmètre sur le domaine et les interactions."
         ],
         "challenges": [
           {
@@ -411,7 +411,7 @@
         "Création, modification et suppression d’événements horaires ou sur une journée entière.",
         "Interface Razor partagée entre Blazor Interactive Server et MAUI Blazor Hybrid.",
         "API REST dédiée avec Minimal APIs et document OpenAPI en développement.",
-        "Persistance locale EF Core/SQLite avec migrations et données de démonstration.",
+        "Persistance locale EF Core/SQLite avec migrations et données d’exemple.",
         "Validation métier des périodes et longueurs de texte, interface responsive et navigation clavier.",
         "Tests séparés par couche, vérification du formatage, audit NuGet et CI GitHub Actions."
       ],

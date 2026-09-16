@@ -452,8 +452,8 @@ function renderHomeIndex(currentHtml) {
   const featuredCountText = `${featured.length} ${featured.length === 1 ? "étude de cas" : "études de cas"}, CV, GitHub et projets documentés`;
   const featuredHeading =
     featured.length === 1
-      ? "1 étude de cas orientée preuve"
-      : `${featured.length} études de cas orientées preuves`;
+      ? "1 étude de cas technique"
+      : `${featured.length} études de cas techniques`;
   const homeHtml = replaceFeaturedProjectCount(currentHtml, featuredCountText);
 
   const section = `    ${startMarker}
@@ -462,7 +462,7 @@ function renderHomeIndex(currentHtml) {
         <div class="section-heading reading" data-reveal>
           <p class="eyebrow">Projets</p>
           <h2 id="projects-title">${featuredHeading}</h2>
-          <p>Une sélection courte issue du catalogue complet pour montrer des compétences complémentaires. Les pages, métadonnées, filtres, sitemap et tests utilisent la même source de données.</p>
+          <p>Une sélection courte de projets complémentaires, avec pour chacun le contexte, l’architecture, les choix techniques, les tests et les limites actuelles.</p>
         </div>
         <div class="project-grid project-grid-focus">
           ${featured
@@ -539,7 +539,7 @@ function renderProjectCard(project, index, assetPrefix, hrefPrefix) {
                   <dd>${escapeHtml(project.mission)}</dd>
                 </div>
                 <div>
-                  <dt>Preuve</dt>
+                  <dt>Points clés</dt>
                   <dd>${escapeHtml(project.proof)}</dd>
                 </div>
               </dl>
