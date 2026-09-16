@@ -1,0 +1,52 @@
+name: Temporary portfolio project sync
+
+on:
+  push:
+    branches:
+      - portfolio/1.2-project-data
+
+permissions:
+  contents: write
+
+jobs:
+  sync-generated-projects:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: portfolio/1.2-project-data
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Format canonical project data
+        run: npx prettier --write data/projects.json
+
+      - name: Regenerate project surfaces
+        run: npm run generate
+
+      - name: Verify generated project surfaces
+        run: |
+          npm run generate:check
+          node scripts/validate-static-site.mjs
+
+      - name: Commit synchronized outputs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/projects.json index.html sitemap.xml projets/
+          if git diff --cached --quiet; then
+            echo 'No generated changes to commit.'
+            exit 0
+          fi
+          git commit -m 'chore(projects): regenerate portfolio from verified data'
+          git push origin HEAD:portfolio/1.2-project-data
