@@ -187,7 +187,7 @@
         <div data-reveal>
           <p class="eyebrow">Compromis</p>
           <h2>Compromis techniques</h2>
-          <ul class="check-list"><li>L’architecture comporte davantage de couches qu’une calculatrice minimale, en échange d’une logique beaucoup plus isolable et testable.</li><li>Un moteur de parsing dédié demande plus de code qu’une évaluation directe depuis l’UI, mais permet de contrôler la syntaxe, les erreurs et la précédence.</li><li>Le projet est encore en cours : l’accent porte actuellement davantage sur les fondations et la qualité que sur un catalogue maximal de fonctions scientifiques.</li></ul>
+          <ul class="check-list"><li>L’architecture comporte davantage de couches qu’une calculatrice minimale afin d’isoler le moteur d’expressions, l’état d’édition et la présentation.</li><li>Un moteur de parsing dédié demande plus de code qu’une évaluation directe depuis l’UI, mais permet de contrôler la syntaxe, les erreurs et la précédence.</li><li>Le projet est encore en cours : l’accent porte actuellement davantage sur les fondations et la qualité que sur un catalogue maximal de fonctions scientifiques.</li></ul>
         </div>
       </div>
     </section>
@@ -197,7 +197,7 @@
         <div data-reveal>
           <p class="eyebrow">Limites</p>
           <h2 id="limits-title">Limites assumées</h2>
-          <ul class="check-list"><li>Le projet reste en cours et n’est pas présenté comme une application finalisée.</li><li>Le README public actuel reste très succinct par rapport à la richesse réelle du dépôt.</li><li>Le périmètre fonctionnel doit encore être consolidé avant de considérer une release utilisateur stable.</li></ul>
+          <ul class="check-list"><li>Le projet reste en cours et n’est pas présenté comme une application finalisée.</li><li>Le README public actuel documente peu l’architecture et les fonctions présentes dans le dépôt.</li><li>Le périmètre fonctionnel doit encore être consolidé avant de considérer une release utilisateur stable.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Suite</p>
@@ -228,7 +228,7 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Synthèse</p>
           <h2 id="proof-title">Compétences et techniques mobilisées</h2>
-          <ul class="check-list"><li>Séparation nette entre parsing d’expressions, logique d’interaction et présentation.</li><li>Gestion testable des cas limites d’édition et d’évaluation.</li><li>Industrialisation .NET avec SDK épinglé, tests, formatage, audit et CI.</li></ul>
+          <ul class="check-list"><li>Tokenizer, parser, évaluateur, modèle d’interaction et présentation Avalonia sont répartis dans des couches distinctes.</li><li>Sélection, caret, insertion, suppression et évaluation sont couverts par des états et tests indépendants d’Avalonia.</li><li>global.json épingle le SDK .NET 10 ; la CI exécute formatage, build, tests et audit NuGet.</li></ul>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="continue-title">
           <h2 id="continue-title">Continuer la visite</h2>

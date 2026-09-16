@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Gestionnaire de tâches C#/.NET 10 avec Blazor, Kanban avancé, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.">
+  <meta name="description" content="Gestionnaire de tâches C#/.NET 10 avec Blazor, vues Liste/Kanban, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.">
   <meta name="author" content="Alexis Guinot">
   <meta name="color-scheme" content="dark light">
   <meta property="og:title" content="Kanban — Étude de cas | Alexis Guinot">
-  <meta property="og:description" content="Gestionnaire de tâches C#/.NET 10 avec Blazor, Kanban avancé, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.">
+  <meta property="og:description" content="Gestionnaire de tâches C#/.NET 10 avec Blazor, vues Liste/Kanban, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.alexis-guinot.fr/projets/kanban.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
@@ -63,7 +63,7 @@
       <div class="frame project-detail-grid">
         <div class="project-detail-copy" data-reveal>
           <div class="project-detail-signal">
-            <p class="eyebrow">Gestionnaire de tâches et Kanban avancé</p>
+            <p class="eyebrow">Gestionnaire de tâches avec vues Liste et Kanban</p>
             <span class="project-detail-status">En cours</span>
           </div>
           <h1>Kanban</h1>
@@ -178,7 +178,7 @@
         <div data-reveal>
           <p class="eyebrow">Livraison</p>
           <h2>Livraison et CI/CD</h2>
-          <ul class="check-list"><li>GitHub Actions exécute restore, format, build Release, tests et audit NuGet sur develop, main et pull requests.</li><li>Le Makefile expose make verify et les commandes de lancement Web/API.</li><li>Nullable, analyse statique et builds déterministes renforcent la quality gate .NET.</li></ul>
+          <ul class="check-list"><li>GitHub Actions exécute restore, format, build Release, tests et audit NuGet sur develop, main et pull requests.</li><li>Le Makefile expose make verify et les commandes de lancement Web/API.</li><li>Nullable, analyse statique et builds déterministes sont inclus dans la quality gate .NET.</li></ul>
         </div>
       </div>
     </section>
@@ -188,7 +188,7 @@
         <div data-reveal>
           <p class="eyebrow">Résultats</p>
           <h2 id="outcomes-title">Résultats observables</h2>
-          <ul class="check-list"><li>Un gestionnaire qui combine liste, Kanban avancé et règles métier dans une même application.</li><li>Des colonnes configurables et limites WIP persistées plutôt qu’un tableau uniquement visuel.</li><li>Une API REST et des formats d’import/export qui réutilisent les mêmes données métier.</li></ul>
+          <ul class="check-list"><li>Un gestionnaire combinant vues Liste et Kanban, récurrence, historique et règles WIP.</li><li>Des colonnes configurables et limites WIP persistées plutôt qu’un tableau uniquement visuel.</li><li>Une API REST et des formats d’import/export qui réutilisent les mêmes données métier.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Compromis</p>
@@ -234,7 +234,7 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Synthèse</p>
           <h2 id="proof-title">Compétences et techniques mobilisées</h2>
-          <ul class="check-list"><li>Règles métier explicites autour des colonnes et limites WIP.</li><li>Réutilisation des mêmes couches Application/Domain depuis l’interface Blazor et l’API.</li><li>Attention portée à l’accessibilité, à la persistance des interactions et à l’industrialisation .NET.</li></ul>
+          <ul class="check-list"><li>Règles métier explicites autour des colonnes et limites WIP.</li><li>Réutilisation des mêmes couches Application/Domain depuis l’interface Blazor et l’API.</li><li>Les déplacements disposent d’une alternative clavier, les paramètres du tableau sont persistés et la CI vérifie formatage, build, tests et audit NuGet.</li></ul>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="continue-title">
           <h2 id="continue-title">Continuer la visite</h2>

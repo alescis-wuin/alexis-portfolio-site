@@ -82,7 +82,7 @@
       "metaDescription": "Application web de streaming vidéo avec authentification, catalogue, administration média, upload, streaming MP4/HLS et pipeline FFmpeg.",
       "mission": "Construire une plateforme web couvrant catalogue, sécurité, administration média et streaming.",
       "proof": "Sécurité, streaming, traitement asynchrone, Docker et tests.",
-      "problem": "Créer une plateforme portfolio proche d’un produit réel : accès sécurisé, expérience vidéo fluide, administration des médias et chaîne de traitement fiable.",
+      "problem": "Réunir dans une même application un accès sécurisé, un catalogue, la lecture vidéo, l’administration des médias et une chaîne de traitement asynchrone.",
       "repository": "https://github.com/alescis-wuin/streamfolio",
       "image": "assets/img/projects/streamfolio.svg",
       "imageAlt": "Illustration du projet Streamfolio",
@@ -115,9 +115,9 @@
         "Tests Maven, tests sécurité, streaming/admin, smoke tests, E2E Playwright et CI GitHub Actions."
       ],
       "proofs": [
-        "Architecture applicative complète, pas seulement une interface.",
-        "Sensibilité aux contraintes backend : sécurité, sessions, stockage, files et robustesse.",
-        "Capacité à documenter les décisions techniques et les limites du projet."
+        "Spring Security et Redis gèrent l’authentification et les sessions ; PostgreSQL/Flyway conservent les données métier et MinIO les médias.",
+        "Le streaming combine MP4 avec HTTP Range, WebVTT et HLS ; les traitements FFmpeg passent par des jobs persistés avec reprise, retry et annulation.",
+        "Les parcours principaux sont couverts par des tests Maven, des smoke tests et des scénarios E2E Playwright ; les limites de production sont documentées."
       ],
       "sitemapPriority": 0.8,
       "caseStudy": {
@@ -135,7 +135,7 @@
           },
           {
             "title": "Conserver FFmpeg local et externaliser le stockage média",
-            "detail": "Le transcodage reste local pour garder une architecture portfolio maîtrisable, tandis que MinIO découple le stockage des originaux et sorties générées."
+            "detail": "Le transcodage reste local afin de limiter le périmètre d’exécution, tandis que MinIO découple le stockage des originaux et sorties générées."
           },
           {
             "title": "Persister les jobs de transcodage",
@@ -157,7 +157,7 @@
             "detail": "Le lecteur combine MP4 progressif avec HTTP Range, WebVTT et HLS via hls.js afin de couvrir plusieurs modes de lecture."
           },
           {
-            "title": "Rendre les traitements média robustes",
+            "title": "Gérer les traitements média longs et interrompus",
             "detail": "La file persistante, le retry exponentiel, la reprise après redémarrage et l’annulation FFmpeg évitent qu’un traitement long soit lié au cycle de vie d’une requête HTTP."
           },
           {
@@ -176,7 +176,7 @@
           "Un workflow Main Merge Validation relance la validation complète après intégration sur main."
         ],
         "outcomes": [
-          "Un parcours cohérent allant de l’administration et l’upload jusqu’au catalogue et à la lecture vidéo.",
+          "Un parcours allant de l’administration et l’upload jusqu’au catalogue et à la lecture vidéo.",
           "Un pipeline média capable de survivre aux redémarrages applicatifs et de reprendre les traitements persistés.",
           "Une architecture dont les limites de production sont documentées au lieu d’être masquées."
         ],
@@ -232,9 +232,9 @@
       "published": true,
       "featured": false,
       "status": "in-progress",
-      "subtitle": "Gestionnaire de tâches et Kanban avancé",
+      "subtitle": "Gestionnaire de tâches avec vues Liste et Kanban",
       "summary": "Gestionnaire .NET 10 orienté métier : vues Liste/Kanban, règles WIP, récurrence, API REST et persistance SQLite.",
-      "metaDescription": "Gestionnaire de tâches C#/.NET 10 avec Blazor, Kanban avancé, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.",
+      "metaDescription": "Gestionnaire de tâches C#/.NET 10 avec Blazor, vues Liste/Kanban, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.",
       "mission": "Construire une application métier Web au-delà d’un CRUD de tâches.",
       "proof": "Règles WIP, Blazor, API, EF Core, accessibilité, tests et CI.",
       "problem": "Créer un gestionnaire de tâches qui combine interactions Kanban, règles métier, historique, import/export et API sans dupliquer la logique entre l’interface Web et les endpoints HTTP.",
@@ -273,7 +273,7 @@
       "proofs": [
         "Règles métier explicites autour des colonnes et limites WIP.",
         "Réutilisation des mêmes couches Application/Domain depuis l’interface Blazor et l’API.",
-        "Attention portée à l’accessibilité, à la persistance des interactions et à l’industrialisation .NET."
+        "Les déplacements disposent d’une alternative clavier, les paramètres du tableau sont persistés et la CI vérifie formatage, build, tests et audit NuGet."
       ],
       "sitemapPriority": 0.8,
       "caseStudy": {
@@ -331,10 +331,10 @@
         "delivery": [
           "GitHub Actions exécute restore, format, build Release, tests et audit NuGet sur develop, main et pull requests.",
           "Le Makefile expose make verify et les commandes de lancement Web/API.",
-          "Nullable, analyse statique et builds déterministes renforcent la quality gate .NET."
+          "Nullable, analyse statique et builds déterministes sont inclus dans la quality gate .NET."
         ],
         "outcomes": [
-          "Un gestionnaire qui combine liste, Kanban avancé et règles métier dans une même application.",
+          "Un gestionnaire combinant vues Liste et Kanban, récurrence, historique et règles WIP.",
           "Des colonnes configurables et limites WIP persistées plutôt qu’un tableau uniquement visuel.",
           "Une API REST et des formats d’import/export qui réutilisent les mêmes données métier."
         ],
@@ -417,8 +417,8 @@
       ],
       "proofs": [
         "Réutilisation d’une même UI et des mêmes cas d’usage dans plusieurs modèles d’hébergement .NET.",
-        "Séparation claire entre domaine, contrats, application, infrastructure et hôtes.",
-        "Prise en compte de l’accessibilité, de la persistance locale et de la qualité logicielle."
+        "Domain, Contracts, Application et Infrastructure sont séparés et réutilisés par les hôtes Web, API et MAUI.",
+        "Navigation clavier, persistance SQLite locale, tests par couche, formatage et audit NuGet sont inclus dans le périmètre."
       ],
       "sitemapPriority": 0.8,
       "caseStudy": {
@@ -685,9 +685,9 @@
         "CI GitHub Actions : syntaxe, ShellCheck, restore, format, build, tests et audit des dépendances NuGet."
       ],
       "proofs": [
-        "Séparation nette entre parsing d’expressions, logique d’interaction et présentation.",
-        "Gestion testable des cas limites d’édition et d’évaluation.",
-        "Industrialisation .NET avec SDK épinglé, tests, formatage, audit et CI."
+        "Tokenizer, parser, évaluateur, modèle d’interaction et présentation Avalonia sont répartis dans des couches distinctes.",
+        "Sélection, caret, insertion, suppression et évaluation sont couverts par des états et tests indépendants d’Avalonia.",
+        "global.json épingle le SDK .NET 10 ; la CI exécute formatage, build, tests et audit NuGet."
       ],
       "sitemapPriority": 0.8,
       "caseStudy": {
@@ -717,7 +717,7 @@
           }
         ],
         "tradeoffs": [
-          "L’architecture comporte davantage de couches qu’une calculatrice minimale, en échange d’une logique beaucoup plus isolable et testable.",
+          "L’architecture comporte davantage de couches qu’une calculatrice minimale afin d’isoler le moteur d’expressions, l’état d’édition et la présentation.",
           "Un moteur de parsing dédié demande plus de code qu’une évaluation directe depuis l’UI, mais permet de contrôler la syntaxe, les erreurs et la précédence.",
           "Le projet est encore en cours : l’accent porte actuellement davantage sur les fondations et la qualité que sur un catalogue maximal de fonctions scientifiques."
         ],
@@ -752,7 +752,7 @@
         ],
         "limitations": [
           "Le projet reste en cours et n’est pas présenté comme une application finalisée.",
-          "Le README public actuel reste très succinct par rapport à la richesse réelle du dépôt.",
+          "Le README public actuel documente peu l’architecture et les fonctions présentes dans le dépôt.",
           "Le périmètre fonctionnel doit encore être consolidé avant de considérer une release utilisateur stable."
         ],
         "nextSteps": [
@@ -798,7 +798,7 @@
       "subtitle": "Application météo desktop multi-fournisseurs",
       "summary": "Application météo JavaFX avec fournisseurs distants et fallback, qualité de l’air, UV, pollens et carte interactive native.",
       "metaDescription": "Application météo JavaFX avec Open-Meteo, fallbacks configurables, qualité de l’air, UV, pollens, carte OpenStreetMap native, géocodage et cache de tuiles.",
-      "mission": "Agréger plusieurs sources météo dans une interface desktop lisible et résiliente.",
+      "mission": "Agréger plusieurs sources météo dans une interface desktop avec stratégie de fallback.",
       "proof": "Fournisseurs distants, stratégie de fallback, carte JavaFX native, cache, tests Maven et CI.",
       "problem": "Présenter des données météo riches sans coupler l’interface à un fournisseur unique et sans multiplier inutilement les requêtes cartographiques.",
       "repository": "https://github.com/alescis-wuin/Aelia",
@@ -826,7 +826,7 @@
       "proofs": [
         "L’interface n’est pas liée à un fournisseur météo unique.",
         "La carte charge prioritairement les tuiles visibles et les conserve dans des caches mémoire et disque afin de limiter les requêtes au fournisseur cartographique.",
-        "Les limites sont explicites : pas de préchargement d’une zone entière ni de cache mondial hors ligne."
+        "Aucun préchargement d’une zone entière ni cache mondial hors ligne n’est implémenté."
       ],
       "sitemapPriority": 0.8,
       "caseStudy": {
@@ -919,7 +919,7 @@
       "metaDescription": "Application desktop d’IA locale en C#/.NET et Avalonia avec conversations persistantes, llama.cpp CUDA, modèles GGUF Hugging Face, streaming et configuration de génération.",
       "mission": "Fournir une expérience de conversation locale en gardant le fournisseur d’inférence derrière des contrats applicatifs.",
       "proof": "Architecture en couches, persistance locale, llama.cpp CUDA, GGUF Hugging Face, streaming contenu/raisonnement, tests et observabilité locale.",
-      "problem": "Intégrer une inférence locale réelle sans coupler le domaine de conversation au runtime llama.cpp, tout en contrôlant installation, configuration, streaming, annulation et erreurs.",
+      "problem": "Intégrer llama.cpp comme runtime d’inférence locale sans coupler le domaine de conversation au fournisseur, tout en contrôlant installation, configuration, streaming, annulation et erreurs.",
       "repository": "https://github.com/alescis-wuin/alycia",
       "image": "assets/img/projects/alycia/hero.webp",
       "imageAlt": "Illustration schématique d’Alycia, application desktop d’IA locale",
@@ -945,7 +945,7 @@
       "features": [
         "Cœur de conversation indépendant du fournisseur avec persistance locale JSON et opérations de cycle de vie testées.",
         "Interface Avalonia avec espaces Conversations, Provider et Models.",
-        "Adaptateur local llama.cpp CUDA réel, détection/installation gérée sur Linux x64 et cycle de vie explicite.",
+        "Adaptateur local llama.cpp CUDA, détection/installation gérée sur Linux x64 et cycle de vie explicite.",
         "Configuration d’un modèle GGUF Hugging Face et des paramètres de génération, dont le reasoning borné.",
         "Streaming SSE séparant contenu visible et reasoning ; seule la réponse Assistant terminée est persistée.",
         "Stop et retry explicite sans replay automatique des requêtes de génération.",
@@ -954,7 +954,7 @@
       "proofs": [
         "Les contrats Application restent indépendants de llama.cpp, CUDA et HTTP.",
         "Les conversations et la configuration fournisseur/modèle sont persistées localement sans stocker les secrets dans les documents de conversation.",
-        "Tool calling, retrieval/RAG, attachments et multimodalité sont explicitement différés et ne sont pas présentés comme implémentés."
+        "Tool calling, retrieval/RAG, pièces jointes et multimodalité ne sont pas implémentés dans le périmètre actuel."
       ],
       "sitemapPriority": 0.9,
       "caseStudy": {
@@ -988,7 +988,7 @@
             "detail": "Détection, installation, démarrage, readiness, ownership et arrêt sont gérés sans exposer de secrets sur la ligne de commande."
           },
           {
-            "title": "Conserver une UI lisible pendant le streaming",
+            "title": "Gérer le streaming dans l’interface",
             "detail": "Le suivi de scroll, l’annulation et le retry restent contrôlés par l’utilisateur."
           }
         ],
@@ -1001,7 +1001,7 @@
           "Les commandes Makefile regroupent build, tests, architecture et vérifications."
         ],
         "outcomes": [
-          "Conversation locale persistante avec génération et streaming réels via llama.cpp.",
+          "Conversation locale persistante avec génération et streaming via llama.cpp.",
           "Gestion explicite du fournisseur, du modèle et de la maintenance locale."
         ],
         "limitations": [
