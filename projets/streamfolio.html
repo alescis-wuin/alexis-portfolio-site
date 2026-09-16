@@ -102,7 +102,7 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
-          <p>Créer une plateforme portfolio proche d’un produit réel : accès sécurisé, expérience vidéo fluide, administration des médias et chaîne de traitement fiable.</p>
+          <p>Réunir dans une même application un accès sécurisé, un catalogue, la lecture vidéo, l’administration des médias et une chaîne de traitement asynchrone.</p>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="role-title">
           <p class="eyebrow">Rôle</p>
@@ -131,7 +131,7 @@
         <div data-reveal>
           <p class="eyebrow">Décisions</p>
           <h2>Décisions techniques</h2>
-          <ul class="check-list"><li><strong>Séparer données métier et état de session.</strong> PostgreSQL conserve les données durables tandis que Redis reste dédié aux sessions runtime, afin de ne pas mélanger deux responsabilités de persistance.</li><li><strong>Conserver FFmpeg local et externaliser le stockage média.</strong> Le transcodage reste local pour garder une architecture portfolio maîtrisable, tandis que MinIO découple le stockage des originaux et sorties générées.</li><li><strong>Persister les jobs de transcodage.</strong> Les traitements longs ne reposent pas sur une simple file mémoire : ils peuvent être relancés, repris après redémarrage et annulés de manière coopérative.</li><li><strong>Valider les sources avant traitement.</strong> La validation combine extension, MIME, signature de conteneur, durée, présence de flux vidéo et politique codec avant de lancer le pipeline.</li></ul>
+          <ul class="check-list"><li><strong>Séparer données métier et état de session.</strong> PostgreSQL conserve les données durables tandis que Redis reste dédié aux sessions runtime, afin de ne pas mélanger deux responsabilités de persistance.</li><li><strong>Conserver FFmpeg local et externaliser le stockage média.</strong> Le transcodage reste local afin de limiter le périmètre d’exécution, tandis que MinIO découple le stockage des originaux et sorties générées.</li><li><strong>Persister les jobs de transcodage.</strong> Les traitements longs ne reposent pas sur une simple file mémoire : ils peuvent être relancés, repris après redémarrage et annulés de manière coopérative.</li><li><strong>Valider les sources avant traitement.</strong> La validation combine extension, MIME, signature de conteneur, durée, présence de flux vidéo et politique codec avant de lancer le pipeline.</li></ul>
         </div>
       </div>
     </section>
@@ -160,7 +160,7 @@
         <div data-reveal>
           <p class="eyebrow">Difficultés</p>
           <h2>Difficultés résolues</h2>
-          <ul class="check-list"><li><strong>Servir efficacement des médias volumineux.</strong> Le lecteur combine MP4 progressif avec HTTP Range, WebVTT et HLS via hls.js afin de couvrir plusieurs modes de lecture.</li><li><strong>Rendre les traitements média robustes.</strong> La file persistante, le retry exponentiel, la reprise après redémarrage et l’annulation FFmpeg évitent qu’un traitement long soit lié au cycle de vie d’une requête HTTP.</li><li><strong>Sécuriser l’entrée média.</strong> Les contrôles sur le type et le contenu des fichiers réduisent le risque de traiter comme vidéo une entrée seulement renommée ou incohérente.</li></ul>
+          <ul class="check-list"><li><strong>Servir efficacement des médias volumineux.</strong> Le lecteur combine MP4 progressif avec HTTP Range, WebVTT et HLS via hls.js afin de couvrir plusieurs modes de lecture.</li><li><strong>Gérer les traitements média longs et interrompus.</strong> La file persistante, le retry exponentiel, la reprise après redémarrage et l’annulation FFmpeg évitent qu’un traitement long soit lié au cycle de vie d’une requête HTTP.</li><li><strong>Sécuriser l’entrée média.</strong> Les contrôles sur le type et le contenu des fichiers réduisent le risque de traiter comme vidéo une entrée seulement renommée ou incohérente.</li></ul>
         </div>
       </div>
     </section>
@@ -185,7 +185,7 @@
         <div data-reveal>
           <p class="eyebrow">Résultats</p>
           <h2 id="outcomes-title">Résultats observables</h2>
-          <ul class="check-list"><li>Un parcours cohérent allant de l’administration et l’upload jusqu’au catalogue et à la lecture vidéo.</li><li>Un pipeline média capable de survivre aux redémarrages applicatifs et de reprendre les traitements persistés.</li><li>Une architecture dont les limites de production sont documentées au lieu d’être masquées.</li></ul>
+          <ul class="check-list"><li>Un parcours allant de l’administration et l’upload jusqu’au catalogue et à la lecture vidéo.</li><li>Un pipeline média capable de survivre aux redémarrages applicatifs et de reprendre les traitements persistés.</li><li>Une architecture dont les limites de production sont documentées au lieu d’être masquées.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Compromis</p>
@@ -235,7 +235,7 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Synthèse</p>
           <h2 id="proof-title">Compétences et techniques mobilisées</h2>
-          <ul class="check-list"><li>Architecture applicative complète, pas seulement une interface.</li><li>Sensibilité aux contraintes backend : sécurité, sessions, stockage, files et robustesse.</li><li>Capacité à documenter les décisions techniques et les limites du projet.</li></ul>
+          <ul class="check-list"><li>Spring Security et Redis gèrent l’authentification et les sessions ; PostgreSQL/Flyway conservent les données métier et MinIO les médias.</li><li>Le streaming combine MP4 avec HTTP Range, WebVTT et HLS ; les traitements FFmpeg passent par des jobs persistés avec reprise, retry et annulation.</li><li>Les parcours principaux sont couverts par des tests Maven, des smoke tests et des scénarios E2E Playwright ; les limites de production sont documentées.</li></ul>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="continue-title">
           <h2 id="continue-title">Continuer la visite</h2>

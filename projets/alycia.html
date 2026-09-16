@@ -101,7 +101,7 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
-          <p>Intégrer une inférence locale réelle sans coupler le domaine de conversation au runtime llama.cpp, tout en contrôlant installation, configuration, streaming, annulation et erreurs.</p>
+          <p>Intégrer llama.cpp comme runtime d’inférence locale sans coupler le domaine de conversation au fournisseur, tout en contrôlant installation, configuration, streaming, annulation et erreurs.</p>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="role-title">
           <p class="eyebrow">Rôle</p>
@@ -155,12 +155,12 @@
         <div data-reveal>
           <p class="eyebrow">Implémentation</p>
           <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list"><li>Cœur de conversation indépendant du fournisseur avec persistance locale JSON et opérations de cycle de vie testées.</li><li>Interface Avalonia avec espaces Conversations, Provider et Models.</li><li>Adaptateur local llama.cpp CUDA réel, détection/installation gérée sur Linux x64 et cycle de vie explicite.</li><li>Configuration d’un modèle GGUF Hugging Face et des paramètres de génération, dont le reasoning borné.</li><li>Streaming SSE séparant contenu visible et reasoning ; seule la réponse Assistant terminée est persistée.</li><li>Stop et retry explicite sans replay automatique des requêtes de génération.</li><li>Observabilité locale bornée et sans contenu : latences, tokens, version fournisseur et classification sûre des échecs.</li></ul>
+          <ul class="check-list"><li>Cœur de conversation indépendant du fournisseur avec persistance locale JSON et opérations de cycle de vie testées.</li><li>Interface Avalonia avec espaces Conversations, Provider et Models.</li><li>Adaptateur local llama.cpp CUDA, détection/installation gérée sur Linux x64 et cycle de vie explicite.</li><li>Configuration d’un modèle GGUF Hugging Face et des paramètres de génération, dont le reasoning borné.</li><li>Streaming SSE séparant contenu visible et reasoning ; seule la réponse Assistant terminée est persistée.</li><li>Stop et retry explicite sans replay automatique des requêtes de génération.</li><li>Observabilité locale bornée et sans contenu : latences, tokens, version fournisseur et classification sûre des échecs.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Difficultés</p>
           <h2>Difficultés résolues</h2>
-          <ul class="check-list"><li><strong>Piloter un runtime local.</strong> Détection, installation, démarrage, readiness, ownership et arrêt sont gérés sans exposer de secrets sur la ligne de commande.</li><li><strong>Conserver une UI lisible pendant le streaming.</strong> Le suivi de scroll, l’annulation et le retry restent contrôlés par l’utilisateur.</li></ul>
+          <ul class="check-list"><li><strong>Piloter un runtime local.</strong> Détection, installation, démarrage, readiness, ownership et arrêt sont gérés sans exposer de secrets sur la ligne de commande.</li><li><strong>Gérer le streaming dans l’interface.</strong> Le suivi de scroll, l’annulation et le retry restent contrôlés par l’utilisateur.</li></ul>
         </div>
       </div>
     </section>
@@ -185,7 +185,7 @@
         <div data-reveal>
           <p class="eyebrow">Résultats</p>
           <h2 id="outcomes-title">Résultats observables</h2>
-          <ul class="check-list"><li>Conversation locale persistante avec génération et streaming réels via llama.cpp.</li><li>Gestion explicite du fournisseur, du modèle et de la maintenance locale.</li></ul>
+          <ul class="check-list"><li>Conversation locale persistante avec génération et streaming via llama.cpp.</li><li>Gestion explicite du fournisseur, du modèle et de la maintenance locale.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Compromis</p>
@@ -231,7 +231,7 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Synthèse</p>
           <h2 id="proof-title">Compétences et techniques mobilisées</h2>
-          <ul class="check-list"><li>Les contrats Application restent indépendants de llama.cpp, CUDA et HTTP.</li><li>Les conversations et la configuration fournisseur/modèle sont persistées localement sans stocker les secrets dans les documents de conversation.</li><li>Tool calling, retrieval/RAG, attachments et multimodalité sont explicitement différés et ne sont pas présentés comme implémentés.</li></ul>
+          <ul class="check-list"><li>Les contrats Application restent indépendants de llama.cpp, CUDA et HTTP.</li><li>Les conversations et la configuration fournisseur/modèle sont persistées localement sans stocker les secrets dans les documents de conversation.</li><li>Tool calling, retrieval/RAG, pièces jointes et multimodalité ne sont pas implémentés dans le périmètre actuel.</li></ul>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="continue-title">
           <h2 id="continue-title">Continuer la visite</h2>
