@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Agenda C#/.NET 10 avec Blazor, MAUI Blazor Hybrid, API REST, EF Core/SQLite, interface partagée et validation métier.">
+  <meta name="description" content="Agenda C#/.NET 10 avec Blazor, MAUI Blazor Hybrid, API REST, EF Core/SQLite, interface partagée, validation métier et accessibilité clavier.">
   <meta name="author" content="Alexis Guinot">
   <meta name="color-scheme" content="dark light">
   <meta property="og:title" content="Agenda — Étude de cas | Alexis Guinot">
-  <meta property="og:description" content="Agenda C#/.NET 10 avec Blazor, MAUI Blazor Hybrid, API REST, EF Core/SQLite, interface partagée et validation métier.">
+  <meta property="og:description" content="Agenda C#/.NET 10 avec Blazor, MAUI Blazor Hybrid, API REST, EF Core/SQLite, interface partagée, validation métier et accessibilité clavier.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.alexis-guinot.fr/projets/agenda.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
@@ -63,7 +63,7 @@
       <div class="frame project-detail-grid">
         <div class="project-detail-copy" data-reveal>
           <div class="project-detail-signal">
-            <p class="eyebrow">Agenda multi-hôte Web et MAUI</p>
+            <p class="eyebrow">Agenda accessible Web et MAUI</p>
             <span class="project-detail-status">Prototype</span>
           </div>
           <h1>Agenda</h1>
@@ -71,11 +71,11 @@
           <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
             <div>
               <dt>Objectif</dt>
-              <dd>Partager interface et cas d’usage entre plusieurs hôtes .NET.</dd>
+              <dd>Partager une même interface métier entre Web et application hybride.</dd>
             </div>
             <div>
               <dt>Démonstration</dt>
-              <dd>Blazor, MAUI, API REST, EF Core/SQLite, architecture multi-hôte, tests et CI.</dd>
+              <dd>Blazor, MAUI, API, EF Core, architecture multi-hôte, tests et CI.</dd>
             </div>
           </dl>
           <div class="project-taxonomy" aria-label="Domaines du projet">
@@ -92,8 +92,8 @@
           </div>
         </div>
         <figure class="project-figure case-study-media" data-project-hero data-reveal>
-          <img src="../assets/img/projects/agenda/hero.webp" width="1920" height="1080" decoding="async" fetchpriority="high" alt="Calendrier mensuel Agenda en thème sombre.">
-          <figcaption>Vue mensuelle et panneau d’événement.</figcaption>
+          <img src="../assets/img/projects/agenda/hero.webp" width="1920" height="1080" decoding="async" fetchpriority="high" alt="Calendrier mensuel Agenda en thème sombre pour août 2026 avec un événement sélectionné et son panneau de détail.">
+          <figcaption>Vue mensuelle et panneau d’événement en thème sombre.</figcaption>
         </figure>
       </div>
     </article>
@@ -103,12 +103,12 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
-          <p>Réutiliser les mêmes composants Razor et cas d’usage dans le Web et MAUI sans confondre interface, domaine et persistance.</p>
+          <p>Concevoir un agenda accessible dont les mêmes composants Razor et cas d’usage peuvent fonctionner dans plusieurs hôtes sans confondre interface, règles métier et persistance locale.</p>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="role-title">
           <p class="eyebrow">Rôle</p>
           <h2 id="role-title">Mon rôle</h2>
-          <p>Conception et développement d’un agenda .NET 10 multi-hôte : domaine, cas d’usage, persistance EF Core/SQLite, interface Razor partagée, Web Blazor, API et MAUI Blazor Hybrid.</p>
+          <p>Conception et développement d’un agenda .NET 10 multi-hôte : domaine, cas d’usage, persistance EF Core/SQLite, interface Razor partagée, Web Blazor, API Minimal API et hôte MAUI Blazor Hybrid.</p>
           <h2>Stack</h2>
           <div class="tag-list"><span class="tag">C#</span>
                 <span class="tag">.NET 10</span>
@@ -130,12 +130,12 @@
         <div data-reveal>
           <p class="eyebrow">Architecture</p>
           <h2 id="architecture-title">Comment le système est structuré</h2>
-          <ul class="check-list"><li>Domain porte événements et invariants.</li><li>Application orchestre les cas d’usage.</li><li>UI Razor est partagée entre Web et MAUI ; API expose les mêmes cas d’usage.</li></ul>
+          <ul class="check-list"><li>Agenda.Domain porte les événements, catégories et invariants métier.</li><li>Agenda.Contracts définit les DTO et contrats d’entrée/sortie utilisés par les hôtes.</li><li>Agenda.Application orchestre les cas d’usage et dépend d’une abstraction de repository.</li><li>Agenda.Infrastructure fournit EF Core, SQLite, migrations et initialisation de la base.</li><li>Agenda.Ui contient les composants Razor réutilisés par Agenda.Web et Agenda.Maui.</li><li>Agenda.Api expose les cas d’usage via des Minimal APIs, tandis que l’hôte MAUI conserve sa propre base locale privée.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Décisions</p>
           <h2>Décisions techniques</h2>
-          <ul class="check-list"><li><strong>Partager l’interface.</strong> Les composants Razor restent dans un projet commun à Web et MAUI.</li><li><strong>Garder une persistance locale MAUI.</strong> L’hôte mobile conserve sa base privée tant qu’aucun protocole de synchronisation n’est implémenté.</li></ul>
+          <ul class="check-list"><li><strong>Partager l’interface plutôt que la dupliquer.</strong> Les composants Razor restent dans Agenda.Ui afin que Web et MAUI utilisent la même interface métier au lieu de maintenir deux implémentations séparées.</li><li><strong>Garder les cas d’usage hors des hôtes.</strong> Web, API et MAUI s’appuient sur Agenda.Application afin que les règles d’orchestration ne dépendent pas du mode d’hébergement.</li><li><strong>Assumer une persistance locale par hôte.</strong> L’application MAUI utilise une base dans son répertoire privé ; aucune synchronisation implicite avec l’API n’est inventée tant que cette fonction n’est pas implémentée.</li><li><strong>Versionner le schéma SQLite.</strong> EF Core et les migrations maintiennent l’évolution du stockage local au lieu de recréer systématiquement la base.</li></ul>
         </div>
       </div>
     </section>
@@ -148,8 +148,8 @@
           <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
         </div>
         <figure class="case-study-media case-study-architecture" data-project-architecture data-reveal>
-          <img src="../assets/img/projects/agenda/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma multi-hôte d’Agenda.">
-          <figcaption>Architecture multi-hôte avec interface Razor partagée.</figcaption>
+          <img src="../assets/img/projects/agenda/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma multi-hôte d’Agenda reliant Web Blazor, MAUI Blazor Hybrid et API aux couches UI, Application, Domain et Infrastructure.">
+          <figcaption>Architecture multi-hôte avec interface Razor partagée et persistance SQLite locale.</figcaption>
         </figure>
       </div>
     </section>
@@ -159,12 +159,12 @@
         <div data-reveal>
           <p class="eyebrow">Implémentation</p>
           <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list"><li>Calendrier mensuel avec navigation et sélection de journée.</li><li>Création, modification et suppression d’événements.</li><li>Composants Razor partagés entre Blazor Interactive Server et MAUI Blazor Hybrid.</li><li>API REST Minimal APIs/OpenAPI.</li><li>Persistance EF Core/SQLite et tests séparés par couche.</li></ul>
+          <ul class="check-list"><li>Calendrier mensuel avec navigation, sélection de journée et aperçu des événements.</li><li>Création, modification et suppression d’événements horaires ou sur une journée entière.</li><li>Interface Razor partagée entre Blazor Interactive Server et MAUI Blazor Hybrid.</li><li>API REST dédiée avec Minimal APIs et document OpenAPI en développement.</li><li>Persistance locale EF Core/SQLite avec migrations et données de démonstration.</li><li>Validation métier des périodes et longueurs de texte, interface responsive et navigation clavier.</li><li>Tests séparés par couche, vérification du formatage, audit NuGet et CI GitHub Actions.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Difficultés</p>
           <h2>Difficultés résolues</h2>
-          <ul class="check-list"><li><strong>Partager une UI entre deux hôtes.</strong> Les composants doivent fonctionner dans Blazor Server et MAUI Blazor Hybrid.</li></ul>
+          <ul class="check-list"><li><strong>Partager une UI entre deux modèles d’hébergement.</strong> Les composants Razor doivent fonctionner à la fois dans Blazor Interactive Server et dans le WebView MAUI sans déplacer les cas d’usage dans les vues.</li><li><strong>Conserver des règles temporelles cohérentes.</strong> Le domaine valide notamment que la fin d’un événement est postérieure au début et normalise les dates avant persistance.</li><li><strong>Adapter le stockage à chaque hôte.</strong> Web/API utilisent une base de développement au niveau du dépôt alors que MAUI cible FileSystem.AppDataDirectory sans changer le contrat applicatif.</li></ul>
         </div>
       </div>
     </section>
@@ -174,12 +174,12 @@
         <div data-reveal>
           <p class="eyebrow">Qualité</p>
           <h2 id="quality-title">Tests et garde-fous</h2>
-          <ul class="check-list"><li>Nullable et avertissements traités comme erreurs.</li><li>Tests domaine, application, infrastructure et UI.</li></ul>
+          <ul class="check-list"><li>Nullable activé, avertissements traités comme des erreurs et builds déterministes.</li><li>Tests séparés pour le domaine, l’application, l’infrastructure et l’interface.</li><li>Vérification du formatage et audit des vulnérabilités NuGet transitives.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Livraison</p>
           <h2>Livraison et CI/CD</h2>
-          <ul class="check-list"><li>GitHub Actions exécute la validation .NET 10.</li></ul>
+          <ul class="check-list"><li>make verify exécute la chaîne de validation locale.</li><li>GitHub Actions installe .NET 10 puis exécute make verify sur develop, branches de travail et pull requests.</li><li>Des commandes séparées lancent l’hôte Web, l’API et les workflows MAUI/Android.</li></ul>
         </div>
       </div>
     </section>
@@ -189,12 +189,12 @@
         <div data-reveal>
           <p class="eyebrow">Résultats</p>
           <h2 id="outcomes-title">Résultats observables</h2>
-          <ul class="check-list"><li>CRUD d’événements, calendrier, API REST et hôte MAUI intégrés.</li></ul>
+          <ul class="check-list"><li>Une application Web opérationnelle pour le CRUD d’événements et le calendrier mensuel.</li><li>Une API REST/OpenAPI utilisant les mêmes cas d’usage que l’interface.</li><li>Un hôte MAUI Blazor Hybrid intégré avec persistance SQLite locale privée.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Compromis</p>
           <h2>Compromis techniques</h2>
-          <ul class="check-list"><li>Le partage Razor réduit la duplication mais impose une UI compatible avec les deux hôtes.</li></ul>
+          <ul class="check-list"><li>Le partage Razor réduit la duplication mais impose de conserver les composants UI compatibles avec les contraintes du Web et de MAUI.</li><li>La base locale MAUI rend l’application exploitable hors ligne, mais les données ne sont pas synchronisées avec l’API dans cette version.</li><li>La solution Web/API reste indépendante des workloads MAUI pour garder une CI légère, au prix de deux solutions/outils de build à maintenir.</li></ul>
         </div>
       </div>
     </section>
@@ -204,12 +204,12 @@
         <div data-reveal>
           <p class="eyebrow">Limites</p>
           <h2 id="limits-title">Limites assumées</h2>
-          <ul class="check-list"><li>Pas de synchronisation MAUI ↔ API.</li><li>Pas de notifications natives.</li><li>Pas d’authentification multi-compte.</li></ul>
+          <ul class="check-list"><li>La synchronisation MAUI ↔ API n’est pas implémentée.</li><li>Les notifications natives ne sont pas implémentées.</li><li>L’authentification et les comptes multiples ne font pas partie de ce prototype.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Suite</p>
           <h2>Prochaines étapes</h2>
-          <ul class="check-list"><li>Définir un protocole de synchronisation avant de relier les bases locales à l’API.</li></ul>
+          <ul class="check-list"><li>Définir un vrai protocole de synchronisation et de résolution de conflits avant de relier la base MAUI à l’API.</li><li>Ajouter les notifications natives lorsque leur cycle de vie peut être testé sur les plateformes ciblées.</li><li>Introduire authentification et multi-utilisateur uniquement si le projet évolue au-delà du prototype local.</li></ul>
         </div>
       </div>
     </section>
@@ -223,7 +223,7 @@
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0">
-          <img src="../assets/img/projects/agenda/theme-light.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Calendrier Agenda en thème clair.">
+          <img src="../assets/img/projects/agenda/theme-light.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Calendrier mensuel Agenda en thème clair avec un événement sélectionné et son panneau de détail.">
           <figcaption>Même interface en thème clair.</figcaption>
         </figure>
         </div>
@@ -235,7 +235,7 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Preuve de compétence</p>
           <h2 id="proof-title">Ce que ce projet démontre</h2>
-          <ul class="check-list"><li>Les mêmes composants Razor sont réutilisés dans plusieurs hôtes.</li><li>Domaine, contrats, application et infrastructure sont séparés.</li><li>La synchronisation MAUI ↔ API n’est pas présentée comme existante.</li></ul>
+          <ul class="check-list"><li>Réutilisation d’une même UI et des mêmes cas d’usage dans plusieurs modèles d’hébergement .NET.</li><li>Séparation claire entre domaine, contrats, application, infrastructure et hôtes.</li><li>Prise en compte de l’accessibilité, de la persistance locale et de la qualité logicielle.</li></ul>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="continue-title">
           <h2 id="continue-title">Continuer la visite</h2>

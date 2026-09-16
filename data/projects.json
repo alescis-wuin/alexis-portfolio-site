@@ -2,8 +2,8 @@
   "schemaVersion": 4,
   "site": {
     "baseUrl": "https://www.alexis-guinot.fr",
-    "title": "Alexis Guinot — Concepteur-développeur full-stack",
-    "description": "Portfolio d’Alexis Guinot : Java/Spring, C#/.NET, applications web et desktop, architecture logicielle, tests et projets documentés."
+    "title": "Alexis Guinot — Développeur et concepteur d’applications",
+    "description": "Portfolio d’Alexis Guinot : Java, C#/.NET, interfaces métier, API, données, applications desktop et projets documentés."
   },
   "taxonomy": {
     "languages": {
@@ -45,7 +45,6 @@
       "tests": "Tests",
       "github-actions": "GitHub Actions",
       "java-21": "Java 21",
-      "java-26": "Java 26",
       "dotnet": ".NET",
       "aspnet-core": "ASP.NET Core",
       "ef-core": "Entity Framework Core",
@@ -58,6 +57,7 @@
       "communitytoolkit-mvvm": "CommunityToolkit.Mvvm",
       "blazor": "Blazor",
       "sqlite": "SQLite",
+      "java-26": "Java 26",
       "llama-cpp": "llama.cpp",
       "hugging-face": "Hugging Face",
       "gguf": "GGUF"
@@ -76,14 +76,13 @@
       "name": "Streamfolio",
       "published": true,
       "featured": true,
-      "featuredOrder": 2,
       "status": "finalized",
       "subtitle": "Plateforme de streaming vidéo",
       "summary": "Plateforme de streaming full-stack : catalogue, sécurité, administration média et pipeline MP4/HLS avec FFmpeg.",
       "metaDescription": "Application web de streaming vidéo avec authentification, catalogue, administration média, upload, streaming MP4/HLS et pipeline FFmpeg.",
-      "mission": "Concevoir une plateforme vidéo full-stack avec un pipeline média persistant.",
-      "proof": "Sécurité, streaming, traitements asynchrones, stockage objet, tests et CI.",
-      "problem": "Réunir accès sécurisé, expérience de lecture vidéo, administration des médias et traitements FFmpeg sans lier les opérations longues au cycle de vie des requêtes HTTP.",
+      "mission": "Construire un produit web complet et démonstratif.",
+      "proof": "Sécurité, streaming, traitement asynchrone, Docker et tests.",
+      "problem": "Créer une plateforme portfolio proche d’un produit réel : accès sécurisé, expérience vidéo fluide, administration des médias et chaîne de traitement fiable.",
       "repository": "https://github.com/alescis-wuin/streamfolio",
       "image": "assets/img/projects/streamfolio.svg",
       "imageAlt": "Illustration du projet Streamfolio",
@@ -107,103 +106,124 @@
         "hls"
       ],
       "features": [
-        "Authentification Spring Security avec BCrypt, cookies HttpOnly/SameSite et sessions Redis.",
-        "Catalogue, recherche, filtres, watchlist et progression de lecture.",
-        "Streaming MP4 avec HTTP Range, WebVTT et HLS via hls.js.",
-        "Administration média et upload avec validation des sources.",
-        "Jobs média persistés avec workers bornés, reprise après redémarrage, retry exponentiel et annulation FFmpeg.",
-        "PostgreSQL/Flyway, MinIO, Docker et tests Playwright."
+        "Authentification avec Spring Security, BCrypt, cookies HttpOnly/SameSite et sessions Redis.",
+        "Catalogue films/séries avec recherche, filtres, watchlist et progression de lecture.",
+        "Streaming HTML5 : MP4 progressif, HTTP Range, WebVTT et HLS via hls.js.",
+        "Administration média : upload, métadonnées, miniatures, publication et relance de jobs.",
+        "Pipeline asynchrone : file persistante, retry exponentiel, reprise après redémarrage et annulation FFmpeg.",
+        "Persistance PostgreSQL/Flyway, stockage objet MinIO et environnement Docker reproductible.",
+        "Tests Maven, tests sécurité, streaming/admin, smoke tests, E2E Playwright et CI GitHub Actions."
       ],
       "proofs": [
-        "Le pipeline média est persistant et séparé des requêtes HTTP.",
-        "Les responsabilités de données métier, sessions et stockage média sont séparées.",
-        "Les limites de production — DRM, CDN, haute disponibilité et transcodage distribué — sont documentées."
+        "Architecture applicative complète, pas seulement une interface.",
+        "Sensibilité aux contraintes backend : sécurité, sessions, stockage, files et robustesse.",
+        "Capacité à documenter les décisions techniques et les limites du projet."
       ],
       "sitemapPriority": 0.8,
       "caseStudy": {
         "role": "Conception et développement de bout en bout : architecture Spring Boot, sécurité, streaming, administration média, persistance, pipeline FFmpeg, tests et environnement Docker.",
         "architecture": [
-          "Spring Boot porte le catalogue, l’authentification, l’administration et les endpoints de streaming.",
-          "PostgreSQL/Flyway stockent les données métier, Redis les sessions et MinIO les médias.",
-          "Les traitements FFmpeg passent par des jobs persistés et des workers bornés."
+          "Application web/PWA portée par Spring Boot pour le catalogue, l’authentification, l’administration et les endpoints de streaming.",
+          "PostgreSQL et Flyway pour les données métier durables ; Redis pour l’état de session runtime.",
+          "MinIO pour les originaux, sous-titres et sorties HLS/miniatures, avec disque local utilisé comme staging FFmpeg.",
+          "Pipeline média avec jobs persistés, workers bornés, ordonnanceur, retry et reprise après redémarrage."
         ],
         "decisions": [
           {
-            "title": "Persister les jobs média",
-            "detail": "Les traitements longs survivent aux redémarrages et peuvent être relancés ou annulés sans dépendre d’une requête HTTP."
+            "title": "Séparer données métier et état de session",
+            "detail": "PostgreSQL conserve les données durables tandis que Redis reste dédié aux sessions runtime, afin de ne pas mélanger deux responsabilités de persistance."
           },
           {
-            "title": "Séparer les stockages",
-            "detail": "PostgreSQL conserve les données métier, Redis les sessions et MinIO les objets média."
+            "title": "Conserver FFmpeg local et externaliser le stockage média",
+            "detail": "Le transcodage reste local pour garder une architecture portfolio maîtrisable, tandis que MinIO découple le stockage des originaux et sorties générées."
+          },
+          {
+            "title": "Persister les jobs de transcodage",
+            "detail": "Les traitements longs ne reposent pas sur une simple file mémoire : ils peuvent être relancés, repris après redémarrage et annulés de manière coopérative."
+          },
+          {
+            "title": "Valider les sources avant traitement",
+            "detail": "La validation combine extension, MIME, signature de conteneur, durée, présence de flux vidéo et politique codec avant de lancer le pipeline."
           }
         ],
         "tradeoffs": [
-          "FFmpeg reste local et le projet ne simule pas une ferme de transcodage distribuée.",
-          "Redis et MinIO sont utilisés dans un environnement de démonstration mono-site."
+          "FFmpeg reste exécuté localement : le projet privilégie une démonstration reproductible plutôt qu’une ferme de transcodage distribuée.",
+          "MinIO représente un stockage objet local de démonstration, sans CDN multi-région ni réplication à l’échelle d’un service public.",
+          "Redis est utilisé en configuration simple dans l’environnement portfolio ; la haute disponibilité n’est pas traitée ici."
         ],
         "challenges": [
           {
-            "title": "Servir des médias volumineux",
-            "detail": "MP4 progressif, HTTP Range et HLS couvrent plusieurs modes de lecture."
+            "title": "Servir efficacement des médias volumineux",
+            "detail": "Le lecteur combine MP4 progressif avec HTTP Range, WebVTT et HLS via hls.js afin de couvrir plusieurs modes de lecture."
           },
           {
-            "title": "Fiabiliser le pipeline",
-            "detail": "Persistance, reprise et annulation rendent les traitements longs observables et contrôlables."
+            "title": "Rendre les traitements média robustes",
+            "detail": "La file persistante, le retry exponentiel, la reprise après redémarrage et l’annulation FFmpeg évitent qu’un traitement long soit lié au cycle de vie d’une requête HTTP."
+          },
+          {
+            "title": "Sécuriser l’entrée média",
+            "detail": "Les contrôles sur le type et le contenu des fichiers réduisent le risque de traiter comme vidéo une entrée seulement renommée ou incohérente."
           }
         ],
         "quality": [
-          "Tests Maven sur sécurité, streaming et administration.",
-          "Smoke tests et E2E Playwright."
+          "Tests Maven couvrant notamment sécurité, streaming et administration média.",
+          "Smoke tests et tests E2E Playwright sur les parcours principaux.",
+          "Script de validation du dépôt couvrant scripts, JavaScript, Python, Maven, Redis et profil local-media."
         ],
         "delivery": [
-          "Docker Compose fournit PostgreSQL, Redis et MinIO.",
-          "GitHub Actions relance la validation du dépôt."
+          "Docker Compose fournit PostgreSQL, Redis et MinIO pour un environnement d’évaluation reproductible.",
+          "Le profil de production est configuré par variables d’environnement, avec cookie sécurisé prévu derrière HTTPS.",
+          "Un workflow Main Merge Validation relance la validation complète après intégration sur main."
         ],
         "outcomes": [
-          "Parcours cohérent de l’administration jusqu’à la lecture vidéo.",
-          "Pipeline média capable de reprendre des traitements persistés."
+          "Un parcours cohérent allant de l’administration et l’upload jusqu’au catalogue et à la lecture vidéo.",
+          "Un pipeline média capable de survivre aux redémarrages applicatifs et de reprendre les traitements persistés.",
+          "Une architecture dont les limites de production sont documentées au lieu d’être masquées."
         ],
         "limitations": [
           "Pas de DRM ni de CDN global.",
-          "Redis reste mono-nœud.",
-          "Le transcodage n’est pas distribué."
+          "Redis reste mono-nœud dans l’environnement de démonstration.",
+          "Le transcodage FFmpeg n’est pas distribué sur plusieurs workers ou machines."
         ],
         "nextSteps": [
-          "Compléter l’observabilité et les essais de charge avant toute ambition de service public."
+          "Externaliser ou rendre hautement disponibles Redis et le stockage média si le projet devait devenir un service public.",
+          "Introduire CDN, DRM et stratégie de distribution multi-région uniquement si les besoins produit le justifient.",
+          "Compléter l’observabilité et les essais de charge pour caractériser précisément les limites du pipeline."
         ]
       },
       "visuals": {
         "hero": {
           "src": "assets/img/projects/streamfolio/hero.webp",
-          "alt": "Accueil de Streamfolio avec navigation, recherche et catalogue.",
-          "caption": "Catalogue et navigation de Streamfolio.",
+          "alt": "Accueil de Streamfolio affichant le film Aurora Drift, la navigation, la recherche et le catalogue.",
+          "caption": "Catalogue et navigation de Streamfolio, avec recherche, filtres et contenu de démonstration.",
           "width": 1920,
           "height": 1080
         },
         "architecture": {
           "src": "assets/img/projects/streamfolio/architecture.svg",
-          "alt": "Schéma d’architecture de Streamfolio.",
-          "caption": "Architecture applicative et pipeline média persistant.",
+          "alt": "Schéma d’architecture de Streamfolio reliant le navigateur, Spring Boot, PostgreSQL, Redis, MinIO, les jobs média et FFmpeg.",
+          "caption": "Architecture applicative et pipeline média persisté de Streamfolio.",
           "width": 1600,
           "height": 900
         },
         "gallery": [
           {
             "src": "assets/img/projects/streamfolio/details.webp",
-            "alt": "Page de détail Streamfolio.",
+            "alt": "Page de détail Streamfolio pour le film Aurora Drift avec métadonnées et actions de lecture.",
             "caption": "Fiche de contenu avant lecture.",
             "width": 1920,
             "height": 1080
           },
           {
             "src": "assets/img/projects/streamfolio/player.webp",
-            "alt": "Lecteur vidéo Streamfolio.",
-            "caption": "Lecteur HTML5 du parcours de streaming.",
+            "alt": "Lecteur vidéo Streamfolio affichant le média de démonstration Canopées urbaines.",
+            "caption": "Lecteur HTML5 utilisé dans le parcours de streaming.",
             "width": 1920,
             "height": 1080
           }
         ]
-      }
+      },
+      "featuredOrder": 2
     },
     {
       "id": "kanban",
@@ -213,11 +233,11 @@
       "featured": false,
       "status": "in-progress",
       "subtitle": "Gestionnaire de tâches et Kanban avancé",
-      "summary": "Gestionnaire .NET 10 avec vues Liste/Kanban, règles WIP, récurrence, API REST et persistance SQLite.",
+      "summary": "Gestionnaire .NET 10 orienté métier : vues Liste/Kanban, règles WIP, récurrence, API REST et persistance SQLite.",
       "metaDescription": "Gestionnaire de tâches C#/.NET 10 avec Blazor, Kanban avancé, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.",
-      "mission": "Modéliser les règles métier d’un gestionnaire de tâches au-delà d’un simple CRUD.",
-      "proof": "Règles WIP, Blazor, API REST, EF Core/SQLite, tests et CI.",
-      "problem": "Partager les mêmes règles métier entre l’interface Blazor et l’API tout en conservant l’ordre, les limites WIP et l’historique.",
+      "mission": "Construire une application métier Web au-delà d’un CRUD de tâches.",
+      "proof": "Règles WIP, Blazor, API, EF Core, accessibilité, tests et CI.",
+      "problem": "Créer un gestionnaire de tâches qui combine interactions Kanban, règles métier, historique, import/export et API sans dupliquer la logique entre l’interface Web et les endpoints HTTP.",
       "repository": "https://github.com/alescis-wuin/kanban",
       "image": "assets/img/projects/kanban/hero.webp",
       "imageAlt": "Aperçu du tableau Kanban en thème sombre",
@@ -242,80 +262,112 @@
         "github-actions"
       ],
       "features": [
-        "Tâches, sous-tâches, étiquettes, priorités, échéances, rappels et récurrence.",
-        "Vues Liste et Kanban avec réorganisation persistante et alternative clavier.",
-        "Colonnes configurables et limites WIP.",
-        "Import/export JSON/CSV et API REST.",
-        "EF Core/SQLite, tests multi-couches et CI GitHub Actions."
+        "Création, modification, suppression, achèvement et réouverture de tâches.",
+        "Sous-tâches, étiquettes, priorités, échéances, rappels, récurrence et historique horodaté.",
+        "Vues Liste et Kanban avec glisser-déposer, réorganisation persistante et alternative clavier.",
+        "Cinq colonnes configurables avec nom, ordre, couleur, visibilité et limite WIP.",
+        "Import/export JSON ou CSV, thèmes clair/sombre et réduction des animations.",
+        "API REST pour tâches, tableau, paramètres, historique et données.",
+        "Persistance EF Core/SQLite, tests multi-couches, formatage, audit NuGet et CI GitHub Actions."
       ],
       "proofs": [
-        "Les limites WIP sont portées par le domaine.",
-        "Web et API réutilisent la couche Application.",
-        "Les interactions Kanban restent accessibles au clavier."
+        "Règles métier explicites autour des colonnes et limites WIP.",
+        "Réutilisation des mêmes couches Application/Domain depuis l’interface Blazor et l’API.",
+        "Attention portée à l’accessibilité, à la persistance des interactions et à l’industrialisation .NET."
       ],
-      "sitemapPriority": 0.7,
+      "sitemapPriority": 0.8,
       "caseStudy": {
-        "role": "Conception et développement d’un gestionnaire de tâches C#/.NET 10 avec domaine métier, persistance EF Core/SQLite, interface Blazor et API REST.",
+        "role": "Conception et développement d’un gestionnaire de tâches C#/.NET 10 : domaine métier, application, persistance EF Core/SQLite, interface Blazor, API REST, interactions Kanban, tests et CI.",
         "architecture": [
-          "Domain porte les invariants des tâches et colonnes.",
-          "Application orchestre les cas d’usage partagés.",
-          "Infrastructure fournit EF Core/SQLite ; Web et API sont deux points d’entrée."
+          "Todo.Domain contient tâches, sous-tâches, étiquettes, colonnes, historique, paramètres et invariants.",
+          "Todo.Contracts regroupe DTO, requêtes, formats d’import/export et exceptions contractuelles.",
+          "Todo.Application orchestre les cas d’usage et le transfert de données.",
+          "Todo.Infrastructure fournit EF Core, SQLite, repository et initialisation/mise à niveau de la base.",
+          "Todo.Ui porte l’interface Razor, tandis que Todo.Web l’héberge en Blazor Interactive Server.",
+          "Todo.Api expose les mêmes capacités applicatives via des Minimal APIs et OpenAPI."
         ],
         "decisions": [
           {
-            "title": "Partager les cas d’usage",
-            "detail": "Web et API passent par la même couche Application."
+            "title": "Faire des limites WIP une règle métier",
+            "detail": "La limite d’une colonne n’est pas un simple avertissement visuel : le domaine la modélise et les déplacements/API réutilisent cette règle."
           },
           {
-            "title": "Faire des limites WIP une règle métier",
-            "detail": "Les déplacements sont refusés par le domaine lorsque la capacité est atteinte."
+            "title": "Partager les cas d’usage entre Web et API",
+            "detail": "Todo.Web et Todo.Api s’appuient sur Todo.Application afin d’éviter une logique métier différente selon le point d’entrée."
+          },
+          {
+            "title": "Persister la configuration du tableau",
+            "detail": "Ordre, visibilité, couleur et limites WIP des colonnes sont conservés en base plutôt que reconstruits uniquement dans l’état de l’interface."
+          },
+          {
+            "title": "Prévoir une alternative clavier au drag-and-drop",
+            "detail": "Les déplacements restent accessibles sans dépendre exclusivement du glisser-déposer."
           }
         ],
         "tradeoffs": [
-          "SQLite convient au périmètre local mais ne vise pas la collaboration distribuée."
+          "SQLite rend le projet simple à lancer et à conserver localement, mais ne vise pas un service collaboratif distribué.",
+          "Les rappels sont signalés lorsque l’application Web est ouverte ; aucune infrastructure de notification native ou serveur n’est incluse.",
+          "Le projet reste volontairement mono-utilisateur et sans authentification pour concentrer la démonstration sur le domaine et les interactions."
         ],
         "challenges": [
           {
-            "title": "Maintenir la cohérence du Kanban",
-            "detail": "Ordre, colonne et règles WIP doivent rester cohérents pour souris, clavier et API."
+            "title": "Maintenir la cohérence des déplacements Kanban",
+            "detail": "Le changement de colonne, l’ordre persistant et les limites WIP doivent rester cohérents pour le drag-and-drop, le clavier et l’API."
+          },
+          {
+            "title": "Historiser sans polluer les vues",
+            "detail": "Les actions importantes sont persistées et exposées par un historique dédié plutôt que dispersées dans l’état UI."
+          },
+          {
+            "title": "Faire évoluer une base SQLite locale",
+            "detail": "Le prototype applique des mises à niveau additives afin de préserver les données créées par les versions précédentes."
           }
         ],
         "quality": [
-          "Tests domaine, application et infrastructure.",
-          "Formatage et audit NuGet en CI."
+          "Tests du domaine, de l’application, de l’infrastructure SQLite et du formatage d’interface.",
+          "dotnet format vérifie le style avant build et tests.",
+          "La CI audite également les dépendances NuGet directes et transitives vulnérables."
         ],
         "delivery": [
-          "GitHub Actions exécute build, tests, formatage et audit."
+          "GitHub Actions exécute restore, format, build Release, tests et audit NuGet sur develop, main et pull requests.",
+          "Le Makefile expose make verify et les commandes de lancement Web/API.",
+          "Nullable, analyse statique et builds déterministes renforcent la quality gate .NET."
         ],
         "outcomes": [
-          "Gestionnaire fonctionnel avec vues Liste/Kanban et règles WIP."
+          "Un gestionnaire qui combine liste, Kanban avancé et règles métier dans une même application.",
+          "Des colonnes configurables et limites WIP persistées plutôt qu’un tableau uniquement visuel.",
+          "Une API REST et des formats d’import/export qui réutilisent les mêmes données métier."
         ],
         "limitations": [
-          "Pas d’authentification ni de collaboration multi-utilisateur."
+          "Le branding public reste encore partagé entre le nom du dépôt Kanban et le nom interne Todo.",
+          "L’authentification et la collaboration multi-utilisateur ne sont pas incluses.",
+          "Les notifications natives et la synchronisation hors ligne avec l’API ne sont pas implémentées."
         ],
         "nextSteps": [
-          "Harmoniser le branding interne Todo/Kanban avant une release stable."
+          "Harmoniser le branding Kanban/Todo avant une release utilisateur stable.",
+          "Ajouter authentification et collaboration uniquement si le projet doit dépasser le périmètre mono-utilisateur local.",
+          "Externaliser les rappels/notifications si l’application doit prévenir l’utilisateur lorsqu’elle n’est pas ouverte."
         ]
       },
       "visuals": {
         "hero": {
           "src": "assets/img/projects/kanban/hero.webp",
-          "alt": "Tableau Kanban en thème sombre.",
-          "caption": "Tableau configurable avec tâches et limites WIP.",
+          "alt": "Tableau Kanban en thème sombre avec cinq colonnes, tâches, priorités et limites WIP visibles.",
+          "caption": "Tableau configurable montrant tâches, priorités et limites WIP.",
           "width": 2400,
           "height": 1005
         },
         "architecture": {
           "src": "assets/img/projects/kanban/architecture.svg",
-          "alt": "Schéma d’architecture du gestionnaire Kanban.",
-          "caption": "Architecture Web/API, domaine métier et persistance SQLite.",
+          "alt": "Schéma du gestionnaire Kanban reliant l’hôte Web Blazor et l’API aux couches UI, Application, Domain, Contracts et Infrastructure SQLite.",
+          "caption": "Architecture Web métier avec règles WIP dans le domaine et persistance EF Core/SQLite.",
           "width": 1600,
           "height": 900
         },
         "gallery": [
           {
             "src": "assets/img/projects/kanban/theme-light.webp",
-            "alt": "Tableau Kanban en thème clair.",
+            "alt": "Tableau Kanban en thème clair avec cinq colonnes et plusieurs tâches réparties selon leur état.",
             "caption": "Même tableau en thème clair.",
             "width": 2400,
             "height": 1006
@@ -329,17 +381,16 @@
       "name": "Agenda",
       "published": true,
       "featured": true,
-      "featuredOrder": 3,
       "status": "prototype",
-      "subtitle": "Agenda multi-hôte Web et MAUI",
+      "subtitle": "Agenda accessible Web et MAUI",
       "summary": "Agenda .NET 10 partagé entre Web Blazor et MAUI, avec calendrier, événements, API REST et persistance SQLite.",
-      "metaDescription": "Agenda C#/.NET 10 avec Blazor, MAUI Blazor Hybrid, API REST, EF Core/SQLite, interface partagée et validation métier.",
-      "mission": "Partager interface et cas d’usage entre plusieurs hôtes .NET.",
-      "proof": "Blazor, MAUI, API REST, EF Core/SQLite, architecture multi-hôte, tests et CI.",
-      "problem": "Réutiliser les mêmes composants Razor et cas d’usage dans le Web et MAUI sans confondre interface, domaine et persistance.",
+      "metaDescription": "Agenda C#/.NET 10 avec Blazor, MAUI Blazor Hybrid, API REST, EF Core/SQLite, interface partagée, validation métier et accessibilité clavier.",
+      "mission": "Partager une même interface métier entre Web et application hybride.",
+      "proof": "Blazor, MAUI, API, EF Core, architecture multi-hôte, tests et CI.",
+      "problem": "Concevoir un agenda accessible dont les mêmes composants Razor et cas d’usage peuvent fonctionner dans plusieurs hôtes sans confondre interface, règles métier et persistance locale.",
       "repository": "https://github.com/alescis-wuin/agenda",
       "image": "assets/img/projects/agenda/hero.webp",
-      "imageAlt": "Aperçu du calendrier mensuel Agenda",
+      "imageAlt": "Aperçu du calendrier mensuel Agenda en thème sombre",
       "languages": ["csharp"],
       "types": ["web", "mobile", "backend", "architecture", "accessibility"],
       "stack": [
@@ -356,101 +407,134 @@
       ],
       "homeStack": ["dotnet-10", "blazor", "maui", "ef-core", "sqlite"],
       "features": [
-        "Calendrier mensuel avec navigation et sélection de journée.",
-        "Création, modification et suppression d’événements.",
-        "Composants Razor partagés entre Blazor Interactive Server et MAUI Blazor Hybrid.",
-        "API REST Minimal APIs/OpenAPI.",
-        "Persistance EF Core/SQLite et tests séparés par couche."
+        "Calendrier mensuel avec navigation, sélection de journée et aperçu des événements.",
+        "Création, modification et suppression d’événements horaires ou sur une journée entière.",
+        "Interface Razor partagée entre Blazor Interactive Server et MAUI Blazor Hybrid.",
+        "API REST dédiée avec Minimal APIs et document OpenAPI en développement.",
+        "Persistance locale EF Core/SQLite avec migrations et données de démonstration.",
+        "Validation métier des périodes et longueurs de texte, interface responsive et navigation clavier.",
+        "Tests séparés par couche, vérification du formatage, audit NuGet et CI GitHub Actions."
       ],
       "proofs": [
-        "Les mêmes composants Razor sont réutilisés dans plusieurs hôtes.",
-        "Domaine, contrats, application et infrastructure sont séparés.",
-        "La synchronisation MAUI ↔ API n’est pas présentée comme existante."
+        "Réutilisation d’une même UI et des mêmes cas d’usage dans plusieurs modèles d’hébergement .NET.",
+        "Séparation claire entre domaine, contrats, application, infrastructure et hôtes.",
+        "Prise en compte de l’accessibilité, de la persistance locale et de la qualité logicielle."
       ],
       "sitemapPriority": 0.8,
       "caseStudy": {
-        "role": "Conception et développement d’un agenda .NET 10 multi-hôte : domaine, cas d’usage, persistance EF Core/SQLite, interface Razor partagée, Web Blazor, API et MAUI Blazor Hybrid.",
+        "role": "Conception et développement d’un agenda .NET 10 multi-hôte : domaine, cas d’usage, persistance EF Core/SQLite, interface Razor partagée, Web Blazor, API Minimal API et hôte MAUI Blazor Hybrid.",
         "architecture": [
-          "Domain porte événements et invariants.",
-          "Application orchestre les cas d’usage.",
-          "UI Razor est partagée entre Web et MAUI ; API expose les mêmes cas d’usage."
+          "Agenda.Domain porte les événements, catégories et invariants métier.",
+          "Agenda.Contracts définit les DTO et contrats d’entrée/sortie utilisés par les hôtes.",
+          "Agenda.Application orchestre les cas d’usage et dépend d’une abstraction de repository.",
+          "Agenda.Infrastructure fournit EF Core, SQLite, migrations et initialisation de la base.",
+          "Agenda.Ui contient les composants Razor réutilisés par Agenda.Web et Agenda.Maui.",
+          "Agenda.Api expose les cas d’usage via des Minimal APIs, tandis que l’hôte MAUI conserve sa propre base locale privée."
         ],
         "decisions": [
           {
-            "title": "Partager l’interface",
-            "detail": "Les composants Razor restent dans un projet commun à Web et MAUI."
+            "title": "Partager l’interface plutôt que la dupliquer",
+            "detail": "Les composants Razor restent dans Agenda.Ui afin que Web et MAUI utilisent la même interface métier au lieu de maintenir deux implémentations séparées."
           },
           {
-            "title": "Garder une persistance locale MAUI",
-            "detail": "L’hôte mobile conserve sa base privée tant qu’aucun protocole de synchronisation n’est implémenté."
+            "title": "Garder les cas d’usage hors des hôtes",
+            "detail": "Web, API et MAUI s’appuient sur Agenda.Application afin que les règles d’orchestration ne dépendent pas du mode d’hébergement."
+          },
+          {
+            "title": "Assumer une persistance locale par hôte",
+            "detail": "L’application MAUI utilise une base dans son répertoire privé ; aucune synchronisation implicite avec l’API n’est inventée tant que cette fonction n’est pas implémentée."
+          },
+          {
+            "title": "Versionner le schéma SQLite",
+            "detail": "EF Core et les migrations maintiennent l’évolution du stockage local au lieu de recréer systématiquement la base."
           }
         ],
         "tradeoffs": [
-          "Le partage Razor réduit la duplication mais impose une UI compatible avec les deux hôtes."
+          "Le partage Razor réduit la duplication mais impose de conserver les composants UI compatibles avec les contraintes du Web et de MAUI.",
+          "La base locale MAUI rend l’application exploitable hors ligne, mais les données ne sont pas synchronisées avec l’API dans cette version.",
+          "La solution Web/API reste indépendante des workloads MAUI pour garder une CI légère, au prix de deux solutions/outils de build à maintenir."
         ],
         "challenges": [
           {
-            "title": "Partager une UI entre deux hôtes",
-            "detail": "Les composants doivent fonctionner dans Blazor Server et MAUI Blazor Hybrid."
+            "title": "Partager une UI entre deux modèles d’hébergement",
+            "detail": "Les composants Razor doivent fonctionner à la fois dans Blazor Interactive Server et dans le WebView MAUI sans déplacer les cas d’usage dans les vues."
+          },
+          {
+            "title": "Conserver des règles temporelles cohérentes",
+            "detail": "Le domaine valide notamment que la fin d’un événement est postérieure au début et normalise les dates avant persistance."
+          },
+          {
+            "title": "Adapter le stockage à chaque hôte",
+            "detail": "Web/API utilisent une base de développement au niveau du dépôt alors que MAUI cible FileSystem.AppDataDirectory sans changer le contrat applicatif."
           }
         ],
         "quality": [
-          "Nullable et avertissements traités comme erreurs.",
-          "Tests domaine, application, infrastructure et UI."
+          "Nullable activé, avertissements traités comme des erreurs et builds déterministes.",
+          "Tests séparés pour le domaine, l’application, l’infrastructure et l’interface.",
+          "Vérification du formatage et audit des vulnérabilités NuGet transitives."
         ],
-        "delivery": ["GitHub Actions exécute la validation .NET 10."],
+        "delivery": [
+          "make verify exécute la chaîne de validation locale.",
+          "GitHub Actions installe .NET 10 puis exécute make verify sur develop, branches de travail et pull requests.",
+          "Des commandes séparées lancent l’hôte Web, l’API et les workflows MAUI/Android."
+        ],
         "outcomes": [
-          "CRUD d’événements, calendrier, API REST et hôte MAUI intégrés."
+          "Une application Web opérationnelle pour le CRUD d’événements et le calendrier mensuel.",
+          "Une API REST/OpenAPI utilisant les mêmes cas d’usage que l’interface.",
+          "Un hôte MAUI Blazor Hybrid intégré avec persistance SQLite locale privée."
         ],
         "limitations": [
-          "Pas de synchronisation MAUI ↔ API.",
-          "Pas de notifications natives.",
-          "Pas d’authentification multi-compte."
+          "La synchronisation MAUI ↔ API n’est pas implémentée.",
+          "Les notifications natives ne sont pas implémentées.",
+          "L’authentification et les comptes multiples ne font pas partie de ce prototype."
         ],
         "nextSteps": [
-          "Définir un protocole de synchronisation avant de relier les bases locales à l’API."
+          "Définir un vrai protocole de synchronisation et de résolution de conflits avant de relier la base MAUI à l’API.",
+          "Ajouter les notifications natives lorsque leur cycle de vie peut être testé sur les plateformes ciblées.",
+          "Introduire authentification et multi-utilisateur uniquement si le projet évolue au-delà du prototype local."
         ]
       },
       "visuals": {
         "hero": {
           "src": "assets/img/projects/agenda/hero.webp",
-          "alt": "Calendrier mensuel Agenda en thème sombre.",
-          "caption": "Vue mensuelle et panneau d’événement.",
+          "alt": "Calendrier mensuel Agenda en thème sombre pour août 2026 avec un événement sélectionné et son panneau de détail.",
+          "caption": "Vue mensuelle et panneau d’événement en thème sombre.",
           "width": 1920,
           "height": 1080
         },
         "architecture": {
           "src": "assets/img/projects/agenda/architecture.svg",
-          "alt": "Schéma multi-hôte d’Agenda.",
-          "caption": "Architecture multi-hôte avec interface Razor partagée.",
+          "alt": "Schéma multi-hôte d’Agenda reliant Web Blazor, MAUI Blazor Hybrid et API aux couches UI, Application, Domain et Infrastructure.",
+          "caption": "Architecture multi-hôte avec interface Razor partagée et persistance SQLite locale.",
           "width": 1600,
           "height": 900
         },
         "gallery": [
           {
             "src": "assets/img/projects/agenda/theme-light.webp",
-            "alt": "Calendrier Agenda en thème clair.",
+            "alt": "Calendrier mensuel Agenda en thème clair avec un événement sélectionné et son panneau de détail.",
             "caption": "Même interface en thème clair.",
             "width": 1920,
             "height": 1080
           }
         ]
-      }
+      },
+      "featuredOrder": 3
     },
     {
       "id": "solvia",
       "slug": "solvia",
       "name": "Solvia",
       "published": false,
-      "publicationNote": "Projet conservé comme réserve pendant sa refonte produit et UX.",
+      "publicationNote": "Projet conservé dans la source canonique mais retiré de la publication pendant sa refonte produit et UX.",
       "featured": false,
       "status": "in-progress",
       "subtitle": "Suivi patrimonial local-first",
-      "summary": "Application métier local-first pour suivre comptes, actifs, positions, snapshots, flux financiers et valorisation.",
-      "metaDescription": "Application local-first de suivi patrimonial avec comptes, actifs, positions, snapshots, flux et valorisation.",
+      "summary": "Application métier local-first pour suivre comptes, actifs, positions, snapshots, flux financiers, valorisation et indicateurs de performance.",
+      "metaDescription": "Application local-first de suivi patrimonial : comptes, actifs, positions, snapshots, flux financiers, valorisation et indicateurs de performance.",
       "mission": "Structurer un domaine financier exploitable localement.",
-      "proof": "Modélisation métier, architecture multi-module, API et persistance.",
-      "problem": "Distinguer valeurs saisies, flux d’argent et calculs de performance dans une application locale.",
+      "proof": "Modélisation, architecture multi-module, API et persistance.",
+      "problem": "Suivre des données financières personnelles en séparant clairement les valeurs saisies, les flux d’argent et les calculs de performance.",
       "repository": "https://github.com/alescis-wuin/Solvia",
       "image": "assets/img/projects/solvia.svg",
       "imageAlt": "Illustration du projet Solvia",
@@ -473,45 +557,89 @@
         "maven"
       ],
       "features": [
-        "Comptes, actifs, positions, snapshots et flux financiers.",
-        "Architecture Maven multi-module.",
-        "API REST, PostgreSQL/Flyway et client JavaFX."
+        "Comptes, enveloppes, actifs, positions, snapshots et flux financiers.",
+        "Historique de patrimoine net, graphiques par période et agrégations personnalisées.",
+        "Architecture Maven multi-module : domaine, application, persistance, backend, desktop.",
+        "API REST validée, documentation OpenAPI statique et persistance PostgreSQL/Flyway.",
+        "Interface desktop JavaFX/AtlantaFX et posture local-first sans télémétrie externe."
       ],
       "proofs": [
-        "Modélisation métier explicite.",
-        "Séparation domaine/application/persistance/UI."
+        "Modélisation métier et découpage applicatif.",
+        "Fiabilité des calculs et séparation des responsabilités.",
+        "Capacité à concevoir une application métier maintenable."
       ],
-      "sitemapPriority": 0.6,
+      "sitemapPriority": 0.8,
       "caseStudy": {
-        "role": "Conception du domaine financier, architecture Maven multi-module, API Spring Boot, persistance PostgreSQL/Flyway et client JavaFX.",
+        "role": "Conception du domaine financier, architecture Maven multi-module, API Spring Boot, persistance JDBC/PostgreSQL/Flyway et client desktop JavaFX.",
         "architecture": [
-          "Domain, Application, persistance, backend et desktop sont séparés."
+          "Module Domain pour les comptes, actifs, positions, snapshots, flux, objets monétaires et calculs de valorisation.",
+          "Module Application pour les cas d’usage et contrats applicatifs.",
+          "Module de persistance dédié avec repositories JDBC, PostgreSQL et migrations Flyway.",
+          "Backend Spring Boot exposant REST, validation, gestion d’erreurs, readiness et contrat OpenAPI.",
+          "Client JavaFX/AtlantaFX communiquant avec le backend local et regroupant tableaux de bord, comptes, actifs, positions et entrées."
         ],
         "decisions": [
           {
-            "title": "Historiser les états",
-            "detail": "Snapshots et flux conservent l’historique sans écraser les états passés."
+            "title": "Séparer valeurs saisies, flux et performance",
+            "detail": "Le modèle évite de confondre dépôts, retraits ou dividendes avec une variation de performance d’investissement."
+          },
+          {
+            "title": "Historiser plutôt qu’écraser",
+            "detail": "Snapshots et entrées historiques permettent de reconstruire le patrimoine et les séries temporelles sans perdre les états passés."
+          },
+          {
+            "title": "Utiliser JDBC et Flyway explicitement",
+            "detail": "La persistance reste visible et maîtrisée via JdbcClient/repositories et migrations SQL plutôt que de déléguer l’ensemble du modèle à un ORM."
+          },
+          {
+            "title": "Adopter une posture local-first",
+            "detail": "La V1 privilégie les données locales, la saisie manuelle et l’absence de télémétrie externe avant toute synchronisation bancaire ou cloud."
           }
         ],
         "tradeoffs": [
-          "Le périmètre reste local-first et sans synchronisation bancaire."
+          "La V1 privilégie la saisie manuelle et des calculs fiables plutôt que la synchronisation bancaire, les ordres ou les données de marché temps réel.",
+          "Le client desktop et le backend sont séparés, ce qui ajoute des composants à lancer mais clarifie le contrat applicatif.",
+          "Le choix JDBC demande davantage de mapping explicite qu’un ORM mais garde les requêtes et migrations visibles."
         ],
         "challenges": [
           {
-            "title": "Calculer la performance",
-            "detail": "Les flux de trésorerie doivent être distingués des variations de valorisation."
+            "title": "Calculer la performance sans fausser les apports",
+            "detail": "Le domaine distingue les mouvements de trésorerie des variations de valorisation afin que les indicateurs reflètent réellement la performance."
+          },
+          {
+            "title": "Construire des séries temporelles cohérentes",
+            "detail": "Snapshots, pas d’agrégation et filtres temporels doivent produire des courbes exploitables malgré des fréquences de saisie variables."
+          },
+          {
+            "title": "Faire cohabiter desktop et backend local",
+            "detail": "Le client gère l’état de connexion, la readiness et les erreurs d’API au lieu de supposer que le backend est toujours disponible."
           }
         ],
-        "quality": ["Tests domaine, API et persistance."],
-        "delivery": [
-          "Validation Maven locale ; la CI distante reste à compléter."
+        "quality": [
+          "Tests de domaine sur objets monétaires, entités et calculateur de patrimoine net.",
+          "Tests MockMvc couvrant plusieurs familles de contrôleurs REST et le contrat OpenAPI.",
+          "Test d’intégration de persistance ainsi que tests desktop et smoke test JavaFX."
         ],
-        "outcomes": ["Domaine financier et API fonctionnels."],
+        "delivery": [
+          "Validation locale via Maven clean verify.",
+          "Docker Compose fournit PostgreSQL pour le développement.",
+          "Des scripts dédiés lancent le backend et le client desktop depuis le workspace.",
+          "Aucun workflow GitHub Actions n’est actuellement visible dans la branche develop ; l’automatisation CI reste donc à ajouter."
+        ],
+        "outcomes": [
+          "Un domaine financier suffisamment riche pour modéliser comptes, positions, flux et valorisations historiques.",
+          "Une API REST couvrant le CRUD métier, les snapshots, les flux et plusieurs calculs de patrimoine/performance.",
+          "Un client desktop fonctionnel avec tableaux de bord, graphiques, filtres et gestion d’état du backend."
+        ],
         "limitations": [
-          "Pas de synchronisation bancaire ni de cloud multi-utilisateur."
+          "Pas de synchronisation bancaire, placement d’ordres, conseil d’investissement ni automatisation fiscale complète dans la V1.",
+          "Pas d’application mobile ni d’hébergement cloud multi-utilisateur prévu dans le périmètre actuel.",
+          "L’absence de workflow CI distant réduit aujourd’hui la preuve d’intégration continue malgré une suite de tests locale substantielle."
         ],
         "nextSteps": [
-          "Ajouter une CI GitHub Actions avant de remettre le projet en avant."
+          "Ajouter une CI GitHub Actions exécutant la validation Maven et les tests pertinents.",
+          "Poursuivre le découpage de certaines vues JavaFX devenues volumineuses afin de préserver la maintenabilité.",
+          "Finaliser les fonctions de sauvegarde/export prévues par le périmètre V1 avant d’envisager des intégrations externes."
         ]
       }
     },
@@ -523,14 +651,14 @@
       "featured": false,
       "status": "in-progress",
       "subtitle": "Calculatrice desktop à moteur d’expressions",
-      "summary": "Calculatrice Avalonia avec moteur d’expressions isolé, modèle d’interaction testable, MVVM, xUnit et CI .NET.",
-      "metaDescription": "Calculatrice desktop C#/.NET 10 avec Avalonia, tokenizer, parser, évaluateur, MVVM, tests automatisés et CI GitHub Actions.",
-      "mission": "Isoler le calcul et l’édition de l’interface graphique.",
-      "proof": "Tokenizer, parser, modèle d’état, MVVM, tests et CI.",
-      "problem": "Tester parsing, évaluation et comportements d’édition sans dépendre d’Avalonia.",
+      "summary": "Calculatrice desktop Avalonia avec moteur d’expressions isolé, MVVM, historique, tests xUnit et CI .NET.",
+      "metaDescription": "Calculatrice desktop C#/.NET 10 avec Avalonia, moteur d’expressions tokenisé et parsé, MVVM, tests automatisés et CI GitHub Actions.",
+      "mission": "Concevoir une calculatrice testable au-delà d’une simple logique d’interface.",
+      "proof": "Parser, séparation des couches, MVVM, tests automatisés et CI .NET.",
+      "problem": "Construire une calculatrice desktop dont le parsing, l’édition, l’état d’interaction et l’interface restent découplés afin de tester les comportements complexes sans dépendre d’Avalonia.",
       "repository": "https://github.com/alescis-wuin/calcufolio",
       "image": "assets/img/projects/calcufolio.svg",
-      "imageAlt": "Illustration de Calcufolio",
+      "imageAlt": "Illustration de Calcufolio, calculatrice C#/.NET avec moteur d’expressions",
       "languages": ["csharp"],
       "types": ["desktop", "architecture"],
       "stack": [
@@ -549,68 +677,110 @@
         "github-actions"
       ],
       "features": [
-        "Tokenizer, parser, modèle syntaxique et évaluateur séparés.",
-        "Contrôleur, actions, état d’éditeur et reducer pour les interactions.",
-        "Avalonia/MVVM et historique.",
-        "Tests Domain/Application/Presentation et CI GitHub Actions."
+        "Moteur d’expressions séparé en tokenizer, parser, modèle syntaxique et évaluateur.",
+        "Services de calcul et d’évaluation indépendants de la couche Avalonia.",
+        "Modèle d’interaction avec contrôleur, actions, état d’éditeur, reducer, sélection, clavier et presse-papiers.",
+        "Présentation Avalonia structurée en MVVM avec CommunityToolkit.Mvvm, aperçu de calcul et historique.",
+        "Tests automatisés des couches Domain, Application et Presentation, notamment tokenizer, parser et évaluateur.",
+        "CI GitHub Actions : syntaxe, ShellCheck, restore, format, build, tests et audit des dépendances NuGet."
       ],
       "proofs": [
-        "Le moteur d’expressions est indépendant du framework graphique.",
-        "Les interactions d’édition sont modélisées comme un état testable."
+        "Séparation nette entre parsing d’expressions, logique d’interaction et présentation.",
+        "Gestion testable des cas limites d’édition et d’évaluation.",
+        "Industrialisation .NET avec SDK épinglé, tests, formatage, audit et CI."
       ],
-      "sitemapPriority": 0.7,
+      "sitemapPriority": 0.8,
       "caseStudy": {
-        "role": "Conception d’une application desktop .NET 10 : moteur d’expressions, état d’interaction, UI Avalonia/MVVM, tests et CI.",
+        "role": "Conception d’une application desktop C#/.NET 10 : moteur d’expressions, modèle d’interaction, architecture en couches, UI Avalonia/MVVM, tests et CI.",
         "architecture": [
-          "Domain, Application, Infrastructure et Presentation sont séparés.",
-          "Le moteur d’expressions est indépendant d’Avalonia."
+          "Solution séparée en Domain, Application, Infrastructure et Presentation.",
+          "Moteur d’expressions dans la couche Application avec tokenization, parsing, modèle syntaxique, évaluation et erreurs typées.",
+          "Modèle d’interaction basé sur contrôleur, actions, état d’éditeur et reducer pour isoler les comportements de saisie.",
+          "Présentation Avalonia structurée en MVVM avec CommunityToolkit.Mvvm, historique et aperçu de calcul."
         ],
         "decisions": [
           {
-            "title": "Découpler le moteur de l’UI",
-            "detail": "Parsing et évaluation sont testés sans instancier le framework graphique."
+            "title": "Découpler le moteur d’expressions de l’interface",
+            "detail": "Le parsing et l’évaluation restent testables sans instancier Avalonia, ce qui évite de placer la logique de calcul dans les événements de boutons."
+          },
+          {
+            "title": "Modéliser l’édition comme un état explicite",
+            "detail": "Caret, sélection, insertion, suppression et actions clavier passent par un état et des transformations dédiées plutôt que par des mutations dispersées."
+          },
+          {
+            "title": "Utiliser MVVM pour la présentation",
+            "detail": "CommunityToolkit.Mvvm réduit le code de liaison tout en gardant le ViewModel indépendant de la vue Avalonia."
+          },
+          {
+            "title": "Épingler la toolchain .NET",
+            "detail": "global.json fixe le SDK .NET 10 attendu et la CI utilise la même référence pour limiter les divergences entre poste local et runner."
           }
         ],
         "tradeoffs": [
-          "L’architecture ajoute des couches par rapport à une calculatrice minimale."
+          "L’architecture comporte davantage de couches qu’une calculatrice minimale, en échange d’une logique beaucoup plus isolable et testable.",
+          "Un moteur de parsing dédié demande plus de code qu’une évaluation directe depuis l’UI, mais permet de contrôler la syntaxe, les erreurs et la précédence.",
+          "Le projet est encore en cours : l’accent porte actuellement davantage sur les fondations et la qualité que sur un catalogue maximal de fonctions scientifiques."
         ],
         "challenges": [
           {
             "title": "Maintenir un éditeur cohérent",
-            "detail": "Caret, sélection, insertion et suppression doivent produire un état déterministe."
+            "detail": "Insertion, backspace, suppression avant, sélection, déplacements du caret et presse-papiers doivent produire un état prévisible quelle que soit l’entrée."
+          },
+          {
+            "title": "Évaluer des expressions sans coupler la syntaxe à l’UI",
+            "detail": "Tokenizer, parser et evaluator doivent gérer précédence et erreurs de manière déterministe avant que le résultat soit projeté dans le ViewModel."
+          },
+          {
+            "title": "Synchroniser aperçu, résultat et historique",
+            "detail": "Le ViewModel dérive l’affichage depuis l’état applicatif et reconstruit l’historique sans déplacer la logique de calcul dans la présentation."
           }
         ],
         "quality": [
-          "Tests automatisés du moteur et des interactions.",
-          "Formatage et audit NuGet."
+          "Tests automatisés sur les couches Domain, Application et Presentation, notamment tokenizer, parser, évaluateur et interactions.",
+          "Vérification dotnet format afin d’éviter les divergences de style dans la solution.",
+          "Audit des dépendances NuGet intégré à la quality gate."
         ],
-        "delivery": ["GitHub Actions vérifie build, tests et formatage."],
-        "outcomes": ["Moteur d’expressions et modèle d’édition testables."],
-        "limitations": ["Projet encore en cours."],
+        "delivery": [
+          "Workflow develop : syntaxe, ShellCheck, restore, format, build, tests et audit NuGet.",
+          "Workflows distincts également présents pour testing et main.",
+          "SDK .NET 10 épinglé par global.json et commandes de validation exposées par le Makefile."
+        ],
+        "outcomes": [
+          "Une calculatrice dont le moteur d’expressions peut être testé indépendamment du framework graphique.",
+          "Un modèle d’édition capable de représenter sélection et caret plutôt qu’une simple chaîne concaténée.",
+          "Une chaîne CI .NET reproductible qui vérifie compilation, tests, formatage et dépendances."
+        ],
+        "limitations": [
+          "Le projet reste en cours et n’est pas présenté comme une application finalisée.",
+          "Le README public actuel reste très succinct par rapport à la richesse réelle du dépôt.",
+          "Le périmètre fonctionnel doit encore être consolidé avant de considérer une release utilisateur stable."
+        ],
         "nextSteps": [
-          "Enrichir la documentation publique et préparer le packaging."
+          "Enrichir le README public avec architecture, captures, lancement, tests et limites.",
+          "Poursuivre les fonctions de calcul et les comportements d’édition sans contourner le moteur d’état existant.",
+          "Préparer un packaging/release utilisateur lorsque le périmètre fonctionnel sera suffisamment stabilisé."
         ]
       },
       "visuals": {
         "hero": {
           "src": "assets/img/projects/calcufolio/hero.webp",
-          "alt": "Fenêtre Calcufolio avec résultat et historique.",
-          "caption": "Résultat courant et historique.",
+          "alt": "Fenêtre Calcufolio affichant le résultat 72 et plusieurs calculs dans le panneau History.",
+          "caption": "Résultat courant et historique de plusieurs expressions évaluées.",
           "width": 1920,
           "height": 1199
         },
         "architecture": {
           "src": "assets/img/projects/calcufolio/architecture.svg",
-          "alt": "Schéma du moteur d’expressions Calcufolio.",
-          "caption": "Flux d’interaction et moteur d’expressions.",
+          "alt": "Schéma du flux Calcufolio depuis Avalonia et les contrôleurs applicatifs jusqu’au tokenizer, parser, évaluateur et moteur de calcul.",
+          "caption": "Flux d’interaction et moteur d’expressions de Calcufolio.",
           "width": 1600,
           "height": 900
         },
         "gallery": [
           {
             "src": "assets/img/projects/calcufolio/editing.webp",
-            "alt": "Fenêtre Calcufolio avec une expression sélectionnée.",
-            "caption": "Édition d’expression avec sélection explicite.",
+            "alt": "Fenêtre Calcufolio avec une expression arithmétique et la sous-expression 8 + 4 sélectionnée.",
+            "caption": "Édition d’expression avec sélection explicite avant évaluation.",
             "width": 1920,
             "height": 1199
           }

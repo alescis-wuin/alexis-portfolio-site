@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Calculatrice desktop C#/.NET 10 avec Avalonia, tokenizer, parser, évaluateur, MVVM, tests automatisés et CI GitHub Actions.">
+  <meta name="description" content="Calculatrice desktop C#/.NET 10 avec Avalonia, moteur d’expressions tokenisé et parsé, MVVM, tests automatisés et CI GitHub Actions.">
   <meta name="author" content="Alexis Guinot">
   <meta name="color-scheme" content="dark light">
   <meta property="og:title" content="Calcufolio — Étude de cas | Alexis Guinot">
-  <meta property="og:description" content="Calculatrice desktop C#/.NET 10 avec Avalonia, tokenizer, parser, évaluateur, MVVM, tests automatisés et CI GitHub Actions.">
+  <meta property="og:description" content="Calculatrice desktop C#/.NET 10 avec Avalonia, moteur d’expressions tokenisé et parsé, MVVM, tests automatisés et CI GitHub Actions.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.alexis-guinot.fr/projets/calcufolio.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
@@ -67,15 +67,15 @@
             <span class="project-detail-status">En cours</span>
           </div>
           <h1>Calcufolio</h1>
-          <p class="hero-lead">Calculatrice Avalonia avec moteur d’expressions isolé, modèle d’interaction testable, MVVM, xUnit et CI .NET.</p>
+          <p class="hero-lead">Calculatrice desktop Avalonia avec moteur d’expressions isolé, MVVM, historique, tests xUnit et CI .NET.</p>
           <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
             <div>
               <dt>Objectif</dt>
-              <dd>Isoler le calcul et l’édition de l’interface graphique.</dd>
+              <dd>Concevoir une calculatrice testable au-delà d’une simple logique d’interface.</dd>
             </div>
             <div>
               <dt>Démonstration</dt>
-              <dd>Tokenizer, parser, modèle d’état, MVVM, tests et CI.</dd>
+              <dd>Parser, séparation des couches, MVVM, tests automatisés et CI .NET.</dd>
             </div>
           </dl>
           <div class="project-taxonomy" aria-label="Domaines du projet">
@@ -89,8 +89,8 @@
           </div>
         </div>
         <figure class="project-figure case-study-media" data-project-hero data-reveal>
-          <img src="../assets/img/projects/calcufolio/hero.webp" width="1920" height="1199" decoding="async" fetchpriority="high" alt="Fenêtre Calcufolio avec résultat et historique.">
-          <figcaption>Résultat courant et historique.</figcaption>
+          <img src="../assets/img/projects/calcufolio/hero.webp" width="1920" height="1199" decoding="async" fetchpriority="high" alt="Fenêtre Calcufolio affichant le résultat 72 et plusieurs calculs dans le panneau History.">
+          <figcaption>Résultat courant et historique de plusieurs expressions évaluées.</figcaption>
         </figure>
       </div>
     </article>
@@ -100,12 +100,12 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
-          <p>Tester parsing, évaluation et comportements d’édition sans dépendre d’Avalonia.</p>
+          <p>Construire une calculatrice desktop dont le parsing, l’édition, l’état d’interaction et l’interface restent découplés afin de tester les comportements complexes sans dépendre d’Avalonia.</p>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="role-title">
           <p class="eyebrow">Rôle</p>
           <h2 id="role-title">Mon rôle</h2>
-          <p>Conception d’une application desktop .NET 10 : moteur d’expressions, état d’interaction, UI Avalonia/MVVM, tests et CI.</p>
+          <p>Conception d’une application desktop C#/.NET 10 : moteur d’expressions, modèle d’interaction, architecture en couches, UI Avalonia/MVVM, tests et CI.</p>
           <h2>Stack</h2>
           <div class="tag-list"><span class="tag">C#</span>
                 <span class="tag">.NET 10</span>
@@ -123,12 +123,12 @@
         <div data-reveal>
           <p class="eyebrow">Architecture</p>
           <h2 id="architecture-title">Comment le système est structuré</h2>
-          <ul class="check-list"><li>Domain, Application, Infrastructure et Presentation sont séparés.</li><li>Le moteur d’expressions est indépendant d’Avalonia.</li></ul>
+          <ul class="check-list"><li>Solution séparée en Domain, Application, Infrastructure et Presentation.</li><li>Moteur d’expressions dans la couche Application avec tokenization, parsing, modèle syntaxique, évaluation et erreurs typées.</li><li>Modèle d’interaction basé sur contrôleur, actions, état d’éditeur et reducer pour isoler les comportements de saisie.</li><li>Présentation Avalonia structurée en MVVM avec CommunityToolkit.Mvvm, historique et aperçu de calcul.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Décisions</p>
           <h2>Décisions techniques</h2>
-          <ul class="check-list"><li><strong>Découpler le moteur de l’UI.</strong> Parsing et évaluation sont testés sans instancier le framework graphique.</li></ul>
+          <ul class="check-list"><li><strong>Découpler le moteur d’expressions de l’interface.</strong> Le parsing et l’évaluation restent testables sans instancier Avalonia, ce qui évite de placer la logique de calcul dans les événements de boutons.</li><li><strong>Modéliser l’édition comme un état explicite.</strong> Caret, sélection, insertion, suppression et actions clavier passent par un état et des transformations dédiées plutôt que par des mutations dispersées.</li><li><strong>Utiliser MVVM pour la présentation.</strong> CommunityToolkit.Mvvm réduit le code de liaison tout en gardant le ViewModel indépendant de la vue Avalonia.</li><li><strong>Épingler la toolchain .NET.</strong> global.json fixe le SDK .NET 10 attendu et la CI utilise la même référence pour limiter les divergences entre poste local et runner.</li></ul>
         </div>
       </div>
     </section>
@@ -141,8 +141,8 @@
           <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
         </div>
         <figure class="case-study-media case-study-architecture" data-project-architecture data-reveal>
-          <img src="../assets/img/projects/calcufolio/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma du moteur d’expressions Calcufolio.">
-          <figcaption>Flux d’interaction et moteur d’expressions.</figcaption>
+          <img src="../assets/img/projects/calcufolio/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma du flux Calcufolio depuis Avalonia et les contrôleurs applicatifs jusqu’au tokenizer, parser, évaluateur et moteur de calcul.">
+          <figcaption>Flux d’interaction et moteur d’expressions de Calcufolio.</figcaption>
         </figure>
       </div>
     </section>
@@ -152,12 +152,12 @@
         <div data-reveal>
           <p class="eyebrow">Implémentation</p>
           <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list"><li>Tokenizer, parser, modèle syntaxique et évaluateur séparés.</li><li>Contrôleur, actions, état d’éditeur et reducer pour les interactions.</li><li>Avalonia/MVVM et historique.</li><li>Tests Domain/Application/Presentation et CI GitHub Actions.</li></ul>
+          <ul class="check-list"><li>Moteur d’expressions séparé en tokenizer, parser, modèle syntaxique et évaluateur.</li><li>Services de calcul et d’évaluation indépendants de la couche Avalonia.</li><li>Modèle d’interaction avec contrôleur, actions, état d’éditeur, reducer, sélection, clavier et presse-papiers.</li><li>Présentation Avalonia structurée en MVVM avec CommunityToolkit.Mvvm, aperçu de calcul et historique.</li><li>Tests automatisés des couches Domain, Application et Presentation, notamment tokenizer, parser et évaluateur.</li><li>CI GitHub Actions : syntaxe, ShellCheck, restore, format, build, tests et audit des dépendances NuGet.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Difficultés</p>
           <h2>Difficultés résolues</h2>
-          <ul class="check-list"><li><strong>Maintenir un éditeur cohérent.</strong> Caret, sélection, insertion et suppression doivent produire un état déterministe.</li></ul>
+          <ul class="check-list"><li><strong>Maintenir un éditeur cohérent.</strong> Insertion, backspace, suppression avant, sélection, déplacements du caret et presse-papiers doivent produire un état prévisible quelle que soit l’entrée.</li><li><strong>Évaluer des expressions sans coupler la syntaxe à l’UI.</strong> Tokenizer, parser et evaluator doivent gérer précédence et erreurs de manière déterministe avant que le résultat soit projeté dans le ViewModel.</li><li><strong>Synchroniser aperçu, résultat et historique.</strong> Le ViewModel dérive l’affichage depuis l’état applicatif et reconstruit l’historique sans déplacer la logique de calcul dans la présentation.</li></ul>
         </div>
       </div>
     </section>
@@ -167,12 +167,12 @@
         <div data-reveal>
           <p class="eyebrow">Qualité</p>
           <h2 id="quality-title">Tests et garde-fous</h2>
-          <ul class="check-list"><li>Tests automatisés du moteur et des interactions.</li><li>Formatage et audit NuGet.</li></ul>
+          <ul class="check-list"><li>Tests automatisés sur les couches Domain, Application et Presentation, notamment tokenizer, parser, évaluateur et interactions.</li><li>Vérification dotnet format afin d’éviter les divergences de style dans la solution.</li><li>Audit des dépendances NuGet intégré à la quality gate.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Livraison</p>
           <h2>Livraison et CI/CD</h2>
-          <ul class="check-list"><li>GitHub Actions vérifie build, tests et formatage.</li></ul>
+          <ul class="check-list"><li>Workflow develop : syntaxe, ShellCheck, restore, format, build, tests et audit NuGet.</li><li>Workflows distincts également présents pour testing et main.</li><li>SDK .NET 10 épinglé par global.json et commandes de validation exposées par le Makefile.</li></ul>
         </div>
       </div>
     </section>
@@ -182,12 +182,12 @@
         <div data-reveal>
           <p class="eyebrow">Résultats</p>
           <h2 id="outcomes-title">Résultats observables</h2>
-          <ul class="check-list"><li>Moteur d’expressions et modèle d’édition testables.</li></ul>
+          <ul class="check-list"><li>Une calculatrice dont le moteur d’expressions peut être testé indépendamment du framework graphique.</li><li>Un modèle d’édition capable de représenter sélection et caret plutôt qu’une simple chaîne concaténée.</li><li>Une chaîne CI .NET reproductible qui vérifie compilation, tests, formatage et dépendances.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Compromis</p>
           <h2>Compromis techniques</h2>
-          <ul class="check-list"><li>L’architecture ajoute des couches par rapport à une calculatrice minimale.</li></ul>
+          <ul class="check-list"><li>L’architecture comporte davantage de couches qu’une calculatrice minimale, en échange d’une logique beaucoup plus isolable et testable.</li><li>Un moteur de parsing dédié demande plus de code qu’une évaluation directe depuis l’UI, mais permet de contrôler la syntaxe, les erreurs et la précédence.</li><li>Le projet est encore en cours : l’accent porte actuellement davantage sur les fondations et la qualité que sur un catalogue maximal de fonctions scientifiques.</li></ul>
         </div>
       </div>
     </section>
@@ -197,12 +197,12 @@
         <div data-reveal>
           <p class="eyebrow">Limites</p>
           <h2 id="limits-title">Limites assumées</h2>
-          <ul class="check-list"><li>Projet encore en cours.</li></ul>
+          <ul class="check-list"><li>Le projet reste en cours et n’est pas présenté comme une application finalisée.</li><li>Le README public actuel reste très succinct par rapport à la richesse réelle du dépôt.</li><li>Le périmètre fonctionnel doit encore être consolidé avant de considérer une release utilisateur stable.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Suite</p>
           <h2>Prochaines étapes</h2>
-          <ul class="check-list"><li>Enrichir la documentation publique et préparer le packaging.</li></ul>
+          <ul class="check-list"><li>Enrichir le README public avec architecture, captures, lancement, tests et limites.</li><li>Poursuivre les fonctions de calcul et les comportements d’édition sans contourner le moteur d’état existant.</li><li>Préparer un packaging/release utilisateur lorsque le périmètre fonctionnel sera suffisamment stabilisé.</li></ul>
         </div>
       </div>
     </section>
@@ -216,8 +216,8 @@
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0">
-          <img src="../assets/img/projects/calcufolio/editing.webp" width="1920" height="1199" loading="lazy" decoding="async" alt="Fenêtre Calcufolio avec une expression sélectionnée.">
-          <figcaption>Édition d’expression avec sélection explicite.</figcaption>
+          <img src="../assets/img/projects/calcufolio/editing.webp" width="1920" height="1199" loading="lazy" decoding="async" alt="Fenêtre Calcufolio avec une expression arithmétique et la sous-expression 8 + 4 sélectionnée.">
+          <figcaption>Édition d’expression avec sélection explicite avant évaluation.</figcaption>
         </figure>
         </div>
       </div>
@@ -228,7 +228,7 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Preuve de compétence</p>
           <h2 id="proof-title">Ce que ce projet démontre</h2>
-          <ul class="check-list"><li>Le moteur d’expressions est indépendant du framework graphique.</li><li>Les interactions d’édition sont modélisées comme un état testable.</li></ul>
+          <ul class="check-list"><li>Séparation nette entre parsing d’expressions, logique d’interaction et présentation.</li><li>Gestion testable des cas limites d’édition et d’évaluation.</li><li>Industrialisation .NET avec SDK épinglé, tests, formatage, audit et CI.</li></ul>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="continue-title">
           <h2 id="continue-title">Continuer la visite</h2>
