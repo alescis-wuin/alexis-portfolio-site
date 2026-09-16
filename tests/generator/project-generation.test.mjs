@@ -227,7 +227,7 @@ test("les cartes projet utilisent le hero produit et des actions explicites", ()
   assert.ok(catalogHtml.includes('class="project-repository-link"'));
 });
 
-test("le hero éditorial expose objectif et démonstration", () => {
+test("le hero éditorial expose objectif et points clés", () => {
   assertGeneratorSuccess(runGenerator());
 
   const catalog = JSON.parse(
@@ -243,7 +243,8 @@ test("le hero éditorial expose objectif et démonstration", () => {
 
   assert.ok(html.includes("data-project-overview"));
   assert.ok(html.includes("<dt>Objectif</dt>"));
-  assert.ok(html.includes("<dt>Démonstration</dt>"));
+  assert.ok(html.includes("<dt>Points clés</dt>"));
+  assert.ok(!html.includes("<dt>Démonstration</dt>"));
   assert.ok(html.includes(published.mission));
   assert.ok(html.includes(published.proof));
   assert.ok(html.includes(`<p class="hero-lead">${published.summary}</p>`));

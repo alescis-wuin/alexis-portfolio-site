@@ -65,7 +65,7 @@
         <div class="section-heading reading">
           <p class="eyebrow">Catalogue</p>
           <h1>Projets et études de cas</h1>
-          <p>Les filtres sont produits depuis la même source de données que les pages projet, le portfolio d’accueil, le sitemap et les tests.</p>
+          <p>Parcourez les projets par langage, type, stack ou statut, puis ouvrez une étude de cas pour consulter l’architecture, les choix techniques et les limites actuelles.</p>
         </div>
 
         {{FILTERS}}
