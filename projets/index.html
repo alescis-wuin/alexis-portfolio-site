@@ -80,14 +80,14 @@
               <span>Type</span>
               <select data-filter-group="type">
                 <option value="all">Tous</option>
-                <option value="web">Web</option><option value="backend">Backend</option><option value="fullstack">Full-stack</option><option value="desktop">Desktop</option><option value="mobile">Mobile</option><option value="data">Données</option><option value="devops">DevOps</option><option value="architecture">Architecture</option><option value="accessibility">Accessibilité</option>
+                <option value="web">Web</option><option value="backend">Backend</option><option value="fullstack">Full-stack</option><option value="desktop">Desktop</option><option value="mobile">Mobile</option><option value="data">Données</option><option value="devops">DevOps</option><option value="architecture">Architecture</option><option value="accessibility">Accessibilité</option><option value="ai">IA</option>
               </select>
             </label>
           <label class="project-filter-control">
               <span>Stack</span>
               <select data-filter-group="stack">
                 <option value="all">Tous</option>
-                <option value="spring-boot">Spring Boot</option><option value="postgresql">PostgreSQL</option><option value="redis">Redis</option><option value="minio">MinIO</option><option value="docker">Docker</option><option value="hls">HLS</option><option value="playwright">Playwright</option><option value="javafx">JavaFX</option><option value="atlantafx">AtlantaFX</option><option value="rest">REST</option><option value="maven">Maven</option><option value="tests">Tests</option><option value="github-actions">GitHub Actions</option><option value="java-21">Java 21</option><option value="aspnet-core">ASP.NET Core</option><option value="ef-core">Entity Framework Core</option><option value="avalonia">Avalonia</option><option value="maui">.NET MAUI</option><option value="xunit">xUnit</option><option value="dotnet-10">.NET 10</option><option value="communitytoolkit-mvvm">CommunityToolkit.Mvvm</option><option value="blazor">Blazor</option><option value="sqlite">SQLite</option>
+                <option value="spring-boot">Spring Boot</option><option value="postgresql">PostgreSQL</option><option value="redis">Redis</option><option value="minio">MinIO</option><option value="docker">Docker</option><option value="hls">HLS</option><option value="playwright">Playwright</option><option value="javafx">JavaFX</option><option value="atlantafx">AtlantaFX</option><option value="rest">REST</option><option value="maven">Maven</option><option value="tests">Tests</option><option value="github-actions">GitHub Actions</option><option value="java-26">Java 26</option><option value="aspnet-core">ASP.NET Core</option><option value="ef-core">Entity Framework Core</option><option value="avalonia">Avalonia</option><option value="maui">.NET MAUI</option><option value="xunit">xUnit</option><option value="dotnet-10">.NET 10</option><option value="communitytoolkit-mvvm">CommunityToolkit.Mvvm</option><option value="blazor">Blazor</option><option value="sqlite">SQLite</option><option value="llama-cpp">llama.cpp</option><option value="hugging-face">Hugging Face</option><option value="gguf">GGUF</option>
               </select>
             </label>
           <label class="project-filter-control">
@@ -100,7 +100,7 @@
         </div>
 
         <div class="project-catalog-status" aria-live="polite">
-          <span data-project-count>5 projet(s)</span>
+          <span data-project-count>6 projet(s)</span>
           <button class="button button-small button-ghost" type="button" data-filter-reset>Réinitialiser les filtres</button>
         </div>
 
@@ -122,11 +122,11 @@
               <dl class="project-facts">
                 <div>
                   <dt>Mission</dt>
-                  <dd>Construire un produit web complet et démonstratif.</dd>
+                  <dd>Concevoir une plateforme vidéo full-stack avec un pipeline média persistant.</dd>
                 </div>
                 <div>
                   <dt>Preuve</dt>
-                  <dd>Sécurité, streaming, traitement asynchrone, Docker et tests.</dd>
+                  <dd>Sécurité, streaming, traitements asynchrones, stockage objet, tests et CI.</dd>
                 </div>
               </dl>
               <div class="project-stack" aria-label="Technologies principales">
@@ -159,15 +159,15 @@
                 <p class="project-kicker">Gestionnaire de tâches et Kanban avancé</p>
                 <h3><a href="./kanban.html">Kanban</a></h3>
               </div>
-              <p class="project-summary">Gestionnaire .NET 10 orienté métier : vues Liste/Kanban, règles WIP, récurrence, API REST et persistance SQLite.</p>
+              <p class="project-summary">Gestionnaire .NET 10 avec vues Liste/Kanban, règles WIP, récurrence, API REST et persistance SQLite.</p>
               <dl class="project-facts">
                 <div>
                   <dt>Mission</dt>
-                  <dd>Construire une application métier Web au-delà d’un CRUD de tâches.</dd>
+                  <dd>Modéliser les règles métier d’un gestionnaire de tâches au-delà d’un simple CRUD.</dd>
                 </div>
                 <div>
                   <dt>Preuve</dt>
-                  <dd>Règles WIP, Blazor, API, EF Core, accessibilité, tests et CI.</dd>
+                  <dd>Règles WIP, Blazor, API REST, EF Core/SQLite, tests et CI.</dd>
                 </div>
               </dl>
               <div class="project-stack" aria-label="Technologies principales">
@@ -196,18 +196,18 @@
                 <span class="project-status">Prototype</span>
               </div>
               <div class="project-heading">
-                <p class="project-kicker">Agenda accessible Web et MAUI</p>
+                <p class="project-kicker">Agenda multi-hôte Web et MAUI</p>
                 <h3><a href="./agenda.html">Agenda</a></h3>
               </div>
               <p class="project-summary">Agenda .NET 10 partagé entre Web Blazor et MAUI, avec calendrier, événements, API REST et persistance SQLite.</p>
               <dl class="project-facts">
                 <div>
                   <dt>Mission</dt>
-                  <dd>Partager une même interface métier entre Web et application hybride.</dd>
+                  <dd>Partager interface et cas d’usage entre plusieurs hôtes .NET.</dd>
                 </div>
                 <div>
                   <dt>Preuve</dt>
-                  <dd>Blazor, MAUI, API, EF Core, architecture multi-hôte, tests et CI.</dd>
+                  <dd>Blazor, MAUI, API REST, EF Core/SQLite, architecture multi-hôte, tests et CI.</dd>
                 </div>
               </dl>
               <div class="project-stack" aria-label="Technologies principales">
@@ -239,15 +239,15 @@
                 <p class="project-kicker">Calculatrice desktop à moteur d’expressions</p>
                 <h3><a href="./calcufolio.html">Calcufolio</a></h3>
               </div>
-              <p class="project-summary">Calculatrice desktop Avalonia avec moteur d’expressions isolé, MVVM, historique, tests xUnit et CI .NET.</p>
+              <p class="project-summary">Calculatrice Avalonia avec moteur d’expressions isolé, modèle d’interaction testable, MVVM, xUnit et CI .NET.</p>
               <dl class="project-facts">
                 <div>
                   <dt>Mission</dt>
-                  <dd>Concevoir une calculatrice testable au-delà d’une simple logique d’interface.</dd>
+                  <dd>Isoler le calcul et l’édition de l’interface graphique.</dd>
                 </div>
                 <div>
                   <dt>Preuve</dt>
-                  <dd>Parser, séparation des couches, MVVM, tests automatisés et CI .NET.</dd>
+                  <dd>Tokenizer, parser, modèle d’état, MVVM, tests et CI.</dd>
                 </div>
               </dl>
               <div class="project-stack" aria-label="Technologies principales">
@@ -266,34 +266,34 @@
               </div>
             </div>
           </article>
-          <article class="project-card project-card-playful" data-project-card data-project-slug="aelia" data-language="java" data-type="desktop accessibility architecture" data-stack="java-21 javafx atlantafx maven tests github-actions" data-status="prototype" data-reveal>
+          <article class="project-card project-card-playful" data-project-card data-project-slug="aelia" data-language="java" data-type="desktop accessibility architecture data" data-stack="java-26 javafx atlantafx maven tests github-actions" data-status="in-progress" data-reveal>
             <a class="project-media" href="./aelia.html" aria-label="Lire l’étude de cas Aelia">
               <img src="../assets/img/projects/aelia/hero.webp" width="1920" height="1204" loading="lazy" decoding="async" alt="">
             </a>
             <div class="project-body">
               <div class="project-signal">
                 <span class="project-index" aria-hidden="true">05</span>
-                <span class="project-status">Prototype</span>
+                <span class="project-status">En cours</span>
               </div>
               <div class="project-heading">
-                <p class="project-kicker">Application météo desktop</p>
+                <p class="project-kicker">Application météo desktop multi-fournisseurs</p>
                 <h3><a href="./aelia.html">Aelia</a></h3>
               </div>
-              <p class="project-summary">Application météo JavaFX centrée sur la lisibilité, l’accessibilité clavier et l’abstraction des fournisseurs météo.</p>
+              <p class="project-summary">Application météo JavaFX avec fournisseurs distants et fallback, qualité de l’air, UV, pollens et carte interactive native.</p>
               <dl class="project-facts">
                 <div>
                   <dt>Mission</dt>
-                  <dd>Rendre une donnée météo lisible dans une app desktop.</dd>
+                  <dd>Agréger plusieurs sources météo dans une interface desktop lisible et résiliente.</dd>
                 </div>
                 <div>
                   <dt>Preuve</dt>
-                  <dd>Adaptateurs, interface clavier, tests, Maven et CI.</dd>
+                  <dd>Fournisseurs distants, stratégie de fallback, carte JavaFX native, cache, tests Maven et CI.</dd>
                 </div>
               </dl>
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">
-                  <span class="tag">Java 21</span>
+                  <span class="tag">Java 26</span>
                 <span class="tag">JavaFX</span>
                 <span class="tag">AtlantaFX</span>
                 <span class="tag">Maven</span>
@@ -303,6 +303,46 @@
               <div class="card-actions project-actions">
                 <a class="project-read-link" href="./aelia.html">Étude de cas <span aria-hidden="true">→</span></a>
                 <a class="project-repository-link" href="https://github.com/alescis-wuin/Aelia" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de Aelia">GitHub <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card project-card-playful" data-project-card data-project-slug="alycia" data-language="csharp" data-type="desktop ai architecture" data-stack="dotnet-10 avalonia llama-cpp hugging-face gguf xunit tests github-actions" data-status="in-progress" data-reveal>
+            <a class="project-media" href="./alycia.html" aria-label="Lire l’étude de cas Alycia">
+              <img src="../assets/img/projects/alycia/hero.webp" width="1280" height="720" loading="lazy" decoding="async" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-signal">
+                <span class="project-index" aria-hidden="true">06</span>
+                <span class="project-status">En cours</span>
+              </div>
+              <div class="project-heading">
+                <p class="project-kicker">Application desktop d’IA locale</p>
+                <h3><a href="./alycia.html">Alycia</a></h3>
+              </div>
+              <p class="project-summary">Application desktop C#/.NET et Avalonia pour conversations persistantes et inférence locale via llama.cpp CUDA et modèles GGUF.</p>
+              <dl class="project-facts">
+                <div>
+                  <dt>Mission</dt>
+                  <dd>Fournir une expérience de conversation locale en gardant le fournisseur d’inférence derrière des contrats applicatifs.</dd>
+                </div>
+                <div>
+                  <dt>Preuve</dt>
+                  <dd>Architecture en couches, persistance locale, llama.cpp CUDA, GGUF Hugging Face, streaming contenu/raisonnement, tests et observabilité locale.</dd>
+                </div>
+              </dl>
+              <div class="project-stack" aria-label="Technologies principales">
+                <span class="project-metadata-label">Technologies</span>
+                <div class="tag-list">
+                  <span class="tag">.NET 10</span>
+                <span class="tag">Avalonia</span>
+                <span class="tag">llama.cpp</span>
+                <span class="tag">Hugging Face</span>
+                <span class="tag">GGUF</span>
+                </div>
+              </div>
+              <div class="card-actions project-actions">
+                <a class="project-read-link" href="./alycia.html">Étude de cas <span aria-hidden="true">→</span></a>
+                <a class="project-repository-link" href="https://github.com/alescis-wuin/alycia" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de Alycia">GitHub <span aria-hidden="true">↗</span></a>
               </div>
             </div>
           </article>

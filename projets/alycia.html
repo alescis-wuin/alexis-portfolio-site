@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Calculatrice desktop C#/.NET 10 avec Avalonia, tokenizer, parser, évaluateur, MVVM, tests automatisés et CI GitHub Actions.">
+  <meta name="description" content="Application desktop d’IA locale en C#/.NET et Avalonia avec conversations persistantes, llama.cpp CUDA, modèles GGUF Hugging Face, streaming et configuration de génération.">
   <meta name="author" content="Alexis Guinot">
   <meta name="color-scheme" content="dark light">
-  <meta property="og:title" content="Calcufolio — Étude de cas | Alexis Guinot">
-  <meta property="og:description" content="Calculatrice desktop C#/.NET 10 avec Avalonia, tokenizer, parser, évaluateur, MVVM, tests automatisés et CI GitHub Actions.">
+  <meta property="og:title" content="Alycia — Étude de cas | Alexis Guinot">
+  <meta property="og:description" content="Application desktop d’IA locale en C#/.NET et Avalonia avec conversations persistantes, llama.cpp CUDA, modèles GGUF Hugging Face, streaming et configuration de génération.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/calcufolio.html">
+  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/alycia.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
   <meta name="theme-color" content="#0B1020">
-  <title>Calcufolio — Étude de cas | Alexis Guinot</title>
-  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/calcufolio.html">
+  <title>Alycia — Étude de cas | Alexis Guinot</title>
+  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/alycia.html">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
@@ -28,7 +28,7 @@
   </script>
 </head>
 
-<body data-project-slug="calcufolio">
+<body data-project-slug="alycia">
   <a class="skip-link" href="#contenu">Aller au contenu principal</a>
   <header class="site-header" data-site-header>
     <div class="content-shell header-inner">
@@ -63,34 +63,35 @@
       <div class="frame project-detail-grid">
         <div class="project-detail-copy" data-reveal>
           <div class="project-detail-signal">
-            <p class="eyebrow">Calculatrice desktop à moteur d’expressions</p>
+            <p class="eyebrow">Application desktop d’IA locale</p>
             <span class="project-detail-status">En cours</span>
           </div>
-          <h1>Calcufolio</h1>
-          <p class="hero-lead">Calculatrice Avalonia avec moteur d’expressions isolé, modèle d’interaction testable, MVVM, xUnit et CI .NET.</p>
+          <h1>Alycia</h1>
+          <p class="hero-lead">Application desktop C#/.NET et Avalonia pour conversations persistantes et inférence locale via llama.cpp CUDA et modèles GGUF.</p>
           <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
             <div>
               <dt>Objectif</dt>
-              <dd>Isoler le calcul et l’édition de l’interface graphique.</dd>
+              <dd>Fournir une expérience de conversation locale en gardant le fournisseur d’inférence derrière des contrats applicatifs.</dd>
             </div>
             <div>
               <dt>Démonstration</dt>
-              <dd>Tokenizer, parser, modèle d’état, MVVM, tests et CI.</dd>
+              <dd>Architecture en couches, persistance locale, llama.cpp CUDA, GGUF Hugging Face, streaming contenu/raisonnement, tests et observabilité locale.</dd>
             </div>
           </dl>
           <div class="project-taxonomy" aria-label="Domaines du projet">
             <span class="project-metadata-label">Domaines</span>
             <div class="tag-list"><span class="tag">Desktop</span>
+                <span class="tag">IA</span>
                 <span class="tag">Architecture</span></div>
           </div>
           <div class="hero-actions">
-            <a class="button button-secondary project-repository-button" href="https://github.com/alescis-wuin/calcufolio" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary project-repository-button" href="https://github.com/alescis-wuin/alycia" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>
         <figure class="project-figure case-study-media" data-project-hero data-reveal>
-          <img src="../assets/img/projects/calcufolio/hero.webp" width="1920" height="1199" decoding="async" fetchpriority="high" alt="Fenêtre Calcufolio avec résultat et historique.">
-          <figcaption>Résultat courant et historique.</figcaption>
+          <img src="../assets/img/projects/alycia/hero.webp" width="1280" height="720" decoding="async" fetchpriority="high" alt="Illustration schématique d’Alycia montrant une interface de conversation locale et les technologies principales.">
+          <figcaption>Illustration schématique du flux de conversation locale Alycia.</figcaption>
         </figure>
       </div>
     </article>
@@ -100,17 +101,19 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
-          <p>Tester parsing, évaluation et comportements d’édition sans dépendre d’Avalonia.</p>
+          <p>Intégrer une inférence locale réelle sans coupler le domaine de conversation au runtime llama.cpp, tout en contrôlant installation, configuration, streaming, annulation et erreurs.</p>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="role-title">
           <p class="eyebrow">Rôle</p>
           <h2 id="role-title">Mon rôle</h2>
-          <p>Conception d’une application desktop .NET 10 : moteur d’expressions, état d’interaction, UI Avalonia/MVVM, tests et CI.</p>
+          <p>Conception et développement d’une application desktop d’IA locale en C#/.NET et Avalonia : conversations, persistance, génération/streaming, adaptateur llama.cpp CUDA, configuration modèle, tests et observabilité.</p>
           <h2>Stack</h2>
           <div class="tag-list"><span class="tag">C#</span>
                 <span class="tag">.NET 10</span>
                 <span class="tag">Avalonia</span>
-                <span class="tag">CommunityToolkit.Mvvm</span>
+                <span class="tag">llama.cpp</span>
+                <span class="tag">Hugging Face</span>
+                <span class="tag">GGUF</span>
                 <span class="tag">xUnit</span>
                 <span class="tag">Tests</span>
                 <span class="tag">GitHub Actions</span></div>
@@ -123,12 +126,12 @@
         <div data-reveal>
           <p class="eyebrow">Architecture</p>
           <h2 id="architecture-title">Comment le système est structuré</h2>
-          <ul class="check-list"><li>Domain, Application, Infrastructure et Presentation sont séparés.</li><li>Le moteur d’expressions est indépendant d’Avalonia.</li></ul>
+          <ul class="check-list"><li>La couche Domain porte le modèle de conversation ; Application définit les cas d’usage et ports.</li><li>Presentation fournit l’interface Avalonia ; Desktop sert de composition root.</li><li>Infrastructure contient la persistance JSON, les appels HTTP et l’adaptateur llama.cpp local.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Décisions</p>
           <h2>Décisions techniques</h2>
-          <ul class="check-list"><li><strong>Découpler le moteur de l’UI.</strong> Parsing et évaluation sont testés sans instancier le framework graphique.</li></ul>
+          <ul class="check-list"><li><strong>Garder le fournisseur hors du domaine.</strong> Les contrats de génération et de cycle de vie sont définis côté Application puis implémentés par Infrastructure.</li><li><strong>Ne pas rejouer automatiquement une génération.</strong> Les retries automatiques restent limités aux GET idempotents ; une nouvelle génération exige une action utilisateur explicite.</li><li><strong>Séparer contenu et reasoning.</strong> Le flux UI distingue les deltas visibles du raisonnement et ne persiste que la réponse Assistant terminée.</li></ul>
         </div>
       </div>
     </section>
@@ -141,8 +144,8 @@
           <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
         </div>
         <figure class="case-study-media case-study-architecture" data-project-architecture data-reveal>
-          <img src="../assets/img/projects/calcufolio/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma du moteur d’expressions Calcufolio.">
-          <figcaption>Flux d’interaction et moteur d’expressions.</figcaption>
+          <img src="../assets/img/projects/alycia/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma des couches Desktop, Presentation, Application, Domain et Infrastructure d’Alycia avec llama.cpp.">
+          <figcaption>Architecture en couches et adaptateur local llama.cpp.</figcaption>
         </figure>
       </div>
     </section>
@@ -152,12 +155,12 @@
         <div data-reveal>
           <p class="eyebrow">Implémentation</p>
           <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list"><li>Tokenizer, parser, modèle syntaxique et évaluateur séparés.</li><li>Contrôleur, actions, état d’éditeur et reducer pour les interactions.</li><li>Avalonia/MVVM et historique.</li><li>Tests Domain/Application/Presentation et CI GitHub Actions.</li></ul>
+          <ul class="check-list"><li>Cœur de conversation indépendant du fournisseur avec persistance locale JSON et opérations de cycle de vie testées.</li><li>Interface Avalonia avec espaces Conversations, Provider et Models.</li><li>Adaptateur local llama.cpp CUDA réel, détection/installation gérée sur Linux x64 et cycle de vie explicite.</li><li>Configuration d’un modèle GGUF Hugging Face et des paramètres de génération, dont le reasoning borné.</li><li>Streaming SSE séparant contenu visible et reasoning ; seule la réponse Assistant terminée est persistée.</li><li>Stop et retry explicite sans replay automatique des requêtes de génération.</li><li>Observabilité locale bornée et sans contenu : latences, tokens, version fournisseur et classification sûre des échecs.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Difficultés</p>
           <h2>Difficultés résolues</h2>
-          <ul class="check-list"><li><strong>Maintenir un éditeur cohérent.</strong> Caret, sélection, insertion et suppression doivent produire un état déterministe.</li></ul>
+          <ul class="check-list"><li><strong>Piloter un runtime local.</strong> Détection, installation, démarrage, readiness, ownership et arrêt sont gérés sans exposer de secrets sur la ligne de commande.</li><li><strong>Conserver une UI lisible pendant le streaming.</strong> Le suivi de scroll, l’annulation et le retry restent contrôlés par l’utilisateur.</li></ul>
         </div>
       </div>
     </section>
@@ -167,12 +170,12 @@
         <div data-reveal>
           <p class="eyebrow">Qualité</p>
           <h2 id="quality-title">Tests et garde-fous</h2>
-          <ul class="check-list"><li>Tests automatisés du moteur et des interactions.</li><li>Formatage et audit NuGet.</li></ul>
+          <ul class="check-list"><li>Tests des couches Domain, Application, Infrastructure, Presentation et Architecture.</li><li>La frontière Presentation → Infrastructure est vérifiée automatiquement.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Livraison</p>
           <h2>Livraison et CI/CD</h2>
-          <ul class="check-list"><li>GitHub Actions vérifie build, tests et formatage.</li></ul>
+          <ul class="check-list"><li>Toolchain .NET 10 épinglée.</li><li>Les commandes Makefile regroupent build, tests, architecture et vérifications.</li></ul>
         </div>
       </div>
     </section>
@@ -182,12 +185,12 @@
         <div data-reveal>
           <p class="eyebrow">Résultats</p>
           <h2 id="outcomes-title">Résultats observables</h2>
-          <ul class="check-list"><li>Moteur d’expressions et modèle d’édition testables.</li></ul>
+          <ul class="check-list"><li>Conversation locale persistante avec génération et streaming réels via llama.cpp.</li><li>Gestion explicite du fournisseur, du modèle et de la maintenance locale.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Compromis</p>
           <h2>Compromis techniques</h2>
-          <ul class="check-list"><li>L’architecture ajoute des couches par rapport à une calculatrice minimale.</li></ul>
+          <ul class="check-list"><li>L’installation gérée de llama.cpp CUDA cible actuellement Linux x64 avec NVIDIA ; les autres hôtes peuvent utiliser un runtime compatible déjà installé.</li><li>Le reasoning affiché reste un snapshot Presentation en mémoire dans l’état actuel.</li></ul>
         </div>
       </div>
     </section>
@@ -197,12 +200,12 @@
         <div data-reveal>
           <p class="eyebrow">Limites</p>
           <h2 id="limits-title">Limites assumées</h2>
-          <ul class="check-list"><li>Projet encore en cours.</li></ul>
+          <ul class="check-list"><li>Pas de tool calling, RAG/retrieval, pièces jointes ou multimodalité.</li><li>Installation gérée CUDA limitée à Linux x64 pour le lot actuel.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Suite</p>
           <h2>Prochaines étapes</h2>
-          <ul class="check-list"><li>Enrichir la documentation publique et préparer le packaging.</li></ul>
+          <ul class="check-list"><li>Étendre les capacités uniquement par lots atomiques derrière les contrats existants.</li></ul>
         </div>
       </div>
     </section>
@@ -216,8 +219,8 @@
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0">
-          <img src="../assets/img/projects/calcufolio/editing.webp" width="1920" height="1199" loading="lazy" decoding="async" alt="Fenêtre Calcufolio avec une expression sélectionnée.">
-          <figcaption>Édition d’expression avec sélection explicite.</figcaption>
+          <img src="../assets/img/projects/alycia/configuration.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Illustration schématique des espaces Provider, Models et Conversation d’Alycia.">
+          <figcaption>Illustration schématique de la configuration fournisseur, modèle et conversation.</figcaption>
         </figure>
         </div>
       </div>
@@ -228,7 +231,7 @@
         <div class="content-block" data-reveal>
           <p class="eyebrow">Preuve de compétence</p>
           <h2 id="proof-title">Ce que ce projet démontre</h2>
-          <ul class="check-list"><li>Le moteur d’expressions est indépendant du framework graphique.</li><li>Les interactions d’édition sont modélisées comme un état testable.</li></ul>
+          <ul class="check-list"><li>Les contrats Application restent indépendants de llama.cpp, CUDA et HTTP.</li><li>Les conversations et la configuration fournisseur/modèle sont persistées localement sans stocker les secrets dans les documents de conversation.</li><li>Tool calling, retrieval/RAG, attachments et multimodalité sont explicitement différés et ne sont pas présentés comme implémentés.</li></ul>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="continue-title">
           <h2 id="continue-title">Continuer la visite</h2>
