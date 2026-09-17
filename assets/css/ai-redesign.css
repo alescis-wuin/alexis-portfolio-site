@@ -197,7 +197,7 @@
   }
 
   .section-rail a[aria-current="location"] {
-    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.16);
+    box-shadow: var(--shadow-sm);
   }
 
   .rail-index {
@@ -380,7 +380,7 @@
       border: 1px solid var(--border);
       border-radius: 1rem;
       background: var(--bg-elevated);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-md);
       padding: 0.65rem;
     }
 

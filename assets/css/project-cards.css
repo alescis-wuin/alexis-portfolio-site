@@ -121,6 +121,16 @@
   font-size: var(--text-ui);
   font-weight: 820;
   line-height: 1;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.project-read-link:active,
+.project-repository-link:active {
+  transform: scale(0.985);
 }
 
 .project-read-link {
@@ -182,8 +192,8 @@
 }
 
 .project-filter-control select:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 3px;
+  outline: var(--focus-outline-width) solid var(--accent);
+  outline-offset: var(--focus-outline-offset);
 }
 
 .project-catalog-status {
@@ -427,12 +437,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .project-card-playful[data-project-slug] {
+  .project-card-playful[data-project-slug],
+  .project-read-link,
+  .project-repository-link {
     transition: none;
   }
 
   .project-card-playful[data-project-slug]:hover,
-  .project-card-playful[data-project-slug]:focus-within {
+  .project-card-playful[data-project-slug]:focus-within,
+  .project-read-link:active,
+  .project-repository-link:active {
     transform: none;
   }
 }

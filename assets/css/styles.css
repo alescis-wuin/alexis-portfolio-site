@@ -199,7 +199,11 @@
   }
 
   a:focus-visible,
-  button:focus-visible {
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible {
     outline: var(--focus-outline-width) solid var(--accent);
     outline-offset: var(--focus-outline-offset);
   }
@@ -464,9 +468,28 @@
     transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
   }
 
-  .button:hover,
-  .filter-button:hover {
-    transform: translateY(-1px);
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover,
+    .filter-button:hover,
+    .nav-toggle:hover {
+      transform: translateY(-1px);
+    }
+
+    .nav-toggle:hover {
+      background: var(--surface-2);
+      border-color: var(--border-strong);
+    }
+  }
+
+  .button:active,
+  .filter-button:active,
+  .nav-toggle:active {
+    transform: scale(0.985);
+  }
+
+  .nav-toggle[aria-expanded='true'] {
+    background: var(--surface-2);
+    border-color: var(--border-strong);
   }
 
   .button {
@@ -507,6 +530,10 @@
     border-radius: 999px;
     background: var(--surface);
     border: 1px solid var(--border);
+    transition:
+      transform 180ms ease,
+      background-color 180ms ease,
+      border-color 180ms ease;
   }
 
   .nav-toggle-bars,
@@ -650,7 +677,7 @@
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     background: color-mix(in srgb, var(--surface) 82%, transparent);
-    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-sm);
   }
 
   .value-card,
@@ -910,8 +937,20 @@
     .project-media img,
     .button,
     .filter-button,
+    .nav-toggle,
     .project-card {
       transition: none;
+    }
+
+    .button:hover,
+    .button:active,
+    .filter-button:hover,
+    .filter-button:active,
+    .nav-toggle:hover,
+    .nav-toggle:active,
+    .project-card:hover,
+    .project-card:hover .project-media img {
+      transform: none;
     }
   }
 
@@ -942,7 +981,7 @@
       border: 1px solid var(--border);
       border-radius: 1rem;
       background: var(--bg-elevated);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-md);
     }
 
     :root[data-js='true'] .site-nav.is-open {

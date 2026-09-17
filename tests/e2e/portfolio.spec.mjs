@@ -308,6 +308,102 @@ test("le snap vertical reste réservé aux viewports suffisamment hauts", async 
   await expectNoHorizontalOverflow(page);
 });
 
+test("les états interactifs restent explicites et respectent reduced motion", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(
+    isMobile,
+    "Le contrat interactif explicite est exécuté une seule fois sur Chromium desktop.",
+  );
+
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+
+  await page.keyboard.press("Tab");
+
+  const focusState = await page.evaluate(() => {
+    const element = globalThis.document.activeElement;
+    const style = globalThis.getComputedStyle(element);
+
+    return {
+      focusVisible: element.matches(":focus-visible"),
+      outlineWidth: Number.parseFloat(style.outlineWidth),
+      outlineOffset: Number.parseFloat(style.outlineOffset),
+    };
+  });
+
+  expect(focusState.focusVisible).toBe(true);
+  expect(focusState.outlineWidth).toBeGreaterThanOrEqual(3);
+  expect(focusState.outlineOffset).toBeGreaterThanOrEqual(4);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  const navToggle = page.locator(".nav-toggle").first();
+  await expect(navToggle).toBeVisible();
+
+  const closedState = await navToggle.evaluate((node) => {
+    const style = globalThis.getComputedStyle(node);
+
+    return {
+      background: style.backgroundColor,
+      border: style.borderTopColor,
+    };
+  });
+
+  await navToggle.click();
+  await expect(navToggle).toHaveAttribute("aria-expanded", "true");
+
+  await expect
+    .poll(async () =>
+      navToggle.evaluate(
+        (node) => globalThis.getComputedStyle(node).backgroundColor,
+      ),
+    )
+    .not.toBe(closedState.background);
+
+  await expect
+    .poll(async () =>
+      navToggle.evaluate(
+        (node) => globalThis.getComputedStyle(node).borderTopColor,
+      ),
+    )
+    .not.toBe(closedState.border);
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto("/");
+
+  const action = page.locator(".button").first();
+  await expect(action).toBeVisible();
+  await action.hover();
+
+  expect(
+    await action.evaluate(
+      (node) => globalThis.getComputedStyle(node).transform,
+    ),
+  ).toBe("none");
+
+  const projectCard = page.locator("#projets [data-project-card]").first();
+  const projectImage = projectCard.locator(".project-media img");
+
+  await projectCard.hover();
+
+  expect(
+    await projectCard.evaluate(
+      (node) => globalThis.getComputedStyle(node).transform,
+    ),
+  ).toBe("none");
+
+  expect(
+    await projectImage.evaluate(
+      (node) => globalThis.getComputedStyle(node).transform,
+    ),
+  ).toBe("none");
+});
+
 test("le catalogue complet expose tous les projets", async ({ page }) => {
   const response = await page.goto("/projets/");
 
