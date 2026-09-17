@@ -9,7 +9,7 @@ Le plan canonique est défini dans `tests/visual/visual-cases.mjs`.
 Profils fixes :
 
 - `390x844` mobile ;
-- `1280x800` laptop bas ;
+- `1366x768` laptop bas et viewport de référence de la phase 2.2 ;
 - `1920x800` desktop large et bas ;
 - `1920x1080` 16:9 ;
 - `2560x1080` ultrawide proche de 21:9 ;
@@ -17,12 +17,13 @@ Profils fixes :
 
 Les scènes couvrent :
 
+- le hero et le shell initial de l'accueil ;
 - la section Projets de l'accueil ;
 - le catalogue ;
-- le masthead des cinq projets publics ;
-- le diagramme d'architecture des cinq projets publics.
+- le masthead des six projets publics ;
+- le diagramme d'architecture des six projets publics.
 
-Le plan produit 34 captures aux noms stables sous `artifacts/visual/captures/`.
+Le plan produit 45 captures aux noms stables sous `artifacts/visual/captures/`.
 
 ## Déterminisme
 

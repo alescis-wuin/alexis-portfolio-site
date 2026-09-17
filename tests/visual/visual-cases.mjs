@@ -1,6 +1,6 @@
 export const visualProfiles = Object.freeze([
   { id: "mobile", width: 390, height: 844 },
-  { id: "laptop-low", width: 1280, height: 800 },
+  { id: "laptop-low", width: 1366, height: 768 },
   { id: "desktop-low", width: 1920, height: 800 },
   { id: "full-hd", width: 1920, height: 1080 },
   { id: "ultrawide", width: 2560, height: 1080 },
@@ -21,6 +21,12 @@ const heroProfiles = ["mobile", "desktop-low", "ultrawide"];
 const architectureProfiles = ["full-hd", "ultrawide"];
 
 export const visualScenes = Object.freeze([
+  {
+    id: "home-hero",
+    path: "/",
+    focus: "#accueil",
+    profiles: allProfiles,
+  },
   {
     id: "home-projects",
     path: "/",

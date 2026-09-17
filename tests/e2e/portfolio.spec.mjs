@@ -29,6 +29,13 @@ const responsiveProfiles = [
     catalog: 2,
   },
   { name: "laptop", width: 1280, height: 800, featured: 2, catalog: 3 },
+  {
+    name: "laptop-low",
+    width: 1366,
+    height: 768,
+    featured: 2,
+    catalog: 3,
+  },
   { name: "desktop", width: 1440, height: 900, featured: 2, catalog: 3 },
   { name: "full-hd", width: 1920, height: 1080, featured: 4, catalog: 4 },
   { name: "ultrawide", width: 2560, height: 1080, featured: 4, catalog: 4 },

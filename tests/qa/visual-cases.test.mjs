@@ -29,7 +29,21 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
 
   assert.equal(new Set(profileIds).size, profileIds.length);
   assert.equal(new Set(sceneIds).size, sceneIds.length);
-  assert.equal(visualCaptureCount(), 39);
+
+  assert.deepEqual(visualProfiles, [
+    { id: "mobile", width: 390, height: 844 },
+    { id: "laptop-low", width: 1366, height: 768 },
+    { id: "desktop-low", width: 1920, height: 800 },
+    { id: "full-hd", width: 1920, height: 1080 },
+    { id: "ultrawide", width: 2560, height: 1080 },
+    { id: "ultrawide-large", width: 3440, height: 1440 },
+  ]);
+
+  const homeHeroScene = visualScenes.find((scene) => scene.id === "home-hero");
+  assert.ok(homeHeroScene);
+  assert.deepEqual(homeHeroScene.profiles, profileIds);
+
+  assert.equal(visualCaptureCount(), 45);
 
   for (const profile of visualProfiles) {
     assert.ok(profile.width >= 320);
