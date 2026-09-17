@@ -90,8 +90,26 @@ test("les projets publiés respectent le même contrat éditorial à la source",
   }
 });
 
+test("la page d’accueil suit l’architecture d’information P2.1", () => {
+  const sectionIds = [
+    ...home.matchAll(/<section id="([^"]+)"[^>]*data-section/gu),
+  ].map((match) => match[1]);
+
+  assert.deepEqual(sectionIds, [
+    "accueil",
+    "projets",
+    "competences",
+    "experience",
+    "formation",
+    "apropos",
+    "contact",
+  ]);
+  assert.doesNotMatch(home, /id="(?:valeur|methode|parcours)"/u);
+  assert.doesNotMatch(home, /data-section-arrows/u);
+});
+
 test("la section compétences reste resserrée sur la sélection validée", () => {
-  const skills = extractSection(home, "competences", "methode");
+  const skills = extractSection(home, "competences", "experience");
 
   assert.match(skills, /Compétences techniques principales/u);
   assert.match(skills, /Java \/ Spring/u);

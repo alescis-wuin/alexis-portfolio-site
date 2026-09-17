@@ -274,28 +274,51 @@ test("les projets non publiés restent hors de la surface publique", async ({
   }
 });
 
-test("les flèches utilisent le défilement natif", async ({ page }) => {
+test("la navigation de section suit l’architecture P2.1", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
 
-  const next = page.getByRole("button", { name: /Section suivante/i });
-  await expect(next).toBeVisible();
-  const arrowPresentation = await next.evaluate((node) => {
-    const style = globalThis.getComputedStyle(node);
-    return {
-      boxShadow: style.boxShadow,
-      width: node.getBoundingClientRect().width,
-    };
-  });
-  expect(arrowPresentation.boxShadow).toBe("none");
-  expect(arrowPresentation.width).toBeLessThanOrEqual(52);
-  await next.click();
+  const sectionIds = await page
+    .locator("[data-section]")
+    .evaluateAll((nodes) => nodes.map((node) => node.id));
+  expect(sectionIds).toEqual([
+    "accueil",
+    "projets",
+    "competences",
+    "experience",
+    "formation",
+    "apropos",
+    "contact",
+  ]);
+  await expect(page.locator("[data-section-arrows]")).toHaveCount(0);
 
-  await expect(page).toHaveURL(/#valeur$/);
-  await expect(page.locator('[data-section-link="valeur"]')).toHaveAttribute(
-    "aria-current",
-    "location",
+  const projectsLink = page.locator(
+    '[data-section-rail] [data-section-link="projets"]',
   );
+  await expect(projectsLink).toBeVisible();
+  await projectsLink.click();
+  await expect(page).toHaveURL(/#projets$/);
+  await expect(projectsLink).toHaveAttribute("aria-current", "location");
+});
+
+test("le menu mobile remplace le rail de sections", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+
+  await expect(page.locator("[data-section-rail]")).toBeHidden();
+  const toggle = page.locator("[data-nav-toggle]");
+  await expect(toggle).toBeVisible();
+  await toggle.click();
+
+  const navigation = page.locator("[data-site-nav]");
+  await expect(navigation).toBeVisible();
+  await navigation
+    .getByRole("link", { name: "Expérience", exact: true })
+    .click();
+  await expect(page).toHaveURL(/#experience$/);
+  await expect(navigation).toBeHidden();
 });
 
 test("la page d’accueil reste exploitable en rendu mobile", async ({
