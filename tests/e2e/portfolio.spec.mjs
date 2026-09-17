@@ -71,6 +71,17 @@ async function countGridColumns(locator) {
   });
 }
 
+async function expectMinimumFontSize(page, selector, minimumPx) {
+  const element = page.locator(selector).first();
+  await expect(element).toBeVisible();
+
+  const fontSize = await element.evaluate((node) =>
+    Number.parseFloat(globalThis.getComputedStyle(node).fontSize),
+  );
+
+  expect(fontSize).toBeGreaterThanOrEqual(minimumPx);
+}
+
 test.beforeEach(async ({ page }) => {
   const browserErrors = [];
   page.on("pageerror", (error) => browserErrors.push(error.message));
@@ -192,6 +203,54 @@ test("les cartes P2.4-D privilégient le produit et des actions lisibles", async
       }
     }
   }
+});
+
+test("les textes fonctionnels restent lisibles sur les viewports contraints", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1920, height: 800 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+
+  for (const selector of [
+    ".hero-kicker",
+    ".hero-facts dt",
+    ".project-kicker",
+    ".project-facts dt",
+    ".project-metadata-label",
+    ".tag",
+  ]) {
+    await expectMinimumFontSize(page, selector, 15);
+  }
+
+  for (const selector of [
+    ".hero-facts dd",
+    ".project-summary",
+    ".project-facts dd",
+    ".project-read-link",
+    ".project-repository-link",
+  ]) {
+    await expectMinimumFontSize(page, selector, 16);
+  }
+
+  await expectNoHorizontalOverflow(page);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(projectPages[0].path);
+
+  for (const selector of [
+    ".project-detail-status",
+    ".project-overview dt",
+    ".case-study-media figcaption",
+  ]) {
+    await expectMinimumFontSize(page, selector, 15);
+  }
+
+  for (const selector of [".project-back-link", ".project-overview dd"]) {
+    await expectMinimumFontSize(page, selector, 16);
+  }
+
+  await expectNoHorizontalOverflow(page);
 });
 
 test("le catalogue complet expose tous les projets", async ({ page }) => {

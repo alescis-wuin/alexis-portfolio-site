@@ -27,7 +27,7 @@
   min-height: 1.85rem;
   border-radius: 999px;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-meta);
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -55,7 +55,7 @@
 .project-kicker {
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: var(--text-meta);
   font-weight: 820;
   letter-spacing: 0.04em;
   line-height: 1.35;
@@ -64,7 +64,7 @@
 
 .project-summary {
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: var(--text-ui);
   line-height: 1.46;
 }
 
@@ -86,7 +86,7 @@
 .project-facts dt {
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-meta);
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -95,7 +95,7 @@
 .project-facts dd {
   margin: 0;
   color: var(--muted);
-  font-size: 0.84rem;
+  font-size: var(--text-ui);
   line-height: 1.38;
 }
 
@@ -118,7 +118,7 @@
   justify-content: center;
   min-height: 2.75rem;
   border-radius: 999px;
-  font-size: 0.9rem;
+  font-size: var(--text-ui);
   font-weight: 820;
   line-height: 1;
 }
@@ -168,7 +168,7 @@
 
 .project-filter-control > span {
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: var(--text-ui);
 }
 
 .project-filter-control select {
@@ -197,7 +197,7 @@
 .project-catalog-status [data-project-count] {
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.86rem;
+  font-size: var(--text-meta);
   font-weight: 800;
 }
 
@@ -400,16 +400,11 @@
     padding: 0.85rem;
   }
 
-  .project-grid-focus .project-kicker {
-    font-size: 0.64rem;
-  }
-
   .project-grid-focus .project-heading h3 {
     font-size: 1.16rem;
   }
 
   .project-grid-focus .project-summary {
-    font-size: 0.82rem;
     line-height: 1.38;
   }
 
@@ -422,19 +417,12 @@
     padding: 0.52rem 0.6rem;
   }
 
-  .project-grid-focus .project-facts dt,
-  .project-grid-focus .project-metadata-label {
-    font-size: 0.62rem;
-  }
-
   .project-grid-focus .project-facts dd {
-    font-size: 0.78rem;
     line-height: 1.32;
   }
 
   .project-grid-focus .tag {
     min-height: 1.4rem;
-    font-size: 0.65rem;
   }
 }
 
