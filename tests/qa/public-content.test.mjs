@@ -19,6 +19,19 @@ const projectPages = publishedProjects.map((project) =>
     "utf8",
   ),
 );
+const globalStyles = readFileSync(
+  new URL("../../assets/css/styles.css", import.meta.url),
+  "utf8",
+);
+const aiRedesignStyles = readFileSync(
+  new URL("../../assets/css/ai-redesign.css", import.meta.url),
+  "utf8",
+);
+const mainScript = readFileSync(
+  new URL("../../assets/js/main.js", import.meta.url),
+  "utf8",
+);
+const runtimeSources = [globalStyles, aiRedesignStyles, mainScript].join("\n");
 
 // The public CV PDF is intentionally excluded from this content contract while it
 // remains a placeholder. This suite validates the site copy and project source data.
@@ -106,6 +119,19 @@ test("la page d’accueil suit l’architecture d’information P2.1", () => {
   ]);
   assert.doesNotMatch(home, /id="(?:valeur|methode|parcours)"/u);
   assert.doesNotMatch(home, /data-section-arrows/u);
+});
+
+test("le site public utilise un thème sombre unique", () => {
+  for (const html of [home, catalogPage, ...projectPages]) {
+    assert.match(html, /<meta name="color-scheme" content="dark">/u);
+    assert.doesNotMatch(html, /data-theme(?:=|-toggle)/u);
+  }
+
+  assert.match(globalStyles, /color-scheme:\s*dark;/u);
+  assert.doesNotMatch(
+    runtimeSources,
+    /initTheme|data-theme-toggle|prefers-color-scheme:\s*light|:root\[data-theme=|localStorage\.(?:getItem|setItem)\(["']theme["']/u,
+  );
 });
 
 test("la section compétences reste resserrée sur la sélection validée", () => {

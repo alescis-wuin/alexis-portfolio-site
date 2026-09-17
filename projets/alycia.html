@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Application desktop d’IA locale en C#/.NET et Avalonia avec conversations persistantes, llama.cpp CUDA, modèles GGUF Hugging Face, streaming et configuration de génération.">
   <meta name="author" content="Alexis Guinot">
-  <meta name="color-scheme" content="dark light">
+  <meta name="color-scheme" content="dark">
   <meta property="og:title" content="Alycia — Étude de cas | Alexis Guinot">
   <meta property="og:description" content="Application desktop d’IA locale en C#/.NET et Avalonia avec conversations persistantes, llama.cpp CUDA, modèles GGUF Hugging Face, streaming et configuration de génération.">
   <meta property="og:type" content="website">
@@ -18,13 +18,7 @@
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
   <script>
-    (() => {
-      document.documentElement.dataset.js = 'true';
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        document.documentElement.dataset.theme = savedTheme;
-      }
-    })();
+    document.documentElement.dataset.js = 'true';
   </script>
 </head>
 
@@ -50,9 +44,6 @@
         </ul>
       </nav>
       <div class="header-actions">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer le thème" aria-pressed="false">
-          <span aria-hidden="true">◐</span>
-        </button>
         <a class="button button-small button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
       </div>
     </div>

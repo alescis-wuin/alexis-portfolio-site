@@ -109,62 +109,6 @@
     --header-height: 4.5rem;
   }
 
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) {
-      color-scheme: light;
-      --bg: #f6f8fc;
-      --bg-elevated: #ffffff;
-      --surface: #ffffff;
-      --surface-2: #eef4ff;
-      --text: #101828;
-      --muted: #475467;
-      --muted-2: #667085;
-      --border: rgba(15, 23, 42, 0.14);
-      --border-strong: rgba(15, 23, 42, 0.26);
-      --accent: #0f766e;
-      --accent-2: #6d28d9;
-      --accent-3: #15803d;
-      --accent-contrast: #ffffff;
-      --shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
-    }
-  }
-
-  :root[data-theme='light'] {
-    color-scheme: light;
-    --bg: #f6f8fc;
-    --bg-elevated: #ffffff;
-    --surface: #ffffff;
-    --surface-2: #eef4ff;
-    --text: #101828;
-    --muted: #475467;
-    --muted-2: #667085;
-    --border: rgba(15, 23, 42, 0.14);
-    --border-strong: rgba(15, 23, 42, 0.26);
-    --accent: #0f766e;
-    --accent-2: #6d28d9;
-    --accent-3: #15803d;
-    --accent-contrast: #ffffff;
-    --shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
-  }
-
-  :root[data-theme='dark'] {
-    color-scheme: dark;
-    --bg: #070b14;
-    --bg-elevated: #0d1324;
-    --surface: #111827;
-    --surface-2: #172033;
-    --text: #eef4ff;
-    --muted: #b8c2d2;
-    --muted-2: #91a0b8;
-    --border: rgba(148, 163, 184, 0.24);
-    --border-strong: rgba(148, 163, 184, 0.42);
-    --accent: #67e8f9;
-    --accent-2: #a78bfa;
-    --accent-3: #34d399;
-    --accent-contrast: #041016;
-    --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-  }
-
   body {
     background:
       radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 18%, transparent), transparent 34rem),
@@ -458,8 +402,7 @@
   }
 
   .button,
-  .filter-button,
-  .theme-toggle {
+  .filter-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -471,8 +414,7 @@
   }
 
   .button:hover,
-  .filter-button:hover,
-  .theme-toggle:hover {
+  .filter-button:hover {
     transform: translateY(-1px);
   }
 
@@ -500,16 +442,10 @@
   }
 
   .button-ghost,
-  .theme-toggle,
   .filter-button {
     border: 1px solid var(--border);
     background: color-mix(in srgb, var(--surface) 68%, transparent);
     color: var(--muted);
-  }
-
-  .theme-toggle {
-    width: 2.75rem;
-    padding: 0;
   }
 
   .nav-toggle {
@@ -923,7 +859,6 @@
     .project-media img,
     .button,
     .filter-button,
-    .theme-toggle,
     .project-card {
       transition: none;
     }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Gestionnaire de tâches C#/.NET 10 avec Blazor, vues Liste/Kanban, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.">
   <meta name="author" content="Alexis Guinot">
-  <meta name="color-scheme" content="dark light">
+  <meta name="color-scheme" content="dark">
   <meta property="og:title" content="Kanban — Étude de cas | Alexis Guinot">
   <meta property="og:description" content="Gestionnaire de tâches C#/.NET 10 avec Blazor, vues Liste/Kanban, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.">
   <meta property="og:type" content="website">
@@ -18,13 +18,7 @@
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
   <script>
-    (() => {
-      document.documentElement.dataset.js = 'true';
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        document.documentElement.dataset.theme = savedTheme;
-      }
-    })();
+    document.documentElement.dataset.js = 'true';
   </script>
 </head>
 
@@ -50,9 +44,6 @@
         </ul>
       </nav>
       <div class="header-actions">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer le thème" aria-pressed="false">
-          <span aria-hidden="true">◐</span>
-        </button>
         <a class="button button-small button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
       </div>
     </div>

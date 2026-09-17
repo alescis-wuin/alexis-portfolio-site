@@ -343,26 +343,36 @@ test("la page d’accueil reste exploitable en rendu mobile", async ({
   ).toBeVisible();
 });
 
-test("le changement de thème est persistant sur une page projet", async ({
-  page,
-}) => {
+test("le site reste sur un thème sombre unique", async ({ page }) => {
   await page.goto(projectPages[0].path);
 
-  const toggle = page.getByRole("button", { name: /thème/i });
-  await expect(toggle).toBeVisible();
-
-  const initialTheme = await page.locator("html").getAttribute("data-theme");
-  await toggle.click();
-  const changedTheme = await page.locator("html").getAttribute("data-theme");
-
-  expect(changedTheme).toBeTruthy();
-  expect(changedTheme).not.toBe(initialTheme);
-
-  await page.reload();
-  await expect(page.locator("html")).toHaveAttribute(
-    "data-theme",
-    changedTheme ?? "",
+  await expect(page.locator('meta[name="color-scheme"]')).toHaveAttribute(
+    "content",
+    "dark",
   );
+  await expect(page.locator("[data-theme-toggle]")).toHaveCount(0);
+  expect(await page.locator("html").getAttribute("data-theme")).toBeNull();
+
+  const initialColorScheme = await page.evaluate(
+    () =>
+      globalThis.getComputedStyle(globalThis.document.documentElement)
+        .colorScheme,
+  );
+  expect(initialColorScheme).toBe("dark");
+
+  await page.evaluate(() => {
+    globalThis.localStorage.setItem("theme", "light");
+  });
+  await page.reload();
+
+  expect(await page.locator("html").getAttribute("data-theme")).toBeNull();
+
+  const reloadedColorScheme = await page.evaluate(
+    () =>
+      globalThis.getComputedStyle(globalThis.document.documentElement)
+        .colorScheme,
+  );
+  expect(reloadedColorScheme).toBe("dark");
 });
 
 for (const projectPage of projectPages) {

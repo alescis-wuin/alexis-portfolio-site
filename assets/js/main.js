@@ -1,4 +1,3 @@
-const root = document.documentElement;
 const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 ).matches;
@@ -30,39 +29,6 @@ function initNavigation() {
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") setOpen(false);
-  });
-}
-
-function initTheme() {
-  const buttons = [...document.querySelectorAll("[data-theme-toggle]")];
-  if (buttons.length === 0) return;
-
-  const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
-
-  const getCurrentTheme = () => {
-    const saved = localStorage.getItem("theme");
-    if (saved === "dark" || saved === "light") return saved;
-    return systemDark.matches ? "dark" : "light";
-  };
-
-  const apply = (theme, persist = true) => {
-    root.dataset.theme = theme;
-    buttons.forEach((button) => {
-      button.setAttribute("aria-pressed", String(theme === "dark"));
-      button.setAttribute(
-        "aria-label",
-        theme === "dark" ? "Activer le thème clair" : "Activer le thème sombre",
-      );
-    });
-    if (persist) localStorage.setItem("theme", theme);
-  };
-
-  apply(getCurrentTheme(), false);
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      apply(getCurrentTheme() === "dark" ? "light" : "dark");
-    });
   });
 }
 
@@ -195,7 +161,6 @@ function initProjectCatalogFilters() {
 }
 
 initNavigation();
-initTheme();
 initReveal();
 initSectionNavigation();
 initProjectCatalogFilters();

@@ -212,14 +212,6 @@
     color: var(--accent-contrast);
   }
 
-  .theme-toggle-floating {
-    position: fixed;
-    top: clamp(0.9rem, 2.2vh, 1.45rem);
-    right: clamp(0.9rem, 2.2vw, 1.45rem);
-    z-index: 90;
-    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
-  }
-
   .hero-kicker {
     color: var(--accent);
     font-family: var(--font-mono);
@@ -425,13 +417,6 @@
     }
   }
 
-  @media (max-width: 919px), (max-height: 619px) {
-    .theme-toggle-floating {
-      top: 0.75rem;
-      right: 0.75rem;
-    }
-  }
-
   @media (max-width: 680px) {
     .hero-facts,
     .method-list {
@@ -448,13 +433,5 @@
 @media (min-width: 200rem) {
   body.has-section-rail {
     padding-left: 0;
-  }
-}
-
-@media (max-width: 1179px) {
-  .theme-toggle-floating {
-    top: auto;
-    right: 0.75rem;
-    bottom: 0.75rem;
   }
 }

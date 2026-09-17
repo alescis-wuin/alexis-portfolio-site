@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Catalogue des projets d’Alexis Guinot : études de cas, technologies, architectures, applications web et desktop.">
   <meta name="author" content="Alexis Guinot">
-  <meta name="color-scheme" content="dark light">
+  <meta name="color-scheme" content="dark">
   <meta property="og:title" content="Projets — Alexis Guinot">
   <meta property="og:description" content="Catalogue des projets d’Alexis Guinot, filtrable par langage, type, stack et statut.">
   <meta property="og:type" content="website">
@@ -19,13 +19,7 @@
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="../assets/css/project-cards.css">
   <script>
-    (() => {
-      document.documentElement.dataset.js = 'true';
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        document.documentElement.dataset.theme = savedTheme;
-      }
-    })();
+    document.documentElement.dataset.js = 'true';
   </script>
 </head>
 
@@ -51,9 +45,6 @@
         </ul>
       </nav>
       <div class="header-actions">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer le thème" aria-pressed="false">
-          <span aria-hidden="true">◐</span>
-        </button>
         <a class="button button-small button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
       </div>
     </div>

@@ -111,16 +111,6 @@ for (const scene of visualScenes) {
         width: profile.width,
         height: profile.height,
       });
-      await page.addInitScript(() => {
-        try {
-          if (["http:", "https:"].includes(globalThis.location.protocol)) {
-            globalThis.localStorage.setItem("theme", "dark");
-          }
-        } catch {
-          // Opaque documents such as about:blank do not expose localStorage.
-        }
-      });
-
       const response = await page.goto(scene.path, { waitUntil: "load" });
       expect(response?.ok()).toBe(true);
       await stabilizePage(page, scene.focus);

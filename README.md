@@ -10,13 +10,15 @@ Site web portfolio statique, sans dépendance de build applicatif en production.
 - `scripts/generate-projects.mjs` : génère les pages projet, `/projets/index.html`, la section projets de l'accueil et `sitemap.xml`.
 - `index.html` : page d'accueil statique ; sa section projets est générée et versionnée.
 - `projets/*.html` : pages statiques générées et versionnées.
-- `assets/css/styles.css` : design system, responsive, accessibilité, thèmes clair/sombre.
-- `assets/css/ai-redesign.css` : rail de navigation, défilement natif entre sections et contrôles haut/bas.
+- `assets/css/styles.css` : design system sombre, responsive et accessibilité.
+- `assets/css/ai-redesign.css` : rail de navigation et défilement natif entre sections.
 - `assets/css/project-cards.css` : cartes, catalogue et filtres projets.
-- `assets/js/main.js` : thème, menu mobile, révélations, navigation de sections et filtres du catalogue.
+- `assets/js/main.js` : menu mobile, révélations, navigation de sections et filtres du catalogue.
 - `tests/e2e/portfolio.spec.mjs` : tests Playwright pilotés par `data/projects.json`.
 - `docs/PROJECT_CATALOG.md` : documentation du modèle de données et procédure d'ajout d'un projet.
 - `docs/archive/` : anciennes analyses et décisions conservées à titre historique ; elles ne sont plus normatives.
+
+La V1 du portfolio utilise un thème sombre unique. Un éventuel thème clair est différé et ne fait pas partie du contrat visuel actuel.
 
 Le navigateur conserve le contrôle de la molette, des touches de déplacement et du défilement. Sur grand écran, CSS Scroll Snap utilise le mode `proximity` ; il est désactivé pour les tailles plus petites et avec `prefers-reduced-motion`.
 

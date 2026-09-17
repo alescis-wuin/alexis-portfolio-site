@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Portfolio d’Alexis Guinot, concepteur-développeur full-stack : Java / Spring, C# / .NET, interfaces web et desktop, API, données et applications.">
   <meta name="author" content="Alexis Guinot">
-  <meta name="color-scheme" content="dark light">
+  <meta name="color-scheme" content="dark">
   <meta property="og:title" content="Alexis Guinot — Concepteur-développeur full-stack">
   <meta property="og:description" content="Portfolio d’Alexis Guinot : interfaces métier, API, données, applications desktop et projets applicatifs documentés.">
   <meta property="og:type" content="website">
@@ -21,13 +21,7 @@
   <link rel="stylesheet" href="./assets/css/ai-redesign.css">
   <link rel="stylesheet" href="./assets/css/project-cards.css">
   <script>
-    (() => {
-      document.documentElement.dataset.js = 'true';
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        document.documentElement.dataset.theme = savedTheme;
-      }
-    })();
+    document.documentElement.dataset.js = 'true';
   </script>
 </head>
 
@@ -384,10 +378,6 @@
     </section>
   </main>
 
-
-  <button class="theme-toggle theme-toggle-floating" type="button" data-theme-toggle aria-label="Changer le thème" aria-pressed="false">
-    <span aria-hidden="true">◐</span>
-  </button>
 
   <script type="module" src="./assets/js/main.js"></script>
 </body>
