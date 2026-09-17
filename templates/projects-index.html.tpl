@@ -46,7 +46,7 @@
           <li><a href="../index.html#accueil">Accueil</a></li>
           <li><a href="./index.html" aria-current="page">Projets</a></li>
           <li><a href="../index.html#competences">Compétences</a></li>
-          <li><a href="../index.html#parcours">Parcours</a></li>
+          <li><a href="../index.html#experience">Expérience</a></li>
           <li><a href="../index.html#contact">Contact</a></li>
         </ul>
       </nav>
