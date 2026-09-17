@@ -68,7 +68,7 @@ test("le slug index est réservé au catalogue", () => {
   assert.match(result.stderr, /slug index est réservé/);
 });
 
-test("le compteur du hero suit le nombre de projets mis en avant", () => {
+test("le titre de la section projets suit le nombre de projets mis en avant", () => {
   const catalogPath = path.join(fixtureRoot, "data", "projects.json");
   const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
   const featured = catalog.projects.filter((project) => project.featured);
@@ -80,18 +80,27 @@ test("le compteur du hero suit le nombre de projets mis en avant", () => {
   const project = featured.at(-1);
   project.featured = false;
   delete project.featuredOrder;
-  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+  writeFileSync(
+    catalogPath,
+    `${JSON.stringify(catalog, null, 2)}
+`,
+    "utf8",
+  );
 
   assertGeneratorSuccess(runGenerator());
 
   const expectedCount = featured.length - 1;
-  const expectedLabel = expectedCount === 1 ? "étude de cas" : "études de cas";
+  const expectedHeading =
+    expectedCount === 1
+      ? "1 étude de cas technique"
+      : `${expectedCount} études de cas techniques`;
   const index = readFileSync(path.join(fixtureRoot, "index.html"), "utf8");
+
   assert.ok(
-    index.includes(
-      `<dd data-featured-project-count>${expectedCount} ${expectedLabel}, CV, GitHub et projets documentés</dd>`,
-    ),
+    index.includes(`<h2 id="projects-title">${expectedHeading}</h2>`),
+    `titre projets inattendu: ${expectedHeading}`,
   );
+  assert.ok(!index.includes("data-featured-project-count"));
   assertGeneratorSuccess(runGenerator("--check"));
 });
 

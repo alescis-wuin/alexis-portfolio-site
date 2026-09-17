@@ -449,12 +449,11 @@ function renderHomeIndex(currentHtml) {
   const featured = publishedProjects
     .filter((project) => project.featured)
     .sort((a, b) => a.featuredOrder - b.featuredOrder);
-  const featuredCountText = `${featured.length} ${featured.length === 1 ? "étude de cas" : "études de cas"}, CV, GitHub et projets documentés`;
   const featuredHeading =
     featured.length === 1
       ? "1 étude de cas technique"
       : `${featured.length} études de cas techniques`;
-  const homeHtml = replaceFeaturedProjectCount(currentHtml, featuredCountText);
+  const homeHtml = currentHtml;
 
   const section = `    ${startMarker}
     <section id="projets" class="section section-alt snap-section" aria-labelledby="projects-title" data-section data-label="Projets">
@@ -494,21 +493,6 @@ function renderHomeIndex(currentHtml) {
   }
 
   return `${homeHtml.slice(0, projectStart)}${section}\n\n${homeHtml.slice(nextSection)}`;
-}
-
-function replaceFeaturedProjectCount(html, text) {
-  const pattern = /<dd data-featured-project-count>[^<]*<\/dd>/;
-
-  if (!pattern.test(html)) {
-    throw new Error(
-      "index.html : compteur data-featured-project-count introuvable.",
-    );
-  }
-
-  return html.replace(
-    pattern,
-    `<dd data-featured-project-count>${escapeHtml(text)}</dd>`,
-  );
 }
 
 function renderProjectCard(project, index, assetPrefix, hrefPrefix) {

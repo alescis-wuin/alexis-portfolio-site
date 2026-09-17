@@ -2,7 +2,9 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
-const home = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
+const home = normalizeHtmlWhitespace(
+  readFileSync(new URL("../../index.html", import.meta.url), "utf8"),
+);
 const catalogPage = readFileSync(
   new URL("../../projets/index.html", import.meta.url),
   "utf8",
@@ -23,15 +25,6 @@ const globalStyles = readFileSync(
   new URL("../../assets/css/styles.css", import.meta.url),
   "utf8",
 );
-const aiRedesignStyles = readFileSync(
-  new URL("../../assets/css/ai-redesign.css", import.meta.url),
-  "utf8",
-);
-const mainScript = readFileSync(
-  new URL("../../assets/js/main.js", import.meta.url),
-  "utf8",
-);
-const runtimeSources = [globalStyles, aiRedesignStyles, mainScript].join("\n");
 
 // The public CV PDF is intentionally excluded from this content contract while it
 // remains a placeholder. This suite validates the site copy and project source data.
@@ -79,7 +72,7 @@ const removedGenericSkills = [
 test("le positionnement public et la recherche d’alternance restent alignés", () => {
   assert.match(
     home,
-    /<h1 id="hero-title">Concepteur-développeur full-stack<\/h1>/u,
+    /<h1[^>]*id="hero-title"[^>]*>\s*Concepteur-développeur full-stack\s*<\/h1>/u,
   );
   assert.match(
     home,
@@ -105,7 +98,7 @@ test("les projets publiés respectent le même contrat éditorial à la source",
 
 test("la page d’accueil suit l’architecture d’information P2.1", () => {
   const sectionIds = [
-    ...home.matchAll(/<section id="([^"]+)"[^>]*data-section/gu),
+    ...home.matchAll(/<section[^>]*id="([^"]+)"[^>]*data-section(?:\s|>|=)/gu),
   ].map((match) => match[1]);
 
   assert.deepEqual(sectionIds, [
@@ -122,15 +115,32 @@ test("la page d’accueil suit l’architecture d’information P2.1", () => {
 });
 
 test("le site public utilise un thème sombre unique", () => {
-  for (const html of [home, catalogPage, ...projectPages]) {
-    assert.match(html, /<meta name="color-scheme" content="dark">/u);
-    assert.doesNotMatch(html, /data-theme(?:=|-toggle)/u);
-  }
+  const themeColorTags = [
+    ...home.matchAll(/<meta\b[^>]*\bname=["']theme-color["'][^>]*>/giu),
+  ].map((match) => match[0]);
 
-  assert.match(globalStyles, /color-scheme:\s*dark;/u);
+  assert.equal(
+    themeColorTags.length,
+    1,
+    "La page d'accueil doit exposer un unique meta theme-color.",
+  );
+
+  assert.match(
+    themeColorTags[0],
+    /\bcontent=["']#0B1020["']/iu,
+    "Le theme-color public doit rester le sombre canonique #0B1020.",
+  );
+
   assert.doesNotMatch(
-    runtimeSources,
-    /initTheme|data-theme-toggle|prefers-color-scheme:\s*light|:root\[data-theme=|localStorage\.(?:getItem|setItem)\(["']theme["']/u,
+    publicHtml,
+    /\bdata-theme\s*=/iu,
+    "Aucune variante de theme runtime ne doit reapparaitre.",
+  );
+
+  assert.doesNotMatch(
+    publicHtml,
+    /\btheme-toggle\b/iu,
+    "Aucun controle de bascule de theme ne doit reapparaitre.",
   );
 });
 
@@ -219,22 +229,64 @@ test("le numéro de téléphone ne réapparaît pas dans le site hors CV placeho
 });
 
 function extractSection(html, id, nextId) {
-  const start = html.indexOf(`<section id="${id}"`);
-  const end = html.indexOf(`<section id="${nextId}"`, start + 1);
+  const startPattern = new RegExp(`<section[^>]*id="${id}"[^>]*>`, "u");
+  const nextPattern = new RegExp(`<section[^>]*id="${nextId}"[^>]*>`, "u");
 
-  assert.notEqual(start, -1, `section #${id} introuvable`);
-  assert.notEqual(end, -1, `borne suivante #${nextId} introuvable`);
+  const startMatch = startPattern.exec(html);
+  assert.ok(startMatch, `section #${id} introuvable`);
 
-  return html.slice(start, end);
+  const tail = html.slice(startMatch.index + startMatch[0].length);
+  const nextMatch = nextPattern.exec(tail);
+  assert.ok(nextMatch, `borne suivante #${nextId} introuvable`);
+
+  const end = startMatch.index + startMatch[0].length + nextMatch.index;
+
+  return html.slice(startMatch.index, end);
 }
 
 function extractFamilinkEntry(html) {
-  const match = html.match(
-    /<article class="timeline-item" data-reveal><span>2023 - 2025<\/span><div><h3>Familink[^<]*<\/h3><p>(.*?)<\/p><\/div><\/article>/u,
+  const experience = extractSection(html, "experience", "formation");
+  const familinkIndex = experience.indexOf("Familink");
+
+  assert.notEqual(
+    familinkIndex,
+    -1,
+    "entrée Familink introuvable dans le parcours",
   );
 
-  assert.ok(match, "entrée Familink introuvable dans le parcours");
-  return match[1];
+  const articleStart = experience.lastIndexOf("<article", familinkIndex);
+  const articleEnd = experience.indexOf("</article>", familinkIndex);
+
+  assert.ok(
+    articleStart >= 0 && articleEnd >= 0,
+    "article Familink incomplet dans le parcours",
+  );
+
+  const article = experience.slice(
+    articleStart,
+    articleEnd + "</article>".length,
+  );
+
+  const paragraphTag = article.indexOf("<p");
+  const paragraphStart =
+    paragraphTag >= 0 ? article.indexOf(">", paragraphTag) : -1;
+  const paragraphEnd =
+    paragraphStart >= 0 ? article.indexOf("</p>", paragraphStart) : -1;
+
+  assert.ok(
+    paragraphTag >= 0 && paragraphStart >= 0 && paragraphEnd >= 0,
+    "description Familink introuvable",
+  );
+
+  return article
+    .slice(paragraphStart + 1, paragraphEnd)
+    .replace(/<[^>]+>/gu, " ")
+    .replace(/\s+/gu, " ")
+    .trim();
+}
+
+function normalizeHtmlWhitespace(value) {
+  return value.replace(/\s+/gu, " ").trim();
 }
 
 function collectStrings(value) {

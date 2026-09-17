@@ -1,119 +1,284 @@
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Portfolio d’Alexis Guinot, concepteur-développeur full-stack : Java / Spring, C# / .NET, interfaces web et desktop, API, données et applications.">
-  <meta name="author" content="Alexis Guinot">
-  <meta name="color-scheme" content="dark">
-  <meta property="og:title" content="Alexis Guinot — Concepteur-développeur full-stack">
-  <meta property="og:description" content="Portfolio d’Alexis Guinot : interfaces métier, API, données, applications desktop et projets applicatifs documentés.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.alexis-guinot.fr/">
-  <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
-  <meta name="theme-color" content="#0B1020">
-  <title>Alexis Guinot — Concepteur-développeur full-stack</title>
-  <link rel="canonical" href="https://www.alexis-guinot.fr/">
-  <link rel="icon" href="./assets/img/logo.svg" type="image/svg+xml">
-  <link rel="manifest" href="./site.webmanifest">
-  <link rel="preload" href="./assets/img/photo-profil-480.webp" as="image" type="image/webp">
-  <link rel="stylesheet" href="./assets/css/styles.css">
-  <link rel="stylesheet" href="./assets/css/ai-redesign.css">
-  <link rel="stylesheet" href="./assets/css/project-cards.css">
-  <script>
-    document.documentElement.dataset.js = 'true';
-  </script>
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Portfolio d’Alexis Guinot, concepteur-développeur full-stack : Java / Spring, C# / .NET, interfaces web et desktop, API, données et applications."
+    />
+    <meta name="author" content="Alexis Guinot" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      property="og:title"
+      content="Alexis Guinot — Concepteur-développeur full-stack"
+    />
+    <meta
+      property="og:description"
+      content="Portfolio d’Alexis Guinot : interfaces métier, API, données, applications desktop et projets applicatifs documentés."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.alexis-guinot.fr/" />
+    <meta
+      property="og:image"
+      content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp"
+    />
+    <meta name="theme-color" content="#0B1020" />
+    <title>Alexis Guinot — Concepteur-développeur full-stack</title>
+    <link rel="canonical" href="https://www.alexis-guinot.fr/" />
+    <link rel="icon" href="./assets/img/logo.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link
+      rel="preload"
+      href="./assets/img/photo-profil-480.webp"
+      as="image"
+      type="image/webp"
+    />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <link rel="stylesheet" href="./assets/css/ai-redesign.css" />
+    <link rel="stylesheet" href="./assets/css/project-cards.css" />
+    <script>
+      document.documentElement.dataset.js = "true";
+    </script>
+  </head>
 
-<body class="has-section-rail">
-  <a class="skip-link" href="#contenu">Aller au contenu principal</a>
-  <header class="site-header home-header">
-    <div class="container header-inner">
-      <a class="brand home-brand" href="#accueil" aria-label="Accueil — Alexis Guinot">
-        <span class="brand-mark" aria-hidden="true">AG</span>
-        <span class="brand-name">Alexis Guinot</span>
-      </a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="home-navigation" hidden>
-        <span class="nav-toggle-bars" aria-hidden="true"></span>
-        <span class="sr-only">Ouvrir le menu</span>
-      </button>
-      <nav id="home-navigation" class="site-nav home-site-nav" aria-label="Navigation principale" data-site-nav>
-        <ul class="nav-list">
-          <li><a href="#projets" data-section-link="projets">Projets</a></li>
-          <li><a href="#competences" data-section-link="competences">Compétences</a></li>
-          <li><a href="#experience" data-section-link="experience">Expérience</a></li>
-          <li><a href="#formation" data-section-link="formation">Formation</a></li>
-          <li><a href="#apropos" data-section-link="apropos">À propos</a></li>
-          <li><a href="#contact" data-section-link="contact">Contact</a></li>
-          <li><a href="./assets/cv/CV_Alexis-GUINOT.pdf" download>CV</a></li>
-          <li><a href="https://github.com/alescis-wuin" rel="me noopener noreferrer">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/alexis-guinot/" rel="me noopener noreferrer">LinkedIn</a></li>
-        </ul>
-      </nav>
-      <div class="header-actions home-header-actions" aria-label="Liens rapides">
-        <a class="text-link" href="https://github.com/alescis-wuin" rel="me noopener noreferrer">GitHub</a>
-        <a class="text-link" href="https://www.linkedin.com/in/alexis-guinot/" rel="me noopener noreferrer">LinkedIn</a>
-        <a class="button button-ghost button-small" href="./assets/cv/CV_Alexis-GUINOT.pdf" download>CV</a>
-        <a class="button button-primary button-small" href="#contact">Contact</a>
-      </div>
-    </div>
-  </header>
-
-  <aside class="section-rail" aria-label="Navigation des sections" data-section-rail>
-    <nav aria-label="Sections du portfolio">
-      <ol>
-        <li><a href="#accueil" data-section-link="accueil" aria-current="location"><span class="rail-index">01</span><span class="rail-label">Accueil</span></a></li>
-        <li><a href="#projets" data-section-link="projets"><span class="rail-index">02</span><span class="rail-label">Projets</span></a></li>
-        <li><a href="#competences" data-section-link="competences"><span class="rail-index">03</span><span class="rail-label">Compétences</span></a></li>
-        <li><a href="#experience" data-section-link="experience"><span class="rail-index">04</span><span class="rail-label">Expérience</span></a></li>
-        <li><a href="#formation" data-section-link="formation"><span class="rail-index">05</span><span class="rail-label">Formation</span></a></li>
-        <li><a href="#apropos" data-section-link="apropos"><span class="rail-index">06</span><span class="rail-label">À propos</span></a></li>
-        <li><a href="#contact" data-section-link="contact"><span class="rail-index">07</span><span class="rail-label">Contact</span></a></li>
-      </ol>
-    </nav>
-  </aside>
-
-  <main id="contenu">
-    <section id="accueil" class="hero section-lg snap-section" aria-labelledby="hero-title" data-section data-label="Accueil">
-      <div class="container hero-grid">
-        <div class="hero-copy" data-reveal>
-          <p class="eyebrow hero-kicker">Portfolio · Développement applicatif</p>
-          <h1 id="hero-title">Concepteur-développeur full-stack</h1>
-          <p class="hero-lead">Interfaces web et desktop, API, bases de données, automatisations et outils applicatifs clairs, testables et maintenables.</p>
-          <p class="availability">Je recherche une entreprise d’accueil dans la Métropole de Rouen pour une alternance d’un an à partir d’octobre 2026.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#projets">Voir les projets</a>
-            <a class="button button-secondary" href="#competences">Voir les compétences</a>
-          </div>
-          <dl class="hero-facts" aria-label="Résumé professionnel">
-            <div>
-              <dt>Orientation</dt>
-              <dd>Applications métier, outils internes, interfaces et données</dd>
-            </div>
-            <div>
-              <dt>Formation</dt>
-              <dd>Bac+2 obtenu · Bachelor CDA visé</dd>
-            </div>
-            <div>
-              <dt>Portfolio</dt>
-              <dd data-featured-project-count>4 études de cas, CV, GitHub et projets documentés</dd>
-            </div>
-          </dl>
+  <body class="has-section-rail">
+    <a class="skip-link" href="#contenu">Aller au contenu principal</a>
+    <header class="site-header home-header">
+      <div class="container header-inner">
+        <a
+          class="brand home-brand"
+          href="#accueil"
+          aria-label="Accueil — Alexis Guinot"
+        >
+          <span class="brand-mark" aria-hidden="true">AG</span>
+          <span class="brand-name">Alexis Guinot</span>
+        </a>
+        <button
+          class="nav-toggle"
+          type="button"
+          data-nav-toggle
+          aria-expanded="false"
+          aria-controls="home-navigation"
+          hidden
+        >
+          <span class="nav-toggle-bars" aria-hidden="true"></span>
+          <span class="sr-only">Ouvrir le menu</span>
+        </button>
+        <nav
+          id="home-navigation"
+          class="site-nav home-site-nav"
+          aria-label="Navigation principale"
+          data-site-nav
+        >
+          <ul class="nav-list">
+            <li><a href="#projets" data-section-link="projets">Projets</a></li>
+            <li>
+              <a href="#competences" data-section-link="competences"
+                >Compétences</a
+              >
+            </li>
+            <li>
+              <a href="#experience" data-section-link="experience"
+                >Expérience</a
+              >
+            </li>
+            <li>
+              <a href="#formation" data-section-link="formation">Formation</a>
+            </li>
+            <li><a href="#apropos" data-section-link="apropos">À propos</a></li>
+            <li><a href="#contact" data-section-link="contact">Contact</a></li>
+            <li><a href="./assets/cv/CV_Alexis-GUINOT.pdf" download>CV</a></li>
+            <li>
+              <a
+                href="https://github.com/alescis-wuin"
+                rel="me noopener noreferrer"
+                >GitHub</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://www.linkedin.com/in/alexis-guinot/"
+                rel="me noopener noreferrer"
+                >LinkedIn</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <div
+          class="header-actions home-header-actions"
+          aria-label="Liens rapides"
+        >
+          <a
+            class="text-link"
+            href="https://github.com/alescis-wuin"
+            rel="me noopener noreferrer"
+            >GitHub</a
+          >
+          <a
+            class="text-link"
+            href="https://www.linkedin.com/in/alexis-guinot/"
+            rel="me noopener noreferrer"
+            >LinkedIn</a
+          >
+          <a
+            class="button button-ghost button-small"
+            href="./assets/cv/CV_Alexis-GUINOT.pdf"
+            download
+            >CV</a
+          >
+          <a class="button button-primary button-small" href="#contact"
+            >Contact</a
+          >
         </div>
-        <aside class="hero-card" aria-label="Profil résumé" data-reveal>
-          <picture>
-            <source srcset="assets/img/photo-profil-480.webp 480w, assets/img/photo-profil-800.webp 800w" type="image/webp" sizes="(max-width: 780px) 220px, 320px">
-            <img src="assets/img/photo-profil.jpg" width="800" height="800" alt="Portrait professionnel d’Alexis Guinot" fetchpriority="high">
-          </picture>
-          <div class="profile-panel">
-            <p class="profile-role">Concepteur-développeur full-stack</p>
-            <div class="status-line"><span aria-hidden="true"></span>Recherche d’une alternance d’un an à partir d’octobre 2026</div>
-          </div>
-        </aside>
       </div>
-    </section>
+    </header>
 
-    <!-- GENERATED:HOME-PROJECTS:START -->
+    <aside
+      class="section-rail"
+      aria-label="Navigation des sections"
+      data-section-rail
+    >
+      <nav aria-label="Sections du portfolio">
+        <ol>
+          <li>
+            <a
+              href="#accueil"
+              data-section-link="accueil"
+              aria-current="location"
+              ><span class="rail-index">01</span
+              ><span class="rail-label">Accueil</span></a
+            >
+          </li>
+          <li>
+            <a href="#projets" data-section-link="projets"
+              ><span class="rail-index">02</span
+              ><span class="rail-label">Projets</span></a
+            >
+          </li>
+          <li>
+            <a href="#competences" data-section-link="competences"
+              ><span class="rail-index">03</span
+              ><span class="rail-label">Compétences</span></a
+            >
+          </li>
+          <li>
+            <a href="#experience" data-section-link="experience"
+              ><span class="rail-index">04</span
+              ><span class="rail-label">Expérience</span></a
+            >
+          </li>
+          <li>
+            <a href="#formation" data-section-link="formation"
+              ><span class="rail-index">05</span
+              ><span class="rail-label">Formation</span></a
+            >
+          </li>
+          <li>
+            <a href="#apropos" data-section-link="apropos"
+              ><span class="rail-index">06</span
+              ><span class="rail-label">À propos</span></a
+            >
+          </li>
+          <li>
+            <a href="#contact" data-section-link="contact"
+              ><span class="rail-index">07</span
+              ><span class="rail-label">Contact</span></a
+            >
+          </li>
+        </ol>
+      </nav>
+    </aside>
+
+    <main id="contenu">
+      <section
+        id="accueil"
+        class="hero section-lg snap-section"
+        aria-labelledby="hero-title"
+        data-section
+        data-label="Accueil"
+        data-hero
+      >
+        <div class="container hero-grid">
+          <div class="hero-copy" data-reveal data-hero-copy>
+            <p class="eyebrow hero-kicker" data-hero-kicker>
+              Alexis Guinot · Développement applicatif
+            </p>
+            <h1 id="hero-title" data-hero-title>
+              Concepteur-développeur full-stack
+            </h1>
+            <p class="hero-lead" data-hero-summary>
+              Je conçois et développe des applications web et desktop en Java /
+              Spring et C# / .NET, avec une attention particulière portée à
+              l’architecture logicielle, aux données, aux tests et à la
+              maintenabilité.
+            </p>
+            <p class="availability" data-hero-availability>
+              Je recherche une entreprise d’accueil dans la Métropole de Rouen
+              pour une alternance d’un an à partir d’octobre 2026.
+            </p>
+            <div class="hero-actions" data-hero-actions>
+              <a class="button button-primary" href="#projets"
+                >Voir les projets</a
+              >
+              <a class="button button-secondary" href="#apropos"
+                >Découvrir mon profil</a
+              >
+            </div>
+            <dl
+              class="hero-facts"
+              aria-label="Résumé professionnel"
+              data-hero-facts
+            >
+              <div>
+                <dt>Stacks principales</dt>
+                <dd>Java / Spring · C# / .NET</dd>
+              </div>
+              <div>
+                <dt>Approche</dt>
+                <dd>Architecture logicielle, API, données et tests</dd>
+              </div>
+              <div>
+                <dt>Formation</dt>
+                <dd>Bac+2 obtenu · Bachelor CDA visé</dd>
+              </div>
+            </dl>
+          </div>
+          <aside
+            class="hero-card"
+            aria-label="Profil résumé"
+            data-reveal
+            data-hero-visual
+          >
+            <picture>
+              <source
+                srcset="
+                  assets/img/photo-profil-480.webp 480w,
+                  assets/img/photo-profil-800.webp 800w
+                "
+                type="image/webp"
+                sizes="(max-width: 780px) 220px, 320px"
+              />
+              <img
+                src="assets/img/photo-profil.jpg"
+                width="800"
+                height="800"
+                alt="Portrait professionnel d’Alexis Guinot"
+                fetchpriority="high"
+              />
+            </picture>
+            <div class="profile-panel">
+              <p class="profile-role">Concepteur-développeur full-stack</p>
+              <div class="status-line">
+                <span aria-hidden="true"></span>
+                Recherche d’une alternance d’un an à partir d’octobre 2026
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- GENERATED:HOME-PROJECTS:START -->
     <section id="projets" class="section section-alt snap-section" aria-labelledby="projects-title" data-section data-label="Projets">
       <div class="frame">
         <div class="section-heading reading" data-reveal>
@@ -291,94 +456,310 @@
     </section>
     <!-- GENERATED:HOME-PROJECTS:END -->
 
-    <section id="competences" class="section snap-section" aria-labelledby="skills-title" data-section data-label="Compétences">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <p class="eyebrow">Compétences</p>
-          <h2 id="skills-title">Compétences techniques principales</h2>
-          <p>Une sélection volontairement resserrée sur les technologies et pratiques utilisées dans mes projets récents, avec leur contexte d’emploi.</p>
+      <section
+        id="competences"
+        class="section snap-section"
+        aria-labelledby="skills-title"
+        data-section
+        data-label="Compétences"
+      >
+        <div class="container">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Compétences</p>
+            <h2 id="skills-title">Compétences techniques principales</h2>
+            <p>
+              Une sélection volontairement resserrée sur les technologies et
+              pratiques utilisées dans mes projets récents, avec leur contexte
+              d’emploi.
+            </p>
+          </div>
+          <div class="skills-grid">
+            <article class="skill-card" data-reveal>
+              <h3>Java / Spring</h3>
+              <p>
+                Java, Spring Boot, Maven, JavaFX, AtlantaFX, REST et OpenAPI.
+              </p>
+            </article>
+            <article class="skill-card" data-reveal>
+              <h3>C# / .NET</h3>
+              <p>
+                C#, .NET 10, ASP.NET Core, Blazor, Avalonia, .NET MAUI, Entity
+                Framework Core et xUnit.
+              </p>
+            </article>
+            <article class="skill-card" data-reveal>
+              <h3>Web & API</h3>
+              <p>
+                HTML, CSS, JavaScript, REST, OpenAPI, interfaces responsives et
+                navigation clavier.
+              </p>
+            </article>
+            <article class="skill-card" data-reveal>
+              <h3>Données & persistance</h3>
+              <p>
+                SQL, PostgreSQL, SQLite, Redis, Flyway, Entity Framework Core et
+                MinIO.
+              </p>
+            </article>
+            <article class="skill-card" data-reveal>
+              <h3>Architecture & intégration</h3>
+              <p>
+                Séparation entre les couches Domain, Application, Infrastructure
+                et Presentation ; contrats applicatifs, persistance, services
+                externes et processus locaux.
+              </p>
+            </article>
+            <article class="skill-card" data-reveal>
+              <h3>Tests & CI</h3>
+              <p>
+                Tests unitaires et d’intégration, E2E Playwright, xUnit, Maven,
+                GitHub Actions, formatage et lint.
+              </p>
+            </article>
+            <article class="skill-card" data-reveal>
+              <h3>IA locale & média</h3>
+              <p>
+                llama.cpp, Hugging Face, modèles GGUF, streaming SSE, FFmpeg et
+                HLS.
+              </p>
+            </article>
+          </div>
         </div>
-        <div class="skills-grid">
-          <article class="skill-card" data-reveal><h3>Java / Spring</h3><p>Java, Spring Boot, Maven, JavaFX, AtlantaFX, REST et OpenAPI.</p></article>
-          <article class="skill-card" data-reveal><h3>C# / .NET</h3><p>C#, .NET 10, ASP.NET Core, Blazor, Avalonia, .NET MAUI, Entity Framework Core et xUnit.</p></article>
-          <article class="skill-card" data-reveal><h3>Web & API</h3><p>HTML, CSS, JavaScript, REST, OpenAPI, interfaces responsives et navigation clavier.</p></article>
-          <article class="skill-card" data-reveal><h3>Données & persistance</h3><p>SQL, PostgreSQL, SQLite, Redis, Flyway, Entity Framework Core et MinIO.</p></article>
-          <article class="skill-card" data-reveal><h3>Architecture & intégration</h3><p>Séparation entre les couches Domain, Application, Infrastructure et Presentation ; contrats applicatifs, persistance, services externes et processus locaux.</p></article>
-          <article class="skill-card" data-reveal><h3>Tests & CI</h3><p>Tests unitaires et d’intégration, E2E Playwright, xUnit, Maven, GitHub Actions, formatage et lint.</p></article>
-          <article class="skill-card" data-reveal><h3>IA locale & média</h3><p>llama.cpp, Hugging Face, modèles GGUF, streaming SSE, FFmpeg et HLS.</p></article>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="experience" class="section section-alt snap-section" aria-labelledby="experience-title" data-section data-label="Expérience">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <p class="eyebrow">Expérience</p>
-          <h2 id="experience-title">Expérience professionnelle</h2>
-          <p>Des missions réalisées en contexte professionnel, de l’application au matériel connecté, avec une place croissante donnée à l’autonomie.</p>
+      <section
+        id="experience"
+        class="section section-alt snap-section"
+        aria-labelledby="experience-title"
+        data-section
+        data-label="Expérience"
+      >
+        <div class="container">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Expérience</p>
+            <h2 id="experience-title">Expérience professionnelle</h2>
+            <p>
+              Des missions réalisées en contexte professionnel, de l’application
+              au matériel connecté, avec une place croissante donnée à
+              l’autonomie.
+            </p>
+          </div>
+          <div class="timeline" aria-label="Expériences professionnelles">
+            <article class="timeline-item" data-reveal>
+              <span>2023 - 2025</span>
+              <div>
+                <h3>
+                  Familink — développeur informatique et électronicien en
+                  alternance
+                </h3>
+                <p>
+                  Développement et maintenance autour de cadres photo/vidéo
+                  connectés : backend Python/Django/ReportLab, application
+                  Android Java, outils Linux/Raspberry Pi et SAV. Participation
+                  à un boîtier TV connecté B2B, ajout de fonctionnalités et
+                  corrections, avec une autonomie croissante au fil de
+                  l’alternance.
+                </p>
+              </div>
+            </article>
+            <article class="timeline-item" data-reveal>
+              <span>2025</span>
+              <div>
+                <h3>Caisse d’Épargne Normandie — stage de découverte</h3>
+                <p>
+                  Immersion au siège social : gestion de projet, organisation,
+                  management et équipe.
+                </p>
+              </div>
+            </article>
+          </div>
         </div>
-        <div class="timeline" aria-label="Expériences professionnelles">
-          <article class="timeline-item" data-reveal><span>2023 - 2025</span><div><h3>Familink — développeur informatique et électronicien en alternance</h3><p>Développement et maintenance autour de cadres photo/vidéo connectés : backend Python/Django/ReportLab, application Android Java, outils Linux/Raspberry Pi et SAV. Participation à un boîtier TV connecté B2B, ajout de fonctionnalités et corrections, avec une autonomie croissante au fil de l’alternance.</p></div></article>
-          <article class="timeline-item" data-reveal><span>2025</span><div><h3>Caisse d’Épargne Normandie — stage de découverte</h3><p>Immersion au siège social : gestion de projet, organisation, management et équipe.</p></div></article>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="formation" class="section snap-section" aria-labelledby="formation-title" data-section data-label="Formation">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <p class="eyebrow">Formation & trajectoire</p>
-          <h2 id="formation-title">Du développement applicatif vers les systèmes d’IA</h2>
-          <p>Bac +2 Développeur Informatique obtenu au CESI ; troisième année de Bachelor Concepteur Développeur d’Applications visée en alternance à partir d’octobre 2026.</p>
+      <section
+        id="formation"
+        class="section snap-section"
+        aria-labelledby="formation-title"
+        data-section
+        data-label="Formation"
+      >
+        <div class="container">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Formation & trajectoire</p>
+            <h2 id="formation-title">
+              Du développement applicatif vers les systèmes d’IA
+            </h2>
+            <p>
+              Bac +2 Développeur Informatique obtenu au CESI ; troisième année
+              de Bachelor Concepteur Développeur d’Applications visée en
+              alternance à partir d’octobre 2026.
+            </p>
+          </div>
+          <div class="timeline" aria-label="Formation">
+            <article class="timeline-item" data-reveal>
+              <span>2026 - 2027</span>
+              <div>
+                <h3>CESI — Bachelor Concepteur Développeur d’Applications</h3>
+                <p>
+                  Troisième année visée en alternance ; entreprise d’accueil
+                  recherchée pour octobre 2026.
+                </p>
+              </div>
+            </article>
+            <article class="timeline-item" data-reveal>
+              <span>2023 - 2025</span>
+              <div>
+                <h3>CESI — Bac +2 Développeur Informatique</h3>
+                <p>Formation en alternance.</p>
+              </div>
+            </article>
+            <article class="timeline-item" data-reveal>
+              <span>2025</span>
+              <div>
+                <h3>CCI — certification entrepreneur</h3>
+                <p>Comptabilité, juridique, communication et marketing.</p>
+              </div>
+            </article>
+            <article class="timeline-item" data-reveal>
+              <span>2021</span>
+              <div>
+                <h3>Bac scientifique</h3>
+                <p>
+                  Mathématiques, sciences de l’ingénieur, NSI, physique-chimie
+                  et mathématiques expertes.
+                </p>
+              </div>
+            </article>
+          </div>
+          <aside
+            class="content-block trajectory-note"
+            data-reveal
+            aria-label="Trajectoire à long terme"
+          >
+            <h3>À plus long terme</h3>
+            <p>
+              Je souhaite poursuivre ma formation vers l’intelligence
+              artificielle et approfondir ensuite l’ingénierie des systèmes
+              d’IA, idéalement en alternance.
+            </p>
+          </aside>
         </div>
-        <div class="timeline" aria-label="Formation">
-          <article class="timeline-item" data-reveal><span>2026 - 2027</span><div><h3>CESI — Bachelor Concepteur Développeur d’Applications</h3><p>Troisième année visée en alternance ; entreprise d’accueil recherchée pour octobre 2026.</p></div></article>
-          <article class="timeline-item" data-reveal><span>2023 - 2025</span><div><h3>CESI — Bac +2 Développeur Informatique</h3><p>Formation en alternance.</p></div></article>
-          <article class="timeline-item" data-reveal><span>2025</span><div><h3>CCI — certification entrepreneur</h3><p>Comptabilité, juridique, communication et marketing.</p></div></article>
-          <article class="timeline-item" data-reveal><span>2021</span><div><h3>Bac scientifique</h3><p>Mathématiques, sciences de l’ingénieur, NSI, physique-chimie et mathématiques expertes.</p></div></article>
-        </div>
-        <aside class="content-block trajectory-note" data-reveal aria-label="Trajectoire à long terme">
-          <h3>À plus long terme</h3>
-          <p>Je souhaite poursuivre ma formation vers l’intelligence artificielle et approfondir ensuite l’ingénierie des systèmes d’IA, idéalement en alternance.</p>
-        </aside>
-      </div>
-    </section>
+      </section>
 
-    <section id="apropos" class="section section-alt snap-section" aria-labelledby="about-title" data-section data-label="À propos">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <p class="eyebrow">À propos</p>
-          <h2 id="about-title">Conception, apprentissage et méthode</h2>
-          <p>Passionné par la conception logicielle, j’apprends depuis longtemps en autonomie en cherchant d’abord à comprendre les concepts qui structurent une application plutôt qu’à dépendre d’un framework particulier. J’aime imaginer une architecture, séparer clairement les responsabilités puis la voir évoluer jusqu’à une application utilisable.</p>
+      <section
+        id="apropos"
+        class="section section-alt snap-section"
+        aria-labelledby="about-title"
+        data-section
+        data-label="À propos"
+      >
+        <div class="container">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">À propos</p>
+            <h2 id="about-title">Conception, apprentissage et méthode</h2>
+            <p>
+              Passionné par la conception logicielle, j’apprends depuis
+              longtemps en autonomie en cherchant d’abord à comprendre les
+              concepts qui structurent une application plutôt qu’à dépendre d’un
+              framework particulier. J’aime imaginer une architecture, séparer
+              clairement les responsabilités puis la voir évoluer jusqu’à une
+              application utilisable.
+            </p>
+          </div>
+          <p class="about-principle" data-reveal>
+            Comprendre avant d’implémenter, séparer clairement les
+            responsabilités et rendre les changements vérifiables.
+          </p>
+          <ol class="method-list" aria-label="Méthode de conception">
+            <li data-reveal>
+              <span>01</span>
+              <div>
+                <h3>Clarifier le besoin</h3>
+                <p>
+                  Identifier les utilisateurs, les contraintes, les données
+                  manipulées et les critères de réussite.
+                </p>
+              </div>
+            </li>
+            <li data-reveal>
+              <span>02</span>
+              <div>
+                <h3>Structurer l’application</h3>
+                <p>
+                  Séparer interface, logique métier, accès aux données, services
+                  et intégrations externes.
+                </p>
+              </div>
+            </li>
+            <li data-reveal>
+              <span>03</span>
+              <div>
+                <h3>Prototyper l’interface</h3>
+                <p>
+                  Construire des écrans utilisables, lisibles, accessibles et
+                  adaptés aux usages réels.
+                </p>
+              </div>
+            </li>
+            <li data-reveal>
+              <span>04</span>
+              <div>
+                <h3>Tester et documenter</h3>
+                <p>
+                  Prévoir des tests, des scripts reproductibles, des README
+                  exploitables et des limites assumées.
+                </p>
+              </div>
+            </li>
+          </ol>
         </div>
-        <p class="about-principle" data-reveal>Comprendre avant d’implémenter, séparer clairement les responsabilités et rendre les changements vérifiables.</p>
-        <ol class="method-list" aria-label="Méthode de conception">
-          <li data-reveal><span>01</span><div><h3>Clarifier le besoin</h3><p>Identifier les utilisateurs, les contraintes, les données manipulées et les critères de réussite.</p></div></li>
-          <li data-reveal><span>02</span><div><h3>Structurer l’application</h3><p>Séparer interface, logique métier, accès aux données, services et intégrations externes.</p></div></li>
-          <li data-reveal><span>03</span><div><h3>Prototyper l’interface</h3><p>Construire des écrans utilisables, lisibles, accessibles et adaptés aux usages réels.</p></div></li>
-          <li data-reveal><span>04</span><div><h3>Tester et documenter</h3><p>Prévoir des tests, des scripts reproductibles, des README exploitables et des limites assumées.</p></div></li>
-        </ol>
-      </div>
-    </section>
+      </section>
 
-    <section id="contact" class="section contact-section snap-section" aria-labelledby="contact-title" data-section data-label="Contact">
-      <div class="container contact-card" data-reveal>
-        <div>
-          <p class="eyebrow">Contact</p>
-          <h2 id="contact-title">Contact et CV centralisés</h2>
-          <p>Un seul point d’entrée pour éviter les doublons : e-mail, LinkedIn, GitHub et CV PDF.</p>
+      <section
+        id="contact"
+        class="section contact-section snap-section"
+        aria-labelledby="contact-title"
+        data-section
+        data-label="Contact"
+      >
+        <div class="container contact-card" data-reveal>
+          <div>
+            <p class="eyebrow">Contact</p>
+            <h2 id="contact-title">Contact et CV centralisés</h2>
+            <p>
+              Un seul point d’entrée pour éviter les doublons : e-mail,
+              LinkedIn, GitHub et CV PDF.
+            </p>
+          </div>
+          <div class="contact-actions contact-hub">
+            <a
+              class="button button-primary"
+              href="mailto:alexis.guinot@onsiea.com"
+              >Envoyer un e-mail</a
+            >
+            <a
+              class="button button-secondary"
+              href="https://www.linkedin.com/in/alexis-guinot/"
+              rel="me noopener noreferrer"
+              >LinkedIn</a
+            >
+            <a
+              class="button button-secondary"
+              href="https://github.com/alescis-wuin"
+              rel="me noopener noreferrer"
+              >GitHub</a
+            >
+            <a
+              class="button button-ghost"
+              href="./assets/cv/CV_Alexis-GUINOT.pdf"
+              download
+              >Télécharger le CV</a
+            >
+          </div>
         </div>
-        <div class="contact-actions contact-hub">
-          <a class="button button-primary" href="mailto:alexis.guinot@onsiea.com">Envoyer un e-mail</a>
-          <a class="button button-secondary" href="https://www.linkedin.com/in/alexis-guinot/" rel="me noopener noreferrer">LinkedIn</a>
-          <a class="button button-secondary" href="https://github.com/alescis-wuin" rel="me noopener noreferrer">GitHub</a>
-          <a class="button button-ghost" href="./assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
-        </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
 
-
-  <script type="module" src="./assets/js/main.js"></script>
-</body>
+    <script type="module" src="./assets/js/main.js"></script>
+  </body>
 </html>

@@ -112,15 +112,18 @@ test("la page d’accueil charge les contenus principaux", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("le résumé professionnel reflète les projets mis en avant", async ({
+test("le titre de la section projets reflète les projets mis en avant", async ({
   page,
 }) => {
   await page.goto("/");
 
-  const expected = `${featuredProjects.length} ${featuredProjects.length === 1 ? "étude de cas" : "études de cas"}`;
-  await expect(page.locator("[data-featured-project-count]")).toContainText(
-    expected,
-  );
+  const expected =
+    featuredProjects.length === 1
+      ? "1 étude de cas technique"
+      : `${featuredProjects.length} études de cas techniques`;
+
+  await expect(page.locator("#projects-title")).toHaveText(expected);
+  await expect(page.locator("[data-featured-project-count]")).toHaveCount(0);
 });
 
 test("les projets mis en avant viennent du catalogue canonique", async ({
