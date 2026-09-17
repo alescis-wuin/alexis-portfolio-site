@@ -134,6 +134,55 @@ test("le site public utilise un thème sombre unique", () => {
   );
 });
 
+test("le design system conserve un bloc racine canonique", () => {
+  const rootBlocks = globalStyles.match(/(?:^|\n)\s*:root\s*\{/gu) ?? [];
+
+  assert.equal(
+    rootBlocks.length,
+    1,
+    "styles.css doit conserver un seul bloc :root global",
+  );
+
+  const requiredTokens = [
+    "bg",
+    "bg-elevated",
+    "surface",
+    "surface-2",
+    "text",
+    "muted",
+    "border",
+    "accent",
+    "space-1",
+    "space-10",
+    "radius-xs",
+    "radius-sm",
+    "radius-md",
+    "radius-lg",
+    "radius-xl",
+    "shadow-sm",
+    "shadow-md",
+    "shadow-lg",
+    "frame-max",
+    "content-max",
+    "reading-max",
+    "wide-reading-max",
+    "gutter",
+    "section-space",
+    "focus-outline-width",
+    "focus-outline-offset",
+    "project-accent",
+    "project-pattern-image",
+  ];
+
+  for (const token of requiredTokens) {
+    assert.match(
+      globalStyles,
+      new RegExp(`--${token}:`, "u"),
+      `token global manquant : --${token}`,
+    );
+  }
+});
+
 test("la section compétences reste resserrée sur la sélection validée", () => {
   const skills = extractSection(home, "competences", "experience");
 
