@@ -24,14 +24,14 @@
     max-width: 16ch;
   }
 
-  @media (min-width: 1180px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) {
+  @media (min-width: 1180px) and (min-height: 900px) and (prefers-reduced-motion: no-preference) {
     html {
       scroll-snap-type: y proximity;
     }
   }
 
   @media (max-width: 1179px),
-    (max-height: 759px),
+    (max-height: 899px),
     (prefers-reduced-motion: reduce) {
     html {
       scroll-snap-type: none;
@@ -87,6 +87,17 @@
     }
   }
 
+  @media (max-height: 899px), (max-width: 680px) {
+    .snap-section,
+    #accueil.snap-section {
+      min-height: auto;
+    }
+
+    .snap-section {
+      display: block;
+    }
+  }
+
   @media (max-width: 980px) {
     .value-grid-4 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -94,11 +105,6 @@
   }
 
   @media (max-width: 680px) {
-    .snap-section {
-      min-height: auto;
-      display: block;
-    }
-
     .value-grid-4 {
       grid-template-columns: 1fr;
     }

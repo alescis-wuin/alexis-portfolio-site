@@ -253,6 +253,61 @@ test("les textes fonctionnels restent lisibles sur les viewports contraints", as
   await expectNoHorizontalOverflow(page);
 });
 
+test("le snap vertical reste réservé aux viewports suffisamment hauts", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(
+    isMobile,
+    "Le contrat responsive explicite est exécuté une seule fois sur Chromium desktop.",
+  );
+
+  for (const viewport of [
+    { width: 1366, height: 768 },
+    { width: 1920, height: 800 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+
+    const geometry = await page.evaluate(() => ({
+      snap: globalThis.getComputedStyle(globalThis.document.documentElement)
+        .scrollSnapType,
+      heroDisplay: globalThis.getComputedStyle(
+        globalThis.document.querySelector("#accueil"),
+      ).display,
+      projectsDisplay: globalThis.getComputedStyle(
+        globalThis.document.querySelector("#projets"),
+      ).display,
+    }));
+
+    expect(geometry.snap).toBe("none");
+    expect(geometry.heroDisplay).toBe("block");
+    expect(geometry.projectsDisplay).toBe("block");
+
+    await expectNoHorizontalOverflow(page);
+  }
+
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto("/");
+
+  const comfortableGeometry = await page.evaluate(() => ({
+    snap: globalThis.getComputedStyle(globalThis.document.documentElement)
+      .scrollSnapType,
+    heroDisplay: globalThis.getComputedStyle(
+      globalThis.document.querySelector("#accueil"),
+    ).display,
+    projectsDisplay: globalThis.getComputedStyle(
+      globalThis.document.querySelector("#projets"),
+    ).display,
+  }));
+
+  expect(comfortableGeometry.snap).toMatch(/^y(?:\\s|$)/u);
+  expect(comfortableGeometry.heroDisplay).toBe("flex");
+  expect(comfortableGeometry.projectsDisplay).toBe("flex");
+
+  await expectNoHorizontalOverflow(page);
+});
+
 test("le catalogue complet expose tous les projets", async ({ page }) => {
   const response = await page.goto("/projets/");
 
