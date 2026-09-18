@@ -726,6 +726,15 @@
  * Motion is intentionally deferred to P2.3.4.
  */
 #accueil [data-hero-visual].hero-card {
+  --hero-system-shift-x: 0px;
+  --hero-system-shift-y: 0px;
+  --hero-system-tilt-x: 0deg;
+  --hero-system-tilt-y: 0deg;
+  --hero-profile-shift-x: 0px;
+  --hero-profile-shift-y: 0px;
+  --hero-profile-tilt-x: 0deg;
+  --hero-profile-tilt-y: 0deg;
+
   display: grid;
   width: min(100%, 32rem);
   max-width: 32rem;
@@ -733,6 +742,7 @@
   align-items: stretch;
   gap: 0.75rem;
   padding: 0.75rem;
+  perspective: 72rem;
 }
 
 #accueil .hero-system,
@@ -1091,5 +1101,150 @@
 
   #accueil .hero-profile-card .profile-panel {
     padding: 0.05rem;
+  }
+}
+
+/* P2.3.4: motion and interaction layer for the Hero signature.
+ * The graph remains complete without motion. Ambient flow is CSS-first;
+ * fine-pointer parallax is progressive enhancement and is disabled by the
+ * reduced-motion contract.
+ */
+#accueil .hero-system-links,
+#accueil .hero-system-node,
+#accueil .hero-system-node::before {
+  transition:
+    opacity 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+@keyframes hero-system-flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+@keyframes hero-system-signal {
+  0%,
+  18%,
+  100% {
+    opacity: 0.72;
+  }
+
+  8% {
+    opacity: 1;
+    box-shadow:
+      0 0 0 0.18rem color-mix(in srgb, var(--accent) 18%, transparent),
+      0 0 0.85rem color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+}
+
+@keyframes hero-system-signal-quality {
+  0%,
+  18%,
+  100% {
+    opacity: 0.72;
+  }
+
+  8% {
+    opacity: 1;
+    box-shadow:
+      0 0 0 0.18rem color-mix(in srgb, var(--accent-2) 18%, transparent),
+      0 0 0.85rem color-mix(in srgb, var(--accent-2) 20%, transparent);
+  }
+}
+
+@media (min-width: 981px) and (prefers-reduced-motion: no-preference) {
+  #accueil [data-hero-visual][data-hero-motion='interactive'] .hero-system,
+  #accueil [data-hero-visual][data-hero-motion='interactive']
+    .hero-profile-card {
+    will-change: transform;
+    transition:
+      transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  #accueil [data-hero-visual][data-hero-motion='interactive'] .hero-system {
+    transform: translate3d(
+        var(--hero-system-shift-x),
+        var(--hero-system-shift-y),
+        0
+      )
+      rotateX(var(--hero-system-tilt-x)) rotateY(var(--hero-system-tilt-y));
+    transform-style: preserve-3d;
+  }
+
+  #accueil
+    [data-hero-visual][data-hero-motion='interactive']
+    .hero-profile-card {
+    transform: translate3d(
+        var(--hero-profile-shift-x),
+        var(--hero-profile-shift-y),
+        0
+      )
+      rotateX(var(--hero-profile-tilt-x)) rotateY(var(--hero-profile-tilt-y));
+    transform-style: preserve-3d;
+  }
+
+  #accueil
+    [data-hero-visual][data-hero-motion='interactive']:hover
+    .hero-system-links {
+    opacity: 0.7;
+  }
+
+  #accueil
+    [data-hero-visual][data-hero-motion='interactive']:hover
+    .hero-system-node {
+    border-color: color-mix(in srgb, var(--accent) 38%, var(--border));
+  }
+
+  #accueil
+    [data-hero-visual][data-hero-motion='interactive']:hover
+    .hero-system-node-quality {
+    border-color: color-mix(in srgb, var(--accent-2) 42%, var(--border));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #accueil .hero-system-links .hero-system-link-secondary {
+    animation: hero-system-flow 5.5s linear infinite;
+  }
+
+  #accueil .hero-system-node::before {
+    animation: hero-system-signal 6s ease-in-out infinite;
+  }
+
+  #accueil .hero-system-node-api::before {
+    animation-delay: 1.5s;
+  }
+
+  #accueil .hero-system-node-data::before {
+    animation-delay: 3s;
+  }
+
+  #accueil .hero-system-node-quality::before {
+    animation-name: hero-system-signal-quality;
+    animation-delay: 4.5s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #accueil .hero-system-links .hero-system-link-secondary,
+  #accueil .hero-system-node::before {
+    animation: none;
+  }
+
+  #accueil [data-hero-visual].hero-card .hero-system,
+  #accueil [data-hero-visual].hero-card .hero-profile-card,
+  #accueil .hero-system-links,
+  #accueil .hero-system-node,
+  #accueil .hero-system-node::before {
+    transition: none;
+  }
+
+  #accueil [data-hero-visual].hero-card .hero-system,
+  #accueil [data-hero-visual].hero-card .hero-profile-card {
+    transform: none;
   }
 }

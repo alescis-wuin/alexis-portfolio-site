@@ -111,6 +111,101 @@ function initSectionNavigation() {
   sections.forEach((section) => observer.observe(section));
 }
 
+function initHeroMotion() {
+  const visual = document.querySelector("[data-hero-visual]");
+  if (!visual || prefersReducedMotion) return;
+
+  const finePointer = window.matchMedia("(pointer: fine)");
+  if (!finePointer.matches) return;
+
+  let framePending = false;
+  let pointerX = 0;
+  let pointerY = 0;
+
+  const writeMotion = () => {
+    const systemShiftX = pointerX * -4;
+    const systemShiftY = pointerY * -3;
+    const systemTiltX = pointerY * 0.7;
+    const systemTiltY = pointerX * -0.9;
+    const profileShiftX = pointerX * 5;
+    const profileShiftY = pointerY * 4;
+    const profileTiltX = pointerY * -0.7;
+    const profileTiltY = pointerX * 0.9;
+
+    visual.style.setProperty(
+      "--hero-system-shift-x",
+      `${systemShiftX.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-system-shift-y",
+      `${systemShiftY.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-system-tilt-x",
+      `${systemTiltX.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-system-tilt-y",
+      `${systemTiltY.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-shift-x",
+      `${profileShiftX.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-shift-y",
+      `${profileShiftY.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-tilt-x",
+      `${profileTiltX.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-tilt-y",
+      `${profileTiltY.toFixed(2)}deg`,
+    );
+    framePending = false;
+  };
+
+  const queueMotion = () => {
+    if (framePending) return;
+    framePending = true;
+    requestAnimationFrame(writeMotion);
+  };
+
+  const resetMotion = () => {
+    pointerX = 0;
+    pointerY = 0;
+    queueMotion();
+  };
+
+  visual.addEventListener(
+    "pointermove",
+    (event) => {
+      const rect = visual.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      pointerX = Math.max(
+        -1,
+        Math.min(1, ((event.clientX - rect.left) / rect.width - 0.5) * 2),
+      );
+      pointerY = Math.max(
+        -1,
+        Math.min(1, ((event.clientY - rect.top) / rect.height - 0.5) * 2),
+      );
+      queueMotion();
+    },
+    { passive: true },
+  );
+
+  visual.addEventListener("pointerleave", resetMotion);
+  visual.addEventListener("pointercancel", resetMotion);
+  window.addEventListener("blur", resetMotion);
+
+  visual.dataset.heroMotion = "interactive";
+  resetMotion();
+}
+
 function initProjectCatalogFilters() {
   document.querySelectorAll("[data-project-catalog]").forEach((catalog) => {
     const filters = catalog.querySelector("[data-project-filters]");
@@ -163,4 +258,5 @@ function initProjectCatalogFilters() {
 initNavigation();
 initReveal();
 initSectionNavigation();
+initHeroMotion();
 initProjectCatalogFilters();
