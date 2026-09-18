@@ -28,6 +28,14 @@ validateCatalog(catalog);
 const publishedProjects = catalog.projects.filter(
   (project) => project.published,
 );
+const featuredProjects = publishedProjects
+  .filter((project) => project.featured)
+  .sort((a, b) => a.featuredOrder - b.featuredOrder);
+const catalogProjects = [...publishedProjects].sort((a, b) => {
+  if (a.featured !== b.featured) return a.featured ? -1 : 1;
+  if (a.featured && b.featured) return a.featuredOrder - b.featuredOrder;
+  return 0;
+});
 
 const projectTemplate = readFileSync(projectTemplatePath, "utf8");
 const catalogTemplate = readFileSync(catalogTemplatePath, "utf8");
@@ -435,9 +443,13 @@ function renderCatalogPage() {
     CANONICAL_URL: escapeAttr(`${catalog.site.baseUrl}/projets/`),
     FILTERS: renderFilters(),
     PROJECT_COUNT: String(publishedProjects.length),
-    PROJECT_CARDS: publishedProjects
+    PROJECT_CARDS: catalogProjects
       .map((project, index) =>
-        renderProjectCard(project, index + 1, "../", "./"),
+        renderProjectCard(project, index + 1, "../", "./", {
+          surface: "catalog",
+          priority: project.featured ? "featured" : "secondary",
+          stackLimit: 4,
+        }),
       )
       .join("\n          "),
   });
@@ -446,13 +458,10 @@ function renderCatalogPage() {
 function renderHomeIndex(currentHtml) {
   const startMarker = "<!-- GENERATED:HOME-PROJECTS:START -->";
   const endMarker = "<!-- GENERATED:HOME-PROJECTS:END -->";
-  const featured = publishedProjects
-    .filter((project) => project.featured)
-    .sort((a, b) => a.featuredOrder - b.featuredOrder);
   const featuredHeading =
-    featured.length === 1
+    featuredProjects.length === 1
       ? "1 étude de cas technique"
-      : `${featured.length} études de cas techniques`;
+      : `${featuredProjects.length} études de cas techniques`;
   const homeHtml = currentHtml;
 
   const section = `    ${startMarker}
@@ -464,9 +473,13 @@ function renderHomeIndex(currentHtml) {
           <p>Une sélection courte de projets complémentaires, avec pour chacun le contexte, l’architecture, les choix techniques, les tests et les limites actuelles.</p>
         </div>
         <div class="project-grid project-grid-focus">
-          ${featured
+          ${featuredProjects
             .map((project, index) =>
-              renderProjectCard(project, index + 1, "", "projets/"),
+              renderProjectCard(project, index + 1, "", "projets/", {
+                surface: "home",
+                priority: index === 0 ? "lead" : "featured",
+                stackLimit: 4,
+              }),
             )
             .join("\n          ")}
         </div>
@@ -495,15 +508,23 @@ function renderHomeIndex(currentHtml) {
   return `${homeHtml.slice(0, projectStart)}${section}\n\n${homeHtml.slice(nextSection)}`;
 }
 
-function renderProjectCard(project, index, assetPrefix, hrefPrefix) {
+function renderProjectCard(
+  project,
+  index,
+  assetPrefix,
+  hrefPrefix,
+  { surface = "catalog", priority = "secondary", stackLimit = 4 } = {},
+) {
   const languageTokens = project.languages.join(" ");
   const typeTokens = project.types.join(" ");
   const stackTokens = project.stack.join(" ");
-  const homeStack = project.homeStack.map((id) => label("stack", id));
+  const homeStack = project.homeStack
+    .slice(0, stackLimit)
+    .map((id) => label("stack", id));
   const href = `${hrefPrefix}${project.slug}.html`;
   const cardVisual = project.visuals.hero;
 
-  return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
+  return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-project-surface="${escapeAttr(surface)}" data-project-priority="${escapeAttr(priority)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
             <a class="project-media" href="${escapeAttr(href)}" aria-label="Lire l’étude de cas ${escapeAttr(project.name)}">
               <img src="${escapeAttr(`${assetPrefix}${cardVisual.src}`)}" width="${cardVisual.width}" height="${cardVisual.height}" loading="lazy" decoding="async" alt="">
             </a>

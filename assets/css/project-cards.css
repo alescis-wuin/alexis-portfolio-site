@@ -372,6 +372,27 @@
   background: color-mix(in srgb, var(--project-accent) 8%, var(--surface-2));
 }
 
+/* Phase 2.4.1: the first featured project is the visual lead on the homepage. */
+.project-grid-focus > [data-project-priority="lead"] {
+  border-color: color-mix(
+    in srgb,
+    var(--project-accent) 58%,
+    var(--border-strong)
+  );
+  box-shadow:
+    inset 0 0.24rem 0 var(--project-accent),
+    0 1.1rem 3rem color-mix(in srgb, var(--project-accent) 10%, transparent);
+}
+
+.project-grid-focus .project-summary,
+.project-grid-focus .project-facts dd {
+  text-wrap: pretty;
+}
+
+.project-grid-focus > [data-project-priority="lead"] .project-summary {
+  max-width: 62ch;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .project-card-playful[data-project-slug]:hover,
   .project-card-playful[data-project-slug]:focus-within {
@@ -401,6 +422,31 @@
       var(--project-accent) 14%,
       var(--surface-2)
     );
+  }
+}
+
+@media (min-width: 100rem) {
+  .project-grid-focus {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(1rem, 1.3vw, 1.5rem);
+  }
+
+  .project-grid-focus > [data-project-priority="lead"] {
+    grid-column: span 7;
+  }
+
+  .project-grid-focus
+    > [data-project-priority="featured"]:nth-child(2) {
+    grid-column: span 5;
+  }
+
+  .project-grid-focus
+    > [data-project-priority="featured"]:nth-child(n + 3) {
+    grid-column: span 6;
+  }
+
+  .project-grid-focus > [data-project-priority="lead"] .project-media {
+    aspect-ratio: 16 / 8.5;
   }
 }
 
@@ -492,10 +538,6 @@
 }
 
 @media (min-width: 105rem) {
-  .project-grid-focus {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
   .project-grid-catalog {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }

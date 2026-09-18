@@ -37,16 +37,16 @@ const responsiveProfiles = [
     catalog: 3,
   },
   { name: "desktop", width: 1440, height: 900, featured: 2, catalog: 3 },
-  { name: "full-hd", width: 1920, height: 1080, featured: 4, catalog: 4 },
-  { name: "ultrawide", width: 2560, height: 1080, featured: 4, catalog: 4 },
+  { name: "full-hd", width: 1920, height: 1080, featured: 2, catalog: 4 },
+  { name: "ultrawide", width: 2560, height: 1080, featured: 2, catalog: 4 },
   {
     name: "ultrawide-large",
     width: 3440,
     height: 1440,
-    featured: 4,
+    featured: 2,
     catalog: 5,
   },
-  { name: "4k", width: 3840, height: 2160, featured: 4, catalog: 5 },
+  { name: "4k", width: 3840, height: 2160, featured: 2, catalog: 5 },
 ];
 
 async function expectNoHorizontalOverflow(page) {
