@@ -83,3 +83,87 @@ test("le hero reste exploitable sur les viewports cibles", async ({
     }
   }
 });
+
+test("la composition P2.3.2 respecte la geometrie cible", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(
+    isMobile,
+    "La matrice geometrique est executee une seule fois sur Chromium desktop.",
+  );
+
+  for (const viewport of viewports) {
+    await page.setViewportSize({
+      width: viewport.width,
+      height: viewport.height,
+    });
+    await page.goto("/");
+
+    const hero = page.locator("#accueil");
+    await expect(hero).toBeVisible();
+
+    const metrics = await hero.evaluate((node) => {
+      const rect = (element) => {
+        const box = element.getBoundingClientRect();
+        return {
+          left: box.left,
+          right: box.right,
+          top: box.top,
+          bottom: box.bottom,
+          width: box.width,
+          height: box.height,
+        };
+      };
+
+      const grid = node.querySelector(".hero-grid");
+      const copy = node.querySelector("[data-hero-copy]");
+      const visual = node.querySelector("[data-hero-visual]");
+
+      if (!grid || !copy || !visual) {
+        throw new Error("Structure hero P2.3.2 incomplete.");
+      }
+
+      return {
+        hero: rect(node),
+        grid: rect(grid),
+        copy: rect(copy),
+        visual: rect(visual),
+      };
+    });
+
+    if (viewport.width <= 980) {
+      expect(
+        metrics.copy.width / metrics.grid.width,
+        `largeur copy insuffisante sur ${viewport.name}`,
+      ).toBeGreaterThanOrEqual(0.94);
+      expect(
+        metrics.visual.width / metrics.grid.width,
+        `largeur visual insuffisante sur ${viewport.name}`,
+      ).toBeGreaterThanOrEqual(0.94);
+      expect(
+        metrics.visual.top,
+        `visual non empile sous copy sur ${viewport.name}`,
+      ).toBeGreaterThanOrEqual(metrics.copy.bottom + 15);
+    } else {
+      expect(
+        metrics.visual.left,
+        `copy et visual se chevauchent sur ${viewport.name}`,
+      ).toBeGreaterThanOrEqual(metrics.copy.right + 20);
+    }
+
+    if (viewport.height < 900) {
+      expect(
+        metrics.hero.height,
+        `hero trop haut sur ${viewport.name}`,
+      ).toBeLessThanOrEqual(viewport.height * 1.35);
+    }
+
+    if (viewport.width >= 1180 && viewport.height >= 900) {
+      expect(
+        Math.abs(metrics.hero.bottom - viewport.height),
+        `hero snap mal cale sur ${viewport.name}`,
+      ).toBeLessThanOrEqual(2);
+    }
+  }
+});
