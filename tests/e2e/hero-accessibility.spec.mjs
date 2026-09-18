@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
 
+// Chromium can report tiny subpixel float drift for nominal 44px boxes.
+const CSS_PIXEL_TOLERANCE = 0.01;
+
 const responsiveProfiles = [
   { id: "reflow-320", width: 320, height: 720 },
   { id: "mobile", width: 390, height: 844 },
@@ -78,7 +81,9 @@ test("P2.3.5 garde le Hero lisible sur la matrice responsive finale", async ({
       elements.map((element) => element.getBoundingClientRect().height),
     );
     for (const height of targetHeights) {
-      expect(height, `${profile.id}: cible CTA`).toBeGreaterThanOrEqual(44);
+      expect(height, `${profile.id}: cible CTA`).toBeGreaterThanOrEqual(
+        44 - CSS_PIXEL_TOLERANCE,
+      );
     }
 
     if (profile.width <= 680) {
