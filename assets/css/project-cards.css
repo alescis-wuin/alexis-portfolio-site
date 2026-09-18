@@ -10,7 +10,7 @@
 }
 
 .project-card-playful .project-body {
-  gap: 0.85rem;
+  gap: 0.72rem;
 }
 
 .project-signal {
@@ -49,7 +49,7 @@
 
 .project-heading {
   display: grid;
-  gap: 0.28rem;
+  gap: 0.2rem;
 }
 
 .project-kicker {
@@ -63,24 +63,32 @@
 }
 
 .project-summary {
+  max-width: 66ch;
   color: var(--muted);
   font-size: var(--text-ui);
-  line-height: 1.46;
+  line-height: 1.42;
+  text-wrap: pretty;
 }
 
 .project-facts {
   display: grid;
-  gap: 0.55rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface-2) 48%, transparent);
   margin: 0;
 }
 
 .project-facts div {
   display: grid;
-  gap: 0.25rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface-2) 54%, transparent);
-  padding: 0.66rem 0.72rem;
+  grid-template-columns: minmax(4.8rem, auto) minmax(0, 1fr);
+  align-items: start;
+  gap: 0.65rem;
+  padding: 0.58rem 0.68rem;
+}
+
+.project-facts div + div {
+  border-top: 1px solid var(--border);
 }
 
 .project-facts dt {
@@ -101,14 +109,21 @@
 
 .project-stack {
   display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.35rem 0.7rem;
+}
+
+.project-stack .tag-list {
   gap: 0.35rem;
 }
 
 .project-actions {
-  justify-content: space-between;
-  gap: 0.65rem;
+  justify-content: flex-start;
+  gap: 0.55rem;
   margin-top: auto;
-  padding-top: 0.15rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.72rem;
 }
 
 .project-read-link,
@@ -135,7 +150,10 @@
 
 .project-read-link {
   gap: 0.4rem;
+  border: 1px solid color-mix(in srgb, var(--project-accent) 42%, var(--border));
+  background: color-mix(in srgb, var(--project-accent) 12%, var(--surface-2));
   color: var(--text);
+  padding: 0.55rem 0.82rem;
   text-decoration: none;
   text-underline-offset: 0.2em;
 }
@@ -147,9 +165,9 @@
 
 .project-repository-link {
   gap: 0.35rem;
-  min-width: 7.2rem;
+  min-width: 6.6rem;
   border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface-2) 76%, transparent);
+  background: transparent;
   color: var(--text);
   padding: 0.55rem 0.8rem;
   text-decoration: none;
@@ -320,7 +338,7 @@
   color: color-mix(in srgb, var(--project-accent) 44%, var(--text));
 }
 
-.project-card-playful[data-project-slug] .project-facts div {
+.project-card-playful[data-project-slug] .project-facts {
   border-color: color-mix(
     in srgb,
     var(--project-accent) 22%,
@@ -333,6 +351,14 @@
   );
   box-shadow: inset 0.18rem 0 0
     color-mix(in srgb, var(--project-accent) 64%, transparent);
+}
+
+.project-card-playful[data-project-slug] .project-facts div + div {
+  border-top-color: color-mix(
+    in srgb,
+    var(--project-accent) 18%,
+    var(--border)
+  );
 }
 
 .project-card-playful[data-project-slug] .project-facts dt {
@@ -363,13 +389,20 @@
   color: var(--muted);
 }
 
+.project-card-playful[data-project-slug] .project-read-link {
+  border-color: color-mix(
+    in srgb,
+    var(--project-accent) 46%,
+    var(--border-strong)
+  );
+}
+
 .project-card-playful[data-project-slug] .project-repository-link {
   border-color: color-mix(
     in srgb,
-    var(--project-accent) 34%,
+    var(--project-accent) 30%,
     var(--border-strong)
   );
-  background: color-mix(in srgb, var(--project-accent) 8%, var(--surface-2));
 }
 
 /* Phase 2.4.1: the first featured project is the visual lead on the homepage. */
@@ -393,6 +426,27 @@
   max-width: 62ch;
 }
 
+/* Phase 2.4.2: internal density follows the card role without dropping content. */
+.project-card-playful[data-project-density="lead"] .project-summary {
+  font-size: 1rem;
+  line-height: 1.46;
+}
+
+.project-card-playful[data-project-density="featured"] .project-body,
+.project-card-playful[data-project-density="catalog"] .project-body {
+  gap: 0.65rem;
+}
+
+.project-card-playful[data-project-density="catalog"] .project-facts div {
+  gap: 0.55rem;
+  padding: 0.5rem 0.6rem;
+}
+
+.project-card-playful[data-project-density="catalog"] .project-summary,
+.project-card-playful[data-project-density="catalog"] .project-facts dd {
+  line-height: 1.34;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .project-card-playful[data-project-slug]:hover,
   .project-card-playful[data-project-slug]:focus-within {
@@ -409,6 +463,19 @@
         transparent
       );
     transform: translateY(-0.15rem);
+  }
+
+  .project-card-playful[data-project-slug] .project-read-link:hover {
+    border-color: color-mix(
+      in srgb,
+      var(--project-accent) 68%,
+      var(--border-strong)
+    );
+    background: color-mix(
+      in srgb,
+      var(--project-accent) 18%,
+      var(--surface-2)
+    );
   }
 
   .project-card-playful[data-project-slug] .project-repository-link:hover {
@@ -448,6 +515,20 @@
   .project-grid-focus > [data-project-priority="lead"] .project-media {
     aspect-ratio: 16 / 8.5;
   }
+
+  .project-grid-focus > [data-project-density="lead"] .project-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .project-grid-focus
+    > [data-project-density="lead"]
+    .project-facts
+    div
+    + div {
+    border-top: 0;
+    border-left: 1px solid
+      color-mix(in srgb, var(--project-accent) 18%, var(--border));
+  }
 }
 
 @media (min-width: 105rem) and (max-height: 60rem) {
@@ -464,13 +545,9 @@
     line-height: 1.38;
   }
 
-  .project-grid-focus .project-facts {
-    gap: 0.42rem;
-  }
-
   .project-grid-focus .project-facts div {
-    gap: 0.18rem;
-    padding: 0.52rem 0.6rem;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem;
   }
 
   .project-grid-focus .project-facts dd {
@@ -516,14 +593,27 @@
     grid-template-columns: 1fr;
   }
 
-  .project-signal,
   .project-catalog-status {
     align-items: flex-start;
     flex-direction: column;
   }
 
+  .project-signal {
+    align-items: center;
+    flex-direction: row;
+  }
+
   .project-status {
     width: fit-content;
+  }
+
+  .project-facts div {
+    grid-template-columns: 1fr;
+    gap: 0.22rem;
+  }
+
+  .project-stack {
+    grid-template-columns: 1fr;
   }
 
   .project-actions {

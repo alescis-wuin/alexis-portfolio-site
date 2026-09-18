@@ -448,7 +448,8 @@ function renderCatalogPage() {
         renderProjectCard(project, index + 1, "../", "./", {
           surface: "catalog",
           priority: project.featured ? "featured" : "secondary",
-          stackLimit: 4,
+          density: "catalog",
+          stackLimit: 3,
         }),
       )
       .join("\n          "),
@@ -478,7 +479,8 @@ function renderHomeIndex(currentHtml) {
               renderProjectCard(project, index + 1, "", "projets/", {
                 surface: "home",
                 priority: index === 0 ? "lead" : "featured",
-                stackLimit: 4,
+                density: index === 0 ? "lead" : "featured",
+                stackLimit: index === 0 ? 4 : 3,
               }),
             )
             .join("\n          ")}
@@ -513,7 +515,12 @@ function renderProjectCard(
   index,
   assetPrefix,
   hrefPrefix,
-  { surface = "catalog", priority = "secondary", stackLimit = 4 } = {},
+  {
+    surface = "catalog",
+    priority = "secondary",
+    density = "catalog",
+    stackLimit = 3,
+  } = {},
 ) {
   const languageTokens = project.languages.join(" ");
   const typeTokens = project.types.join(" ");
@@ -524,7 +531,7 @@ function renderProjectCard(
   const href = `${hrefPrefix}${project.slug}.html`;
   const cardVisual = project.visuals.hero;
 
-  return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-project-surface="${escapeAttr(surface)}" data-project-priority="${escapeAttr(priority)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
+  return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-project-surface="${escapeAttr(surface)}" data-project-priority="${escapeAttr(priority)}" data-project-density="${escapeAttr(density)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
             <a class="project-media" href="${escapeAttr(href)}" aria-label="Lire l’étude de cas ${escapeAttr(project.name)}">
               <img src="${escapeAttr(`${assetPrefix}${cardVisual.src}`)}" width="${cardVisual.width}" height="${cardVisual.height}" loading="lazy" decoding="async" alt="">
             </a>
@@ -539,11 +546,11 @@ function renderProjectCard(
               </div>
               <p class="project-summary">${escapeHtml(project.summary)}</p>
               <dl class="project-facts">
-                <div>
+                <div class="project-fact project-fact-mission">
                   <dt>Mission</dt>
                   <dd>${escapeHtml(project.mission)}</dd>
                 </div>
-                <div>
+                <div class="project-fact project-fact-proof">
                   <dt>Points clés</dt>
                   <dd>${escapeHtml(project.proof)}</dd>
                 </div>
