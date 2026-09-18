@@ -562,7 +562,7 @@
   }
 
   #accueil .hero-actions .button {
-    min-height: 2.5rem;
+    min-height: 2.75rem;
     padding: 0.7rem 0.9rem;
   }
 
@@ -617,7 +617,7 @@
 
 @media (max-width: 680px) {
   #accueil.section-lg {
-    padding-block: 2.75rem;
+    padding-block: 2.25rem;
   }
 
   #accueil .hero-grid {
@@ -658,7 +658,7 @@
 
   #accueil .hero-actions .button {
     width: 100%;
-    min-height: 2.65rem;
+    min-height: 2.75rem;
     padding: 0.7rem 0.55rem;
     font-size: 0.9rem;
     line-height: 1.15;
@@ -1041,21 +1041,24 @@
   }
 
   #accueil .hero-profile-card .profile-panel {
+    align-content: center;
     padding: 0.25rem;
+  }
+
+  #accueil .hero-profile-card .status-line {
+    display: none;
   }
 }
 
 @media (max-width: 680px) {
   #accueil [data-hero-visual].hero-card {
-    grid-template-columns: 4.7rem minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.55rem;
     padding: 0.55rem;
   }
 
   #accueil .hero-system {
-    gap: 0;
-    padding: 0.32rem;
-    border-radius: 0.95rem;
+    display: none;
   }
 
   #accueil .hero-system-heading {
@@ -1093,7 +1096,8 @@
   }
 
   #accueil .hero-profile-card {
-    grid-template-columns: 5.35rem minmax(0, 1fr);
+    grid-template-columns: 4.9rem minmax(0, 1fr);
+    min-height: 5.6rem;
     gap: 0.6rem;
     border-radius: 0.95rem;
     padding: 0.35rem;
@@ -1246,5 +1250,48 @@
   #accueil [data-hero-visual].hero-card .hero-system,
   #accueil [data-hero-visual].hero-card .hero-profile-card {
     transform: none;
+  }
+}
+
+/* P2.3.5: final responsive and accessibility pass for the Hero.
+ * At the tablet-landscape boundary, keep the two-column composition but
+ * simplify duplicated copy and technical labels before they become cramped.
+ */
+@media (min-width: 981px) and (max-width: 1100px) {
+  #accueil .hero-system {
+    gap: 0;
+    padding: 0.45rem;
+  }
+
+  #accueil .hero-system-heading,
+  #accueil .hero-system-name,
+  #accueil .hero-profile-card .status-line {
+    display: none;
+  }
+
+  #accueil .hero-system-stage {
+    min-height: 13.5rem;
+  }
+
+  #accueil .hero-system-node {
+    width: 2.7rem;
+    min-height: 2.35rem;
+    place-items: center;
+    padding: 0.28rem;
+  }
+
+  #accueil .hero-system-code {
+    font-size: 0.62rem;
+  }
+
+  #accueil .hero-profile-card .profile-panel {
+    align-content: center;
+    padding-block: 0.45rem 0.15rem;
+  }
+}
+
+@media (max-width: 360px) {
+  #accueil .hero-actions {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

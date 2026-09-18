@@ -190,9 +190,15 @@ test("le module technique P2.3.3 reste contenu dans la zone visuelle", async ({
     const nodes = page.locator("[data-hero-system-node]");
 
     await expect(visual).toBeVisible();
-    await expect(system).toBeVisible();
     await expect(profile).toBeVisible();
     await expect(nodes).toHaveCount(4);
+
+    const systemExpectedVisible = viewport.width > 680;
+    if (systemExpectedVisible) {
+      await expect(system).toBeVisible();
+    } else {
+      await expect(system).toBeHidden();
+    }
 
     const metrics = await visual.evaluate((node) => {
       const rect = (element) => {
@@ -221,7 +227,7 @@ test("le module technique P2.3.3 reste contenu dans la zone visuelle", async ({
       };
     });
 
-    for (const box of [metrics.system, metrics.profile]) {
+    const expectInsideVisual = (box) => {
       expect(
         box.left,
         `bloc du module hors visual sur ${viewport.name}`,
@@ -238,7 +244,15 @@ test("le module technique P2.3.3 reste contenu dans la zone visuelle", async ({
         box.bottom,
         `bloc du module hors visual sur ${viewport.name}`,
       ).toBeLessThanOrEqual(metrics.visual.bottom + 1);
+    };
+
+    expectInsideVisual(metrics.profile);
+
+    if (!systemExpectedVisible) {
+      continue;
     }
+
+    expectInsideVisual(metrics.system);
 
     for (const box of metrics.nodes) {
       expect(
