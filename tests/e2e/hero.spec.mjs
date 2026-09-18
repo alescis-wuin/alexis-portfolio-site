@@ -167,3 +167,96 @@ test("la composition P2.3.2 respecte la geometrie cible", async ({
     }
   }
 });
+
+test("le module technique P2.3.3 reste contenu dans la zone visuelle", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(
+    isMobile,
+    "La matrice geometrique est executee une seule fois sur Chromium desktop.",
+  );
+
+  for (const viewport of viewports) {
+    await page.setViewportSize({
+      width: viewport.width,
+      height: viewport.height,
+    });
+    await page.goto("/");
+
+    const visual = page.locator("[data-hero-visual]");
+    const system = page.locator("[data-hero-system]");
+    const profile = page.locator("[data-hero-profile]");
+    const nodes = page.locator("[data-hero-system-node]");
+
+    await expect(visual).toBeVisible();
+    await expect(system).toBeVisible();
+    await expect(profile).toBeVisible();
+    await expect(nodes).toHaveCount(4);
+
+    const metrics = await visual.evaluate((node) => {
+      const rect = (element) => {
+        const box = element.getBoundingClientRect();
+        return {
+          left: box.left,
+          right: box.right,
+          top: box.top,
+          bottom: box.bottom,
+        };
+      };
+
+      const systemElement = node.querySelector("[data-hero-system]");
+      const profileElement = node.querySelector("[data-hero-profile]");
+      const systemNodes = [...node.querySelectorAll("[data-hero-system-node]")];
+
+      if (!systemElement || !profileElement || systemNodes.length !== 4) {
+        throw new Error("Structure du module technique P2.3.3 incomplete.");
+      }
+
+      return {
+        visual: rect(node),
+        system: rect(systemElement),
+        profile: rect(profileElement),
+        nodes: systemNodes.map(rect),
+      };
+    });
+
+    for (const box of [metrics.system, metrics.profile]) {
+      expect(
+        box.left,
+        `bloc du module hors visual sur ${viewport.name}`,
+      ).toBeGreaterThanOrEqual(metrics.visual.left - 1);
+      expect(
+        box.right,
+        `bloc du module hors visual sur ${viewport.name}`,
+      ).toBeLessThanOrEqual(metrics.visual.right + 1);
+      expect(
+        box.top,
+        `bloc du module hors visual sur ${viewport.name}`,
+      ).toBeGreaterThanOrEqual(metrics.visual.top - 1);
+      expect(
+        box.bottom,
+        `bloc du module hors visual sur ${viewport.name}`,
+      ).toBeLessThanOrEqual(metrics.visual.bottom + 1);
+    }
+
+    for (const box of metrics.nodes) {
+      expect(
+        box.left,
+        `noeud technique hors panneau sur ${viewport.name}`,
+      ).toBeGreaterThanOrEqual(metrics.system.left - 1);
+      expect(
+        box.right,
+        `noeud technique hors panneau sur ${viewport.name}`,
+      ).toBeLessThanOrEqual(metrics.system.right + 1);
+      expect(
+        box.top,
+        `noeud technique hors panneau sur ${viewport.name}`,
+      ).toBeGreaterThanOrEqual(metrics.system.top - 1);
+      expect(
+        box.bottom,
+        `noeud technique hors panneau sur ${viewport.name}`,
+      ).toBeLessThanOrEqual(metrics.system.bottom + 1);
+    }
+  }
+});

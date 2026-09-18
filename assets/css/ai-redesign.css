@@ -431,7 +431,7 @@
 
 /* P2.3.2: hero visual composition
  * Editorial content and data-hero hooks remain unchanged.
- * This layer fixes responsive geometry and prepares the visual slot for P2.3.3.
+ * This layer fixes the responsive geometry consumed by P2.3.3.
  */
 #accueil.section-lg {
   padding-block: clamp(3.25rem, 6vw, 5.5rem);
@@ -718,4 +718,378 @@
 #accueil .hero-grid > .hero-card {
   min-width: 0;
   grid-column: auto;
+}
+
+/* P2.3.3: static application-system signature.
+ * The portrait remains the primary human anchor; the adjacent graph is a
+ * deliberately abstract system map, not a diagram of a specific project.
+ * Motion is intentionally deferred to P2.3.4.
+ */
+#accueil [data-hero-visual].hero-card {
+  display: grid;
+  width: min(100%, 32rem);
+  max-width: 32rem;
+  grid-template-columns: minmax(9.5rem, 0.72fr) minmax(14rem, 1fr);
+  align-items: stretch;
+  gap: 0.75rem;
+  padding: 0.75rem;
+}
+
+#accueil .hero-system,
+#accueil .hero-profile-card {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 1.2rem;
+  background: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
+}
+
+#accueil .hero-system {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.5rem;
+  padding: 0.7rem;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      circle at 50% 46%,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(
+      color-mix(in srgb, var(--border) 45%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--border) 45%, transparent) 1px,
+      transparent 1px
+    ),
+    color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  background-size: auto, 1.15rem 1.15rem, 1.15rem 1.15rem, auto;
+}
+
+#accueil .hero-system::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 7rem;
+  aspect-ratio: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent-2) 8%, transparent);
+  filter: blur(1.25rem);
+}
+
+#accueil .hero-system-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+#accueil .hero-system-eyebrow,
+#accueil .hero-system-state,
+#accueil .hero-system-code {
+  font-family: var(--font-mono);
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+#accueil .hero-system-eyebrow {
+  overflow: hidden;
+  color: var(--muted-2);
+  font-size: 0.63rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#accueil .hero-system-state {
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, var(--accent-3) 42%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent-3) 9%, transparent);
+  color: var(--accent-3);
+  font-size: 0.56rem;
+  padding: 0.18rem 0.32rem;
+}
+
+#accueil .hero-system-stage {
+  position: relative;
+  min-height: 21rem;
+}
+
+#accueil .hero-system-links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  color: var(--accent);
+  opacity: 0.56;
+  pointer-events: none;
+}
+
+#accueil .hero-system-links path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  vector-effect: non-scaling-stroke;
+}
+
+#accueil .hero-system-links .hero-system-link-secondary {
+  color: var(--accent-2);
+  stroke-dasharray: 4 6;
+  opacity: 0.68;
+}
+
+#accueil .hero-system-node {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  width: 5.15rem;
+  min-height: 3rem;
+  align-content: center;
+  gap: 0.08rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  border-radius: 0.8rem;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: 0 0.65rem 1.6rem rgba(0, 0, 0, 0.2);
+  padding: 0.42rem 0.5rem;
+}
+
+#accueil .hero-system-node::before {
+  content: '';
+  position: absolute;
+  width: 0.42rem;
+  height: 0.42rem;
+  border: 2px solid var(--bg-elevated);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+#accueil .hero-system-code {
+  color: var(--accent);
+  font-size: 0.62rem;
+}
+
+#accueil .hero-system-name {
+  color: var(--text);
+  font-size: 0.67rem;
+  font-weight: 760;
+  line-height: 1.15;
+}
+
+#accueil .hero-system-node-interface {
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#accueil .hero-system-node-interface::before {
+  left: 50%;
+  bottom: -0.28rem;
+  transform: translateX(-50%);
+}
+
+#accueil .hero-system-node-api {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+#accueil .hero-system-node-api::before {
+  left: -0.28rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#accueil .hero-system-node-data {
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#accueil .hero-system-node-data::before {
+  left: 50%;
+  top: -0.28rem;
+  transform: translateX(-50%);
+}
+
+#accueil .hero-system-node-quality {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  border-color: color-mix(in srgb, var(--accent-2) 34%, var(--border));
+}
+
+#accueil .hero-system-node-quality::before {
+  right: -0.28rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--accent-2);
+  box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--accent-2) 14%, transparent);
+}
+
+#accueil .hero-profile-card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  padding: 0.55rem;
+  box-shadow: var(--shadow-sm);
+}
+
+#accueil .hero-profile-card picture {
+  width: 100%;
+}
+
+#accueil .hero-profile-card .profile-panel {
+  padding-inline: 0.1rem;
+}
+
+@media (min-width: 981px) and (max-height: 899px) {
+  #accueil [data-hero-visual].hero-card {
+    width: min(100%, 27rem);
+    max-width: 27rem;
+    grid-template-columns: minmax(7rem, 0.62fr) minmax(12rem, 1fr);
+    gap: 0.6rem;
+    padding: 0.55rem;
+  }
+
+  #accueil .hero-system {
+    padding: 0.55rem;
+  }
+
+  #accueil .hero-system-stage {
+    min-height: 16rem;
+  }
+
+  #accueil .hero-system-node {
+    width: 4.35rem;
+    min-height: 2.6rem;
+    padding: 0.34rem 0.4rem;
+  }
+
+  #accueil .hero-system-code {
+    font-size: 0.56rem;
+  }
+
+  #accueil .hero-system-name {
+    font-size: 0.6rem;
+  }
+
+  #accueil .hero-profile-card {
+    padding: 0.45rem;
+  }
+}
+
+@media (max-width: 980px) {
+  #accueil [data-hero-visual].hero-card {
+    grid-template-columns: minmax(8.5rem, 0.44fr) minmax(0, 1.56fr);
+    gap: 0.75rem;
+  }
+
+  #accueil .hero-system {
+    padding: 0.55rem;
+  }
+
+  #accueil .hero-system-eyebrow {
+    font-size: 0.6rem;
+  }
+
+  #accueil .hero-system-stage {
+    min-height: 8.5rem;
+  }
+
+  #accueil .hero-system-node {
+    width: 2.55rem;
+    min-height: 2.3rem;
+    place-items: center;
+    padding: 0.28rem;
+  }
+
+  #accueil .hero-system-name {
+    display: none;
+  }
+
+  #accueil .hero-system-code {
+    font-size: 0.58rem;
+  }
+
+  #accueil .hero-profile-card {
+    grid-template-columns: minmax(7rem, 10rem) minmax(0, 1fr);
+    align-items: center;
+    align-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  #accueil .hero-profile-card .profile-panel {
+    padding: 0.25rem;
+  }
+}
+
+@media (max-width: 680px) {
+  #accueil [data-hero-visual].hero-card {
+    grid-template-columns: 4.7rem minmax(0, 1fr);
+    gap: 0.55rem;
+    padding: 0.55rem;
+  }
+
+  #accueil .hero-system {
+    gap: 0;
+    padding: 0.32rem;
+    border-radius: 0.95rem;
+  }
+
+  #accueil .hero-system-heading {
+    display: none;
+  }
+
+  #accueil .hero-system-stage {
+    min-height: 5.75rem;
+  }
+
+  #accueil .hero-system-links {
+    inset: 0.15rem;
+    width: calc(100% - 0.3rem);
+    height: calc(100% - 0.3rem);
+    opacity: 0.48;
+  }
+
+  #accueil .hero-system-node {
+    width: 1.65rem;
+    min-height: 1.65rem;
+    border-radius: 0.55rem;
+    padding: 0.12rem;
+    box-shadow: 0 0.35rem 0.9rem rgba(0, 0, 0, 0.18);
+  }
+
+  #accueil .hero-system-node::before {
+    width: 0.3rem;
+    height: 0.3rem;
+    border-width: 1px;
+  }
+
+  #accueil .hero-system-code {
+    font-size: 0.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  #accueil .hero-profile-card {
+    grid-template-columns: 5.35rem minmax(0, 1fr);
+    gap: 0.6rem;
+    border-radius: 0.95rem;
+    padding: 0.35rem;
+  }
+
+  #accueil .hero-profile-card .profile-panel {
+    padding: 0.05rem;
+  }
 }

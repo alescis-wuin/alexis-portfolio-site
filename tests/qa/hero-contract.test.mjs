@@ -50,6 +50,29 @@ test("le hero possede des points d'ancrage stables pour le redesign", () => {
   }
 });
 
+test("le hero expose le module technique statique P2.3.3", () => {
+  for (const hook of ["data-hero-system", "data-hero-profile"]) {
+    assert.match(
+      hero,
+      new RegExp(`\\b${hook}(?:\\s|>|=)`, "u"),
+      `${hook} doit etre present dans le hero.`,
+    );
+  }
+
+  const systemNodes = [
+    ...hero.matchAll(/\bdata-hero-system-node=["']([^"']+)["']/gu),
+  ]
+    .map((match) => match[1])
+    .sort();
+
+  assert.deepEqual(systemNodes, ["api", "data", "interface", "quality"]);
+  assert.match(
+    hero,
+    /<div[^>]*class=["'][^"']*hero-system[^"']*["'][^>]*aria-hidden=["']true["'][^>]*>/u,
+    "Le schema applicatif doit rester decoratif pour les technologies d'assistance.",
+  );
+});
+
 test("les actions du hero restent explicites", () => {
   assert.ok(
     hero.includes('href="#projets"'),

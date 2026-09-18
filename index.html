@@ -250,28 +250,78 @@
             data-reveal
             data-hero-visual
           >
-            <picture>
-              <source
-                srcset="
-                  assets/img/photo-profil-480.webp 480w,
-                  assets/img/photo-profil-800.webp 800w
-                "
-                type="image/webp"
-                sizes="(max-width: 780px) 220px, 320px"
-              />
-              <img
-                src="assets/img/photo-profil.jpg"
-                width="800"
-                height="800"
-                alt="Portrait professionnel d’Alexis Guinot"
-                fetchpriority="high"
-              />
-            </picture>
-            <div class="profile-panel">
-              <p class="profile-role">Concepteur-développeur full-stack</p>
-              <div class="status-line">
-                <span aria-hidden="true"></span>
-                Recherche d’une alternance d’un an à partir d’octobre 2026
+            <div class="hero-system" data-hero-system aria-hidden="true">
+              <div class="hero-system-heading">
+                <span class="hero-system-eyebrow">Système applicatif</span>
+                <span class="hero-system-state">Flux</span>
+              </div>
+              <div class="hero-system-stage">
+                <svg
+                  class="hero-system-links"
+                  viewBox="0 0 180 220"
+                  preserveAspectRatio="none"
+                  focusable="false"
+                >
+                  <path d="M90 26 C128 42 148 70 151 109" />
+                  <path d="M151 111 C148 150 128 178 90 194" />
+                  <path d="M90 194 C52 178 32 150 29 111" />
+                  <path d="M29 109 C32 70 52 42 90 26" />
+                  <path class="hero-system-link-secondary" d="M39 110 H141" />
+                </svg>
+                <div
+                  class="hero-system-node hero-system-node-interface"
+                  data-hero-system-node="interface"
+                >
+                  <span class="hero-system-code">UI</span>
+                  <span class="hero-system-name">Interface</span>
+                </div>
+                <div
+                  class="hero-system-node hero-system-node-api"
+                  data-hero-system-node="api"
+                >
+                  <span class="hero-system-code">API</span>
+                  <span class="hero-system-name">API / logique</span>
+                </div>
+                <div
+                  class="hero-system-node hero-system-node-data"
+                  data-hero-system-node="data"
+                >
+                  <span class="hero-system-code">DB</span>
+                  <span class="hero-system-name">Données</span>
+                </div>
+                <div
+                  class="hero-system-node hero-system-node-quality"
+                  data-hero-system-node="quality"
+                >
+                  <span class="hero-system-code">QA</span>
+                  <span class="hero-system-name">Tests / qualité</span>
+                </div>
+              </div>
+            </div>
+            <div class="hero-profile-card" data-hero-profile>
+              <picture>
+                <source
+                  srcset="
+                    assets/img/photo-profil-480.webp 480w,
+                    assets/img/photo-profil-800.webp 800w
+                  "
+                  type="image/webp"
+                  sizes="(max-width: 780px) 220px, 320px"
+                />
+                <img
+                  src="assets/img/photo-profil.jpg"
+                  width="800"
+                  height="800"
+                  alt="Portrait professionnel d’Alexis Guinot"
+                  fetchpriority="high"
+                />
+              </picture>
+              <div class="profile-panel">
+                <p class="profile-role">Concepteur-développeur full-stack</p>
+                <div class="status-line">
+                  <span aria-hidden="true"></span>
+                  Recherche d’une alternance d’un an à partir d’octobre 2026
+                </div>
               </div>
             </div>
           </aside>
