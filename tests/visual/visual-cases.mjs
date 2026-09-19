@@ -1,10 +1,12 @@
 export const visualProfiles = Object.freeze([
+  { id: "reflow-320", width: 320, height: 720 },
   { id: "mobile", width: 390, height: 844 },
   { id: "laptop-low", width: 1366, height: 768 },
   { id: "desktop-low", width: 1920, height: 800 },
   { id: "full-hd", width: 1920, height: 1080 },
   { id: "ultrawide", width: 2560, height: 1080 },
   { id: "ultrawide-large", width: 3440, height: 1440 },
+  { id: "4k", width: 3840, height: 2160 },
 ]);
 
 export const visualProjectSlugs = Object.freeze([
@@ -38,14 +40,14 @@ export const visualScenes = Object.freeze([
     id: "project-catalog",
     path: "/projets/",
     focus: "[data-project-catalog]",
-    profiles: ["mobile", "full-hd", "ultrawide"],
+    profiles: ["reflow-320", "mobile", "full-hd", "ultrawide", "4k"],
   },
   {
     id: "alycia-media-viewer",
     path: "/projets/alycia.html",
     focus: "[data-media-viewer]",
     activate: "[data-project-hero] [data-media-viewer-trigger]",
-    profiles: ["mobile", "full-hd"],
+    profiles: ["reflow-320", "mobile", "full-hd", "4k"],
   },
   ...visualProjectSlugs.flatMap((slug) => [
     {

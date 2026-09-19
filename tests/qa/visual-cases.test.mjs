@@ -31,19 +31,21 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
   assert.equal(new Set(sceneIds).size, sceneIds.length);
 
   assert.deepEqual(visualProfiles, [
+    { id: "reflow-320", width: 320, height: 720 },
     { id: "mobile", width: 390, height: 844 },
     { id: "laptop-low", width: 1366, height: 768 },
     { id: "desktop-low", width: 1920, height: 800 },
     { id: "full-hd", width: 1920, height: 1080 },
     { id: "ultrawide", width: 2560, height: 1080 },
     { id: "ultrawide-large", width: 3440, height: 1440 },
+    { id: "4k", width: 3840, height: 2160 },
   ]);
 
   const homeHeroScene = visualScenes.find((scene) => scene.id === "home-hero");
   assert.ok(homeHeroScene);
   assert.deepEqual(homeHeroScene.profiles, profileIds);
 
-  assert.equal(visualCaptureCount(), 53);
+  assert.equal(visualCaptureCount(), 61);
 
   for (const profile of visualProfiles) {
     assert.ok(profile.width >= 320);
@@ -74,7 +76,8 @@ test("P2.4-F capture le viewer ouvert sur mobile et Full HD", () => {
     viewerScene.activate,
     "[data-project-hero] [data-media-viewer-trigger]",
   );
-  assert.deepEqual(viewerScene.profiles, ["mobile", "full-hd"]);
+  assert.ok(viewerScene.profiles.includes("mobile"));
+  assert.ok(viewerScene.profiles.includes("full-hd"));
 });
 
 test("chaque projet public possède une capture hero, architecture et galerie", () => {

@@ -8,12 +8,14 @@ Le plan canonique est défini dans `tests/visual/visual-cases.mjs`.
 
 Profils fixes :
 
+- `320x720` reflow final P2.4-G ;
 - `390x844` mobile ;
 - `1366x768` laptop bas et viewport de référence de la phase 2.2 ;
 - `1920x800` desktop large et bas ;
 - `1920x1080` 16:9 ;
 - `2560x1080` ultrawide proche de 21:9 ;
-- `3440x1440` ultrawide large.
+- `3440x1440` ultrawide large ;
+- `3840x2160` 4K de clôture P2.4-G.
 
 Les scènes couvrent :
 
@@ -23,9 +25,9 @@ Les scènes couvrent :
 - le masthead des six projets publics ;
 - le diagramme d'architecture des six projets publics ;
 - la galerie des six projets publics en Full HD ;
-- le viewer média Alycia ouvert en mobile et Full HD.
+- le viewer média Alycia ouvert en reflow 320 px, mobile, Full HD et 4K.
 
-Le plan produit 53 captures aux noms stables sous `artifacts/visual/captures/`.
+Le plan produit 61 captures aux noms stables sous `artifacts/visual/captures/`.
 
 ## Déterminisme
 

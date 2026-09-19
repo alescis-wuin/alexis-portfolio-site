@@ -18,6 +18,7 @@ Site web portfolio statique, sans dépendance de build applicatif en production.
 - `docs/PROJECT_CATALOG.md` : documentation du modèle de données et procédure d'ajout d'un projet.
 - `docs/P2.4_MEDIA.md` : contrat P2.4-E des médias typés, captures produit et validation d’intégrité.
 - `docs/P2.4_MEDIA_VIEWER.md` : contrat P2.4-F du viewer média natif et de son accessibilité.
+- `docs/P2.4_FINAL_QA.md` : clôture P2.4-G responsive, accessibilité, performance et matrice visuelle finale.
 - `docs/archive/` : anciennes analyses et décisions conservées à titre historique ; elles ne sont plus normatives.
 
 La V1 du portfolio utilise un thème sombre unique. Un éventuel thème clair est différé et ne fait pas partie du contrat visuel actuel.
@@ -41,6 +42,7 @@ Modifier uniquement `data/projects.json` et ajouter les ressources nécessaires,
 ```bash
 npm run generate
 npm run validate:media
+npm run validate:performance
 ```
 
 Les sorties générées doivent être commitées avec la source. La CI exécute `npm run generate:check` et échoue si elles sont désynchronisées.

@@ -22,16 +22,17 @@
     "security:secrets": "node scripts/run-secretlint.mjs",
     "test:generator": "node --test tests/generator/project-generation.test.mjs",
     "test:e2e": "playwright test",
-    "check:basic": "npm run generate:check && npm run validate:media && npm run test:unit && npm run format:check && npm run lint:js && npm run lint:css && npm run validate",
+    "check:basic": "npm run generate:check && npm run validate:media && npm run validate:performance && npm run test:unit && npm run format:check && npm run lint:js && npm run lint:css && npm run validate",
     "check:extended": "npm run check:basic && npm run security:secrets && npm run lint:html && npm run test:e2e",
     "check:ai": "npm run check:extended",
-    "check:strict": "npm run generate:check && npm run validate:media && npm run test:unit && npm run format:check && npm run security:audit && npm run security:secrets && npm run lint && npm run validate && npm run test:e2e",
+    "check:strict": "npm run generate:check && npm run validate:media && npm run validate:performance && npm run test:unit && npm run format:check && npm run security:audit && npm run security:secrets && npm run lint && npm run validate && npm run test:e2e",
     "hooks:install": "git config core.hooksPath .githooks && chmod +x .githooks/*",
     "test:qa": "node --test tests/qa/*.test.mjs",
     "test:unit": "npm run test:generator && npm run test:qa",
     "capture:visual": "node scripts/run-visual-qa.mjs",
     "test:visual": "npm run test:qa && npm run capture:visual",
-    "validate:media": "node scripts/validate-project-media.mjs"
+    "validate:media": "node scripts/validate-project-media.mjs",
+    "validate:performance": "node scripts/validate-project-performance.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.61.1",
