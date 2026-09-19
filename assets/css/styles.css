@@ -262,7 +262,7 @@
   }
 
   .value-grid,
-  .skills-grid,
+  .capability-grid,
   .project-grid {
     display: grid;
     gap: 1rem;
@@ -272,8 +272,8 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .skills-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .capability-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
   .project-grid {
@@ -305,9 +305,19 @@
     }
 
     .value-grid,
-    .skills-grid,
+    .capability-grid,
     .project-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 981px) {
+    .capability-card {
+      grid-column: span 2;
+    }
+
+    .capability-card-primary {
+      grid-column: span 3;
     }
   }
 
@@ -317,7 +327,7 @@
     }
 
     .value-grid,
-    .skills-grid,
+    .capability-grid,
     .project-grid {
       grid-template-columns: 1fr;
     }
@@ -668,7 +678,7 @@
   }
 
   .value-card,
-  .skill-card,
+  .capability-card,
   .project-card,
   .content-aside,
   .content-block,
@@ -681,7 +691,6 @@
   }
 
   .value-card,
-  .skill-card,
   .content-aside,
   .content-block {
     display: grid;
@@ -690,11 +699,96 @@
   }
 
   .value-card h3,
-  .skill-card h3,
   .content-aside h2,
   .content-block h2 {
     font-size: 1.18rem;
     letter-spacing: -0.02em;
+  }
+
+  .profile-skills .section-heading {
+    max-width: var(--wide-reading-max);
+  }
+
+  .capability-card {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    min-width: 0;
+    padding: clamp(1.15rem, 2vw, 1.5rem);
+  }
+
+  .capability-card-primary {
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent 58%),
+      color-mix(in srgb, var(--surface) 88%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+  }
+
+  .capability-heading {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .capability-heading h3 {
+    font-size: clamp(1.16rem, 1.6vw, 1.34rem);
+    letter-spacing: -0.025em;
+  }
+
+  .capability-kicker {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .capability-context {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: auto;
+    padding-top: 0.15rem;
+  }
+
+  .capability-context > div {
+    display: grid;
+    gap: 0.3rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .capability-context dt {
+    color: var(--muted-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    font-weight: 850;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .capability-context dd {
+    margin: 0;
+    color: var(--muted);
+    font-size: var(--text-ui);
+  }
+
+  .capability-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.75rem;
+  }
+
+  .capability-links a {
+    color: var(--text);
+    font-weight: 780;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--accent) 56%, transparent);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.2em;
+  }
+
+  .capability-links a:hover {
+    color: var(--accent);
   }
 
   .project-card {

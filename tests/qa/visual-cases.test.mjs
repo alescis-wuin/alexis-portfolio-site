@@ -45,7 +45,7 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
   assert.ok(homeHeroScene);
   assert.deepEqual(homeHeroScene.profiles, profileIds);
 
-  assert.equal(visualCaptureCount(), 61);
+  assert.equal(visualCaptureCount(), 65);
 
   for (const profile of visualProfiles) {
     assert.ok(profile.width >= 320);
@@ -63,6 +63,19 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
       assert.ok(getVisualProfile(profileId), `profil inconnu: ${profileId}`);
     }
   }
+});
+
+test("P2.5-A capture les competences aux extremes et profils cibles", () => {
+  const skillsScene = visualScenes.find((scene) => scene.id === "home-skills");
+  assert.ok(skillsScene);
+  assert.equal(skillsScene.path, "/");
+  assert.equal(skillsScene.focus, '[data-profile-section="skills"]');
+  assert.deepEqual(skillsScene.profiles, [
+    "reflow-320",
+    "mobile",
+    "full-hd",
+    "4k",
+  ]);
 });
 
 test("P2.4-F capture le viewer ouvert sur mobile et Full HD", () => {

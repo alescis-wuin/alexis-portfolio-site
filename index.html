@@ -495,10 +495,11 @@
 
       <section
         id="competences"
-        class="section snap-section"
+        class="section snap-section profile-section profile-skills"
         aria-labelledby="skills-title"
         data-section
         data-label="Compétences"
+        data-profile-section="skills"
       >
         <div class="container">
           <div class="section-heading" data-reveal>
@@ -506,59 +507,137 @@
             <h2 id="skills-title">Compétences techniques principales</h2>
             <p>
               Une sélection volontairement resserrée sur les technologies et
-              pratiques utilisées dans mes projets récents, avec leur contexte
-              d’emploi.
+              pratiques utilisées dans mes projets récents, présentées avec leur
+              contexte d’emploi plutôt que comme une liste exhaustive.
             </p>
           </div>
-          <div class="skills-grid">
-            <article class="skill-card" data-reveal>
-              <h3>Java / Spring</h3>
+          <div
+            class="capability-grid"
+            data-profile-capabilities
+            aria-label="Compétences contextualisées"
+          >
+            <article class="capability-card capability-card-primary" data-capability="java" data-reveal>
+              <div class="capability-heading">
+                <p class="capability-kicker">Applications Java</p>
+                <h3>Java / Spring</h3>
+              </div>
               <p>
-                Java, Spring Boot, Maven, JavaFX, AtlantaFX, REST et OpenAPI.
+                Backend Spring Boot et applications desktop JavaFX, avec Maven,
+                AtlantaFX, REST et OpenAPI selon les besoins du projet.
               </p>
+              <dl class="capability-context">
+                <div>
+                  <dt>Contextes</dt>
+                  <dd>API, services applicatifs, clients desktop et intégrations distantes.</dd>
+                </div>
+                <div>
+                  <dt>Projets associés</dt>
+                  <dd class="capability-links">
+                    <a href="projets/streamfolio.html">Streamfolio</a>
+                    <a href="projets/aelia.html">Aelia</a>
+                  </dd>
+                </div>
+              </dl>
             </article>
-            <article class="skill-card" data-reveal>
-              <h3>C# / .NET</h3>
+
+            <article class="capability-card capability-card-primary" data-capability="dotnet" data-reveal>
+              <div class="capability-heading">
+                <p class="capability-kicker">Applications .NET</p>
+                <h3>C# / .NET</h3>
+              </div>
               <p>
-                C#, .NET 10, ASP.NET Core, Blazor, Avalonia, .NET MAUI, Entity
-                Framework Core et xUnit.
+                C# et .NET 10 pour des applications web et desktop avec ASP.NET
+                Core, Blazor, Avalonia, .NET MAUI, Entity Framework Core et xUnit.
               </p>
+              <dl class="capability-context">
+                <div>
+                  <dt>Contextes</dt>
+                  <dd>Interfaces web, clients desktop, API REST, persistance et logique métier.</dd>
+                </div>
+                <div>
+                  <dt>Projets associés</dt>
+                  <dd class="capability-links">
+                    <a href="projets/kanban.html">Kanban</a>
+                    <a href="projets/agenda.html">Agenda</a>
+                    <a href="projets/calcufolio.html">Calcufolio</a>
+                    <a href="projets/alycia.html">Alycia</a>
+                  </dd>
+                </div>
+              </dl>
             </article>
-            <article class="skill-card" data-reveal>
-              <h3>Web & API</h3>
+
+            <article class="capability-card" data-capability="web-data" data-reveal>
+              <div class="capability-heading">
+                <p class="capability-kicker">Web, API & données</p>
+                <h3>Interfaces et persistance</h3>
+              </div>
               <p>
-                HTML, CSS, JavaScript, REST, OpenAPI, interfaces responsives et
-                navigation clavier.
+                HTML, CSS et JavaScript côté interface ; REST et OpenAPI pour les
+                échanges ; PostgreSQL, SQLite, Redis et MinIO pour les données et
+                services associés.
               </p>
+              <dl class="capability-context">
+                <div>
+                  <dt>Contextes</dt>
+                  <dd>Applications full-stack, administration, cache, stockage et persistance locale.</dd>
+                </div>
+                <div>
+                  <dt>Projets associés</dt>
+                  <dd class="capability-links">
+                    <a href="projets/streamfolio.html">Streamfolio</a>
+                    <a href="projets/kanban.html">Kanban</a>
+                    <a href="projets/agenda.html">Agenda</a>
+                  </dd>
+                </div>
+              </dl>
             </article>
-            <article class="skill-card" data-reveal>
-              <h3>Données & persistance</h3>
+
+            <article class="capability-card" data-capability="architecture-quality" data-reveal>
+              <div class="capability-heading">
+                <p class="capability-kicker">Architecture & qualité</p>
+                <h3>Structure, tests et CI</h3>
+              </div>
               <p>
-                SQL, PostgreSQL, SQLite, Redis, Flyway, Entity Framework Core et
-                MinIO.
+                Séparation entre Domain, Application, Infrastructure et
+                Presentation lorsque le projet le justifie, avec tests unitaires,
+                intégration, E2E Playwright et automatisation GitHub Actions.
               </p>
+              <dl class="capability-context">
+                <div>
+                  <dt>Contextes</dt>
+                  <dd>Contrats applicatifs, persistance, services externes, régressions et intégration continue.</dd>
+                </div>
+                <div>
+                  <dt>En pratique</dt>
+                  <dd class="capability-links">
+                    <a href="projets/index.html">Voir les études de cas</a>
+                  </dd>
+                </div>
+              </dl>
             </article>
-            <article class="skill-card" data-reveal>
-              <h3>Architecture & intégration</h3>
+
+            <article class="capability-card" data-capability="local-ai-media" data-reveal>
+              <div class="capability-heading">
+                <p class="capability-kicker">IA locale & média</p>
+                <h3>Inférence et pipeline média</h3>
+              </div>
               <p>
-                Séparation entre les couches Domain, Application, Infrastructure
-                et Presentation ; contrats applicatifs, persistance, services
-                externes et processus locaux.
+                llama.cpp, Hugging Face et modèles GGUF pour l’inférence locale ;
+                FFmpeg et HLS pour le traitement et la diffusion de médias.
               </p>
-            </article>
-            <article class="skill-card" data-reveal>
-              <h3>Tests & CI</h3>
-              <p>
-                Tests unitaires et d’intégration, E2E Playwright, xUnit, Maven,
-                GitHub Actions, formatage et lint.
-              </p>
-            </article>
-            <article class="skill-card" data-reveal>
-              <h3>IA locale & média</h3>
-              <p>
-                llama.cpp, Hugging Face, modèles GGUF, streaming SSE, FFmpeg et
-                HLS.
-              </p>
+              <dl class="capability-context">
+                <div>
+                  <dt>Contextes</dt>
+                  <dd>Runtime local de modèles, gestion de modèles et préparation de flux vidéo.</dd>
+                </div>
+                <div>
+                  <dt>Projets associés</dt>
+                  <dd class="capability-links">
+                    <a href="projets/alycia.html">Alycia</a>
+                    <a href="projets/streamfolio.html">Streamfolio</a>
+                  </dd>
+                </div>
+              </dl>
             </article>
           </div>
         </div>

@@ -56,3 +56,8 @@ Le dossier `artifacts/` est volontairement ignoré par Git.
 Les PR vers `develop`, `testing` et `main` exécutent la capture après leurs contrôles navigateur et publient `artifacts/visual/` comme artifact GitHub Actions. Les artifacts permettent de comparer exactement les mêmes scènes entre deux builds sans versionner des dizaines de PNG dans le dépôt.
 
 Une future étape peut ajouter des snapshots bloquants pixel-à-pixel sur un sous-ensemble réduit de scènes une fois les références graphiques définitivement approuvées.
+
+
+## P2.5-A — compétences
+
+La phase P2.5-A ajoute la scène `home-skills` pour verrouiller la nouvelle hiérarchie des compétences contextualisées. Elle est capturée en `reflow-320`, `mobile`, `full-hd` et `4k`. La matrice planifiée passe de 61 à 65 captures.

@@ -37,6 +37,12 @@ export const visualScenes = Object.freeze([
     profiles: allProfiles,
   },
   {
+    id: "home-skills",
+    path: "/",
+    focus: '[data-profile-section="skills"]',
+    profiles: ["reflow-320", "mobile", "full-hd", "4k"],
+  },
+  {
     id: "project-catalog",
     path: "/projets/",
     focus: "[data-project-catalog]",
