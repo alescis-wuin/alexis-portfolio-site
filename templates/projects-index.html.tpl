@@ -59,18 +59,29 @@
           <p>Parcourez les projets par langage, type, stack ou statut, puis ouvrez une étude de cas pour consulter l’architecture, les choix techniques et les limites actuelles.</p>
         </div>
 
-        {{FILTERS}}
+        <details class="project-filter-panel" data-filter-panel open>
+          <summary class="project-filter-toggle">
+            <span>Filtrer les projets</span>
+            <span class="project-filter-toggle-count" data-active-filter-count>0 actifs</span>
+          </summary>
+          <div class="project-filter-panel-body">
+            {{FILTERS}}
+          </div>
+        </details>
 
-        <div class="project-catalog-status" aria-live="polite">
-          <span data-project-count>{{PROJECT_COUNT}} projet(s)</span>
-          <button class="button button-small button-ghost" type="button" data-filter-reset>Réinitialiser les filtres</button>
+        <div class="project-catalog-status" aria-live="polite" aria-atomic="true">
+          <div class="project-catalog-feedback">
+            <span data-project-count>{{PROJECT_COUNT}} projet(s)</span>
+            <span class="project-filter-summary" data-filter-summary>Aucun filtre actif</span>
+          </div>
+          <button class="button button-small button-ghost" type="button" data-filter-reset hidden>Réinitialiser les filtres</button>
         </div>
 
         <div class="project-grid project-grid-catalog">
           {{PROJECT_CARDS}}
         </div>
 
-        <p class="project-catalog-empty" data-project-empty hidden>Aucun projet ne correspond à ces filtres.</p>
+        <p class="project-catalog-empty" data-project-empty role="status" hidden>Aucun projet ne correspond à ces filtres.</p>
       </div>
     </section>
   </main>

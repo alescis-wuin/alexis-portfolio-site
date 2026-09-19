@@ -179,12 +179,25 @@
   margin-top: 1.5rem;
 }
 
+/* Phase 2.4.3: the catalog keeps full controls on desktop and progressively
+   collapses them on mobile. Without JavaScript the native details stay open. */
+.project-filter-panel {
+  margin-bottom: 1rem;
+}
+
+.project-filter-panel > summary {
+  display: none;
+}
+
+.project-filter-panel-body {
+  min-width: 0;
+}
+
 .project-filters {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.85rem;
   max-width: 80rem;
-  margin-bottom: 1rem;
 }
 
 .project-filter-control {
@@ -227,6 +240,33 @@
   font-family: var(--font-mono);
   font-size: var(--text-meta);
   font-weight: 800;
+}
+
+.project-catalog-feedback {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.project-filter-summary {
+  color: var(--muted-2);
+  font-size: var(--text-ui);
+  line-height: 1.35;
+}
+
+.project-catalog-status [data-filter-reset][hidden] {
+  display: none;
+}
+
+.project-facts-disclosure {
+  margin: 0;
+}
+
+.project-facts-disclosure > summary {
+  display: none;
+}
+
+.project-facts-disclosure .project-facts {
+  margin: 0;
 }
 
 .project-grid-catalog {
@@ -562,7 +602,8 @@
 @media (prefers-reduced-motion: reduce) {
   .project-card-playful[data-project-slug],
   .project-read-link,
-  .project-repository-link {
+  .project-repository-link,
+  .project-disclosure-icon {
     transition: none;
   }
 
@@ -587,6 +628,53 @@
 
 /* P2.4-C/D: density follows the available frame instead of the legacy container. */
 @media (max-width: 45rem) {
+  .project-filter-panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--surface) 78%, transparent);
+  }
+
+  .project-filter-panel > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    min-height: 2.75rem;
+    padding: 0.72rem 0.85rem;
+    cursor: pointer;
+    color: var(--text);
+    font-weight: 850;
+    list-style: none;
+  }
+
+  .project-filter-panel > summary::-webkit-details-marker,
+  .project-facts-disclosure > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .project-filter-panel > summary:focus-visible,
+  .project-facts-disclosure > summary:focus-visible {
+    outline: var(--focus-outline-width) solid var(--accent);
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  .project-filter-toggle-count {
+    flex: 0 0 auto;
+    color: var(--muted-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    font-weight: 800;
+  }
+
+  .project-filter-panel-body {
+    border-top: 1px solid var(--border);
+    padding: 0.8rem;
+  }
+
+  .project-filter-panel:not([open]) .project-filter-panel-body {
+    display: none;
+  }
+
   .project-grid-focus,
   .project-grid-catalog,
   .project-filters {
@@ -594,8 +682,76 @@
   }
 
   .project-catalog-status {
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .project-catalog-status [data-filter-reset] {
+    min-height: 2.75rem;
+    width: 100%;
+  }
+
+  .project-filter-summary {
+    overflow-wrap: anywhere;
+  }
+
+  .project-facts-disclosure > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    border: 1px solid color-mix(
+      in srgb,
+      var(--project-accent) 22%,
+      var(--border)
+    );
+    border-radius: var(--radius);
+    background: color-mix(
+      in srgb,
+      var(--project-accent) 5%,
+      var(--surface-2)
+    );
+    padding: 0.62rem 0.72rem;
+    cursor: pointer;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    list-style: none;
+    text-transform: uppercase;
+  }
+
+  .project-disclosure-icon {
+    display: inline-grid;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 999px;
+    background: color-mix(
+      in srgb,
+      var(--project-accent) 12%,
+      var(--surface)
+    );
+    transition: transform 160ms ease;
+  }
+
+  .project-facts-disclosure[open] .project-disclosure-icon {
+    transform: rotate(45deg);
+  }
+
+  .project-facts-disclosure[open] > summary {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .project-facts-disclosure .project-facts {
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
 
   .project-signal {

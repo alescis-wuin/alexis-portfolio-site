@@ -407,6 +407,16 @@ test("les états interactifs restent explicites et respectent reduced motion", a
   ).toBe("none");
 });
 
+async function openCatalogFilters(page) {
+  const panel = page.locator("[data-filter-panel]");
+  if ((await panel.count()) === 0) return;
+
+  const open = await panel.evaluate((node) => node.open);
+  if (!open) {
+    await panel.locator("summary").click();
+  }
+}
+
 test("le catalogue complet expose tous les projets", async ({ page }) => {
   const response = await page.goto("/projets/");
 
@@ -421,6 +431,7 @@ test("le catalogue complet expose tous les projets", async ({ page }) => {
 
 test("les filtres du catalogue combinent les facettes", async ({ page }) => {
   await page.goto("/projets/");
+  await openCatalogFilters(page);
 
   const statusCounts = new Map();
   for (const project of publishedProjects) {
@@ -452,6 +463,7 @@ test("les filtres du catalogue combinent les facettes", async ({ page }) => {
 
 test("le filtre C# expose uniquement les projets C#", async ({ page }) => {
   await page.goto("/projets/");
+  await openCatalogFilters(page);
 
   const csharpProjects = publishedProjects.filter((project) =>
     project.languages.includes("csharp"),

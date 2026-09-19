@@ -216,6 +216,33 @@ function initProjectCatalogFilters() {
     const count = catalog.querySelector("[data-project-count]");
     const empty = catalog.querySelector("[data-project-empty]");
     const reset = catalog.querySelector("[data-filter-reset]");
+    const activeFilterCount = catalog.querySelector(
+      "[data-active-filter-count]",
+    );
+    const filterSummary = catalog.querySelector("[data-filter-summary]");
+    const filterPanel = catalog.querySelector("[data-filter-panel]");
+    const filterPanelSummary = filterPanel?.querySelector("summary");
+    const cardDisclosures = [
+      ...catalog.querySelectorAll("[data-project-facts-disclosure]"),
+    ];
+    const compactCatalog = window.matchMedia("(max-width: 45rem)");
+
+    const syncResponsiveDisclosures = () => {
+      if (filterPanel) filterPanel.open = !compactCatalog.matches;
+      cardDisclosures.forEach((details) => {
+        details.open = !compactCatalog.matches;
+      });
+    };
+
+    const activeSelections = () =>
+      selects.filter((select) => select.value !== "all");
+
+    const describeSelection = (select) => {
+      const label = select.closest("label")?.querySelector("span")?.textContent;
+      const option = select.selectedOptions[0]?.textContent;
+      if (!label || !option) return option || label || "Filtre actif";
+      return `${label.trim()} : ${option.trim()}`;
+    };
 
     const update = () => {
       const state = Object.fromEntries(
@@ -236,9 +263,22 @@ function initProjectCatalogFilters() {
         if (visible) visibleCount += 1;
       });
 
+      const active = activeSelections();
+      const activeCount = active.length;
+
       if (count)
-        count.textContent = `${visibleCount} projet${visibleCount > 1 ? "s" : ""}`;
+        count.textContent = `${visibleCount} projet${visibleCount === 1 ? "" : "s"}`;
       if (empty) empty.hidden = visibleCount !== 0;
+      if (reset) reset.hidden = activeCount === 0;
+      if (activeFilterCount) {
+        activeFilterCount.textContent = `${activeCount} actif${activeCount === 1 ? "" : "s"}`;
+      }
+      if (filterSummary) {
+        filterSummary.textContent =
+          activeCount === 0
+            ? "Aucun filtre actif"
+            : active.map(describeSelection).join(" · ");
+      }
     };
 
     selects.forEach((select) => select.addEventListener("change", update));
@@ -248,9 +288,16 @@ function initProjectCatalogFilters() {
         select.value = "all";
       });
       update();
-      selects[0]?.focus();
+
+      if (compactCatalog.matches && filterPanelSummary) {
+        filterPanelSummary.focus();
+      } else {
+        selects[0]?.focus();
+      }
     });
 
+    syncResponsiveDisclosures();
+    compactCatalog.addEventListener("change", syncResponsiveDisclosures);
     update();
   });
 }

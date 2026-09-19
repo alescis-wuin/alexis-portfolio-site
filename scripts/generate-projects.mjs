@@ -530,6 +530,23 @@ function renderProjectCard(
     .map((id) => label("stack", id));
   const href = `${hrefPrefix}${project.slug}.html`;
   const cardVisual = project.visuals.hero;
+  const facts = `<dl class="project-facts">
+                <div class="project-fact project-fact-mission">
+                  <dt>Mission</dt>
+                  <dd>${escapeHtml(project.mission)}</dd>
+                </div>
+                <div class="project-fact project-fact-proof">
+                  <dt>Points clés</dt>
+                  <dd>${escapeHtml(project.proof)}</dd>
+                </div>
+              </dl>`;
+  const factsBlock =
+    surface === "catalog"
+      ? `<details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                ${facts}
+              </details>`
+      : facts;
 
   return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-project-surface="${escapeAttr(surface)}" data-project-priority="${escapeAttr(priority)}" data-project-density="${escapeAttr(density)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
             <a class="project-media" href="${escapeAttr(href)}" aria-label="Lire l’étude de cas ${escapeAttr(project.name)}">
@@ -545,16 +562,7 @@ function renderProjectCard(
                 <h3><a href="${escapeAttr(href)}">${escapeHtml(project.name)}</a></h3>
               </div>
               <p class="project-summary">${escapeHtml(project.summary)}</p>
-              <dl class="project-facts">
-                <div class="project-fact project-fact-mission">
-                  <dt>Mission</dt>
-                  <dd>${escapeHtml(project.mission)}</dd>
-                </div>
-                <div class="project-fact project-fact-proof">
-                  <dt>Points clés</dt>
-                  <dd>${escapeHtml(project.proof)}</dd>
-                </div>
-              </dl>
+              ${factsBlock}
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">

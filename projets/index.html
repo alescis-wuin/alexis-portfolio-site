@@ -59,7 +59,13 @@
           <p>Parcourez les projets par langage, type, stack ou statut, puis ouvrez une étude de cas pour consulter l’architecture, les choix techniques et les limites actuelles.</p>
         </div>
 
-        <div class="project-filters" data-project-filters aria-label="Filtres des projets">
+        <details class="project-filter-panel" data-filter-panel open>
+          <summary class="project-filter-toggle">
+            <span>Filtrer les projets</span>
+            <span class="project-filter-toggle-count" data-active-filter-count>0 actifs</span>
+          </summary>
+          <div class="project-filter-panel-body">
+            <div class="project-filters" data-project-filters aria-label="Filtres des projets">
           <label class="project-filter-control">
               <span>Langage</span>
               <select data-filter-group="language">
@@ -89,10 +95,15 @@
               </select>
             </label>
         </div>
+          </div>
+        </details>
 
-        <div class="project-catalog-status" aria-live="polite">
-          <span data-project-count>6 projet(s)</span>
-          <button class="button button-small button-ghost" type="button" data-filter-reset>Réinitialiser les filtres</button>
+        <div class="project-catalog-status" aria-live="polite" aria-atomic="true">
+          <div class="project-catalog-feedback">
+            <span data-project-count>6 projet(s)</span>
+            <span class="project-filter-summary" data-filter-summary>Aucun filtre actif</span>
+          </div>
+          <button class="button button-small button-ghost" type="button" data-filter-reset hidden>Réinitialiser les filtres</button>
         </div>
 
         <div class="project-grid project-grid-catalog">
@@ -110,7 +121,9 @@
                 <h3><a href="./alycia.html">Alycia</a></h3>
               </div>
               <p class="project-summary">Application desktop C#/.NET et Avalonia pour conversations persistantes et inférence locale via llama.cpp CUDA et modèles GGUF.</p>
-              <dl class="project-facts">
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
                 <div class="project-fact project-fact-mission">
                   <dt>Mission</dt>
                   <dd>Fournir une expérience de conversation locale en gardant le fournisseur d’inférence derrière des contrats applicatifs.</dd>
@@ -120,6 +133,7 @@
                   <dd>Architecture en couches, persistance locale, llama.cpp CUDA, GGUF Hugging Face, streaming contenu/raisonnement, tests et observabilité locale.</dd>
                 </div>
               </dl>
+              </details>
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">
@@ -148,7 +162,9 @@
                 <h3><a href="./streamfolio.html">Streamfolio</a></h3>
               </div>
               <p class="project-summary">Plateforme de streaming full-stack : catalogue, sécurité, administration média et pipeline MP4/HLS avec FFmpeg.</p>
-              <dl class="project-facts">
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
                 <div class="project-fact project-fact-mission">
                   <dt>Mission</dt>
                   <dd>Construire une plateforme web couvrant catalogue, sécurité, administration média et streaming.</dd>
@@ -158,6 +174,7 @@
                   <dd>Sécurité, streaming, traitement asynchrone, Docker et tests.</dd>
                 </div>
               </dl>
+              </details>
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">
@@ -186,7 +203,9 @@
                 <h3><a href="./agenda.html">Agenda</a></h3>
               </div>
               <p class="project-summary">Agenda .NET 10 partagé entre Web Blazor et MAUI, avec calendrier, événements, API REST et persistance SQLite.</p>
-              <dl class="project-facts">
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
                 <div class="project-fact project-fact-mission">
                   <dt>Mission</dt>
                   <dd>Partager une même interface métier entre Web et application hybride.</dd>
@@ -196,6 +215,7 @@
                   <dd>Blazor, MAUI, API, EF Core, architecture multi-hôte, tests et CI.</dd>
                 </div>
               </dl>
+              </details>
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">
@@ -224,7 +244,9 @@
                 <h3><a href="./aelia.html">Aelia</a></h3>
               </div>
               <p class="project-summary">Application météo JavaFX avec fournisseurs distants et fallback, qualité de l’air, UV, pollens et carte interactive native.</p>
-              <dl class="project-facts">
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
                 <div class="project-fact project-fact-mission">
                   <dt>Mission</dt>
                   <dd>Agréger plusieurs sources météo dans une interface desktop avec stratégie de fallback.</dd>
@@ -234,6 +256,7 @@
                   <dd>Fournisseurs distants, stratégie de fallback, carte JavaFX native, cache, tests Maven et CI.</dd>
                 </div>
               </dl>
+              </details>
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">
@@ -262,7 +285,9 @@
                 <h3><a href="./kanban.html">Kanban</a></h3>
               </div>
               <p class="project-summary">Gestionnaire .NET 10 orienté métier : vues Liste/Kanban, règles WIP, récurrence, API REST et persistance SQLite.</p>
-              <dl class="project-facts">
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
                 <div class="project-fact project-fact-mission">
                   <dt>Mission</dt>
                   <dd>Construire une application métier Web au-delà d’un CRUD de tâches.</dd>
@@ -272,6 +297,7 @@
                   <dd>Règles WIP, Blazor, API, EF Core, accessibilité, tests et CI.</dd>
                 </div>
               </dl>
+              </details>
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">
@@ -300,7 +326,9 @@
                 <h3><a href="./calcufolio.html">Calcufolio</a></h3>
               </div>
               <p class="project-summary">Calculatrice desktop Avalonia avec moteur d’expressions isolé, MVVM, historique, tests xUnit et CI .NET.</p>
-              <dl class="project-facts">
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
                 <div class="project-fact project-fact-mission">
                   <dt>Mission</dt>
                   <dd>Concevoir une calculatrice testable au-delà d’une simple logique d’interface.</dd>
@@ -310,6 +338,7 @@
                   <dd>Parser, séparation des couches, MVVM, tests automatisés et CI .NET.</dd>
                 </div>
               </dl>
+              </details>
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">
@@ -326,7 +355,7 @@
           </article>
         </div>
 
-        <p class="project-catalog-empty" data-project-empty hidden>Aucun projet ne correspond à ces filtres.</p>
+        <p class="project-catalog-empty" data-project-empty role="status" hidden>Aucun projet ne correspond à ces filtres.</p>
       </div>
     </section>
   </main>
