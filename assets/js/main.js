@@ -302,8 +302,88 @@ function initProjectCatalogFilters() {
   });
 }
 
+function initProjectMediaViewer() {
+  const dialog = document.querySelector("[data-media-viewer]");
+  const triggers = [...document.querySelectorAll("[data-media-viewer-trigger]")];
+  if (!dialog || triggers.length === 0) return;
+
+  const supportsModalDialog =
+    "HTMLDialogElement" in window &&
+    dialog instanceof window.HTMLDialogElement &&
+    typeof dialog.showModal === "function";
+  if (!supportsModalDialog) return;
+
+  const viewerImage = dialog.querySelector("[data-media-viewer-image]");
+  const viewerCaption = dialog.querySelector("[data-media-viewer-caption]");
+  const viewerTitle = dialog.querySelector("[data-media-viewer-title]");
+  const closeButton = dialog.querySelector("[data-media-viewer-close]");
+  if (!viewerImage || !viewerCaption || !viewerTitle || !closeButton) return;
+
+  let lastTrigger = null;
+
+  const openViewer = (trigger) => {
+    const sourceImage = trigger.querySelector("img");
+    const figure = trigger.closest("[data-media-kind]");
+    const caption = figure?.querySelector("figcaption");
+    if (!(sourceImage instanceof window.HTMLImageElement) || !figure) return;
+
+    const kind = figure.dataset.mediaKind;
+    viewerTitle.textContent =
+      kind === "diagram" ? "Schéma technique agrandi" : "Capture produit agrandie";
+    viewerCaption.textContent = caption?.textContent?.trim() ?? "";
+    viewerImage.src = sourceImage.currentSrc || sourceImage.src;
+    viewerImage.alt = sourceImage.alt;
+
+    for (const attribute of ["width", "height"]) {
+      const value = sourceImage.getAttribute(attribute);
+      if (value) viewerImage.setAttribute(attribute, value);
+      else viewerImage.removeAttribute(attribute);
+    }
+
+    lastTrigger = trigger;
+    dialog.showModal();
+    document.documentElement.classList.add("media-viewer-open");
+    closeButton.focus({ preventScroll: true });
+  };
+
+  const closeViewer = () => {
+    if (dialog.open) dialog.close();
+  };
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      openViewer(trigger);
+    });
+  });
+
+  closeButton.addEventListener("click", closeViewer);
+
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) closeViewer();
+  });
+
+  dialog.addEventListener("close", () => {
+    document.documentElement.classList.remove("media-viewer-open");
+    lastTrigger?.focus({ preventScroll: true });
+    lastTrigger = null;
+  });
+}
+
 initNavigation();
 initReveal();
 initSectionNavigation();
 initHeroMotion();
 initProjectCatalogFilters();
+initProjectMediaViewer();

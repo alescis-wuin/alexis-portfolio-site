@@ -80,7 +80,7 @@
           </div>
         </div>
         <figure class="project-figure case-study-media" data-project-hero data-media-kind="screenshot" data-reveal>
-          <img src="../assets/img/projects/calcufolio/hero.webp" width="1920" height="1199" decoding="async" fetchpriority="high" alt="Fenêtre Calcufolio affichant le résultat 72 et plusieurs calculs dans le panneau History.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/calcufolio/hero.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Résultat courant et historique de plusieurs expressions évaluées."><img src="../assets/img/projects/calcufolio/hero.webp" width="1920" height="1199" decoding="async" fetchpriority="high" alt="Fenêtre Calcufolio affichant le résultat 72 et plusieurs calculs dans le panneau History."></a>
           <figcaption>Résultat courant et historique de plusieurs expressions évaluées.</figcaption>
         </figure>
       </div>
@@ -132,7 +132,7 @@
           <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
         </div>
         <figure class="case-study-media case-study-architecture" data-project-architecture data-media-kind="diagram" data-reveal>
-          <img src="../assets/img/projects/calcufolio/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma du flux Calcufolio depuis Avalonia et les contrôleurs applicatifs jusqu’au tokenizer, parser, évaluateur et moteur de calcul.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/calcufolio/architecture.svg" data-media-viewer-trigger aria-label="Agrandir le schéma : Flux d’interaction et moteur d’expressions de Calcufolio."><img src="../assets/img/projects/calcufolio/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma du flux Calcufolio depuis Avalonia et les contrôleurs applicatifs jusqu’au tokenizer, parser, évaluateur et moteur de calcul."></a>
           <figcaption>Flux d’interaction et moteur d’expressions de Calcufolio.</figcaption>
         </figure>
       </div>
@@ -207,7 +207,7 @@
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0" data-media-kind="screenshot">
-          <img src="../assets/img/projects/calcufolio/editing.webp" width="1920" height="1199" loading="lazy" decoding="async" alt="Fenêtre Calcufolio avec une expression arithmétique et la sous-expression 8 + 4 sélectionnée.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/calcufolio/editing.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Édition d’expression avec sélection explicite avant évaluation."><img src="../assets/img/projects/calcufolio/editing.webp" width="1920" height="1199" loading="lazy" decoding="async" alt="Fenêtre Calcufolio avec une expression arithmétique et la sous-expression 8 + 4 sélectionnée."></a>
           <figcaption>Édition d’expression avec sélection explicite avant évaluation.</figcaption>
         </figure>
         </div>
@@ -232,6 +232,21 @@
       </div>
     </section>
   </main>
+
+  <dialog class="media-viewer" data-media-viewer aria-labelledby="media-viewer-title" aria-describedby="media-viewer-caption">
+    <div class="media-viewer-panel">
+      <div class="media-viewer-toolbar">
+        <h2 id="media-viewer-title" data-media-viewer-title>Aperçu agrandi</h2>
+        <button class="media-viewer-close" type="button" data-media-viewer-close aria-label="Fermer la visionneuse">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <figure class="media-viewer-figure">
+        <img class="media-viewer-image" data-media-viewer-image src="../assets/img/projects/calcufolio/hero.webp" width="1920" height="1199" alt="">
+        <figcaption id="media-viewer-caption" data-media-viewer-caption></figcaption>
+      </figure>
+    </div>
+  </dialog>
 
   <footer class="site-footer">
     <div class="content-shell footer-grid">

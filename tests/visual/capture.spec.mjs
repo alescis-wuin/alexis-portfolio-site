@@ -113,6 +113,13 @@ for (const scene of visualScenes) {
       });
       const response = await page.goto(scene.path, { waitUntil: "load" });
       expect(response?.ok()).toBe(true);
+
+      if (scene.activate) {
+        const trigger = page.locator(scene.activate).first();
+        await expect(trigger).toBeVisible();
+        await trigger.click();
+      }
+
       await stabilizePage(page, scene.focus);
 
       const filename = `${profile.id}__${scene.id}.png`;

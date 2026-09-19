@@ -13,10 +13,11 @@ Site web portfolio statique, sans dépendance de build applicatif en production.
 - `assets/css/styles.css` : design system sombre, responsive et accessibilité.
 - `assets/css/ai-redesign.css` : rail de navigation et défilement natif entre sections.
 - `assets/css/project-cards.css` : cartes, catalogue et filtres projets.
-- `assets/js/main.js` : menu mobile, révélations, navigation de sections et filtres du catalogue.
+- `assets/js/main.js` : menu mobile, révélations, navigation de sections, filtres du catalogue et viewer média natif.
 - `tests/e2e/portfolio.spec.mjs` : tests Playwright pilotés par `data/projects.json`.
 - `docs/PROJECT_CATALOG.md` : documentation du modèle de données et procédure d'ajout d'un projet.
 - `docs/P2.4_MEDIA.md` : contrat P2.4-E des médias typés, captures produit et validation d’intégrité.
+- `docs/P2.4_MEDIA_VIEWER.md` : contrat P2.4-F du viewer média natif et de son accessibilité.
 - `docs/archive/` : anciennes analyses et décisions conservées à titre historique ; elles ne sont plus normatives.
 
 La V1 du portfolio utilise un thème sombre unique. Un éventuel thème clair est différé et ne fait pas partie du contrat visuel actuel.

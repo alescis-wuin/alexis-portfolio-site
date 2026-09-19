@@ -81,7 +81,7 @@
           </div>
         </div>
         <figure class="project-figure case-study-media" data-project-hero data-media-kind="screenshot" data-reveal>
-          <img src="../assets/img/projects/alycia/hero.webp" width="1440" height="810" decoding="async" fetchpriority="high" alt="Interface desktop Alycia ouverte sur une conversation locale avec historique, panneau de reasoning et zone de composition.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/alycia/hero.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Conversation locale Alycia avec historique, reasoning séparé et contrôle explicite du streaming."><img src="../assets/img/projects/alycia/hero.webp" width="1440" height="810" decoding="async" fetchpriority="high" alt="Interface desktop Alycia ouverte sur une conversation locale avec historique, panneau de reasoning et zone de composition."></a>
           <figcaption>Conversation locale Alycia avec historique, reasoning séparé et contrôle explicite du streaming.</figcaption>
         </figure>
       </div>
@@ -135,7 +135,7 @@
           <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
         </div>
         <figure class="case-study-media case-study-architecture" data-project-architecture data-media-kind="diagram" data-reveal>
-          <img src="../assets/img/projects/alycia/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma des couches Desktop, Presentation, Application, Domain et Infrastructure d’Alycia avec llama.cpp.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/alycia/architecture.svg" data-media-viewer-trigger aria-label="Agrandir le schéma : Architecture en couches et adaptateur local llama.cpp."><img src="../assets/img/projects/alycia/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma des couches Desktop, Presentation, Application, Domain et Infrastructure d’Alycia avec llama.cpp."></a>
           <figcaption>Architecture en couches et adaptateur local llama.cpp.</figcaption>
         </figure>
       </div>
@@ -210,11 +210,11 @@
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0" data-media-kind="screenshot">
-          <img src="../assets/img/projects/alycia/configuration.webp" width="1257" height="1386" loading="lazy" decoding="async" alt="Écran Models d’Alycia avec référence GGUF, paramètres de runtime, génération et reasoning.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/alycia/configuration.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Configuration du modèle et des paramètres de génération dans l’espace Models."><img src="../assets/img/projects/alycia/configuration.webp" width="1257" height="1386" loading="lazy" decoding="async" alt="Écran Models d’Alycia avec référence GGUF, paramètres de runtime, génération et reasoning."></a>
           <figcaption>Configuration du modèle et des paramètres de génération dans l’espace Models.</figcaption>
         </figure>
         <figure class="case-study-media" data-gallery-item data-gallery-index="1" data-media-kind="screenshot">
-          <img src="../assets/img/projects/alycia/provider.webp" width="1145" height="379" loading="lazy" decoding="async" alt="Écran Runtime d’Alycia avec fournisseur llama.cpp CUDA et actions Detect, Install, Start et Stop local AI.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/alycia/provider.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Cycle de vie explicite du runtime local llama.cpp CUDA dans l’espace Provider."><img src="../assets/img/projects/alycia/provider.webp" width="1145" height="379" loading="lazy" decoding="async" alt="Écran Runtime d’Alycia avec fournisseur llama.cpp CUDA et actions Detect, Install, Start et Stop local AI."></a>
           <figcaption>Cycle de vie explicite du runtime local llama.cpp CUDA dans l’espace Provider.</figcaption>
         </figure>
         </div>
@@ -239,6 +239,21 @@
       </div>
     </section>
   </main>
+
+  <dialog class="media-viewer" data-media-viewer aria-labelledby="media-viewer-title" aria-describedby="media-viewer-caption">
+    <div class="media-viewer-panel">
+      <div class="media-viewer-toolbar">
+        <h2 id="media-viewer-title" data-media-viewer-title>Aperçu agrandi</h2>
+        <button class="media-viewer-close" type="button" data-media-viewer-close aria-label="Fermer la visionneuse">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <figure class="media-viewer-figure">
+        <img class="media-viewer-image" data-media-viewer-image src="../assets/img/projects/alycia/hero.webp" width="1440" height="810" alt="">
+        <figcaption id="media-viewer-caption" data-media-viewer-caption></figcaption>
+      </figure>
+    </div>
+  </dialog>
 
   <footer class="site-footer">
     <div class="content-shell footer-grid">

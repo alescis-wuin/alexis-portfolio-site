@@ -424,13 +424,23 @@ function renderProjectPage(project) {
     HERO_CAPTION: escapeHtml(project.visuals.hero.caption),
     HERO_WIDTH: String(project.visuals.hero.width),
     HERO_HEIGHT: String(project.visuals.hero.height),
+    HERO_VIEWER_OPEN: renderViewerTriggerOpen(project.visuals.hero, "../"),
+    HERO_VIEWER_CLOSE: "</a>",
     ARCHITECTURE_IMAGE: escapeAttr(`../${project.visuals.architecture.src}`),
     ARCHITECTURE_KIND: escapeAttr(project.visuals.architecture.kind),
     ARCHITECTURE_ALT: escapeAttr(project.visuals.architecture.alt),
     ARCHITECTURE_CAPTION: escapeHtml(project.visuals.architecture.caption),
     ARCHITECTURE_WIDTH: String(project.visuals.architecture.width),
     ARCHITECTURE_HEIGHT: String(project.visuals.architecture.height),
+    ARCHITECTURE_VIEWER_OPEN: renderViewerTriggerOpen(
+      project.visuals.architecture,
+      "../",
+    ),
+    ARCHITECTURE_VIEWER_CLOSE: "</a>",
     GALLERY: renderGallery(project.visuals.gallery),
+    VIEWER_IMAGE: escapeAttr(`../${project.visuals.hero.src}`),
+    VIEWER_WIDTH: String(project.visuals.hero.width),
+    VIEWER_HEIGHT: String(project.visuals.hero.height),
     STACK_TAGS: renderTags([
       ...project.languages.map((id) => label("languages", id)),
       ...project.stack.map((id) => label("stack", id)),
@@ -598,16 +608,20 @@ function renderProjectCard(
 
 function renderGallery(items) {
   return items
-    .map(
-      (
-        item,
-        index,
-      ) => `<figure class="case-study-media" data-gallery-item data-gallery-index="${index}" data-media-kind="${escapeAttr(item.kind)}">
-          <img src="${escapeAttr(`../${item.src}`)}" width="${item.width}" height="${item.height}" loading="lazy" decoding="async" alt="${escapeAttr(item.alt)}">
+    .map((item, index) => {
+      const src = `../${item.src}`;
+      return `<figure class="case-study-media" data-gallery-item data-gallery-index="${index}" data-media-kind="${escapeAttr(item.kind)}">
+          ${renderViewerTriggerOpen(item, "../")}<img src="${escapeAttr(src)}" width="${item.width}" height="${item.height}" loading="lazy" decoding="async" alt="${escapeAttr(item.alt)}"></a>
           <figcaption>${escapeHtml(item.caption)}</figcaption>
-        </figure>`,
-    )
+        </figure>`;
+    })
     .join("\n        ");
+}
+
+function renderViewerTriggerOpen(item, pathPrefix) {
+  const label =
+    item.kind === "diagram" ? "Agrandir le schéma" : "Agrandir la capture";
+  return `<a class="media-viewer-trigger" href="${escapeAttr(`${pathPrefix}${item.src}`)}" data-media-viewer-trigger aria-label="${escapeAttr(`${label} : ${item.caption}`)}">`;
 }
 
 function renderFilters() {

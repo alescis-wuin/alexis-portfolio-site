@@ -137,8 +137,21 @@ Invariants :
 - une même source visuelle ne peut pas être réutilisée deux fois dans le même projet.
 
 Les sorties générées exposent `data-media-kind` sur les cartes, le hero, l'architecture et
-chaque élément de galerie. Ce hook stable prépare P2.4-F sans imposer encore le viewer
-`<dialog>`. La validation des octets et dimensions est assurée par `npm run validate:media`.
+chaque élément de galerie. La validation des octets et dimensions est assurée par
+`npm run validate:media`.
+
+### Viewer P2.4-F
+
+Sur les pages d'étude de cas, chaque média est aussi un lien direct vers son fichier avec
+`data-media-viewer-trigger`. Le lien constitue le fallback sans JavaScript. Lorsque
+`HTMLDialogElement.showModal()` est disponible, `assets/js/main.js` intercepte uniquement le clic
+primaire sans modificateur et ouvre une visionneuse native `<dialog>`. Le type `kind` pilote le
+libellé de la visionneuse (`Capture produit agrandie` ou `Schéma technique agrandi`) sans changer
+le schéma v5.
+
+Le dialogue modal natif fournit l'inertie du document et le confinement du focus. Le bouton de
+fermeture, `Escape` et le clic hors du panneau ferment la visionneuse ; le focus est ensuite rendu
+au lien déclencheur.
 
 ## Étude de cas professionnelle — introduite au schéma v2
 

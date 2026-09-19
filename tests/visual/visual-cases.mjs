@@ -40,6 +40,13 @@ export const visualScenes = Object.freeze([
     focus: "[data-project-catalog]",
     profiles: ["mobile", "full-hd", "ultrawide"],
   },
+  {
+    id: "alycia-media-viewer",
+    path: "/projets/alycia.html",
+    focus: "[data-media-viewer]",
+    activate: "[data-project-hero] [data-media-viewer-trigger]",
+    profiles: ["mobile", "full-hd"],
+  },
   ...visualProjectSlugs.flatMap((slug) => [
     {
       id: `${slug}-hero`,

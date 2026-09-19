@@ -82,7 +82,7 @@
           </div>
         </div>
         <figure class="project-figure case-study-media" data-project-hero data-media-kind="screenshot" data-reveal>
-          <img src="../assets/img/projects/streamfolio/hero.webp" width="1920" height="1080" decoding="async" fetchpriority="high" alt="Accueil de Streamfolio affichant le film Aurora Drift, la navigation, la recherche et le catalogue.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/streamfolio/hero.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Catalogue et navigation de Streamfolio, avec recherche, filtres et contenu d’exemple."><img src="../assets/img/projects/streamfolio/hero.webp" width="1920" height="1080" decoding="async" fetchpriority="high" alt="Accueil de Streamfolio affichant le film Aurora Drift, la navigation, la recherche et le catalogue."></a>
           <figcaption>Catalogue et navigation de Streamfolio, avec recherche, filtres et contenu d’exemple.</figcaption>
         </figure>
       </div>
@@ -135,7 +135,7 @@
           <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
         </div>
         <figure class="case-study-media case-study-architecture" data-project-architecture data-media-kind="diagram" data-reveal>
-          <img src="../assets/img/projects/streamfolio/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma d’architecture de Streamfolio reliant le navigateur, Spring Boot, PostgreSQL, Redis, MinIO, les jobs média et FFmpeg.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/streamfolio/architecture.svg" data-media-viewer-trigger aria-label="Agrandir le schéma : Architecture applicative et pipeline média persisté de Streamfolio."><img src="../assets/img/projects/streamfolio/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma d’architecture de Streamfolio reliant le navigateur, Spring Boot, PostgreSQL, Redis, MinIO, les jobs média et FFmpeg."></a>
           <figcaption>Architecture applicative et pipeline média persisté de Streamfolio.</figcaption>
         </figure>
       </div>
@@ -210,11 +210,11 @@
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0" data-media-kind="screenshot">
-          <img src="../assets/img/projects/streamfolio/details.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Page de détail Streamfolio pour le film Aurora Drift avec métadonnées et actions de lecture.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/streamfolio/details.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Fiche de contenu avant lecture."><img src="../assets/img/projects/streamfolio/details.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Page de détail Streamfolio pour le film Aurora Drift avec métadonnées et actions de lecture."></a>
           <figcaption>Fiche de contenu avant lecture.</figcaption>
         </figure>
         <figure class="case-study-media" data-gallery-item data-gallery-index="1" data-media-kind="screenshot">
-          <img src="../assets/img/projects/streamfolio/player.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Lecteur vidéo Streamfolio affichant le média d’exemple Canopées urbaines.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/streamfolio/player.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Lecteur HTML5 utilisé dans le parcours de streaming."><img src="../assets/img/projects/streamfolio/player.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Lecteur vidéo Streamfolio affichant le média d’exemple Canopées urbaines."></a>
           <figcaption>Lecteur HTML5 utilisé dans le parcours de streaming.</figcaption>
         </figure>
         </div>
@@ -239,6 +239,21 @@
       </div>
     </section>
   </main>
+
+  <dialog class="media-viewer" data-media-viewer aria-labelledby="media-viewer-title" aria-describedby="media-viewer-caption">
+    <div class="media-viewer-panel">
+      <div class="media-viewer-toolbar">
+        <h2 id="media-viewer-title" data-media-viewer-title>Aperçu agrandi</h2>
+        <button class="media-viewer-close" type="button" data-media-viewer-close aria-label="Fermer la visionneuse">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <figure class="media-viewer-figure">
+        <img class="media-viewer-image" data-media-viewer-image src="../assets/img/projects/streamfolio/hero.webp" width="1920" height="1080" alt="">
+        <figcaption id="media-viewer-caption" data-media-viewer-caption></figcaption>
+      </figure>
+    </div>
+  </dialog>
 
   <footer class="site-footer">
     <div class="content-shell footer-grid">

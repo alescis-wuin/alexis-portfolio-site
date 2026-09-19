@@ -83,7 +83,7 @@
           </div>
         </div>
         <figure class="project-figure case-study-media" data-project-hero data-media-kind="screenshot" data-reveal>
-          <img src="../assets/img/projects/agenda/hero.webp" width="1920" height="1080" decoding="async" fetchpriority="high" alt="Calendrier mensuel Agenda en thème sombre pour août 2026 avec un événement sélectionné et son panneau de détail.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/agenda/hero.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Vue mensuelle et panneau d’événement en thème sombre."><img src="../assets/img/projects/agenda/hero.webp" width="1920" height="1080" decoding="async" fetchpriority="high" alt="Calendrier mensuel Agenda en thème sombre pour août 2026 avec un événement sélectionné et son panneau de détail."></a>
           <figcaption>Vue mensuelle et panneau d’événement en thème sombre.</figcaption>
         </figure>
       </div>
@@ -139,7 +139,7 @@
           <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
         </div>
         <figure class="case-study-media case-study-architecture" data-project-architecture data-media-kind="diagram" data-reveal>
-          <img src="../assets/img/projects/agenda/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma multi-hôte d’Agenda reliant Web Blazor, MAUI Blazor Hybrid et API aux couches UI, Application, Domain et Infrastructure.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/agenda/architecture.svg" data-media-viewer-trigger aria-label="Agrandir le schéma : Architecture multi-hôte avec interface Razor partagée et persistance SQLite locale."><img src="../assets/img/projects/agenda/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma multi-hôte d’Agenda reliant Web Blazor, MAUI Blazor Hybrid et API aux couches UI, Application, Domain et Infrastructure."></a>
           <figcaption>Architecture multi-hôte avec interface Razor partagée et persistance SQLite locale.</figcaption>
         </figure>
       </div>
@@ -214,7 +214,7 @@
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0" data-media-kind="screenshot">
-          <img src="../assets/img/projects/agenda/theme-light.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Calendrier mensuel Agenda en thème clair avec un événement sélectionné et son panneau de détail.">
+          <a class="media-viewer-trigger" href="../assets/img/projects/agenda/theme-light.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Même interface en thème clair."><img src="../assets/img/projects/agenda/theme-light.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Calendrier mensuel Agenda en thème clair avec un événement sélectionné et son panneau de détail."></a>
           <figcaption>Même interface en thème clair.</figcaption>
         </figure>
         </div>
@@ -239,6 +239,21 @@
       </div>
     </section>
   </main>
+
+  <dialog class="media-viewer" data-media-viewer aria-labelledby="media-viewer-title" aria-describedby="media-viewer-caption">
+    <div class="media-viewer-panel">
+      <div class="media-viewer-toolbar">
+        <h2 id="media-viewer-title" data-media-viewer-title>Aperçu agrandi</h2>
+        <button class="media-viewer-close" type="button" data-media-viewer-close aria-label="Fermer la visionneuse">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <figure class="media-viewer-figure">
+        <img class="media-viewer-image" data-media-viewer-image src="../assets/img/projects/agenda/hero.webp" width="1920" height="1080" alt="">
+        <figcaption id="media-viewer-caption" data-media-viewer-caption></figcaption>
+      </figure>
+    </div>
+  </dialog>
 
   <footer class="site-footer">
     <div class="content-shell footer-grid">

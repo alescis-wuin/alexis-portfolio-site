@@ -43,7 +43,7 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
   assert.ok(homeHeroScene);
   assert.deepEqual(homeHeroScene.profiles, profileIds);
 
-  assert.equal(visualCaptureCount(), 51);
+  assert.equal(visualCaptureCount(), 53);
 
   for (const profile of visualProfiles) {
     assert.ok(profile.width >= 320);
@@ -54,10 +54,27 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
     assert.match(scene.path, /^\//);
     assert.ok(scene.focus.length > 0);
     assert.ok(scene.profiles.length > 0);
+    if (scene.activate !== undefined) {
+      assert.ok(scene.activate.length > 0);
+    }
     for (const profileId of scene.profiles) {
       assert.ok(getVisualProfile(profileId), `profil inconnu: ${profileId}`);
     }
   }
+});
+
+test("P2.4-F capture le viewer ouvert sur mobile et Full HD", () => {
+  const viewerScene = visualScenes.find(
+    (scene) => scene.id === "alycia-media-viewer",
+  );
+  assert.ok(viewerScene);
+  assert.equal(viewerScene.path, "/projets/alycia.html");
+  assert.equal(viewerScene.focus, "[data-media-viewer]");
+  assert.equal(
+    viewerScene.activate,
+    "[data-project-hero] [data-media-viewer-trigger]",
+  );
+  assert.deepEqual(viewerScene.profiles, ["mobile", "full-hd"]);
 });
 
 test("chaque projet public possède une capture hero, architecture et galerie", () => {

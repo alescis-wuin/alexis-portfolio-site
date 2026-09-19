@@ -79,7 +79,7 @@
           </div>
         </div>
         <figure class="project-figure case-study-media" data-project-hero data-media-kind="{{HERO_KIND}}" data-reveal>
-          <img src="{{HERO_IMAGE}}" width="{{HERO_WIDTH}}" height="{{HERO_HEIGHT}}" decoding="async" fetchpriority="high" alt="{{HERO_ALT}}">
+          {{HERO_VIEWER_OPEN}}<img src="{{HERO_IMAGE}}" width="{{HERO_WIDTH}}" height="{{HERO_HEIGHT}}" decoding="async" fetchpriority="high" alt="{{HERO_ALT}}">{{HERO_VIEWER_CLOSE}}
           <figcaption>{{HERO_CAPTION}}</figcaption>
         </figure>
       </div>
@@ -125,7 +125,7 @@
           <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
         </div>
         <figure class="case-study-media case-study-architecture" data-project-architecture data-media-kind="{{ARCHITECTURE_KIND}}" data-reveal>
-          <img src="{{ARCHITECTURE_IMAGE}}" width="{{ARCHITECTURE_WIDTH}}" height="{{ARCHITECTURE_HEIGHT}}" loading="lazy" decoding="async" alt="{{ARCHITECTURE_ALT}}">
+          {{ARCHITECTURE_VIEWER_OPEN}}<img src="{{ARCHITECTURE_IMAGE}}" width="{{ARCHITECTURE_WIDTH}}" height="{{ARCHITECTURE_HEIGHT}}" loading="lazy" decoding="async" alt="{{ARCHITECTURE_ALT}}">{{ARCHITECTURE_VIEWER_CLOSE}}
           <figcaption>{{ARCHITECTURE_CAPTION}}</figcaption>
         </figure>
       </div>
@@ -222,6 +222,21 @@
       </div>
     </section>
   </main>
+
+  <dialog class="media-viewer" data-media-viewer aria-labelledby="media-viewer-title" aria-describedby="media-viewer-caption">
+    <div class="media-viewer-panel">
+      <div class="media-viewer-toolbar">
+        <h2 id="media-viewer-title" data-media-viewer-title>Aperçu agrandi</h2>
+        <button class="media-viewer-close" type="button" data-media-viewer-close aria-label="Fermer la visionneuse">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <figure class="media-viewer-figure">
+        <img class="media-viewer-image" data-media-viewer-image src="{{VIEWER_IMAGE}}" width="{{VIEWER_WIDTH}}" height="{{VIEWER_HEIGHT}}" alt="">
+        <figcaption id="media-viewer-caption" data-media-viewer-caption></figcaption>
+      </figure>
+    </div>
+  </dialog>
 
   <footer class="site-footer">
     <div class="content-shell footer-grid">
