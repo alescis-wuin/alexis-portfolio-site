@@ -43,7 +43,7 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
   assert.ok(homeHeroScene);
   assert.deepEqual(homeHeroScene.profiles, profileIds);
 
-  assert.equal(visualCaptureCount(), 45);
+  assert.equal(visualCaptureCount(), 51);
 
   for (const profile of visualProfiles) {
     assert.ok(profile.width >= 320);
@@ -60,13 +60,14 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
   }
 });
 
-test("chaque projet public possède une capture hero et architecture", () => {
+test("chaque projet public possède une capture hero, architecture et galerie", () => {
   assert.deepEqual([...visualProjectSlugs].sort(), publishedSlugs);
 
   const sceneIds = new Set(visualScenes.map((scene) => scene.id));
   for (const slug of publishedSlugs) {
     assert.ok(sceneIds.has(`${slug}-hero`));
     assert.ok(sceneIds.has(`${slug}-architecture`));
+    assert.ok(sceneIds.has(`${slug}-gallery`));
   }
 });
 

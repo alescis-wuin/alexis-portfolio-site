@@ -112,8 +112,8 @@ function findOrphanProjectPages(expectedOutputs) {
 }
 
 function validateCatalog(data) {
-  if (data.schemaVersion !== 4) {
-    throw new Error("data/projects.json : schemaVersion doit valoir 4.");
+  if (data.schemaVersion !== 5) {
+    throw new Error("data/projects.json : schemaVersion doit valoir 5.");
   }
 
   for (const key of ["baseUrl", "title", "description"]) {
@@ -276,12 +276,12 @@ function validateVisuals(project) {
     );
   }
 
-  validateVisualItem(project, visuals.hero, "visuals.hero", ".webp");
+  validateVisualItem(project, visuals.hero, "visuals.hero", "screenshot");
   validateVisualItem(
     project,
     visuals.architecture,
     "visuals.architecture",
-    ".svg",
+    "diagram",
   );
 
   if (!Array.isArray(visuals.gallery) || visuals.gallery.length === 0) {
@@ -292,7 +292,7 @@ function validateVisuals(project) {
 
   const sources = new Set([visuals.hero.src, visuals.architecture.src]);
   visuals.gallery.forEach((item, index) => {
-    validateVisualItem(project, item, `visuals.gallery[${index}]`, ".webp");
+    validateVisualItem(project, item, `visuals.gallery[${index}]`);
     if (sources.has(item.src)) {
       throw new Error(
         `${project.id} : source visuelle dupliquée (${item.src}).`,
@@ -302,13 +302,25 @@ function validateVisuals(project) {
   });
 }
 
-function validateVisualItem(project, item, field, expectedExtension) {
+function validateVisualItem(project, item, field, requiredKind = null) {
   if (!item || typeof item !== "object" || Array.isArray(item)) {
     throw new Error(`${project.id}.${field} doit être un objet.`);
   }
 
-  for (const key of ["src", "alt", "caption"]) {
+  for (const key of ["kind", "src", "alt", "caption"]) {
     assertNonEmpty(item[key], `${project.id}.${field}.${key}`);
+  }
+
+  const mediaExtensions = { screenshot: ".webp", diagram: ".svg" };
+  if (!Object.hasOwn(mediaExtensions, item.kind)) {
+    throw new Error(
+      `${project.id}.${field}.kind doit valoir screenshot ou diagram (${item.kind}).`,
+    );
+  }
+  if (requiredKind !== null && item.kind !== requiredKind) {
+    throw new Error(
+      `${project.id}.${field}.kind doit valoir ${requiredKind} (${item.kind}).`,
+    );
   }
 
   for (const key of ["width", "height"]) {
@@ -331,9 +343,10 @@ function validateVisualItem(project, item, field, expectedExtension) {
     throw new Error(`${project.id}.${field}.src invalide (${item.src}).`);
   }
 
+  const expectedExtension = mediaExtensions[item.kind];
   if (path.posix.extname(item.src) !== expectedExtension) {
     throw new Error(
-      `${project.id}.${field}.src doit utiliser ${expectedExtension} (${item.src}).`,
+      `${project.id}.${field}.src doit utiliser ${expectedExtension} pour kind=${item.kind} (${item.src}).`,
     );
   }
 
@@ -406,11 +419,13 @@ function renderProjectPage(project) {
       ? `<a class="button button-secondary project-repository-button" href="${escapeAttr(project.repository)}" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>`
       : "",
     HERO_IMAGE: escapeAttr(`../${project.visuals.hero.src}`),
+    HERO_KIND: escapeAttr(project.visuals.hero.kind),
     HERO_ALT: escapeAttr(project.visuals.hero.alt),
     HERO_CAPTION: escapeHtml(project.visuals.hero.caption),
     HERO_WIDTH: String(project.visuals.hero.width),
     HERO_HEIGHT: String(project.visuals.hero.height),
     ARCHITECTURE_IMAGE: escapeAttr(`../${project.visuals.architecture.src}`),
+    ARCHITECTURE_KIND: escapeAttr(project.visuals.architecture.kind),
     ARCHITECTURE_ALT: escapeAttr(project.visuals.architecture.alt),
     ARCHITECTURE_CAPTION: escapeHtml(project.visuals.architecture.caption),
     ARCHITECTURE_WIDTH: String(project.visuals.architecture.width),
@@ -549,7 +564,7 @@ function renderProjectCard(
       : facts;
 
   return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-project-surface="${escapeAttr(surface)}" data-project-priority="${escapeAttr(priority)}" data-project-density="${escapeAttr(density)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
-            <a class="project-media" href="${escapeAttr(href)}" aria-label="Lire l’étude de cas ${escapeAttr(project.name)}">
+            <a class="project-media" href="${escapeAttr(href)}" data-media-kind="${escapeAttr(cardVisual.kind)}" aria-label="Lire l’étude de cas ${escapeAttr(project.name)}">
               <img src="${escapeAttr(`${assetPrefix}${cardVisual.src}`)}" width="${cardVisual.width}" height="${cardVisual.height}" loading="lazy" decoding="async" alt="">
             </a>
             <div class="project-body">
@@ -587,7 +602,7 @@ function renderGallery(items) {
       (
         item,
         index,
-      ) => `<figure class="case-study-media" data-gallery-item data-gallery-index="${index}">
+      ) => `<figure class="case-study-media" data-gallery-item data-gallery-index="${index}" data-media-kind="${escapeAttr(item.kind)}">
           <img src="${escapeAttr(`../${item.src}`)}" width="${item.width}" height="${item.height}" loading="lazy" decoding="async" alt="${escapeAttr(item.alt)}">
           <figcaption>${escapeHtml(item.caption)}</figcaption>
         </figure>`,

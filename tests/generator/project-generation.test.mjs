@@ -177,6 +177,56 @@ test("un projet non publié reste hors de toutes les sorties publiques", () => {
   assert.ok(!sitemap.includes(`/projets/${hidden.slug}.html`));
 });
 
+test("le schéma média v5 est obligatoire", () => {
+  const catalogPath = path.join(fixtureRoot, "data", "projects.json");
+  const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+  catalog.schemaVersion = 4;
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  const result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /schemaVersion doit valoir 5/);
+});
+
+test("le hero et l'architecture imposent leur type de média", () => {
+  const catalogPath = path.join(fixtureRoot, "data", "projects.json");
+  const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+  const published = catalog.projects.find((project) => project.published);
+  assert.ok(published);
+
+  published.visuals.hero.kind = "diagram";
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  let result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /visuals\.hero\.kind doit valoir screenshot/);
+
+  published.visuals.hero.kind = "screenshot";
+  published.visuals.architecture.kind = "screenshot";
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(
+    result.stderr,
+    /visuals\.architecture\.kind doit valoir diagram/,
+  );
+});
+
+test("le type de média détermine son extension", () => {
+  const catalogPath = path.join(fixtureRoot, "data", "projects.json");
+  const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+  const published = catalog.projects.find((project) => project.published);
+  assert.ok(published);
+
+  published.visuals.gallery[0].kind = "diagram";
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  const result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /doit utiliser \.svg pour kind=diagram/);
+});
+
 test("les visuels sont obligatoires pour les projets publiés", () => {
   const catalogPath = path.join(fixtureRoot, "data", "projects.json");
   const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
@@ -219,6 +269,12 @@ test("les cartes projet utilisent le hero produit et des actions explicites", ()
     assert.ok(
       catalogHtml.includes(`../${project.visuals.hero.src}`),
       `hero absent de la carte ${project.slug}`,
+    );
+    assert.ok(
+      catalogHtml.includes(
+        `data-media-kind="${project.visuals.hero.kind}" aria-label="Lire l’étude de cas ${project.name}"`,
+      ),
+      `type média absent de la carte ${project.slug}`,
     );
     assert.ok(
       catalogHtml.includes(
@@ -282,9 +338,20 @@ test("les pages projet génèrent hero, architecture et galerie depuis visuals",
   assert.ok(html.includes("data-project-architecture"));
   assert.ok(html.includes("data-project-gallery"));
   assert.ok(html.includes(`../${published.visuals.hero.src}`));
+  assert.ok(
+    html.includes(
+      `data-project-hero data-media-kind="${published.visuals.hero.kind}"`,
+    ),
+  );
   assert.ok(html.includes(`../${published.visuals.architecture.src}`));
+  assert.ok(
+    html.includes(
+      `data-project-architecture data-media-kind="${published.visuals.architecture.kind}"`,
+    ),
+  );
   for (const item of published.visuals.gallery) {
     assert.ok(html.includes(`../${item.src}`));
+    assert.ok(html.includes(`data-media-kind="${item.kind}"`));
   }
 });
 

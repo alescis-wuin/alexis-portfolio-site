@@ -19,6 +19,7 @@ export const visualProjectSlugs = Object.freeze([
 const allProfiles = visualProfiles.map((profile) => profile.id);
 const heroProfiles = ["mobile", "desktop-low", "ultrawide"];
 const architectureProfiles = ["full-hd", "ultrawide"];
+const galleryProfiles = ["full-hd"];
 
 export const visualScenes = Object.freeze([
   {
@@ -51,6 +52,12 @@ export const visualScenes = Object.freeze([
       path: `/projets/${slug}.html`,
       focus: "[data-project-architecture]",
       profiles: architectureProfiles,
+    },
+    {
+      id: `${slug}-gallery`,
+      path: `/projets/${slug}.html`,
+      focus: "[data-project-gallery]",
+      profiles: galleryProfiles,
     },
   ]),
 ]);

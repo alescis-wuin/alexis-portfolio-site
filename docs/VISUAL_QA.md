@@ -21,9 +21,10 @@ Les scènes couvrent :
 - la section Projets de l'accueil ;
 - le catalogue ;
 - le masthead des six projets publics ;
-- le diagramme d'architecture des six projets publics.
+- le diagramme d'architecture des six projets publics ;
+- la galerie des six projets publics en Full HD.
 
-Le plan produit 45 captures aux noms stables sous `artifacts/visual/captures/`.
+Le plan produit 51 captures aux noms stables sous `artifacts/visual/captures/`.
 
 ## Déterminisme
 
