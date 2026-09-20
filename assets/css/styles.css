@@ -1030,6 +1030,158 @@
     background: color-mix(in srgb, var(--surface) 76%, transparent);
   }
 
+  .profile-formation .section-heading {
+    max-width: var(--wide-reading-max);
+  }
+
+  .education-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(1rem, 2.2vw, 1.5rem);
+    align-items: stretch;
+  }
+
+  .education-acquired,
+  .education-step {
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .education-acquired {
+    display: grid;
+    align-content: start;
+    gap: 1.25rem;
+    padding: clamp(1.2rem, 2.4vw, 1.7rem);
+    background:
+      linear-gradient(
+        145deg,
+        color-mix(in srgb, var(--accent-3) 7%, transparent),
+        transparent 58%
+      ),
+      color-mix(in srgb, var(--surface) 88%, transparent);
+  }
+
+  .education-panel-heading {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .education-panel-heading > p:last-child {
+    max-width: 52ch;
+    color: var(--muted);
+  }
+
+  .education-kicker {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    font-weight: 850;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .education-panel-heading h3,
+  .education-step h3 {
+    font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+    letter-spacing: -0.025em;
+  }
+
+  .education-history {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .education-record {
+    position: relative;
+    display: grid;
+    grid-template-columns: 7.7rem minmax(0, 1fr);
+    gap: 1rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .education-record:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .education-period {
+    color: var(--accent-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    font-weight: 850;
+  }
+
+  .education-record h4 {
+    margin-bottom: 0.3rem;
+    color: var(--text);
+    font-size: 1.04rem;
+    letter-spacing: -0.015em;
+  }
+
+  .education-record p,
+  .education-step p:last-child {
+    color: var(--muted);
+  }
+
+  .education-path {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .education-step {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+    padding: clamp(1.05rem, 2vw, 1.35rem);
+  }
+
+  .education-step > div {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .education-step-index {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--surface-strong) 72%, transparent);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    font-weight: 850;
+  }
+
+  .education-step-target {
+    border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+  }
+
+  .education-step-search {
+    border-color: color-mix(in srgb, var(--accent-3) 26%, var(--border));
+  }
+
+  .education-step-search .education-kicker,
+  .education-step-search .education-step-index {
+    color: var(--accent-3);
+  }
+
+  .education-step-future {
+    border-color: color-mix(in srgb, var(--accent-2) 28%, var(--border));
+  }
+
+  .education-step-future .education-kicker,
+  .education-step-future .education-step-index {
+    color: var(--accent-2);
+  }
+
   .timeline {
     display: grid;
     gap: 1rem;
@@ -1251,6 +1403,20 @@
     .experience-facts > div {
       grid-template-columns: 1fr;
       gap: 0.35rem;
+    }
+
+    .education-layout,
+    .education-record {
+      grid-template-columns: 1fr;
+    }
+
+    .education-record {
+      gap: 0.4rem;
+    }
+
+    .education-step {
+      grid-template-columns: 2.5rem minmax(0, 1fr);
+      gap: 0.8rem;
     }
 
     .timeline-item {

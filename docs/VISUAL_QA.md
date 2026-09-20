@@ -28,7 +28,7 @@ Les scènes couvrent :
 - la galerie des six projets publics en Full HD ;
 - le viewer média Alycia ouvert en reflow 320 px, mobile, Full HD et 4K.
 
-Le plan produit 69 captures aux noms stables sous `artifacts/visual/captures/`.
+Le plan produit 73 captures aux noms stables sous `artifacts/visual/captures/`.
 
 ## Déterminisme
 
@@ -66,3 +66,7 @@ La phase P2.5-A ajoute la scène `home-skills` pour verrouiller la nouvelle hié
 ## P2.5-B — expérience
 
 La phase P2.5-B ajoute la scène `home-experience` pour verrouiller la hiérarchie entre Familink, expérience principale, et l’immersion Caisse d’Épargne. Elle est capturée en `reflow-320`, `mobile`, `full-hd` et `4k`. La matrice planifiée passe de 65 à 69 captures.
+
+## P2.5-C — formation & trajectoire
+
+La phase P2.5-C ajoute la scène `home-formation` pour verrouiller la séparation entre formation acquise, Bachelor visé, recherche d’entreprise et trajectoire IA. Elle est capturée en `reflow-320`, `mobile`, `full-hd` et `4k`. La matrice planifiée passe de 69 à 73 captures.
