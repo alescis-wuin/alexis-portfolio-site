@@ -865,66 +865,74 @@
 
       <section
         id="apropos"
-        class="section section-alt snap-section"
+        class="section section-alt snap-section profile-method"
         aria-labelledby="about-title"
         data-section
         data-label="À propos"
+        data-profile-section="method"
       >
-        <div class="container">
-          <div class="section-heading" data-reveal>
-            <p class="eyebrow">À propos</p>
-            <h2 id="about-title">Conception, apprentissage et méthode</h2>
+        <div class="container method-layout">
+          <div class="method-intro" data-reveal>
+            <p class="eyebrow">À propos / méthode</p>
+            <h2 id="about-title">Du besoin à une solution vérifiable</h2>
             <p>
-              Passionné par la conception logicielle, j’apprends depuis
-              longtemps en autonomie en cherchant d’abord à comprendre les
-              concepts qui structurent une application plutôt qu’à dépendre d’un
-              framework particulier. J’aime imaginer une architecture, séparer
-              clairement les responsabilités puis la voir évoluer jusqu’à une
-              application utilisable.
+              Dans mes projets, le travail part du problème à résoudre avant le
+              choix des outils. Je précise le contexte et les contraintes, je
+              pose une structure, je rends rapidement les choix concrets, puis
+              je vérifie le résultat et j’en documente les limites.
+            </p>
+            <p class="method-principle">
+              Le fil conducteur reste le même : comprendre, découper, essayer,
+              puis rendre le changement vérifiable et transmissible.
             </p>
           </div>
-          <p class="about-principle" data-reveal>
-            Comprendre avant d’implémenter, séparer clairement les
-            responsabilités et rendre les changements vérifiables.
-          </p>
-          <ol class="method-list" aria-label="Méthode de conception">
-            <li data-reveal>
-              <span>01</span>
-              <div>
-                <h3>Clarifier le besoin</h3>
+
+          <ol class="profile-method-grid" aria-label="Méthode de travail">
+            <li class="method-step" data-method-step="clarify" data-reveal>
+              <span class="method-step-index" aria-hidden="true">01</span>
+              <div class="method-step-body">
+                <p class="method-step-label">Clarifier</p>
+                <h3>Définir le problème à résoudre</h3>
                 <p>
-                  Identifier les utilisateurs, les contraintes, les données
-                  manipulées et les critères de réussite.
+                  Identifier les utilisateurs concernés, le besoin, les
+                  données, les contraintes techniques et les critères qui
+                  permettront de valider le résultat.
                 </p>
               </div>
             </li>
-            <li data-reveal>
-              <span>02</span>
-              <div>
-                <h3>Structurer l’application</h3>
+            <li class="method-step" data-method-step="structure" data-reveal>
+              <span class="method-step-index" aria-hidden="true">02</span>
+              <div class="method-step-body">
+                <p class="method-step-label">Structurer</p>
+                <h3>Séparer les responsabilités</h3>
                 <p>
-                  Séparer interface, logique métier, accès aux données, services
-                  et intégrations externes.
+                  Organiser l’interface, la logique métier, les données, les
+                  services et les intégrations pour rendre les dépendances
+                  explicites avant d’élargir l’implémentation.
                 </p>
               </div>
             </li>
-            <li data-reveal>
-              <span>03</span>
-              <div>
-                <h3>Prototyper l’interface</h3>
+            <li class="method-step" data-method-step="prototype" data-reveal>
+              <span class="method-step-index" aria-hidden="true">03</span>
+              <div class="method-step-body">
+                <p class="method-step-label">Prototyper</p>
+                <h3>Rendre les choix concrets</h3>
                 <p>
-                  Construire des écrans utilisables, lisibles, accessibles et
-                  adaptés aux usages réels.
+                  Construire l’écran, le flux, l’API, le script ou la preuve
+                  technique minimale utile afin de confronter la structure à un
+                  usage réel.
                 </p>
               </div>
             </li>
-            <li data-reveal>
-              <span>04</span>
-              <div>
-                <h3>Tester et documenter</h3>
+            <li class="method-step" data-method-step="verify" data-reveal>
+              <span class="method-step-index" aria-hidden="true">04</span>
+              <div class="method-step-body">
+                <p class="method-step-label">Tester et documenter</p>
+                <h3>Rendre le résultat vérifiable</h3>
                 <p>
-                  Prévoir des tests, des scripts reproductibles, des README
-                  exploitables et des limites assumées.
+                  Ajouter les tests utiles, des commandes reproductibles, une
+                  documentation exploitable et les limites ou compromis qui
+                  restent à connaître.
                 </p>
               </div>
             </li>
@@ -934,45 +942,61 @@
 
       <section
         id="contact"
-        class="section contact-section snap-section"
+        class="section contact-section snap-section profile-contact"
         aria-labelledby="contact-title"
         data-section
         data-label="Contact"
+        data-profile-section="contact"
       >
-        <div class="container contact-card" data-reveal>
-          <div>
+        <div class="container profile-contact-card" data-reveal>
+          <div class="contact-primary">
             <p class="eyebrow">Contact</p>
-            <h2 id="contact-title">Contact et CV centralisés</h2>
+            <h2 id="contact-title">
+              Un point d’entrée direct, des ressources en complément
+            </h2>
             <p>
-              Un seul point d’entrée pour éviter les doublons : e-mail,
-              LinkedIn, GitHub et CV PDF.
+              Pour échanger au sujet d’une alternance d’un an à partir
+              d’octobre 2026 dans la Métropole de Rouen, ou à propos d’un
+              projet, l’e-mail est le moyen de contact principal.
             </p>
-          </div>
-          <div class="contact-actions contact-hub">
             <a
-              class="button button-primary"
+              class="contact-email-link"
               href="mailto:alexis.guinot@onsiea.com"
-              >Envoyer un e-mail</a
+              aria-label="Envoyer un e-mail à alexis.guinot@onsiea.com"
+              data-contact-primary
             >
+              <span class="contact-link-label">E-mail</span>
+              <span class="contact-email-value">alexis.guinot@onsiea.com</span>
+            </a>
+          </div>
+
+          <nav class="contact-resources" aria-label="Ressources de contact">
+            <p class="contact-resources-title">Ressources</p>
             <a
-              class="button button-secondary"
+              class="contact-resource-link"
               href="https://www.linkedin.com/in/alexis-guinot/"
               rel="me noopener noreferrer"
-              >LinkedIn</a
             >
+              <span>LinkedIn</span>
+              <span class="contact-resource-meta">Profil professionnel</span>
+            </a>
             <a
-              class="button button-secondary"
+              class="contact-resource-link"
               href="https://github.com/alescis-wuin"
               rel="me noopener noreferrer"
-              >GitHub</a
             >
+              <span>GitHub</span>
+              <span class="contact-resource-meta">Dépôts et projets</span>
+            </a>
             <a
-              class="button button-ghost"
+              class="contact-resource-link"
               href="./assets/cv/CV_Alexis-GUINOT.pdf"
               download
-              >Télécharger le CV</a
             >
-          </div>
+              <span>CV PDF</span>
+              <span class="contact-resource-meta">Télécharger le document</span>
+            </a>
+          </nav>
         </div>
       </section>
     </main>

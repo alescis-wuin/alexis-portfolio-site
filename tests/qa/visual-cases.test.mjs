@@ -45,7 +45,7 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
   assert.ok(homeHeroScene);
   assert.deepEqual(homeHeroScene.profiles, profileIds);
 
-  assert.equal(visualCaptureCount(), 73);
+  assert.equal(visualCaptureCount(), 81);
 
   for (const profile of visualProfiles) {
     assert.ok(profile.width >= 320);
@@ -106,6 +106,19 @@ test("P2.5-C capture la formation et la trajectoire aux profils cibles", () => {
     "full-hd",
     "4k",
   ]);
+});
+
+test("P2.5-D capture la methode et le contact aux profils cibles", () => {
+  for (const [id, focus] of [
+    ["home-method", '[data-profile-section="method"]'],
+    ["home-contact", '[data-profile-section="contact"]'],
+  ]) {
+    const scene = visualScenes.find((candidate) => candidate.id === id);
+    assert.ok(scene);
+    assert.equal(scene.path, "/");
+    assert.equal(scene.focus, focus);
+    assert.deepEqual(scene.profiles, ["reflow-320", "mobile", "full-hd", "4k"]);
+  }
 });
 
 test("P2.4-F capture le viewer ouvert sur mobile et Full HD", () => {

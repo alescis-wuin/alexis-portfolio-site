@@ -28,7 +28,7 @@ Les scènes couvrent :
 - la galerie des six projets publics en Full HD ;
 - le viewer média Alycia ouvert en reflow 320 px, mobile, Full HD et 4K.
 
-Le plan produit 73 captures aux noms stables sous `artifacts/visual/captures/`.
+Le plan produit 81 captures aux noms stables sous `artifacts/visual/captures/`.
 
 ## Déterminisme
 
@@ -70,3 +70,7 @@ La phase P2.5-B ajoute la scène `home-experience` pour verrouiller la hiérarch
 ## P2.5-C — formation & trajectoire
 
 La phase P2.5-C ajoute la scène `home-formation` pour verrouiller la séparation entre formation acquise, Bachelor visé, recherche d’entreprise et trajectoire IA. Elle est capturée en `reflow-320`, `mobile`, `full-hd` et `4k`. La matrice planifiée passe de 69 à 73 captures.
+
+## P2.5-D — méthode & contact
+
+La phase P2.5-D ajoute les scènes `home-method` et `home-contact`. Chacune est capturée en `reflow-320`, `mobile`, `full-hd` et `4k` afin de verrouiller la lecture des quatre étapes de méthode et la hiérarchie entre e-mail principal et ressources complémentaires. La matrice planifiée passe de 73 à 81 captures.
