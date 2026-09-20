@@ -45,7 +45,7 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
   assert.ok(homeHeroScene);
   assert.deepEqual(homeHeroScene.profiles, profileIds);
 
-  assert.equal(visualCaptureCount(), 65);
+  assert.equal(visualCaptureCount(), 69);
 
   for (const profile of visualProfiles) {
     assert.ok(profile.width >= 320);
@@ -71,6 +71,21 @@ test("P2.5-A capture les competences aux extremes et profils cibles", () => {
   assert.equal(skillsScene.path, "/");
   assert.equal(skillsScene.focus, '[data-profile-section="skills"]');
   assert.deepEqual(skillsScene.profiles, [
+    "reflow-320",
+    "mobile",
+    "full-hd",
+    "4k",
+  ]);
+});
+
+test("P2.5-B capture l experience principale aux extremes et profils cibles", () => {
+  const experienceScene = visualScenes.find(
+    (scene) => scene.id === "home-experience",
+  );
+  assert.ok(experienceScene);
+  assert.equal(experienceScene.path, "/");
+  assert.equal(experienceScene.focus, '[data-profile-section="experience"]');
+  assert.deepEqual(experienceScene.profiles, [
     "reflow-320",
     "mobile",
     "full-hd",

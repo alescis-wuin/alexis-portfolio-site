@@ -246,7 +246,7 @@ function extractSection(html, id, nextId) {
 
 function extractFamilinkEntry(html) {
   const experience = extractSection(html, "experience", "formation");
-  const familinkIndex = experience.indexOf("Familink");
+  const familinkIndex = experience.indexOf("<h3>Familink</h3>");
 
   assert.notEqual(
     familinkIndex,
@@ -267,19 +267,7 @@ function extractFamilinkEntry(html) {
     articleEnd + "</article>".length,
   );
 
-  const paragraphTag = article.indexOf("<p");
-  const paragraphStart =
-    paragraphTag >= 0 ? article.indexOf(">", paragraphTag) : -1;
-  const paragraphEnd =
-    paragraphStart >= 0 ? article.indexOf("</p>", paragraphStart) : -1;
-
-  assert.ok(
-    paragraphTag >= 0 && paragraphStart >= 0 && paragraphEnd >= 0,
-    "description Familink introuvable",
-  );
-
   return article
-    .slice(paragraphStart + 1, paragraphEnd)
     .replace(/<[^>]+>/gu, " ")
     .replace(/\s+/gu, " ")
     .trim();

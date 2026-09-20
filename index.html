@@ -645,48 +645,98 @@
 
       <section
         id="experience"
-        class="section section-alt snap-section"
+        class="section section-alt snap-section profile-experience"
         aria-labelledby="experience-title"
         data-section
         data-label="Expérience"
+        data-profile-section="experience"
       >
         <div class="container">
           <div class="section-heading" data-reveal>
             <p class="eyebrow">Expérience</p>
-            <h2 id="experience-title">Expérience professionnelle</h2>
+            <h2 id="experience-title">
+              Deux années au contact d’un produit connecté, du logiciel au
+              matériel
+            </h2>
             <p>
-              Des missions réalisées en contexte professionnel, de l’application
-              au matériel connecté, avec une place croissante donnée à
-              l’autonomie.
+              Familink constitue l’expérience principale du parcours. Elle
+              rassemble développement applicatif, backend, Linux/Raspberry Pi
+              et électronique dans un même contexte produit. Une immersion plus
+              courte à la Caisse d’Épargne complète ce parcours.
             </p>
           </div>
-          <div class="timeline" aria-label="Expériences professionnelles">
-            <article class="timeline-item" data-reveal>
-              <span>2023 - 2025</span>
-              <div>
-                <h3>
-                  Familink — développeur informatique et électronicien en
-                  alternance
-                </h3>
-                <p>
-                  Développement et maintenance autour de cadres photo/vidéo
-                  connectés : backend Python/Django/ReportLab, application
-                  Android Java, outils Linux/Raspberry Pi et SAV. Participation
-                  à un boîtier TV connecté B2B, ajout de fonctionnalités et
-                  corrections, avec une autonomie croissante au fil de
-                  l’alternance.
-                </p>
-              </div>
+
+          <div
+            class="experience-layout"
+            aria-label="Expériences professionnelles"
+            data-experience-list
+          >
+            <article
+              class="experience-card experience-card-primary"
+              data-experience-lead
+              data-reveal
+            >
+              <header class="experience-card-header">
+                <div class="experience-meta">
+                  <span class="experience-period">2023 - 2025</span>
+                  <span class="experience-label">Expérience principale · alternance</span>
+                </div>
+                <div>
+                  <h3>Familink</h3>
+                  <p class="experience-role">
+                    Développeur informatique et électronicien
+                  </p>
+                </div>
+              </header>
+
+              <p class="experience-summary">
+                Développement et maintenance autour de cadres photo/vidéo
+                connectés et d’un boîtier TV connecté B2B, avec une autonomie
+                croissante au fil de l’alternance.
+              </p>
+
+              <dl class="experience-facts">
+                <div>
+                  <dt>Environnement</dt>
+                  <dd>
+                    Android Java · Python/Django/ReportLab · Linux/Raspberry Pi ·
+                    matériel et électronique
+                  </dd>
+                </div>
+                <div>
+                  <dt>Produits</dt>
+                  <dd>
+                    Cadres photo/vidéo connectés et projet de boîtier TV connecté
+                    orienté B2B
+                  </dd>
+                </div>
+                <div>
+                  <dt>Contributions</dt>
+                  <dd>
+                    Intégration des avatars dans les cadres, améliorations et
+                    corrections de l’application, travail sur le boîtier TV
+                  </dd>
+                </div>
+              </dl>
             </article>
-            <article class="timeline-item" data-reveal>
-              <span>2025</span>
-              <div>
-                <h3>Caisse d’Épargne Normandie — stage de découverte</h3>
-                <p>
-                  Immersion au siège social : gestion de projet, organisation,
-                  management et équipe.
-                </p>
+
+            <article
+              class="experience-card experience-card-secondary"
+              data-experience-secondary
+              data-reveal
+            >
+              <div class="experience-meta">
+                <span class="experience-period">2025</span>
+                <span class="experience-label">Immersion courte</span>
               </div>
+              <div>
+                <h3>Caisse d’Épargne Normandie</h3>
+                <p class="experience-role">Stage de découverte</p>
+              </div>
+              <p>
+                Immersion au siège social autour de la gestion de projet, de
+                l’organisation, du management et du fonctionnement d’équipe.
+              </p>
             </article>
           </div>
         </div>

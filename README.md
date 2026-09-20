@@ -19,7 +19,7 @@ Site web portfolio statique, sans dépendance de build applicatif en production.
 - `docs/P2.4_MEDIA.md` : contrat P2.4-E des médias typés, captures produit et validation d’intégrité.
 - `docs/P2.4_MEDIA_VIEWER.md` : contrat P2.4-F du viewer média natif et de son accessibilité.
 - `docs/P2.4_FINAL_QA.md` : clôture P2.4-G responsive, accessibilité, performance et matrice visuelle finale.
-- `docs/P2.5_PROFILE.md` : contrat de la phase P2.5 pour les sections profil ; P2.5-A contextualise les compétences et leurs preuves projet.
+- `docs/P2.5_PROFILE.md` : contrat de la phase P2.5 pour les sections profil ; P2.5-A contextualise les compétences et P2.5-B hiérarchise l’expérience.
 - `docs/archive/` : anciennes analyses et décisions conservées à titre historique ; elles ne sont plus normatives.
 
 La V1 du portfolio utilise un thème sombre unique. Un éventuel thème clair est différé et ne fait pas partie du contrat visuel actuel.
