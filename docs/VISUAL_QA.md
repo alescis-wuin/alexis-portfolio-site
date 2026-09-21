@@ -21,14 +21,14 @@ Les scènes couvrent :
 
 - le hero et le shell initial de l'accueil ;
 - la section Projets de l'accueil ;
-- les sections profil Compétences et Expérience de l'accueil ;
+- les cinq sections profil Compétences, Expérience, Formation & trajectoire, Méthode et Contact de l'accueil ;
 - le catalogue ;
 - le masthead des six projets publics ;
 - le diagramme d'architecture des six projets publics ;
 - la galerie des six projets publics en Full HD ;
 - le viewer média Alycia ouvert en reflow 320 px, mobile, Full HD et 4K.
 
-Le plan produit 81 captures aux noms stables sous `artifacts/visual/captures/`.
+Le plan produit 101 captures aux noms stables sous `artifacts/visual/captures/`.
 
 ## Déterminisme
 
@@ -74,3 +74,9 @@ La phase P2.5-C ajoute la scène `home-formation` pour verrouiller la séparatio
 ## P2.5-D — méthode & contact
 
 La phase P2.5-D ajoute les scènes `home-method` et `home-contact`. Chacune est capturée en `reflow-320`, `mobile`, `full-hd` et `4k` afin de verrouiller la lecture des quatre étapes de méthode et la hiérarchie entre e-mail principal et ressources complémentaires. La matrice planifiée passe de 73 à 81 captures.
+
+## P2.5-E — clôture du profil
+
+P2.5-E étend `home-skills`, `home-experience`, `home-formation`, `home-method` et `home-contact` aux huit profils visuels canoniques. Les quatre profils déjà couverts restent inchangés et les profils `laptop-low`, `desktop-low`, `ultrawide` et `ultrawide-large` sont ajoutés à chacune des cinq scènes.
+
+La matrice globale passe de 81 à 101 captures. Cette extension ferme la couverture visuelle de P2.5 sans modifier les scènes projet ni le viewer média.

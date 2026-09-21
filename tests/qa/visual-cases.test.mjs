@@ -45,7 +45,7 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
   assert.ok(homeHeroScene);
   assert.deepEqual(homeHeroScene.profiles, profileIds);
 
-  assert.equal(visualCaptureCount(), 81);
+  assert.equal(visualCaptureCount(), 101);
 
   for (const profile of visualProfiles) {
     assert.ok(profile.width >= 320);
@@ -66,49 +66,38 @@ test("la matrice de capture visuelle reste stable et sans doublons", () => {
 });
 
 test("P2.5-A capture les competences aux extremes et profils cibles", () => {
+  const profileIds = visualProfiles.map((profile) => profile.id);
   const skillsScene = visualScenes.find((scene) => scene.id === "home-skills");
   assert.ok(skillsScene);
   assert.equal(skillsScene.path, "/");
   assert.equal(skillsScene.focus, '[data-profile-section="skills"]');
-  assert.deepEqual(skillsScene.profiles, [
-    "reflow-320",
-    "mobile",
-    "full-hd",
-    "4k",
-  ]);
+  assert.deepEqual(skillsScene.profiles, profileIds);
 });
 
 test("P2.5-B capture l experience principale aux extremes et profils cibles", () => {
+  const profileIds = visualProfiles.map((profile) => profile.id);
   const experienceScene = visualScenes.find(
     (scene) => scene.id === "home-experience",
   );
   assert.ok(experienceScene);
   assert.equal(experienceScene.path, "/");
   assert.equal(experienceScene.focus, '[data-profile-section="experience"]');
-  assert.deepEqual(experienceScene.profiles, [
-    "reflow-320",
-    "mobile",
-    "full-hd",
-    "4k",
-  ]);
+  assert.deepEqual(experienceScene.profiles, profileIds);
 });
 
 test("P2.5-C capture la formation et la trajectoire aux profils cibles", () => {
+  const profileIds = visualProfiles.map((profile) => profile.id);
   const formationScene = visualScenes.find(
     (scene) => scene.id === "home-formation",
   );
   assert.ok(formationScene);
   assert.equal(formationScene.path, "/");
   assert.equal(formationScene.focus, '[data-profile-section="formation"]');
-  assert.deepEqual(formationScene.profiles, [
-    "reflow-320",
-    "mobile",
-    "full-hd",
-    "4k",
-  ]);
+  assert.deepEqual(formationScene.profiles, profileIds);
 });
 
 test("P2.5-D capture la methode et le contact aux profils cibles", () => {
+  const profileIds = visualProfiles.map((profile) => profile.id);
   for (const [id, focus] of [
     ["home-method", '[data-profile-section="method"]'],
     ["home-contact", '[data-profile-section="contact"]'],
@@ -117,7 +106,7 @@ test("P2.5-D capture la methode et le contact aux profils cibles", () => {
     assert.ok(scene);
     assert.equal(scene.path, "/");
     assert.equal(scene.focus, focus);
-    assert.deepEqual(scene.profiles, ["reflow-320", "mobile", "full-hd", "4k"]);
+    assert.deepEqual(scene.profiles, profileIds);
   }
 });
 
