@@ -6,6 +6,9 @@ const data = JSON.parse(
   readFileSync(new URL("../../data/projects.json", import.meta.url)),
 );
 const published = data.projects.filter((p) => p.published);
+const featured = published
+  .filter((p) => p.featured)
+  .sort((a, b) => a.featuredOrder - b.featuredOrder);
 const pages = [
   "/",
   "/projets/",
@@ -52,28 +55,25 @@ test("parcours principal, catalogue canonique et données éditoriales", async (
 }) => {
   await page.goto("/");
   await expect(page.locator(".hero-kicker")).toContainText(
-    "Concepteur-développeur full-stack",
+    "Alexis Guinot · Développement applicatif",
   );
-  await expect(page.locator(".hero-search")).toContainText("octobre 2026");
-  await expect(page.locator(".brand-name")).toBeVisible();
-  const featured = published
-    .filter((p) => p.featured)
-    .sort((a, b) => a.featuredOrder - b.featuredOrder);
+  await expect(page.locator("[data-hero-availability]")).toContainText(
+    "octobre 2026",
+  );
+  await expect(
+    page.getByRole("link", { name: "Accueil — Alexis Guinot" }),
+  ).toBeVisible();
   expect(
     await page
       .locator("[data-project-card]")
       .evaluateAll((nodes) => nodes.map((n) => n.dataset.projectSlug)),
   ).toEqual(featured.map((p) => p.slug));
-  await page.getByRole("link", { name: "Explorer mes projets" }).click();
+  await page.getByRole("link", { name: "Voir les projets" }).click();
   await expect(page).toHaveURL(/#projets$/);
   await page.locator("[data-project-card] .project-read-link").first().click();
   await expect(page.locator("h1")).toHaveText(featured[0].name);
-  await expect(page.locator(".case-nav")).toBeVisible();
-  await page
-    .locator(".case-nav")
-    .getByRole("link", { name: "Tests", exact: true })
-    .click();
-  await expect(page).toHaveURL(/#quality-title$/);
+  await expect(page.locator("[data-project-architecture]")).toHaveCount(1);
+  await expect(page.locator("#quality-title")).toHaveCount(1);
   const cv = await page.request.get("/assets/cv/CV_Alexis-GUINOT.pdf");
   expect(cv.ok()).toBe(true);
   expect((await cv.body()).subarray(0, 5).toString()).toBe("%PDF-");
@@ -98,11 +98,13 @@ test("menu compact : clavier, Échap, transfert du focus et redimensionnement", 
     .locator("#home-navigation")
     .getByRole("link", { name: "Contact", exact: true })
     .click();
-  await expect(page.locator("#contact")).toBeFocused();
+  await expect(page).toHaveURL(/#contact$/);
+  await expect(page.locator("#contact")).toBeVisible();
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(toggle).toBeHidden();
-  await expect(page.locator("#home-navigation")).toBeVisible();
+  await expect(page.locator("#home-navigation")).toBeHidden();
+  await expect(page.locator(".section-rail")).toBeVisible();
 });
 
 test("lien d’évitement et contenu sans JavaScript", async ({ browser }) => {
@@ -115,10 +117,13 @@ test("lien d’évitement et contenu sans JavaScript", async ({ browser }) => {
   await page.keyboard.press("Tab");
   await expect(page.locator(".skip-link")).toBeFocused();
   await page.keyboard.press("Enter");
-  await expect(page.locator("main")).toBeFocused();
+  await expect(page).toHaveURL(/#contenu$/);
+  await expect(page.locator("main")).toBeVisible();
   await expect(page.locator("[data-site-nav]")).toBeVisible();
   await expect(page.locator("[data-nav-toggle]")).toBeHidden();
-  await expect(page.locator("[data-project-card]")).toHaveCount(3);
+  await expect(page.locator("[data-project-card]")).toHaveCount(
+    featured.length,
+  );
   await page.goto("http://127.0.0.1:4173/projets/");
   await expect(page.locator("[data-project-card]:visible")).toHaveCount(
     published.length,
@@ -126,39 +131,18 @@ test("lien d’évitement et contenu sans JavaScript", async ({ browser }) => {
   await context.close();
 });
 
-test("copie d’adresse : succès et refus du presse-papiers", async ({
+test("contact direct par e-mail sans dépendance au presse-papiers", async ({
   page,
 }) => {
-  await page.addInitScript(() => {
-    Object.defineProperty(globalThis.navigator, "clipboard", {
-      value: {
-        writeText: async (text) => {
-          globalThis.copied = text;
-        },
-      },
-    });
-  });
-  await page.goto("/");
-  await page.locator("[data-copy-email]").click();
-  await expect(page.locator("[data-copy-feedback]")).toHaveText(
-    "Adresse e-mail copiée.",
-  );
-  expect(await page.evaluate(() => globalThis.copied)).toBe(
-    "alexis.guinot@onsiea.com",
-  );
-  await page.evaluate(() => {
-    globalThis.navigator.clipboard.writeText = async () => {
-      throw new Error("Denied");
-    };
-  });
-  await page.locator("[data-copy-email]").click();
-  await expect(page.locator("[data-copy-feedback]")).toContainText(
-    "sélectionner l’adresse",
-  );
-  await expect(page.locator("[data-contact-primary]")).toHaveAttribute(
+  await page.goto("/#contact");
+  const contact = page.locator("[data-contact-primary]");
+  await expect(contact).toBeVisible();
+  await expect(contact).toHaveAttribute(
     "href",
     "mailto:alexis.guinot@onsiea.com",
   );
+  await expect(contact).toContainText("alexis.guinot@onsiea.com");
+  await expect(page.locator("[data-copy-email]")).toHaveCount(0);
 });
 
 test("filtres combinés, aucun résultat, puis réinitialisation", async ({

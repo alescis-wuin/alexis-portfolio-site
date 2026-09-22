@@ -28,7 +28,9 @@ function initNavigation() {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") setOpen(false);
+    if (event.key !== "Escape" || !nav.classList.contains("is-open")) return;
+    setOpen(false);
+    toggle.focus();
   });
 }
 

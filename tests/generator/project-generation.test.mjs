@@ -105,6 +105,32 @@ test("le résumé de la section projets suit le nombre de projets mis en avant",
   assertGeneratorSuccess(runGenerator("--check"));
 });
 
+test("les cartes respectent la hiérarchie de titres selon leur surface", () => {
+  assertGeneratorSuccess(runGenerator());
+
+  const catalogHtml = readFileSync(
+    path.join(fixtureRoot, "projets", "index.html"),
+    "utf8",
+  );
+  const homeHtml = readFileSync(path.join(fixtureRoot, "index.html"), "utf8");
+
+  const catalogHeadings = [
+    ...catalogHtml.matchAll(
+      /<div class="project-heading">[\s\S]*?<(h[23])><a href=/gu,
+    ),
+  ].map((match) => match[1]);
+  const homeHeadings = [
+    ...homeHtml.matchAll(
+      /<div class="project-heading">[\s\S]*?<(h[23])><a href=/gu,
+    ),
+  ].map((match) => match[1]);
+
+  assert.ok(catalogHeadings.length > 0);
+  assert.ok(homeHeadings.length > 0);
+  assert.ok(catalogHeadings.every((heading) => heading === "h2"));
+  assert.ok(homeHeadings.every((heading) => heading === "h3"));
+});
+
 test("une étude de cas professionnelle est obligatoire", () => {
   const catalogPath = path.join(fixtureRoot, "data", "projects.json");
   const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
