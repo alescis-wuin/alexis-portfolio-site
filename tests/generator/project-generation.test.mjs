@@ -116,12 +116,12 @@ test("les cartes respectent la hiérarchie de titres selon leur surface", () => 
 
   const catalogHeadings = [
     ...catalogHtml.matchAll(
-      /<div class="project-heading">[\\s\\S]*?<(h[23])><a href=/gu,
+      /<div class="project-heading">[\s\S]*?<(h[23])><a href=/gu,
     ),
   ].map((match) => match[1]);
   const homeHeadings = [
     ...homeHtml.matchAll(
-      /<div class="project-heading">[\\s\\S]*?<(h[23])><a href=/gu,
+      /<div class="project-heading">[\s\S]*?<(h[23])><a href=/gu,
     ),
   ].map((match) => match[1]);
 
