@@ -3,37 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Application météo JavaFX avec fournisseur simulé, données météo/air/UV/pollen, thème sombre, contraste renforcé et contrôles clavier.">
+  <meta name="description" content="Application météo JavaFX avec Open-Meteo, fallbacks configurables, qualité de l’air, UV, pollens, carte OpenStreetMap native, géocodage et cache de tuiles.">
   <meta name="author" content="Alexis Guinot">
-  <meta name="color-scheme" content="dark light">
+  <meta name="color-scheme" content="dark">
   <meta property="og:title" content="Aelia — Étude de cas | Alexis Guinot">
-  <meta property="og:description" content="Application météo JavaFX avec fournisseur simulé, données météo/air/UV/pollen, thème sombre, contraste renforcé et contrôles clavier.">
+  <meta property="og:description" content="Application météo JavaFX avec Open-Meteo, fallbacks configurables, qualité de l’air, UV, pollens, carte OpenStreetMap native, géocodage et cache de tuiles.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/aelia.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
   <meta name="theme-color" content="#0B1020">
   <title>Aelia — Étude de cas | Alexis Guinot</title>
+  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/aelia.html">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
-  <link rel="preload" href="../assets/img/photo-profil-480.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="../assets/css/styles.css">
   <script>
-    (() => {
-      document.documentElement.dataset.js = 'true';
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        document.documentElement.dataset.theme = savedTheme;
-      }
-    })();
+    document.documentElement.dataset.js = 'true';
   </script>
 </head>
 
-<body>
+<body data-project-slug="aelia">
   <a class="skip-link" href="#contenu">Aller au contenu principal</a>
   <header class="site-header" data-site-header>
-    <div class="container header-inner">
-      <a class="brand" href="../index.html#accueil" aria-label="Retour à l’accueil">
-        <img src="../assets/img/logo.svg" width="40" height="40" alt="" aria-hidden="true">
-        <span>Alexis Guinot</span>
+    <div class="content-shell header-inner">
+      <a class="project-back-link" href="./index.html" aria-label="Retour aux autres projets">
+        <span aria-hidden="true">←</span>
+        <span>Retour aux autres projets</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navigation-principale" data-nav-toggle hidden>
         <span class="nav-toggle-bars" aria-hidden="true"></span>
@@ -42,101 +37,224 @@
       <nav class="site-nav" aria-label="Navigation principale" data-site-nav>
         <ul id="navigation-principale" class="nav-list">
           <li><a href="../index.html#accueil">Accueil</a></li>
-<li><a href="../index.html#projets">Projets</a></li>
-<li><a href="../index.html#competences">Compétences</a></li>
-<li><a href="../index.html#parcours">Parcours</a></li>
-<li><a href="../index.html#contact">Contact</a></li>
+          <li><a href="./index.html">Projets</a></li>
+          <li><a href="../index.html#competences">Compétences</a></li>
+          <li><a href="../index.html#experience">Expérience</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
         </ul>
       </nav>
       <div class="header-actions">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer le thème" aria-pressed="false">
-          <span aria-hidden="true">◐</span>
-        </button>
         <a class="button button-small button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
       </div>
     </div>
   </header>
 
-  <main id="contenu">
+  <main id="contenu" data-case-study>
     <article class="project-detail section-lg">
-      <div class="container project-detail-grid">
+      <div class="frame project-detail-grid">
         <div class="project-detail-copy" data-reveal>
-          <a class="breadcrumb" href="../index.html#projets">← Retour aux projets</a>
-          <p class="eyebrow">Application météo desktop · Prototype</p>
+          <div class="project-detail-signal">
+            <p class="eyebrow">Application météo desktop multi-fournisseurs</p>
+            <span class="project-detail-status">En cours</span>
+          </div>
           <h1>Aelia</h1>
-          <p class="hero-lead">Application météo JavaFX avec fournisseur simulé, données météo/air/UV/pollen, thème sombre, contraste renforcé et contrôles clavier.</p>
-          <div class="tag-list"><span class="tag">Desktop</span>
-<span class="tag">Accessibilité</span>
-<span class="tag">Architecture</span></div>
+          <p class="hero-lead">Application météo JavaFX avec fournisseurs distants et fallback, qualité de l’air, UV, pollens et carte interactive native.</p>
+          <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
+            <div>
+              <dt>Objectif</dt>
+              <dd>Agréger plusieurs sources météo dans une interface desktop avec stratégie de fallback.</dd>
+            </div>
+            <div>
+              <dt>Points clés</dt>
+              <dd>Fournisseurs distants, stratégie de fallback, carte JavaFX native, cache, tests Maven et CI.</dd>
+            </div>
+          </dl>
+          <div class="project-taxonomy" aria-label="Domaines du projet">
+            <span class="project-metadata-label">Domaines</span>
+            <div class="tag-list"><span class="tag">Desktop</span>
+                <span class="tag">Accessibilité</span>
+                <span class="tag">Architecture</span>
+                <span class="tag">Données</span></div>
+          </div>
           <div class="hero-actions">
-            <a class="button button-secondary" href="https://github.com/alescis-wuin/Aelia" rel="noopener noreferrer">Voir le dépôt GitHub</a>
+            <a class="button button-secondary project-repository-button" href="https://github.com/alescis-wuin/Aelia" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>
-        <figure class="project-figure" data-reveal>
-          <img src="../assets/img/projects/aelia.svg" width="960" height="540" alt="Illustration du projet Aelia">
+        <figure class="project-figure case-study-media" data-project-hero data-media-kind="screenshot" data-reveal>
+          <a class="media-viewer-trigger" href="../assets/img/projects/aelia/hero.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Dashboard météo desktop Aelia."><img src="../assets/img/projects/aelia/hero.webp" width="1920" height="1204" decoding="async" fetchpriority="high" alt="Tableau de bord météo Aelia."></a>
+          <figcaption>Dashboard météo desktop Aelia.</figcaption>
         </figure>
       </div>
     </article>
 
     <section class="section" aria-labelledby="problem-title">
-      <div class="container content-grid">
+      <div class="content-shell content-grid">
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
-          <p>Préparer une application desktop extensible autour de fournisseurs météo, en conservant testabilité, accessibilité et séparation des ports/adaptateurs.</p>
+          <p>Présenter des données météo riches sans coupler l’interface à un fournisseur unique et sans multiplier inutilement les requêtes cartographiques.</p>
         </div>
-        <aside class="content-aside" data-reveal>
+        <aside class="content-aside" data-reveal aria-labelledby="role-title">
+          <p class="eyebrow">Rôle</p>
+          <h2 id="role-title">Mon rôle</h2>
+          <p>Conception et développement d’une application météo desktop JavaFX : fournisseurs distants, stratégie de fallback, données environnementales, carte native, cache, tests et CI.</p>
           <h2>Stack</h2>
-          <div class="tag-list"><span class="tag">Java 21</span>
-<span class="tag">JavaFX</span>
-<span class="tag">AtlantaFX</span>
-<span class="tag">Maven</span>
-<span class="tag">Tests</span>
-<span class="tag">GitHub Actions</span></div>
+          <div class="tag-list"><span class="tag">Java</span>
+                <span class="tag">Java 26</span>
+                <span class="tag">JavaFX</span>
+                <span class="tag">AtlantaFX</span>
+                <span class="tag">Maven</span>
+                <span class="tag">Tests</span>
+                <span class="tag">GitHub Actions</span></div>
         </aside>
       </div>
     </section>
 
-    <section class="section section-alt" aria-labelledby="features-title">
-      <div class="container two-columns">
+    <section class="section section-alt" aria-labelledby="architecture-title">
+      <div class="content-shell two-columns">
         <div data-reveal>
-          <p class="eyebrow">Fonctionnalités</p>
-          <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list">
-            <li>Structure JavaFX MVC avec port orienté fournisseur.</li><li>Fournisseur local simulé pour météo, qualité de l’air, UV et pollen.</li><li>Requêtes de valeurs courantes et abonnements live configurables.</li><li>Tables de limites API et de données supportées.</li><li>Contrôles compatibles clavier, tooltips et métadonnées d’accessibilité JavaFX.</li><li>Build Maven, tests unitaires et workflow GitHub Actions.</li>
-          </ul>
+          <p class="eyebrow">Architecture</p>
+          <h2 id="architecture-title">Comment le système est structuré</h2>
+          <ul class="check-list"><li>L’interface JavaFX consomme un contrat WeatherDashboardProvider.</li><li>RemoteWeatherDashboardProvider orchestre Open-Meteo puis les fallbacks configurés.</li><li>WorldMapView affiche des tuiles OSM sans WebView ; MapTileCache gère mémoire, disque, priorité et rafraîchissement.</li></ul>
         </div>
         <div data-reveal>
-          <p class="eyebrow">Preuve de compétence</p>
-          <h2>Ce que ce projet démontre</h2>
-          <ul class="check-list">
-            <li>Conception extensible par contrat d’adaptateur.</li><li>Attention à l’accessibilité dès le prototype.</li><li>Industrialisation avec tests et CI.</li>
-          </ul>
+          <p class="eyebrow">Décisions</p>
+          <h2>Décisions techniques</h2>
+          <ul class="check-list"><li><strong>Prioriser Open-Meteo.</strong> Une source sans clé sert de référence ; les fournisseurs à clé restent des fallbacks explicites.</li><li><strong>Limiter les requêtes cartographiques.</strong> Seules les tuiles utiles à la vue courante sont prioritaires et un cache disque prolonge leur réutilisation.</li></ul>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="next-title">
-      <div class="container contact-card" data-reveal>
-        <div>
+    <section class="section project-visual-section" aria-labelledby="architecture-visual-title">
+      <div class="frame">
+        <div class="section-heading reading" data-reveal>
+          <p class="eyebrow">Schéma</p>
+          <h2 id="architecture-visual-title">Vue d’ensemble de l’architecture</h2>
+          <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
+        </div>
+        <figure class="case-study-media case-study-architecture" data-project-architecture data-media-kind="diagram" data-reveal>
+          <a class="media-viewer-trigger" href="../assets/img/projects/aelia/architecture.svg" data-media-viewer-trigger aria-label="Agrandir le schéma : Interface JavaFX, contrat fournisseur et intégrations météo/cartographiques."><img src="../assets/img/projects/aelia/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma d’architecture d’Aelia."></a>
+          <figcaption>Interface JavaFX, contrat fournisseur et intégrations météo/cartographiques.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="features-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Implémentation</p>
+          <h2 id="features-title">Points techniques principaux</h2>
+          <ul class="check-list"><li>Modes simulated, auto et api.</li><li>Open-Meteo en source principale avec fallbacks WeatherAPI.com, Visual Crossing, OpenWeather, Weatherbit et Pirate Weather lorsque configurés.</li><li>Qualité de l’air Open-Meteo : AQI européen, PM2.5, PM10, NO₂ et pollens.</li><li>Carte JavaFX native avec tuiles OpenStreetMap, déplacement, zoom, sélection de localisation et géocodage inverse Nominatim.</li><li>Cache mémoire et disque des tuiles ; les tuiles visibles sont prioritaires.</li><li>Tests Maven et workflow GitHub Actions sous Java 26.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Difficultés</p>
+          <h2>Difficultés résolues</h2>
+          <ul class="check-list"><li><strong>Tolérer les indisponibilités fournisseur.</strong> Le mode auto tente les sources distantes puis revient à la simulation si aucune ne répond.</li><li><strong>Construire une carte native.</strong> Zoom, déplacement, sélection et géocodage sont réalisés en JavaFX sans WebView.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="quality-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Qualité</p>
+          <h2 id="quality-title">Tests et garde-fous</h2>
+          <ul class="check-list"><li>Tests unitaires Maven.</li><li>CI GitHub Actions alignée sur Java 26.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Livraison</p>
+          <h2>Livraison et CI/CD</h2>
+          <ul class="check-list"><li>Lancement Maven/JavaFX documenté.</li><li>Le projet reste une application desktop locale.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="outcomes-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Résultats</p>
+          <h2 id="outcomes-title">Résultats observables</h2>
+          <ul class="check-list"><li>Données météo réelles et fallback multi-fournisseurs.</li><li>Carte native avec sélection de localisation et cache de tuiles.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Compromis</p>
+          <h2>Compromis techniques</h2>
+          <ul class="check-list"><li>Les fallbacks à clé exigent une configuration utilisateur.</li><li>Le cache cartographique ne constitue pas un téléchargement hors ligne du monde.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="limits-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Limites</p>
+          <h2 id="limits-title">Limites assumées</h2>
+          <ul class="check-list"><li>Pas de préchargement de zones complètes.</li><li>Les fournisseurs à clé ne fonctionnent qu’après configuration des identifiants nécessaires.</li></ul>
+        </div>
+        <div data-reveal>
           <p class="eyebrow">Suite</p>
-          <h2 id="next-title">Voir le reste du portfolio</h2>
-          <p>Les autres études de cas permettent de comparer backend web, application métier, desktop, IA locale et rendu graphique.</p>
+          <h2>Prochaines étapes</h2>
+          <ul class="check-list"><li>Poursuivre les tests d’intégration sur erreurs réseau, quotas et données partielles.</li></ul>
         </div>
-        <div class="contact-actions">
-          <a class="button button-primary" href="../index.html#projets">Tous les projets</a>
-          <a class="button button-secondary" href="../index.html#contact">Contact</a>
+      </div>
+    </section>
+
+    <section class="section project-visual-section" aria-labelledby="gallery-title" data-project-gallery>
+      <div class="frame">
+        <div class="section-heading reading" data-reveal>
+          <p class="eyebrow">Captures</p>
+          <h2 id="gallery-title">Le produit en situation</h2>
+          <p>Des états complémentaires sélectionnés pour montrer l’interface et les parcours réellement implémentés.</p>
         </div>
+        <div class="case-study-gallery">
+          <figure class="case-study-media" data-gallery-item data-gallery-index="0" data-media-kind="screenshot">
+          <a class="media-viewer-trigger" href="../assets/img/projects/aelia/map.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Carte JavaFX native avec sélection de localisation."><img src="../assets/img/projects/aelia/map.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Carte interactive Aelia."></a>
+          <figcaption>Carte JavaFX native avec sélection de localisation.</figcaption>
+        </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="proof-title">
+      <div class="content-shell content-grid">
+        <div class="content-block" data-reveal>
+          <p class="eyebrow">Synthèse</p>
+          <h2 id="proof-title">Compétences et techniques mobilisées</h2>
+          <ul class="check-list"><li>L’interface n’est pas liée à un fournisseur météo unique.</li><li>La carte charge prioritairement les tuiles visibles et les conserve dans des caches mémoire et disque afin de limiter les requêtes au fournisseur cartographique.</li><li>Aucun préchargement d’une zone entière ni cache mondial hors ligne n’est implémenté.</li></ul>
+        </div>
+        <aside class="content-aside" data-reveal aria-labelledby="continue-title">
+          <h2 id="continue-title">Continuer la visite</h2>
+          <p>Comparer les autres études de cas et filtrer le catalogue par langage, type, stack ou statut.</p>
+          <div class="contact-actions">
+            <a class="button button-primary" href="./index.html">Tous les projets</a>
+            <a class="button button-secondary" href="../index.html#contact">Contact</a>
+          </div>
+        </aside>
       </div>
     </section>
   </main>
 
+  <dialog class="media-viewer" data-media-viewer aria-labelledby="media-viewer-title" aria-describedby="media-viewer-caption">
+    <div class="media-viewer-panel">
+      <div class="media-viewer-toolbar">
+        <h2 id="media-viewer-title" data-media-viewer-title>Aperçu agrandi</h2>
+        <button class="media-viewer-close" type="button" data-media-viewer-close aria-label="Fermer la visionneuse">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <figure class="media-viewer-figure">
+        <img class="media-viewer-image" data-media-viewer-image src="../assets/img/projects/aelia/hero.webp" width="1920" height="1204" alt="">
+        <figcaption id="media-viewer-caption" data-media-viewer-caption></figcaption>
+      </figure>
+    </div>
+  </dialog>
+
   <footer class="site-footer">
-    <div class="container footer-grid">
+    <div class="content-shell footer-grid">
       <div>
         <p class="footer-title">Alexis Guinot</p>
-        <p>Développeur backend & concepteur d’applications.</p>
+        <p>Concepteur-développeur full-stack.</p>
       </div>
       <nav aria-label="Liens externes">
         <ul class="footer-links">
@@ -151,4 +269,3 @@
   <script type="module" src="../assets/js/main.js"></script>
 </body>
 </html>
-

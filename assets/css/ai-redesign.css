@@ -1,17 +1,17 @@
-/* AI branch redesign: section snapping, side rail navigation, clearer professional positioning. */
+/* Portfolio redesign: native section scrolling, side rail navigation and professional positioning. */
 @layer reset {
   html {
-    scroll-padding-top: 0;
+    scroll-padding-top: var(--header-height);
   }
 
   .snap-section:target {
-    scroll-margin-top: 0;
+    scroll-margin-top: var(--header-height);
   }
 }
 
 @layer base {
   body {
-    font-size: clamp(0.98rem, 0.94rem + 0.16vw, 1.04rem);
+    font-size: var(--text-body);
   }
 
   h1 {
@@ -24,13 +24,15 @@
     max-width: 16ch;
   }
 
-  @media (min-width: 1180px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) {
+  @media (min-width: 1180px) and (min-height: 900px) and (prefers-reduced-motion: no-preference) {
     html {
-      scroll-snap-type: y mandatory;
+      scroll-snap-type: y proximity;
     }
   }
 
-  @media (max-width: 1179px), (max-height: 759px), (prefers-reduced-motion: reduce) {
+  @media (max-width: 1179px),
+    (max-height: 899px),
+    (prefers-reduced-motion: reduce) {
     html {
       scroll-snap-type: none;
     }
@@ -48,15 +50,17 @@
     display: flex;
     align-items: center;
     scroll-snap-align: start;
-    scroll-snap-stop: always;
+    scroll-snap-stop: normal;
   }
 
   #accueil.snap-section {
-    min-height: calc(100svh - var(--header-height));
+    min-height: 100svh;
   }
 
   #projets.snap-section,
-  #parcours.snap-section {
+  #experience.snap-section,
+  #formation.snap-section,
+  #apropos.snap-section {
     align-items: flex-start;
   }
 
@@ -83,6 +87,17 @@
     }
   }
 
+  @media (max-height: 899px), (max-width: 680px) {
+    .snap-section,
+    #accueil.snap-section {
+      min-height: auto;
+    }
+
+    .snap-section {
+      display: block;
+    }
+  }
+
   @media (max-width: 980px) {
     .value-grid-4 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -90,15 +105,6 @@
   }
 
   @media (max-width: 680px) {
-    body.has-section-rail {
-      padding-bottom: 5.5rem;
-    }
-
-    .snap-section {
-      min-height: auto;
-      display: block;
-    }
-
     .value-grid-4 {
       grid-template-columns: 1fr;
     }
@@ -119,6 +125,36 @@
 
   .header-actions {
     margin-left: auto;
+  }
+
+  .home-header.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 70;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(18px);
+  }
+
+  .home-header .header-inner {
+    position: relative;
+  }
+
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    border: 1px solid var(--border);
+    border-radius: 0.8rem;
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 900;
+  }
+
+  .home-header .home-site-nav {
+    display: none;
   }
 
   .section-rail {
@@ -145,19 +181,23 @@
     border-radius: 999px;
     color: var(--muted-2);
     font-weight: 800;
-    transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+    transition:
+      background-color 180ms ease,
+      color 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
   }
 
   .section-rail a:hover,
   .section-rail a:focus-visible,
-  .section-rail a[aria-current='true'] {
+  .section-rail a[aria-current="location"] {
     color: var(--text);
     background: color-mix(in srgb, var(--surface) 82%, transparent);
     border-color: var(--border);
   }
 
-  .section-rail a[aria-current='true'] {
-    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.16);
+  .section-rail a[aria-current="location"] {
+    box-shadow: var(--shadow-sm);
   }
 
   .rail-index {
@@ -173,7 +213,7 @@
     font-weight: 900;
   }
 
-  .section-rail a[aria-current='true'] .rail-index {
+  .section-rail a[aria-current="location"] .rail-index {
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
     color: var(--accent-contrast);
   }
@@ -181,7 +221,7 @@
   .hero-kicker {
     color: var(--accent);
     font-family: var(--font-mono);
-    font-size: 0.82rem;
+    font-size: var(--text-meta);
     font-weight: 850;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -215,7 +255,7 @@
   .hero-facts dt {
     color: var(--accent);
     font-family: var(--font-mono);
-    font-size: 0.74rem;
+    font-size: var(--text-meta);
     font-weight: 850;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -224,7 +264,7 @@
   .hero-facts dd {
     margin: 0.25rem 0 0;
     color: var(--text);
-    font-size: 0.92rem;
+    font-size: var(--text-ui);
     font-weight: 700;
     line-height: 1.35;
   }
@@ -238,17 +278,16 @@
     letter-spacing: 0.05em;
   }
 
-  .proof-list {
-    display: grid;
-    gap: 0.35rem;
-    margin: 0;
-    padding-left: 1.1rem;
+  .trajectory-note {
+    margin-top: 1rem;
   }
 
-  .proof-list li {
-    color: var(--muted);
-    font-size: 0.92rem;
-    line-height: 1.45;
+  .about-principle {
+    max-width: 54rem;
+    margin-bottom: 1.25rem;
+    color: var(--text);
+    font-size: 1.05rem;
+    font-weight: 750;
   }
 
   .method-list {
@@ -281,7 +320,7 @@
   }
 
   .muted-small {
-    font-size: 0.95rem;
+    font-size: var(--text-ui);
   }
 
   .impact-aside h2 {
@@ -310,50 +349,71 @@
     }
 
     .rail-label {
-      font-size: 0.82rem;
+      font-size: var(--text-meta);
     }
   }
 
   @media (max-width: 1179px) {
+    body.has-section-rail {
+      padding-left: 0;
+      padding-bottom: 0;
+    }
+
     .section-rail {
-      left: 0.75rem;
-      right: 0.75rem;
-      bottom: 0.75rem;
+      display: none;
+    }
+
+    .home-header .home-header-actions {
+      display: none;
+    }
+
+    :root[data-js="true"] .home-header .nav-toggle {
+      display: inline-flex;
+      margin-left: auto;
+    }
+
+    .home-header .home-site-nav {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 0;
+      right: 0;
       border: 1px solid var(--border);
-      border-radius: 1.25rem;
-      background: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
-      backdrop-filter: blur(18px);
-      box-shadow: var(--shadow);
-      padding: 0.45rem;
+      border-radius: 1rem;
+      background: var(--bg-elevated);
+      box-shadow: var(--shadow-md);
+      padding: 0.65rem;
     }
 
-    .section-rail ol {
-      display: flex;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .section-rail ol::-webkit-scrollbar {
+    :root[data-js="true"] .home-header .home-site-nav {
       display: none;
     }
 
-    .section-rail li {
-      flex: 0 0 auto;
+    :root[data-js="true"] .home-header .home-site-nav.is-open {
+      display: block;
     }
 
-    .section-rail a {
-      min-height: 2.55rem;
-      grid-template-columns: 1fr;
-      justify-items: center;
-      padding: 0.35rem 0.65rem;
+    :root:not([data-js="true"]) .home-header .home-site-nav {
+      display: block;
+      position: static;
+      flex-basis: 100%;
+      margin-left: 0;
+      margin-top: 0.5rem;
+      border: 0;
+      border-top: 1px solid var(--border);
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      padding: 0.65rem 0 0;
     }
 
-    .rail-index {
-      display: none;
+    .home-header .nav-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.25rem;
     }
 
-    .rail-label {
-      font-size: 0.82rem;
+    .home-header .nav-list a {
+      width: 100%;
     }
   }
 
@@ -373,5 +433,879 @@
     .contact-hub {
       justify-content: flex-start;
     }
+  }
+}
+
+/* P2.4-C: release the rail reservation once the ultrawide frame has its own margins. */
+@media (min-width: 200rem) {
+  body.has-section-rail {
+    padding-left: 0;
+  }
+}
+
+/* P2.3.2: hero visual composition
+ * Editorial content and data-hero hooks remain unchanged.
+ * This layer fixes the responsive geometry consumed by P2.3.3.
+ */
+#accueil.section-lg {
+  padding-block: clamp(3.25rem, 6vw, 5.5rem);
+}
+
+#accueil .hero-grid {
+  width: 100%;
+  max-width: 100rem;
+  margin-inline: auto;
+  grid-template-columns: minmax(0, 1.15fr) minmax(19rem, 0.85fr);
+  align-items: center;
+  gap: clamp(2.5rem, 4.5vw, 5.5rem);
+}
+
+#accueil .hero-copy {
+  max-width: 58rem;
+  gap: clamp(0.8rem, 1.4vw, 1rem);
+}
+
+#accueil [data-hero-title] {
+  max-width: 12ch;
+  font-size: clamp(2.75rem, 4.3vw, 4.75rem);
+  line-height: 0.99;
+  text-wrap: balance;
+}
+
+#accueil .hero-lead {
+  max-width: 45rem;
+}
+
+#accueil .availability {
+  width: auto;
+  max-width: 46rem;
+  justify-self: start;
+}
+
+#accueil .hero-actions {
+  margin-top: 0.1rem;
+}
+
+#accueil .hero-facts {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 62%, transparent);
+  box-shadow: var(--shadow-sm);
+}
+
+#accueil .hero-facts div {
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0.85rem 1rem;
+}
+
+#accueil .hero-facts div + div {
+  border-inline-start: 1px solid var(--border);
+}
+
+#accueil .hero-card {
+  width: min(100%, 23rem);
+  max-width: 23rem;
+  justify-self: end;
+  padding: 0.75rem;
+  border-radius: 1.75rem;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: var(--shadow-md);
+}
+
+#accueil .hero-card picture {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 1.2rem;
+}
+
+#accueil .hero-card img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
+  object-position: 50% 24%;
+}
+
+#accueil .profile-panel {
+  gap: 0.45rem;
+  padding: 0.8rem 0.3rem 0.15rem;
+}
+
+#accueil .status-line {
+  line-height: 1.45;
+}
+
+@media (min-width: 1180px) and (min-height: 900px) {
+  #accueil.snap-section {
+    min-height: calc(100svh - var(--header-height));
+  }
+}
+
+@media (min-width: 981px) and (max-height: 899px) {
+  #accueil.section-lg {
+    padding-block: clamp(2.25rem, 5vh, 3.25rem);
+  }
+
+  #accueil .hero-grid {
+    align-items: start;
+    gap: clamp(2rem, 4vw, 4.5rem);
+  }
+
+  #accueil .hero-copy {
+    gap: 0.72rem;
+    padding-top: clamp(0.35rem, 1.5vh, 1rem);
+  }
+
+  #accueil [data-hero-title] {
+    font-size: clamp(2.75rem, 4.2vw, 3.9rem);
+  }
+
+  #accueil .hero-lead {
+    font-size: clamp(1rem, 1.15vw, 1.12rem);
+    line-height: 1.48;
+  }
+
+  #accueil .availability {
+    font-size: 0.95rem;
+  }
+
+  #accueil .hero-actions .button {
+    min-height: 2.75rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  #accueil .hero-facts div {
+    padding: 0.7rem 0.8rem;
+  }
+
+  #accueil .hero-card {
+    width: min(100%, 19.5rem);
+    max-width: 19.5rem;
+  }
+
+  #accueil .profile-panel {
+    padding-top: 0.65rem;
+  }
+}
+
+@media (max-width: 980px) {
+  #accueil .hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  #accueil .hero-copy {
+    max-width: none;
+  }
+
+  #accueil .hero-facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #accueil .hero-card {
+    display: grid;
+    width: 100%;
+    max-width: none;
+    grid-template-columns: minmax(7rem, 10rem) minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    justify-self: stretch;
+  }
+
+  #accueil .hero-card picture {
+    aspect-ratio: 1;
+  }
+
+  #accueil .profile-panel {
+    min-width: 0;
+    padding: 0.25rem;
+  }
+}
+
+@media (max-width: 680px) {
+  #accueil.section-lg {
+    padding-block: 2.25rem;
+  }
+
+  #accueil .hero-grid {
+    gap: 1.25rem;
+  }
+
+  #accueil .hero-copy {
+    gap: 0.8rem;
+  }
+
+  #accueil .hero-kicker {
+    line-height: 1.45;
+  }
+
+  #accueil [data-hero-title] {
+    max-width: 13ch;
+    font-size: clamp(2.35rem, 10vw, 2.9rem);
+    line-height: 1;
+  }
+
+  #accueil .hero-lead {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  #accueil .availability {
+    width: 100%;
+    max-width: none;
+    justify-self: stretch;
+    font-size: 0.95rem;
+  }
+
+  #accueil .hero-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  #accueil .hero-actions .button {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.7rem 0.55rem;
+    font-size: 0.9rem;
+    line-height: 1.15;
+    text-align: center;
+  }
+
+  #accueil .hero-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #accueil .hero-facts div {
+    padding: 0.65rem 0.75rem;
+  }
+
+  #accueil .hero-facts div + div {
+    border-block-start: 1px solid var(--border);
+    border-inline-start: 0;
+  }
+
+  #accueil .hero-facts dd {
+    font-size: 0.92rem;
+  }
+
+  #accueil .hero-card {
+    grid-template-columns: 5.75rem minmax(0, 1fr);
+    gap: 0.75rem;
+    padding: 0.65rem;
+    border-radius: 1.35rem;
+  }
+
+  #accueil .hero-card picture {
+    border-radius: 0.9rem;
+  }
+
+  #accueil .profile-panel {
+    gap: 0.35rem;
+    padding: 0.1rem;
+  }
+
+  #accueil .profile-role {
+    font-size: 0.92rem;
+    line-height: 1.3;
+  }
+
+  #accueil .status-line {
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+}
+
+/* P2.3.2 V2: reset legacy P2.4-C grid placements
+ * P2.4-C assigns the Hero children to columns of a 12/16-column grid.
+ * P2.3.2 intentionally uses a two-column Hero, so those placements must
+ * be reset or CSS Grid creates implicit columns on >= 90rem viewports.
+ */
+#accueil .hero-grid > .hero-copy,
+#accueil .hero-grid > .hero-card {
+  min-width: 0;
+  grid-column: auto;
+}
+
+/* P2.3.3: static application-system signature.
+ * The portrait remains the primary human anchor; the adjacent graph is a
+ * deliberately abstract system map, not a diagram of a specific project.
+ * Motion is intentionally deferred to P2.3.4.
+ */
+#accueil [data-hero-visual].hero-card {
+  --hero-system-shift-x: 0px;
+  --hero-system-shift-y: 0px;
+  --hero-system-tilt-x: 0deg;
+  --hero-system-tilt-y: 0deg;
+  --hero-profile-shift-x: 0px;
+  --hero-profile-shift-y: 0px;
+  --hero-profile-tilt-x: 0deg;
+  --hero-profile-tilt-y: 0deg;
+
+  display: grid;
+  width: min(100%, 32rem);
+  max-width: 32rem;
+  grid-template-columns: minmax(9.5rem, 0.72fr) minmax(14rem, 1fr);
+  align-items: stretch;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  perspective: 72rem;
+}
+
+#accueil .hero-system,
+#accueil .hero-profile-card {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 1.2rem;
+  background: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
+}
+
+#accueil .hero-system {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.5rem;
+  padding: 0.7rem;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      circle at 50% 46%,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(
+      color-mix(in srgb, var(--border) 45%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--border) 45%, transparent) 1px,
+      transparent 1px
+    ),
+    color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  background-size: auto, 1.15rem 1.15rem, 1.15rem 1.15rem, auto;
+}
+
+#accueil .hero-system::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 7rem;
+  aspect-ratio: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent-2) 8%, transparent);
+  filter: blur(1.25rem);
+}
+
+#accueil .hero-system-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+#accueil .hero-system-eyebrow,
+#accueil .hero-system-state,
+#accueil .hero-system-code {
+  font-family: var(--font-mono);
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+#accueil .hero-system-eyebrow {
+  overflow: hidden;
+  color: var(--muted-2);
+  font-size: 0.63rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#accueil .hero-system-state {
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, var(--accent-3) 42%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent-3) 9%, transparent);
+  color: var(--accent-3);
+  font-size: 0.56rem;
+  padding: 0.18rem 0.32rem;
+}
+
+#accueil .hero-system-stage {
+  position: relative;
+  min-height: 21rem;
+}
+
+#accueil .hero-system-links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  color: var(--accent);
+  opacity: 0.56;
+  pointer-events: none;
+}
+
+#accueil .hero-system-links path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  vector-effect: non-scaling-stroke;
+}
+
+#accueil .hero-system-links .hero-system-link-secondary {
+  color: var(--accent-2);
+  stroke-dasharray: 4 6;
+  opacity: 0.68;
+}
+
+#accueil .hero-system-node {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  width: 5.15rem;
+  min-height: 3rem;
+  align-content: center;
+  gap: 0.08rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  border-radius: 0.8rem;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: 0 0.65rem 1.6rem rgba(0, 0, 0, 0.2);
+  padding: 0.42rem 0.5rem;
+}
+
+#accueil .hero-system-node::before {
+  content: '';
+  position: absolute;
+  width: 0.42rem;
+  height: 0.42rem;
+  border: 2px solid var(--bg-elevated);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+#accueil .hero-system-code {
+  color: var(--accent);
+  font-size: 0.62rem;
+}
+
+#accueil .hero-system-name {
+  color: var(--text);
+  font-size: 0.67rem;
+  font-weight: 760;
+  line-height: 1.15;
+}
+
+#accueil .hero-system-node-interface {
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#accueil .hero-system-node-interface::before {
+  left: 50%;
+  bottom: -0.28rem;
+  transform: translateX(-50%);
+}
+
+#accueil .hero-system-node-api {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+#accueil .hero-system-node-api::before {
+  left: -0.28rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#accueil .hero-system-node-data {
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#accueil .hero-system-node-data::before {
+  left: 50%;
+  top: -0.28rem;
+  transform: translateX(-50%);
+}
+
+#accueil .hero-system-node-quality {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  border-color: color-mix(in srgb, var(--accent-2) 34%, var(--border));
+}
+
+#accueil .hero-system-node-quality::before {
+  right: -0.28rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--accent-2);
+  box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--accent-2) 14%, transparent);
+}
+
+#accueil .hero-profile-card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  padding: 0.55rem;
+  box-shadow: var(--shadow-sm);
+}
+
+#accueil .hero-profile-card picture {
+  width: 100%;
+}
+
+#accueil .hero-profile-card .profile-panel {
+  padding-inline: 0.1rem;
+}
+
+@media (min-width: 981px) and (max-height: 899px) {
+  #accueil [data-hero-visual].hero-card {
+    width: min(100%, 27rem);
+    max-width: 27rem;
+    grid-template-columns: minmax(7rem, 0.62fr) minmax(12rem, 1fr);
+    gap: 0.6rem;
+    padding: 0.55rem;
+  }
+
+  #accueil .hero-system {
+    padding: 0.55rem;
+  }
+
+  #accueil .hero-system-stage {
+    min-height: 16rem;
+  }
+
+  #accueil .hero-system-node {
+    width: 4.35rem;
+    min-height: 2.6rem;
+    padding: 0.34rem 0.4rem;
+  }
+
+  #accueil .hero-system-code {
+    font-size: 0.56rem;
+  }
+
+  #accueil .hero-system-name {
+    font-size: 0.6rem;
+  }
+
+  #accueil .hero-profile-card {
+    padding: 0.45rem;
+  }
+}
+
+@media (max-width: 980px) {
+  #accueil [data-hero-visual].hero-card {
+    grid-template-columns: minmax(8.5rem, 0.44fr) minmax(0, 1.56fr);
+    gap: 0.75rem;
+  }
+
+  #accueil .hero-system {
+    padding: 0.55rem;
+  }
+
+  #accueil .hero-system-eyebrow {
+    font-size: 0.6rem;
+  }
+
+  #accueil .hero-system-stage {
+    min-height: 8.5rem;
+  }
+
+  #accueil .hero-system-node {
+    width: 2.55rem;
+    min-height: 2.3rem;
+    place-items: center;
+    padding: 0.28rem;
+  }
+
+  #accueil .hero-system-name {
+    display: none;
+  }
+
+  #accueil .hero-system-code {
+    font-size: 0.58rem;
+  }
+
+  #accueil .hero-profile-card {
+    grid-template-columns: minmax(7rem, 10rem) minmax(0, 1fr);
+    align-items: center;
+    align-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  #accueil .hero-profile-card .profile-panel {
+    align-content: center;
+    padding: 0.25rem;
+  }
+
+  #accueil .hero-profile-card .status-line {
+    display: none;
+  }
+}
+
+@media (max-width: 680px) {
+  #accueil [data-hero-visual].hero-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.55rem;
+    padding: 0.55rem;
+  }
+
+  #accueil .hero-system {
+    display: none;
+  }
+
+  #accueil .hero-system-heading {
+    display: none;
+  }
+
+  #accueil .hero-system-stage {
+    min-height: 5.75rem;
+  }
+
+  #accueil .hero-system-links {
+    inset: 0.15rem;
+    width: calc(100% - 0.3rem);
+    height: calc(100% - 0.3rem);
+    opacity: 0.48;
+  }
+
+  #accueil .hero-system-node {
+    width: 1.65rem;
+    min-height: 1.65rem;
+    border-radius: 0.55rem;
+    padding: 0.12rem;
+    box-shadow: 0 0.35rem 0.9rem rgba(0, 0, 0, 0.18);
+  }
+
+  #accueil .hero-system-node::before {
+    width: 0.3rem;
+    height: 0.3rem;
+    border-width: 1px;
+  }
+
+  #accueil .hero-system-code {
+    font-size: 0.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  #accueil .hero-profile-card {
+    grid-template-columns: 4.9rem minmax(0, 1fr);
+    min-height: 5.6rem;
+    gap: 0.6rem;
+    border-radius: 0.95rem;
+    padding: 0.35rem;
+  }
+
+  #accueil .hero-profile-card .profile-panel {
+    padding: 0.05rem;
+  }
+}
+
+/* P2.3.4: motion and interaction layer for the Hero signature.
+ * The graph remains complete without motion. Ambient flow is CSS-first;
+ * fine-pointer parallax is progressive enhancement and is disabled by the
+ * reduced-motion contract.
+ */
+#accueil .hero-system-links,
+#accueil .hero-system-node,
+#accueil .hero-system-node::before {
+  transition:
+    opacity 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+@keyframes hero-system-flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+@keyframes hero-system-signal {
+  0%,
+  18%,
+  100% {
+    opacity: 0.72;
+  }
+
+  8% {
+    opacity: 1;
+    box-shadow:
+      0 0 0 0.18rem color-mix(in srgb, var(--accent) 18%, transparent),
+      0 0 0.85rem color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+}
+
+@keyframes hero-system-signal-quality {
+  0%,
+  18%,
+  100% {
+    opacity: 0.72;
+  }
+
+  8% {
+    opacity: 1;
+    box-shadow:
+      0 0 0 0.18rem color-mix(in srgb, var(--accent-2) 18%, transparent),
+      0 0 0.85rem color-mix(in srgb, var(--accent-2) 20%, transparent);
+  }
+}
+
+@media (min-width: 981px) and (prefers-reduced-motion: no-preference) {
+  #accueil [data-hero-visual][data-hero-motion='interactive'] .hero-system,
+  #accueil [data-hero-visual][data-hero-motion='interactive']
+    .hero-profile-card {
+    will-change: transform;
+    transition:
+      transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  #accueil [data-hero-visual][data-hero-motion='interactive'] .hero-system {
+    transform: translate3d(
+        var(--hero-system-shift-x),
+        var(--hero-system-shift-y),
+        0
+      )
+      rotateX(var(--hero-system-tilt-x)) rotateY(var(--hero-system-tilt-y));
+    transform-style: preserve-3d;
+  }
+
+  #accueil
+    [data-hero-visual][data-hero-motion='interactive']
+    .hero-profile-card {
+    transform: translate3d(
+        var(--hero-profile-shift-x),
+        var(--hero-profile-shift-y),
+        0
+      )
+      rotateX(var(--hero-profile-tilt-x)) rotateY(var(--hero-profile-tilt-y));
+    transform-style: preserve-3d;
+  }
+
+  #accueil
+    [data-hero-visual][data-hero-motion='interactive']:hover
+    .hero-system-links {
+    opacity: 0.7;
+  }
+
+  #accueil
+    [data-hero-visual][data-hero-motion='interactive']:hover
+    .hero-system-node {
+    border-color: color-mix(in srgb, var(--accent) 38%, var(--border));
+  }
+
+  #accueil
+    [data-hero-visual][data-hero-motion='interactive']:hover
+    .hero-system-node-quality {
+    border-color: color-mix(in srgb, var(--accent-2) 42%, var(--border));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #accueil .hero-system-links .hero-system-link-secondary {
+    animation: hero-system-flow 5.5s linear infinite;
+  }
+
+  #accueil .hero-system-node::before {
+    animation: hero-system-signal 6s ease-in-out infinite;
+  }
+
+  #accueil .hero-system-node-api::before {
+    animation-delay: 1.5s;
+  }
+
+  #accueil .hero-system-node-data::before {
+    animation-delay: 3s;
+  }
+
+  #accueil .hero-system-node-quality::before {
+    animation-name: hero-system-signal-quality;
+    animation-delay: 4.5s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #accueil .hero-system-links .hero-system-link-secondary,
+  #accueil .hero-system-node::before {
+    animation: none;
+  }
+
+  #accueil [data-hero-visual].hero-card .hero-system,
+  #accueil [data-hero-visual].hero-card .hero-profile-card,
+  #accueil .hero-system-links,
+  #accueil .hero-system-node,
+  #accueil .hero-system-node::before {
+    transition: none;
+  }
+
+  #accueil [data-hero-visual].hero-card .hero-system,
+  #accueil [data-hero-visual].hero-card .hero-profile-card {
+    transform: none;
+  }
+}
+
+/* P2.3.5: final responsive and accessibility pass for the Hero.
+ * At the tablet-landscape boundary, keep the two-column composition but
+ * simplify duplicated copy and technical labels before they become cramped.
+ */
+@media (min-width: 981px) and (max-width: 1100px) {
+  #accueil .hero-system {
+    gap: 0;
+    padding: 0.45rem;
+  }
+
+  #accueil .hero-system-heading,
+  #accueil .hero-system-name,
+  #accueil .hero-profile-card .status-line {
+    display: none;
+  }
+
+  #accueil .hero-system-stage {
+    min-height: 13.5rem;
+  }
+
+  #accueil .hero-system-node {
+    width: 2.7rem;
+    min-height: 2.35rem;
+    place-items: center;
+    padding: 0.28rem;
+  }
+
+  #accueil .hero-system-code {
+    font-size: 0.62rem;
+  }
+
+  #accueil .hero-profile-card .profile-panel {
+    align-content: center;
+    padding-block: 0.45rem 0.15rem;
+  }
+}
+
+@media (max-width: 360px) {
+  #accueil .hero-actions {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

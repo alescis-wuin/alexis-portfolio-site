@@ -5,35 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Application web de streaming vidéo avec authentification, catalogue, administration média, upload, streaming MP4/HLS et pipeline FFmpeg.">
   <meta name="author" content="Alexis Guinot">
-  <meta name="color-scheme" content="dark light">
+  <meta name="color-scheme" content="dark">
   <meta property="og:title" content="Streamfolio — Étude de cas | Alexis Guinot">
   <meta property="og:description" content="Application web de streaming vidéo avec authentification, catalogue, administration média, upload, streaming MP4/HLS et pipeline FFmpeg.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/streamfolio.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
   <meta name="theme-color" content="#0B1020">
   <title>Streamfolio — Étude de cas | Alexis Guinot</title>
+  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/streamfolio.html">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
-  <link rel="preload" href="../assets/img/photo-profil-480.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="../assets/css/styles.css">
   <script>
-    (() => {
-      document.documentElement.dataset.js = 'true';
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        document.documentElement.dataset.theme = savedTheme;
-      }
-    })();
+    document.documentElement.dataset.js = 'true';
   </script>
 </head>
 
-<body>
+<body data-project-slug="streamfolio">
   <a class="skip-link" href="#contenu">Aller au contenu principal</a>
   <header class="site-header" data-site-header>
-    <div class="container header-inner">
-      <a class="brand" href="../index.html#accueil" aria-label="Retour à l’accueil">
-        <img src="../assets/img/logo.svg" width="40" height="40" alt="" aria-hidden="true">
-        <span>Alexis Guinot</span>
+    <div class="content-shell header-inner">
+      <a class="project-back-link" href="./index.html" aria-label="Retour aux autres projets">
+        <span aria-hidden="true">←</span>
+        <span>Retour aux autres projets</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navigation-principale" data-nav-toggle hidden>
         <span class="nav-toggle-bars" aria-hidden="true"></span>
@@ -42,103 +37,229 @@
       <nav class="site-nav" aria-label="Navigation principale" data-site-nav>
         <ul id="navigation-principale" class="nav-list">
           <li><a href="../index.html#accueil">Accueil</a></li>
-<li><a href="../index.html#projets">Projets</a></li>
-<li><a href="../index.html#competences">Compétences</a></li>
-<li><a href="../index.html#parcours">Parcours</a></li>
-<li><a href="../index.html#contact">Contact</a></li>
+          <li><a href="./index.html">Projets</a></li>
+          <li><a href="../index.html#competences">Compétences</a></li>
+          <li><a href="../index.html#experience">Expérience</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
         </ul>
       </nav>
       <div class="header-actions">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer le thème" aria-pressed="false">
-          <span aria-hidden="true">◐</span>
-        </button>
         <a class="button button-small button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
       </div>
     </div>
   </header>
 
-  <main id="contenu">
+  <main id="contenu" data-case-study>
     <article class="project-detail section-lg">
-      <div class="container project-detail-grid">
+      <div class="frame project-detail-grid">
         <div class="project-detail-copy" data-reveal>
-          <a class="breadcrumb" href="../index.html#projets">← Retour aux projets</a>
-          <p class="eyebrow">Plateforme de streaming vidéo · Finalisé</p>
+          <div class="project-detail-signal">
+            <p class="eyebrow">Plateforme de streaming vidéo</p>
+            <span class="project-detail-status">Finalisé</span>
+          </div>
           <h1>Streamfolio</h1>
-          <p class="hero-lead">Application web de streaming vidéo avec authentification, catalogue, administration média, upload, streaming MP4/HLS et pipeline FFmpeg.</p>
-          <div class="tag-list"><span class="tag">Backend</span>
-<span class="tag">Full-stack</span>
-<span class="tag">Données</span>
-<span class="tag">DevOps</span></div>
+          <p class="hero-lead">Plateforme de streaming full-stack : catalogue, sécurité, administration média et pipeline MP4/HLS avec FFmpeg.</p>
+          <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
+            <div>
+              <dt>Objectif</dt>
+              <dd>Construire une plateforme web couvrant catalogue, sécurité, administration média et streaming.</dd>
+            </div>
+            <div>
+              <dt>Points clés</dt>
+              <dd>Sécurité, streaming, traitement asynchrone, Docker et tests.</dd>
+            </div>
+          </dl>
+          <div class="project-taxonomy" aria-label="Domaines du projet">
+            <span class="project-metadata-label">Domaines</span>
+            <div class="tag-list"><span class="tag">Backend</span>
+                <span class="tag">Full-stack</span>
+                <span class="tag">Données</span>
+                <span class="tag">DevOps</span></div>
+          </div>
           <div class="hero-actions">
-            <a class="button button-secondary" href="https://github.com/alescis-wuin/streamfolio" rel="noopener noreferrer">Voir le dépôt GitHub</a>
+            <a class="button button-secondary project-repository-button" href="https://github.com/alescis-wuin/streamfolio" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>
-        <figure class="project-figure" data-reveal>
-          <img src="../assets/img/projects/streamfolio.svg" width="960" height="540" alt="Illustration du projet Streamfolio">
+        <figure class="project-figure case-study-media" data-project-hero data-media-kind="screenshot" data-reveal>
+          <a class="media-viewer-trigger" href="../assets/img/projects/streamfolio/hero.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Catalogue et navigation de Streamfolio, avec recherche, filtres et contenu d’exemple."><img src="../assets/img/projects/streamfolio/hero.webp" width="1920" height="1080" decoding="async" fetchpriority="high" alt="Accueil de Streamfolio affichant le film Aurora Drift, la navigation, la recherche et le catalogue."></a>
+          <figcaption>Catalogue et navigation de Streamfolio, avec recherche, filtres et contenu d’exemple.</figcaption>
         </figure>
       </div>
     </article>
 
     <section class="section" aria-labelledby="problem-title">
-      <div class="container content-grid">
+      <div class="content-shell content-grid">
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
-          <p>Créer une plateforme portfolio proche d’un produit réel : accès sécurisé, expérience vidéo fluide, administration des médias et chaîne de traitement fiable.</p>
+          <p>Réunir dans une même application un accès sécurisé, un catalogue, la lecture vidéo, l’administration des médias et une chaîne de traitement asynchrone.</p>
         </div>
-        <aside class="content-aside" data-reveal>
+        <aside class="content-aside" data-reveal aria-labelledby="role-title">
+          <p class="eyebrow">Rôle</p>
+          <h2 id="role-title">Mon rôle</h2>
+          <p>Conception et développement de bout en bout : architecture Spring Boot, sécurité, streaming, administration média, persistance, pipeline FFmpeg, tests et environnement Docker.</p>
           <h2>Stack</h2>
-          <div class="tag-list"><span class="tag">Spring Boot</span>
-<span class="tag">PostgreSQL</span>
-<span class="tag">Redis</span>
-<span class="tag">MinIO</span>
-<span class="tag">Docker</span>
-<span class="tag">HLS</span>
-<span class="tag">Playwright</span></div>
+          <div class="tag-list"><span class="tag">Java</span>
+                <span class="tag">Spring Boot</span>
+                <span class="tag">PostgreSQL</span>
+                <span class="tag">Redis</span>
+                <span class="tag">MinIO</span>
+                <span class="tag">Docker</span>
+                <span class="tag">HLS</span>
+                <span class="tag">Playwright</span></div>
         </aside>
       </div>
     </section>
 
-    <section class="section section-alt" aria-labelledby="features-title">
-      <div class="container two-columns">
+    <section class="section section-alt" aria-labelledby="architecture-title">
+      <div class="content-shell two-columns">
         <div data-reveal>
-          <p class="eyebrow">Fonctionnalités</p>
-          <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list">
-            <li>Authentification avec Spring Security, BCrypt, cookies HttpOnly/SameSite et sessions Redis.</li><li>Catalogue films/séries avec recherche, filtres, watchlist et progression de lecture.</li><li>Streaming HTML5 : MP4 progressif, HTTP Range, WebVTT et HLS via hls.js.</li><li>Administration média : upload, métadonnées, miniatures, publication et relance de jobs.</li><li>Pipeline asynchrone : file persistante, retry exponentiel, reprise après redémarrage et annulation FFmpeg.</li><li>Persistance PostgreSQL/Flyway, stockage objet MinIO et environnement Docker reproductible.</li><li>Tests Maven, tests sécurité, streaming/admin, smoke tests, E2E Playwright et CI GitHub Actions.</li>
-          </ul>
+          <p class="eyebrow">Architecture</p>
+          <h2 id="architecture-title">Comment le système est structuré</h2>
+          <ul class="check-list"><li>Application web/PWA portée par Spring Boot pour le catalogue, l’authentification, l’administration et les endpoints de streaming.</li><li>PostgreSQL et Flyway pour les données métier durables ; Redis pour l’état de session runtime.</li><li>MinIO pour les originaux, sous-titres et sorties HLS/miniatures, avec disque local utilisé comme staging FFmpeg.</li><li>Pipeline média avec jobs persistés, workers bornés, ordonnanceur, retry et reprise après redémarrage.</li></ul>
         </div>
         <div data-reveal>
-          <p class="eyebrow">Preuve de compétence</p>
-          <h2>Ce que ce projet démontre</h2>
-          <ul class="check-list">
-            <li>Architecture applicative complète, pas seulement une interface.</li><li>Sensibilité aux contraintes backend : sécurité, sessions, stockage, files et robustesse.</li><li>Capacité à documenter les décisions techniques et les limites du projet.</li>
-          </ul>
+          <p class="eyebrow">Décisions</p>
+          <h2>Décisions techniques</h2>
+          <ul class="check-list"><li><strong>Séparer données métier et état de session.</strong> PostgreSQL conserve les données durables tandis que Redis reste dédié aux sessions runtime, afin de ne pas mélanger deux responsabilités de persistance.</li><li><strong>Conserver FFmpeg local et externaliser le stockage média.</strong> Le transcodage reste local afin de limiter le périmètre d’exécution, tandis que MinIO découple le stockage des originaux et sorties générées.</li><li><strong>Persister les jobs de transcodage.</strong> Les traitements longs ne reposent pas sur une simple file mémoire : ils peuvent être relancés, repris après redémarrage et annulés de manière coopérative.</li><li><strong>Valider les sources avant traitement.</strong> La validation combine extension, MIME, signature de conteneur, durée, présence de flux vidéo et politique codec avant de lancer le pipeline.</li></ul>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="next-title">
-      <div class="container contact-card" data-reveal>
-        <div>
+    <section class="section project-visual-section" aria-labelledby="architecture-visual-title">
+      <div class="frame">
+        <div class="section-heading reading" data-reveal>
+          <p class="eyebrow">Schéma</p>
+          <h2 id="architecture-visual-title">Vue d’ensemble de l’architecture</h2>
+          <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
+        </div>
+        <figure class="case-study-media case-study-architecture" data-project-architecture data-media-kind="diagram" data-reveal>
+          <a class="media-viewer-trigger" href="../assets/img/projects/streamfolio/architecture.svg" data-media-viewer-trigger aria-label="Agrandir le schéma : Architecture applicative et pipeline média persisté de Streamfolio."><img src="../assets/img/projects/streamfolio/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma d’architecture de Streamfolio reliant le navigateur, Spring Boot, PostgreSQL, Redis, MinIO, les jobs média et FFmpeg."></a>
+          <figcaption>Architecture applicative et pipeline média persisté de Streamfolio.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="features-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Implémentation</p>
+          <h2 id="features-title">Points techniques principaux</h2>
+          <ul class="check-list"><li>Authentification avec Spring Security, BCrypt, cookies HttpOnly/SameSite et sessions Redis.</li><li>Catalogue films/séries avec recherche, filtres, watchlist et progression de lecture.</li><li>Streaming HTML5 : MP4 progressif, HTTP Range, WebVTT et HLS via hls.js.</li><li>Administration média : upload, métadonnées, miniatures, publication et relance de jobs.</li><li>Pipeline asynchrone : file persistante, retry exponentiel, reprise après redémarrage et annulation FFmpeg.</li><li>Persistance PostgreSQL/Flyway, stockage objet MinIO et environnement Docker reproductible.</li><li>Tests Maven, tests sécurité, streaming/admin, smoke tests, E2E Playwright et CI GitHub Actions.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Difficultés</p>
+          <h2>Difficultés résolues</h2>
+          <ul class="check-list"><li><strong>Servir efficacement des médias volumineux.</strong> Le lecteur combine MP4 progressif avec HTTP Range, WebVTT et HLS via hls.js afin de couvrir plusieurs modes de lecture.</li><li><strong>Gérer les traitements média longs et interrompus.</strong> La file persistante, le retry exponentiel, la reprise après redémarrage et l’annulation FFmpeg évitent qu’un traitement long soit lié au cycle de vie d’une requête HTTP.</li><li><strong>Sécuriser l’entrée média.</strong> Les contrôles sur le type et le contenu des fichiers réduisent le risque de traiter comme vidéo une entrée seulement renommée ou incohérente.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="quality-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Qualité</p>
+          <h2 id="quality-title">Tests et garde-fous</h2>
+          <ul class="check-list"><li>Tests Maven couvrant notamment sécurité, streaming et administration média.</li><li>Smoke tests et tests E2E Playwright sur les parcours principaux.</li><li>Script de validation du dépôt couvrant scripts, JavaScript, Python, Maven, Redis et profil local-media.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Livraison</p>
+          <h2>Livraison et CI/CD</h2>
+          <ul class="check-list"><li>Docker Compose fournit PostgreSQL, Redis et MinIO pour un environnement d’évaluation reproductible.</li><li>Le profil de production est configuré par variables d’environnement, avec cookie sécurisé prévu derrière HTTPS.</li><li>Un workflow Main Merge Validation relance la validation complète après intégration sur main.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="outcomes-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Résultats</p>
+          <h2 id="outcomes-title">Résultats observables</h2>
+          <ul class="check-list"><li>Un parcours allant de l’administration et l’upload jusqu’au catalogue et à la lecture vidéo.</li><li>Un pipeline média capable de survivre aux redémarrages applicatifs et de reprendre les traitements persistés.</li><li>Une architecture dont les limites de production sont documentées au lieu d’être masquées.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Compromis</p>
+          <h2>Compromis techniques</h2>
+          <ul class="check-list"><li>FFmpeg reste exécuté localement : le projet privilégie un environnement reproductible plutôt qu’une ferme de transcodage distribuée.</li><li>MinIO fournit un stockage objet local, sans CDN multi-région ni réplication à l’échelle d’un service public.</li><li>Redis est utilisé en configuration simple dans l’environnement portfolio ; la haute disponibilité n’est pas traitée ici.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="limits-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Limites</p>
+          <h2 id="limits-title">Limites assumées</h2>
+          <ul class="check-list"><li>Pas de DRM ni de CDN global.</li><li>Redis reste mono-nœud dans l’environnement local.</li><li>Le transcodage FFmpeg n’est pas distribué sur plusieurs workers ou machines.</li></ul>
+        </div>
+        <div data-reveal>
           <p class="eyebrow">Suite</p>
-          <h2 id="next-title">Voir le reste du portfolio</h2>
-          <p>Les autres études de cas permettent de comparer backend web, application métier, desktop, IA locale et rendu graphique.</p>
+          <h2>Prochaines étapes</h2>
+          <ul class="check-list"><li>Externaliser ou rendre hautement disponibles Redis et le stockage média si le projet devait devenir un service public.</li><li>Introduire CDN, DRM et stratégie de distribution multi-région uniquement si les besoins produit le justifient.</li><li>Compléter l’observabilité et les essais de charge pour caractériser précisément les limites du pipeline.</li></ul>
         </div>
-        <div class="contact-actions">
-          <a class="button button-primary" href="../index.html#projets">Tous les projets</a>
-          <a class="button button-secondary" href="../index.html#contact">Contact</a>
+      </div>
+    </section>
+
+    <section class="section project-visual-section" aria-labelledby="gallery-title" data-project-gallery>
+      <div class="frame">
+        <div class="section-heading reading" data-reveal>
+          <p class="eyebrow">Captures</p>
+          <h2 id="gallery-title">Le produit en situation</h2>
+          <p>Des états complémentaires sélectionnés pour montrer l’interface et les parcours réellement implémentés.</p>
         </div>
+        <div class="case-study-gallery">
+          <figure class="case-study-media" data-gallery-item data-gallery-index="0" data-media-kind="screenshot">
+          <a class="media-viewer-trigger" href="../assets/img/projects/streamfolio/details.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Fiche de contenu avant lecture."><img src="../assets/img/projects/streamfolio/details.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Page de détail Streamfolio pour le film Aurora Drift avec métadonnées et actions de lecture."></a>
+          <figcaption>Fiche de contenu avant lecture.</figcaption>
+        </figure>
+        <figure class="case-study-media" data-gallery-item data-gallery-index="1" data-media-kind="screenshot">
+          <a class="media-viewer-trigger" href="../assets/img/projects/streamfolio/player.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Lecteur HTML5 utilisé dans le parcours de streaming."><img src="../assets/img/projects/streamfolio/player.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Lecteur vidéo Streamfolio affichant le média d’exemple Canopées urbaines."></a>
+          <figcaption>Lecteur HTML5 utilisé dans le parcours de streaming.</figcaption>
+        </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="proof-title">
+      <div class="content-shell content-grid">
+        <div class="content-block" data-reveal>
+          <p class="eyebrow">Synthèse</p>
+          <h2 id="proof-title">Compétences et techniques mobilisées</h2>
+          <ul class="check-list"><li>Spring Security et Redis gèrent l’authentification et les sessions ; PostgreSQL/Flyway conservent les données métier et MinIO les médias.</li><li>Le streaming combine MP4 avec HTTP Range, WebVTT et HLS ; les traitements FFmpeg passent par des jobs persistés avec reprise, retry et annulation.</li><li>Les parcours principaux sont couverts par des tests Maven, des smoke tests et des scénarios E2E Playwright ; les limites de production sont documentées.</li></ul>
+        </div>
+        <aside class="content-aside" data-reveal aria-labelledby="continue-title">
+          <h2 id="continue-title">Continuer la visite</h2>
+          <p>Comparer les autres études de cas et filtrer le catalogue par langage, type, stack ou statut.</p>
+          <div class="contact-actions">
+            <a class="button button-primary" href="./index.html">Tous les projets</a>
+            <a class="button button-secondary" href="../index.html#contact">Contact</a>
+          </div>
+        </aside>
       </div>
     </section>
   </main>
 
+  <dialog class="media-viewer" data-media-viewer aria-labelledby="media-viewer-title" aria-describedby="media-viewer-caption">
+    <div class="media-viewer-panel">
+      <div class="media-viewer-toolbar">
+        <h2 id="media-viewer-title" data-media-viewer-title>Aperçu agrandi</h2>
+        <button class="media-viewer-close" type="button" data-media-viewer-close aria-label="Fermer la visionneuse">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <figure class="media-viewer-figure">
+        <img class="media-viewer-image" data-media-viewer-image src="../assets/img/projects/streamfolio/hero.webp" width="1920" height="1080" alt="">
+        <figcaption id="media-viewer-caption" data-media-viewer-caption></figcaption>
+      </figure>
+    </div>
+  </dialog>
+
   <footer class="site-footer">
-    <div class="container footer-grid">
+    <div class="content-shell footer-grid">
       <div>
         <p class="footer-title">Alexis Guinot</p>
-        <p>Développeur backend & concepteur d’applications.</p>
+        <p>Concepteur-développeur full-stack.</p>
       </div>
       <nav aria-label="Liens externes">
         <ul class="footer-links">
@@ -153,4 +274,3 @@
   <script type="module" src="../assets/js/main.js"></script>
 </body>
 </html>
-

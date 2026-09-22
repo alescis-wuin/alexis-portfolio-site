@@ -42,9 +42,18 @@ jobs:
         with:
           node-version: 24
           package-manager-cache: false
-      - run: npm install --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
       - run: npm run check:strict
+      - run: npm run capture:visual
+      - name: Upload visual QA artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-qa-main-pr-${{ github.event.pull_request.number || github.run_id }}
+          path: artifacts/visual
+          if-no-files-found: warn
+          retention-days: 14
 
   preproduction-smoke:
     name: Preproduction smoke

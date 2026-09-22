@@ -3,37 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Plateforme graphique d’assistants, workflows et automatisations boostés à l’IA, exécutables localement sans dépendre d’une connexion Internet.">
+  <meta name="description" content="Application desktop d’IA locale en C#/.NET et Avalonia avec conversations persistantes, llama.cpp CUDA, modèles GGUF Hugging Face, streaming et configuration de génération.">
   <meta name="author" content="Alexis Guinot">
-  <meta name="color-scheme" content="dark light">
+  <meta name="color-scheme" content="dark">
   <meta property="og:title" content="Alycia — Étude de cas | Alexis Guinot">
-  <meta property="og:description" content="Plateforme graphique d’assistants, workflows et automatisations boostés à l’IA, exécutables localement sans dépendre d’une connexion Internet.">
+  <meta property="og:description" content="Application desktop d’IA locale en C#/.NET et Avalonia avec conversations persistantes, llama.cpp CUDA, modèles GGUF Hugging Face, streaming et configuration de génération.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/alycia.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
   <meta name="theme-color" content="#0B1020">
   <title>Alycia — Étude de cas | Alexis Guinot</title>
+  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/alycia.html">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
-  <link rel="preload" href="../assets/img/photo-profil-480.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="../assets/css/styles.css">
   <script>
-    (() => {
-      document.documentElement.dataset.js = 'true';
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        document.documentElement.dataset.theme = savedTheme;
-      }
-    })();
+    document.documentElement.dataset.js = 'true';
   </script>
 </head>
 
-<body>
+<body data-project-slug="alycia">
   <a class="skip-link" href="#contenu">Aller au contenu principal</a>
   <header class="site-header" data-site-header>
-    <div class="container header-inner">
-      <a class="brand" href="../index.html#accueil" aria-label="Retour à l’accueil">
-        <img src="../assets/img/logo.svg" width="40" height="40" alt="" aria-hidden="true">
-        <span>Alexis Guinot</span>
+    <div class="content-shell header-inner">
+      <a class="project-back-link" href="./index.html" aria-label="Retour aux autres projets">
+        <span aria-hidden="true">←</span>
+        <span>Retour aux autres projets</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navigation-principale" data-nav-toggle hidden>
         <span class="nav-toggle-bars" aria-hidden="true"></span>
@@ -42,101 +37,229 @@
       <nav class="site-nav" aria-label="Navigation principale" data-site-nav>
         <ul id="navigation-principale" class="nav-list">
           <li><a href="../index.html#accueil">Accueil</a></li>
-<li><a href="../index.html#projets">Projets</a></li>
-<li><a href="../index.html#competences">Compétences</a></li>
-<li><a href="../index.html#parcours">Parcours</a></li>
-<li><a href="../index.html#contact">Contact</a></li>
+          <li><a href="./index.html">Projets</a></li>
+          <li><a href="../index.html#competences">Compétences</a></li>
+          <li><a href="../index.html#experience">Expérience</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
         </ul>
       </nav>
       <div class="header-actions">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer le thème" aria-pressed="false">
-          <span aria-hidden="true">◐</span>
-        </button>
         <a class="button button-small button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
       </div>
     </div>
   </header>
 
-  <main id="contenu">
+  <main id="contenu" data-case-study>
     <article class="project-detail section-lg">
-      <div class="container project-detail-grid">
+      <div class="frame project-detail-grid">
         <div class="project-detail-copy" data-reveal>
-          <a class="breadcrumb" href="../index.html#projets">← Retour aux projets</a>
-          <p class="eyebrow">Plateforme d’outils IA locale · En cours</p>
+          <div class="project-detail-signal">
+            <p class="eyebrow">Application desktop d’IA locale</p>
+            <span class="project-detail-status">En cours</span>
+          </div>
           <h1>Alycia</h1>
-          <p class="hero-lead">Plateforme graphique d’assistants, workflows et automatisations boostés à l’IA, exécutables localement sans dépendre d’une connexion Internet.</p>
-          <div class="tag-list"><span class="tag">IA</span>
-<span class="tag">Automatisation</span>
-<span class="tag">Backend</span>
-<span class="tag">Desktop</span></div>
+          <p class="hero-lead">Application desktop C#/.NET et Avalonia pour conversations persistantes et inférence locale via llama.cpp CUDA et modèles GGUF.</p>
+          <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
+            <div>
+              <dt>Objectif</dt>
+              <dd>Fournir une expérience de conversation locale en gardant le fournisseur d’inférence derrière des contrats applicatifs.</dd>
+            </div>
+            <div>
+              <dt>Points clés</dt>
+              <dd>Architecture en couches, persistance locale, llama.cpp CUDA, GGUF Hugging Face, streaming contenu/raisonnement, tests et observabilité locale.</dd>
+            </div>
+          </dl>
+          <div class="project-taxonomy" aria-label="Domaines du projet">
+            <span class="project-metadata-label">Domaines</span>
+            <div class="tag-list"><span class="tag">Desktop</span>
+                <span class="tag">IA</span>
+                <span class="tag">Architecture</span></div>
+          </div>
           <div class="hero-actions">
-            <a class="button button-secondary" href="../index.html#contact">Demander plus d’informations</a>
+            <a class="button button-secondary project-repository-button" href="https://github.com/alescis-wuin/alycia" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>
-        <figure class="project-figure" data-reveal>
-          <img src="../assets/img/projects/alycia.svg" width="960" height="540" alt="Illustration du projet Alycia">
+        <figure class="project-figure case-study-media" data-project-hero data-media-kind="screenshot" data-reveal>
+          <a class="media-viewer-trigger" href="../assets/img/projects/alycia/hero.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Conversation locale Alycia avec historique, reasoning séparé et contrôle explicite du streaming."><img src="../assets/img/projects/alycia/hero.webp" width="1440" height="810" decoding="async" fetchpriority="high" alt="Interface desktop Alycia ouverte sur une conversation locale avec historique, panneau de reasoning et zone de composition."></a>
+          <figcaption>Conversation locale Alycia avec historique, reasoning séparé et contrôle explicite du streaming.</figcaption>
         </figure>
       </div>
     </article>
 
     <section class="section" aria-labelledby="problem-title">
-      <div class="container content-grid">
+      <div class="content-shell content-grid">
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
           <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
-          <p>Rendre des outils IA utiles sans cloud obligatoire : agents locaux, contraintes matérielles, automatisation et interface exploitable.</p>
+          <p>Intégrer llama.cpp comme runtime d’inférence locale sans coupler le domaine de conversation au fournisseur, tout en contrôlant installation, configuration, streaming, annulation et erreurs.</p>
         </div>
-        <aside class="content-aside" data-reveal>
+        <aside class="content-aside" data-reveal aria-labelledby="role-title">
+          <p class="eyebrow">Rôle</p>
+          <h2 id="role-title">Mon rôle</h2>
+          <p>Conception et développement d’une application desktop d’IA locale en C#/.NET et Avalonia : conversations, persistance, génération/streaming, adaptateur llama.cpp CUDA, configuration modèle, tests et observabilité.</p>
           <h2>Stack</h2>
-          <div class="tag-list"><span class="tag">Ollama</span>
-<span class="tag">Llama.cpp</span>
-<span class="tag">LM Studio</span>
-<span class="tag">Hugging Face</span>
-<span class="tag">Python</span></div>
+          <div class="tag-list"><span class="tag">C#</span>
+                <span class="tag">.NET 10</span>
+                <span class="tag">Avalonia</span>
+                <span class="tag">llama.cpp</span>
+                <span class="tag">Hugging Face</span>
+                <span class="tag">GGUF</span>
+                <span class="tag">xUnit</span>
+                <span class="tag">Tests</span>
+                <span class="tag">GitHub Actions</span></div>
         </aside>
       </div>
     </section>
 
-    <section class="section section-alt" aria-labelledby="features-title">
-      <div class="container two-columns">
+    <section class="section section-alt" aria-labelledby="architecture-title">
+      <div class="content-shell two-columns">
         <div data-reveal>
-          <p class="eyebrow">Fonctionnalités</p>
-          <h2 id="features-title">Points techniques principaux</h2>
-          <ul class="check-list">
-            <li>Expérimentations avec modèles locaux et outils d’inférence.</li><li>Workflows et automatisations orientés productivité.</li><li>Réflexion sur l’exécution hors ligne et la confidentialité.</li><li>Intégration d’outils hétérogènes dans une interface cohérente.</li>
-          </ul>
+          <p class="eyebrow">Architecture</p>
+          <h2 id="architecture-title">Comment le système est structuré</h2>
+          <ul class="check-list"><li>La couche Domain porte le modèle de conversation ; Application définit les cas d’usage et ports.</li><li>Presentation fournit l’interface Avalonia ; Desktop sert de composition root.</li><li>Infrastructure contient la persistance JSON, les appels HTTP et l’adaptateur llama.cpp local.</li></ul>
         </div>
         <div data-reveal>
-          <p class="eyebrow">Preuve de compétence</p>
-          <h2>Ce que ce projet démontre</h2>
-          <ul class="check-list">
-            <li>Veille technique structurée.</li><li>Intégration d’outils IA locaux.</li><li>Capacité à expérimenter sans perdre la logique produit.</li>
-          </ul>
+          <p class="eyebrow">Décisions</p>
+          <h2>Décisions techniques</h2>
+          <ul class="check-list"><li><strong>Garder le fournisseur hors du domaine.</strong> Les contrats de génération et de cycle de vie sont définis côté Application puis implémentés par Infrastructure.</li><li><strong>Ne pas rejouer automatiquement une génération.</strong> Les retries automatiques restent limités aux GET idempotents ; une nouvelle génération exige une action utilisateur explicite.</li><li><strong>Séparer contenu et reasoning.</strong> Le flux UI distingue les deltas visibles du raisonnement et ne persiste que la réponse Assistant terminée.</li></ul>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="next-title">
-      <div class="container contact-card" data-reveal>
-        <div>
+    <section class="section project-visual-section" aria-labelledby="architecture-visual-title">
+      <div class="frame">
+        <div class="section-heading reading" data-reveal>
+          <p class="eyebrow">Schéma</p>
+          <h2 id="architecture-visual-title">Vue d’ensemble de l’architecture</h2>
+          <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
+        </div>
+        <figure class="case-study-media case-study-architecture" data-project-architecture data-media-kind="diagram" data-reveal>
+          <a class="media-viewer-trigger" href="../assets/img/projects/alycia/architecture.svg" data-media-viewer-trigger aria-label="Agrandir le schéma : Architecture en couches et adaptateur local llama.cpp."><img src="../assets/img/projects/alycia/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma des couches Desktop, Presentation, Application, Domain et Infrastructure d’Alycia avec llama.cpp."></a>
+          <figcaption>Architecture en couches et adaptateur local llama.cpp.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="features-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Implémentation</p>
+          <h2 id="features-title">Points techniques principaux</h2>
+          <ul class="check-list"><li>Cœur de conversation indépendant du fournisseur avec persistance locale JSON et opérations de cycle de vie testées.</li><li>Interface Avalonia avec espaces Conversations, Provider et Models.</li><li>Adaptateur local llama.cpp CUDA, détection/installation gérée sur Linux x64 et cycle de vie explicite.</li><li>Configuration d’un modèle GGUF Hugging Face et des paramètres de génération, dont le reasoning borné.</li><li>Streaming SSE séparant contenu visible et reasoning ; seule la réponse Assistant terminée est persistée.</li><li>Stop et retry explicite sans replay automatique des requêtes de génération.</li><li>Observabilité locale bornée et sans contenu : latences, tokens, version fournisseur et classification sûre des échecs.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Difficultés</p>
+          <h2>Difficultés résolues</h2>
+          <ul class="check-list"><li><strong>Piloter un runtime local.</strong> Détection, installation, démarrage, readiness, ownership et arrêt sont gérés sans exposer de secrets sur la ligne de commande.</li><li><strong>Gérer le streaming dans l’interface.</strong> Le suivi de scroll, l’annulation et le retry restent contrôlés par l’utilisateur.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="quality-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Qualité</p>
+          <h2 id="quality-title">Tests et garde-fous</h2>
+          <ul class="check-list"><li>Tests des couches Domain, Application, Infrastructure, Presentation et Architecture.</li><li>La frontière Presentation → Infrastructure est vérifiée automatiquement.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Livraison</p>
+          <h2>Livraison et CI/CD</h2>
+          <ul class="check-list"><li>Toolchain .NET 10 épinglée.</li><li>Les commandes Makefile regroupent build, tests, architecture et vérifications.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="outcomes-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Résultats</p>
+          <h2 id="outcomes-title">Résultats observables</h2>
+          <ul class="check-list"><li>Conversation locale persistante avec génération et streaming via llama.cpp.</li><li>Gestion explicite du fournisseur, du modèle et de la maintenance locale.</li></ul>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Compromis</p>
+          <h2>Compromis techniques</h2>
+          <ul class="check-list"><li>L’installation gérée de llama.cpp CUDA cible actuellement Linux x64 avec NVIDIA ; les autres hôtes peuvent utiliser un runtime compatible déjà installé.</li><li>Le reasoning affiché reste un snapshot Presentation en mémoire dans l’état actuel.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="limits-title">
+      <div class="content-shell two-columns">
+        <div data-reveal>
+          <p class="eyebrow">Limites</p>
+          <h2 id="limits-title">Limites assumées</h2>
+          <ul class="check-list"><li>Pas de tool calling, RAG/retrieval, pièces jointes ou multimodalité.</li><li>Installation gérée CUDA limitée à Linux x64 pour le lot actuel.</li></ul>
+        </div>
+        <div data-reveal>
           <p class="eyebrow">Suite</p>
-          <h2 id="next-title">Voir le reste du portfolio</h2>
-          <p>Les autres études de cas permettent de comparer backend web, application métier, desktop, IA locale et rendu graphique.</p>
+          <h2>Prochaines étapes</h2>
+          <ul class="check-list"><li>Étendre les capacités uniquement par lots atomiques derrière les contrats existants.</li></ul>
         </div>
-        <div class="contact-actions">
-          <a class="button button-primary" href="../index.html#projets">Tous les projets</a>
-          <a class="button button-secondary" href="../index.html#contact">Contact</a>
+      </div>
+    </section>
+
+    <section class="section project-visual-section" aria-labelledby="gallery-title" data-project-gallery>
+      <div class="frame">
+        <div class="section-heading reading" data-reveal>
+          <p class="eyebrow">Captures</p>
+          <h2 id="gallery-title">Le produit en situation</h2>
+          <p>Des états complémentaires sélectionnés pour montrer l’interface et les parcours réellement implémentés.</p>
         </div>
+        <div class="case-study-gallery">
+          <figure class="case-study-media" data-gallery-item data-gallery-index="0" data-media-kind="screenshot">
+          <a class="media-viewer-trigger" href="../assets/img/projects/alycia/configuration.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Configuration du modèle et des paramètres de génération dans l’espace Models."><img src="../assets/img/projects/alycia/configuration.webp" width="1257" height="1386" loading="lazy" decoding="async" alt="Écran Models d’Alycia avec référence GGUF, paramètres de runtime, génération et reasoning."></a>
+          <figcaption>Configuration du modèle et des paramètres de génération dans l’espace Models.</figcaption>
+        </figure>
+        <figure class="case-study-media" data-gallery-item data-gallery-index="1" data-media-kind="screenshot">
+          <a class="media-viewer-trigger" href="../assets/img/projects/alycia/provider.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Cycle de vie explicite du runtime local llama.cpp CUDA dans l’espace Provider."><img src="../assets/img/projects/alycia/provider.webp" width="1145" height="379" loading="lazy" decoding="async" alt="Écran Runtime d’Alycia avec fournisseur llama.cpp CUDA et actions Detect, Install, Start et Stop local AI."></a>
+          <figcaption>Cycle de vie explicite du runtime local llama.cpp CUDA dans l’espace Provider.</figcaption>
+        </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="proof-title">
+      <div class="content-shell content-grid">
+        <div class="content-block" data-reveal>
+          <p class="eyebrow">Synthèse</p>
+          <h2 id="proof-title">Compétences et techniques mobilisées</h2>
+          <ul class="check-list"><li>Les contrats Application restent indépendants de llama.cpp, CUDA et HTTP.</li><li>Les conversations et la configuration fournisseur/modèle sont persistées localement sans stocker les secrets dans les documents de conversation.</li><li>Tool calling, retrieval/RAG, pièces jointes et multimodalité ne sont pas implémentés dans le périmètre actuel.</li></ul>
+        </div>
+        <aside class="content-aside" data-reveal aria-labelledby="continue-title">
+          <h2 id="continue-title">Continuer la visite</h2>
+          <p>Comparer les autres études de cas et filtrer le catalogue par langage, type, stack ou statut.</p>
+          <div class="contact-actions">
+            <a class="button button-primary" href="./index.html">Tous les projets</a>
+            <a class="button button-secondary" href="../index.html#contact">Contact</a>
+          </div>
+        </aside>
       </div>
     </section>
   </main>
 
+  <dialog class="media-viewer" data-media-viewer aria-labelledby="media-viewer-title" aria-describedby="media-viewer-caption">
+    <div class="media-viewer-panel">
+      <div class="media-viewer-toolbar">
+        <h2 id="media-viewer-title" data-media-viewer-title>Aperçu agrandi</h2>
+        <button class="media-viewer-close" type="button" data-media-viewer-close aria-label="Fermer la visionneuse">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <figure class="media-viewer-figure">
+        <img class="media-viewer-image" data-media-viewer-image src="../assets/img/projects/alycia/hero.webp" width="1440" height="810" alt="">
+        <figcaption id="media-viewer-caption" data-media-viewer-caption></figcaption>
+      </figure>
+    </div>
+  </dialog>
+
   <footer class="site-footer">
-    <div class="container footer-grid">
+    <div class="content-shell footer-grid">
       <div>
         <p class="footer-title">Alexis Guinot</p>
-        <p>Développeur backend & concepteur d’applications.</p>
+        <p>Concepteur-développeur full-stack.</p>
       </div>
       <nav aria-label="Liens externes">
         <ul class="footer-links">
@@ -151,4 +274,3 @@
   <script type="module" src="../assets/js/main.js"></script>
 </body>
 </html>
-
