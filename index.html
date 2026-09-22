@@ -23,7 +23,7 @@
       property="og:image"
       content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp"
     />
-    <meta name="theme-color" content="#0B1020" />
+    <meta name="theme-color" content="#101412" />
     <title>Alexis Guinot — Concepteur-développeur full-stack</title>
     <link rel="canonical" href="https://www.alexis-guinot.fr/" />
     <link rel="icon" href="./assets/img/logo.svg" type="image/svg+xml" />
@@ -35,25 +35,18 @@
       type="image/webp"
     />
     <link rel="stylesheet" href="./assets/css/styles.css" />
-    <link rel="stylesheet" href="./assets/css/ai-redesign.css" />
     <link rel="stylesheet" href="./assets/css/project-cards.css" />
-    <script>
-      document.documentElement.dataset.js = "true";
-    </script>
+    <link rel="stylesheet" href="./assets/css/signature.css" />
   </head>
 
-  <body class="has-section-rail">
+  <body class="portfolio-home">
     <a class="skip-link" href="#contenu">Aller au contenu principal</a>
-    <header class="site-header home-header">
+    <header class="site-header home-header" data-site-header>
       <div class="container header-inner">
-        <a
-          class="brand home-brand"
-          href="#accueil"
-          aria-label="Accueil — Alexis Guinot"
+        <a class="brand" href="#accueil" aria-label="Accueil — Alexis Guinot"
+          ><span class="brand-mark" aria-hidden="true">ag<span>.</span></span
+          ><span class="brand-name">Alexis Guinot</span></a
         >
-          <span class="brand-mark" aria-hidden="true">AG</span>
-          <span class="brand-name">Alexis Guinot</span>
-        </a>
         <button
           class="nav-toggle"
           type="button"
@@ -62,345 +55,163 @@
           aria-controls="home-navigation"
           hidden
         >
-          <span class="nav-toggle-bars" aria-hidden="true"></span>
-          <span class="sr-only">Ouvrir le menu</span>
+          <span class="nav-toggle-bars" aria-hidden="true"></span
+          ><span class="sr-only">Ouvrir le menu</span>
         </button>
         <nav
           id="home-navigation"
-          class="site-nav home-site-nav"
+          class="site-nav"
           aria-label="Navigation principale"
           data-site-nav
         >
           <ul class="nav-list">
             <li><a href="#projets" data-section-link="projets">Projets</a></li>
             <li>
-              <a href="#competences" data-section-link="competences"
-                >Compétences</a
-              >
-            </li>
-            <li>
-              <a href="#experience" data-section-link="experience"
-                >Expérience</a
-              >
-            </li>
-            <li>
-              <a href="#formation" data-section-link="formation">Formation</a>
+              <a href="#experience" data-section-link="experience">Parcours</a>
             </li>
             <li><a href="#apropos" data-section-link="apropos">À propos</a></li>
             <li><a href="#contact" data-section-link="contact">Contact</a></li>
-            <li><a href="./assets/cv/CV_Alexis-GUINOT.pdf" download>CV</a></li>
             <li>
-              <a
-                href="https://github.com/alescis-wuin"
-                rel="me noopener noreferrer"
-                >GitHub</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://www.linkedin.com/in/alexis-guinot/"
-                rel="me noopener noreferrer"
-                >LinkedIn</a
+              <a class="nav-cv" href="./assets/cv/CV_Alexis-GUINOT.pdf" download
+                >CV <span aria-hidden="true">↓</span></a
               >
             </li>
           </ul>
         </nav>
-        <div
-          class="header-actions home-header-actions"
-          aria-label="Liens rapides"
-        >
-          <a
-            class="text-link"
-            href="https://github.com/alescis-wuin"
-            rel="me noopener noreferrer"
-            >GitHub</a
-          >
-          <a
-            class="text-link"
-            href="https://www.linkedin.com/in/alexis-guinot/"
-            rel="me noopener noreferrer"
-            >LinkedIn</a
-          >
-          <a
-            class="button button-ghost button-small"
-            href="./assets/cv/CV_Alexis-GUINOT.pdf"
-            download
-            >CV</a
-          >
-          <a class="button button-primary button-small" href="#contact"
-            >Contact</a
-          >
-        </div>
       </div>
     </header>
-
-    <aside
-      class="section-rail"
-      aria-label="Navigation des sections"
-      data-section-rail
-    >
-      <nav aria-label="Sections du portfolio">
-        <ol>
-          <li>
-            <a
-              href="#accueil"
-              data-section-link="accueil"
-              aria-current="location"
-              ><span class="rail-index">01</span
-              ><span class="rail-label">Accueil</span></a
-            >
-          </li>
-          <li>
-            <a href="#projets" data-section-link="projets"
-              ><span class="rail-index">02</span
-              ><span class="rail-label">Projets</span></a
-            >
-          </li>
-          <li>
-            <a href="#competences" data-section-link="competences"
-              ><span class="rail-index">03</span
-              ><span class="rail-label">Compétences</span></a
-            >
-          </li>
-          <li>
-            <a href="#experience" data-section-link="experience"
-              ><span class="rail-index">04</span
-              ><span class="rail-label">Expérience</span></a
-            >
-          </li>
-          <li>
-            <a href="#formation" data-section-link="formation"
-              ><span class="rail-index">05</span
-              ><span class="rail-label">Formation</span></a
-            >
-          </li>
-          <li>
-            <a href="#apropos" data-section-link="apropos"
-              ><span class="rail-index">06</span
-              ><span class="rail-label">À propos</span></a
-            >
-          </li>
-          <li>
-            <a href="#contact" data-section-link="contact"
-              ><span class="rail-index">07</span
-              ><span class="rail-label">Contact</span></a
-            >
-          </li>
-        </ol>
-      </nav>
-    </aside>
-
-    <main id="contenu">
+    <main id="contenu" tabindex="-1">
       <section
         id="accueil"
-        class="hero section-lg snap-section"
+        class="hero section-lg"
         aria-labelledby="hero-title"
         data-section
         data-label="Accueil"
         data-hero
       >
         <div class="container hero-grid">
-          <div class="hero-copy" data-reveal data-hero-copy>
+          <div class="hero-copy" data-hero-copy>
             <p class="eyebrow hero-kicker" data-hero-kicker>
-              Alexis Guinot · Développement applicatif
+              Concepteur-développeur full-stack
             </p>
             <h1 id="hero-title" data-hero-title>
-              Concepteur-développeur full-stack
+              L’interface,<br />les données.<br /><span
+                >Et ce qui les relie.</span
+              >
             </h1>
             <p class="hero-lead" data-hero-summary>
-              Je conçois et développe des applications web et desktop en Java /
-              Spring et C# / .NET, avec une attention particulière portée à
-              l’architecture logicielle, aux données, aux tests et à la
-              maintenabilité.
+              Je développe des applications web et desktop en
+              <strong>Java / Spring</strong> et <strong>C# / .NET</strong>.
+              J’aime comprendre toute la chaîne : ce que l’on voit à l’écran, ce
+              qui circule dans l’API et ce qui reste dans les données.
             </p>
-            <p class="availability" data-hero-availability>
-              Je recherche une entreprise d’accueil dans la Métropole de Rouen
-              pour une alternance d’un an à partir d’octobre 2026.
+            <p class="hero-search">
+              <span class="status-dot" aria-hidden="true"></span> Alternance ·
+              octobre 2026 · Rouen
             </p>
             <div class="hero-actions" data-hero-actions>
               <a class="button button-primary" href="#projets"
-                >Voir les projets</a
+                >Explorer mes projets <span aria-hidden="true">↘</span></a
               >
-              <a class="button button-secondary" href="#apropos"
-                >Découvrir mon profil</a
+              <a class="button button-ghost" href="#contact"
+                >Échanger avec moi <span aria-hidden="true">↗</span></a
               >
             </div>
-            <dl
-              class="hero-facts"
-              aria-label="Résumé professionnel"
-              data-hero-facts
-            >
-              <div>
-                <dt>Stacks principales</dt>
-                <dd>Java / Spring · C# / .NET</dd>
-              </div>
-              <div>
-                <dt>Approche</dt>
-                <dd>Architecture logicielle, API, données et tests</dd>
-              </div>
-              <div>
-                <dt>Formation</dt>
-                <dd>Bac+2 obtenu · Bachelor CDA visé</dd>
-              </div>
-            </dl>
+            <p class="hero-experience">
+              <span aria-hidden="true">↳</span> Deux ans en alternance chez
+              <a href="#experience">Familink</a>, du logiciel aux objets
+              connectés.
+            </p>
           </div>
-          <div class="hero-card" data-reveal data-hero-visual>
-            <div class="hero-system" data-hero-system aria-hidden="true">
-              <div class="hero-system-heading">
-                <span class="hero-system-eyebrow">Système applicatif</span>
-                <span class="hero-system-state">Flux</span>
-              </div>
-              <div class="hero-system-stage">
-                <svg
-                  class="hero-system-links"
-                  viewBox="0 0 180 220"
-                  preserveAspectRatio="none"
-                  focusable="false"
-                >
-                  <path d="M90 26 C128 42 148 70 151 109" />
-                  <path d="M151 111 C148 150 128 178 90 194" />
-                  <path d="M90 194 C52 178 32 150 29 111" />
-                  <path d="M29 109 C32 70 52 42 90 26" />
-                  <path class="hero-system-link-secondary" d="M39 110 H141" />
-                </svg>
-                <div
-                  class="hero-system-node hero-system-node-interface"
-                  data-hero-system-node="interface"
-                >
-                  <span class="hero-system-code">UI</span>
-                  <span class="hero-system-name">Interface</span>
-                </div>
-                <div
-                  class="hero-system-node hero-system-node-api"
-                  data-hero-system-node="api"
-                >
-                  <span class="hero-system-code">API</span>
-                  <span class="hero-system-name">API / logique</span>
-                </div>
-                <div
-                  class="hero-system-node hero-system-node-data"
-                  data-hero-system-node="data"
-                >
-                  <span class="hero-system-code">DB</span>
-                  <span class="hero-system-name">Données</span>
-                </div>
-                <div
-                  class="hero-system-node hero-system-node-quality"
-                  data-hero-system-node="quality"
-                >
-                  <span class="hero-system-code">QA</span>
-                  <span class="hero-system-name">Tests / qualité</span>
-                </div>
-              </div>
-            </div>
-            <div class="hero-profile-card" data-hero-profile>
-              <picture>
-                <source
+          <figure class="portrait-composition" data-hero-visual>
+            <div class="portrait-frame">
+              <picture
+                ><source
                   srcset="
                     assets/img/photo-profil-480.webp 480w,
                     assets/img/photo-profil-800.webp 800w
                   "
-                  type="image/webp"
-                  sizes="(max-width: 780px) 220px, 320px"
-                />
+                  sizes="(max-width: 760px) 240px, 380px"
+                  type="image/webp" />
                 <img
-                  src="assets/img/photo-profil.jpg"
+                  src="assets/img/photo-profil-480.webp"
                   width="800"
                   height="800"
-                  alt="Portrait professionnel d’Alexis Guinot"
+                  alt="Alexis Guinot"
                   fetchpriority="high"
-                />
-              </picture>
-              <div class="profile-panel" aria-hidden="true">
-                <p class="profile-role">Concepteur-développeur full-stack</p>
-                <div class="status-line">
-                  <span aria-hidden="true"></span>
-                  Recherche d’une alternance d’un an à partir d’octobre 2026
-                </div>
-              </div>
+              /></picture>
+              <span class="portrait-coordinate" aria-hidden="true"
+                >CONCEPTION &amp; DÉVELOPPEMENT</span
+              >
             </div>
-          </div>
+            <p class="portrait-note">
+              Du logiciel au matériel,<br />la même curiosité.
+            </p>
+            <figcaption>
+              <span>Alexis Guinot</span><span>Métropole de Rouen</span>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="container availability-strip" data-hero-availability>
+          <p class="availability">
+            <span class="status-dot" aria-hidden="true"></span>Alternance
+            recherchée
+          </p>
+          <dl
+            class="hero-facts"
+            data-hero-facts
+            aria-label="Modalités de recherche"
+          >
+            <div>
+              <dt>Début</dt>
+              <dd>Octobre 2026</dd>
+            </div>
+            <div>
+              <dt>Durée</dt>
+              <dd>1 an · Bachelor CDA</dd>
+            </div>
+            <div>
+              <dt>Localisation</dt>
+              <dd>Rouen · hybride possible</dd>
+            </div>
+          </dl>
+          <a href="#formation" class="text-link"
+            >Voir les modalités <span aria-hidden="true">↗</span></a
+          >
         </div>
       </section>
-
       <!-- GENERATED:HOME-PROJECTS:START -->
     <section id="projets" class="section section-alt snap-section" aria-labelledby="projects-title" data-section data-label="Projets">
       <div class="frame">
         <div class="section-heading reading" data-reveal>
-          <p class="eyebrow">Projets</p>
-          <h2 id="projects-title">4 études de cas techniques</h2>
-          <p>Une sélection courte de projets complémentaires, avec pour chacun le contexte, l’architecture, les choix techniques, les tests et les limites actuelles.</p>
+          <p class="eyebrow">01 / Projets choisis</p>
+          <h2 id="projects-title">Du code, des choix,<br>des applications.</h2>
+          <p>3 études de cas techniques : le besoin, ma contribution, les décisions et les limites. Les captures montrent les applications ; les dépôts permettent d’explorer le code.</p>
         </div>
         <div class="project-grid project-grid-focus">
-          <article class="project-card project-card-playful" data-project-card data-project-slug="alycia" data-project-surface="home" data-project-priority="lead" data-project-density="lead" data-language="csharp" data-type="desktop ai architecture" data-stack="dotnet-10 avalonia llama-cpp hugging-face gguf xunit tests github-actions" data-status="in-progress" data-reveal>
-            <a class="project-media" href="projets/alycia.html" data-media-kind="screenshot" aria-label="Lire l’étude de cas Alycia">
-              <img src="assets/img/projects/alycia/hero.webp" width="1440" height="810" loading="lazy" decoding="async" alt="">
-            </a>
-            <div class="project-body">
-              <div class="project-signal">
-                <span class="project-index" aria-hidden="true">01</span>
-                <span class="project-status">En cours</span>
-              </div>
-              <div class="project-heading">
-                <p class="project-kicker">Application desktop d’IA locale</p>
-                <h3><a href="projets/alycia.html">Alycia</a></h3>
-              </div>
-              <p class="project-summary">Application desktop C#/.NET et Avalonia pour conversations persistantes et inférence locale via llama.cpp CUDA et modèles GGUF.</p>
-              <dl class="project-facts">
-                <div class="project-fact project-fact-mission">
-                  <dt>Mission</dt>
-                  <dd>Fournir une expérience de conversation locale en gardant le fournisseur d’inférence derrière des contrats applicatifs.</dd>
-                </div>
-                <div class="project-fact project-fact-proof">
-                  <dt>Points clés</dt>
-                  <dd>Architecture en couches, persistance locale, llama.cpp CUDA, GGUF Hugging Face, streaming contenu/raisonnement, tests et observabilité locale.</dd>
-                </div>
-              </dl>
-              <div class="project-stack" aria-label="Technologies principales">
-                <span class="project-metadata-label">Technologies</span>
-                <div class="tag-list">
-                  <span class="tag">.NET 10</span>
-                <span class="tag">Avalonia</span>
-                <span class="tag">llama.cpp</span>
-                <span class="tag">Hugging Face</span>
-                </div>
-              </div>
-              <div class="card-actions project-actions">
-                <a class="project-read-link" href="projets/alycia.html">Étude de cas <span aria-hidden="true">→</span></a>
-                <a class="project-repository-link" href="https://github.com/alescis-wuin/alycia" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de Alycia">GitHub <span aria-hidden="true">↗</span></a>
-              </div>
-            </div>
-          </article>
-          <article class="project-card project-card-playful" data-project-card data-project-slug="streamfolio" data-project-surface="home" data-project-priority="featured" data-project-density="featured" data-language="java" data-type="backend fullstack data devops" data-stack="spring-boot postgresql redis minio docker hls playwright" data-status="finalized" data-reveal>
+          <article class="project-card" data-project-card data-project-slug="streamfolio" data-project-surface="home" data-project-priority="lead" data-project-density="lead" data-language="java" data-type="backend fullstack data devops" data-stack="spring-boot postgresql redis minio docker hls playwright" data-status="finalized" data-reveal>
             <a class="project-media" href="projets/streamfolio.html" data-media-kind="screenshot" aria-label="Lire l’étude de cas Streamfolio">
               <img src="assets/img/projects/streamfolio/hero.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="">
             </a>
             <div class="project-body">
               <div class="project-signal">
-                <span class="project-index" aria-hidden="true">02</span>
+                <span class="project-index" aria-hidden="true">01</span>
                 <span class="project-status">Finalisé</span>
               </div>
               <div class="project-heading">
                 <p class="project-kicker">Plateforme de streaming vidéo</p>
                 <h3><a href="projets/streamfolio.html">Streamfolio</a></h3>
               </div>
-              <p class="project-summary">Plateforme de streaming full-stack : catalogue, sécurité, administration média et pipeline MP4/HLS avec FFmpeg.</p>
-              <dl class="project-facts">
-                <div class="project-fact project-fact-mission">
-                  <dt>Mission</dt>
-                  <dd>Construire une plateforme web couvrant catalogue, sécurité, administration média et streaming.</dd>
-                </div>
-                <div class="project-fact project-fact-proof">
-                  <dt>Points clés</dt>
-                  <dd>Sécurité, streaming, traitement asynchrone, Docker et tests.</dd>
-                </div>
-              </dl>
+              <p class="project-summary">De la vidéo déposée au lecteur web : catalogue, comptes utilisateurs et traitement des médias avec FFmpeg.</p>
+              
+              
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">
                   <span class="tag">Spring Boot</span>
                 <span class="tag">PostgreSQL</span>
                 <span class="tag">Redis</span>
+                <span class="tag">MinIO</span>
                 </div>
               </div>
               <div class="card-actions project-actions">
@@ -409,30 +220,22 @@
               </div>
             </div>
           </article>
-          <article class="project-card project-card-playful" data-project-card data-project-slug="agenda" data-project-surface="home" data-project-priority="featured" data-project-density="featured" data-language="csharp" data-type="web mobile backend architecture accessibility" data-stack="dotnet-10 aspnet-core blazor maui ef-core sqlite rest xunit tests github-actions" data-status="prototype" data-reveal>
+          <article class="project-card" data-project-card data-project-slug="agenda" data-project-surface="home" data-project-priority="featured" data-project-density="featured" data-language="csharp" data-type="web mobile backend architecture accessibility" data-stack="dotnet-10 aspnet-core blazor maui ef-core sqlite rest xunit tests github-actions" data-status="prototype" data-reveal>
             <a class="project-media" href="projets/agenda.html" data-media-kind="screenshot" aria-label="Lire l’étude de cas Agenda">
               <img src="assets/img/projects/agenda/hero.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="">
             </a>
             <div class="project-body">
               <div class="project-signal">
-                <span class="project-index" aria-hidden="true">03</span>
+                <span class="project-index" aria-hidden="true">02</span>
                 <span class="project-status">Prototype</span>
               </div>
               <div class="project-heading">
                 <p class="project-kicker">Agenda accessible Web et MAUI</p>
                 <h3><a href="projets/agenda.html">Agenda</a></h3>
               </div>
-              <p class="project-summary">Agenda .NET 10 partagé entre Web Blazor et MAUI, avec calendrier, événements, API REST et persistance SQLite.</p>
-              <dl class="project-facts">
-                <div class="project-fact project-fact-mission">
-                  <dt>Mission</dt>
-                  <dd>Partager une même interface métier entre Web et application hybride.</dd>
-                </div>
-                <div class="project-fact project-fact-proof">
-                  <dt>Points clés</dt>
-                  <dd>Blazor, MAUI, API, EF Core, architecture multi-hôte, tests et CI.</dd>
-                </div>
-              </dl>
+              <p class="project-summary">Un calendrier, deux environnements : une interface partagée entre le Web et une application MAUI.</p>
+              
+              
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">
@@ -447,41 +250,33 @@
               </div>
             </div>
           </article>
-          <article class="project-card project-card-playful" data-project-card data-project-slug="aelia" data-project-surface="home" data-project-priority="featured" data-project-density="featured" data-language="java" data-type="desktop accessibility architecture data" data-stack="java-26 javafx atlantafx maven tests github-actions" data-status="in-progress" data-reveal>
-            <a class="project-media" href="projets/aelia.html" data-media-kind="screenshot" aria-label="Lire l’étude de cas Aelia">
-              <img src="assets/img/projects/aelia/hero.webp" width="1920" height="1204" loading="lazy" decoding="async" alt="">
+          <article class="project-card" data-project-card data-project-slug="calcufolio" data-project-surface="home" data-project-priority="featured" data-project-density="featured" data-language="csharp" data-type="desktop architecture" data-stack="dotnet-10 avalonia communitytoolkit-mvvm xunit tests github-actions" data-status="in-progress" data-reveal>
+            <a class="project-media" href="projets/calcufolio.html" data-media-kind="screenshot" aria-label="Lire l’étude de cas Calcufolio">
+              <img src="assets/img/projects/calcufolio/hero.webp" width="1920" height="1199" loading="lazy" decoding="async" alt="">
             </a>
             <div class="project-body">
               <div class="project-signal">
-                <span class="project-index" aria-hidden="true">04</span>
+                <span class="project-index" aria-hidden="true">03</span>
                 <span class="project-status">En cours</span>
               </div>
               <div class="project-heading">
-                <p class="project-kicker">Application météo desktop multi-fournisseurs</p>
-                <h3><a href="projets/aelia.html">Aelia</a></h3>
+                <p class="project-kicker">Calculatrice desktop à moteur d’expressions</p>
+                <h3><a href="projets/calcufolio.html">Calcufolio</a></h3>
               </div>
-              <p class="project-summary">Application météo JavaFX avec fournisseurs distants et fallback, qualité de l’air, UV, pollens et carte interactive native.</p>
-              <dl class="project-facts">
-                <div class="project-fact project-fact-mission">
-                  <dt>Mission</dt>
-                  <dd>Agréger plusieurs sources météo dans une interface desktop avec stratégie de fallback.</dd>
-                </div>
-                <div class="project-fact project-fact-proof">
-                  <dt>Points clés</dt>
-                  <dd>Fournisseurs distants, stratégie de fallback, carte JavaFX native, cache, tests Maven et CI.</dd>
-                </div>
-              </dl>
+              <p class="project-summary">Une calculatrice desktop centrée sur la saisie, l’édition et l’évaluation d’expressions.</p>
+              
+              
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">
-                  <span class="tag">Java 26</span>
-                <span class="tag">JavaFX</span>
-                <span class="tag">AtlantaFX</span>
+                  <span class="tag">.NET 10</span>
+                <span class="tag">Avalonia</span>
+                <span class="tag">CommunityToolkit.Mvvm</span>
                 </div>
               </div>
               <div class="card-actions project-actions">
-                <a class="project-read-link" href="projets/aelia.html">Étude de cas <span aria-hidden="true">→</span></a>
-                <a class="project-repository-link" href="https://github.com/alescis-wuin/Aelia" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de Aelia">GitHub <span aria-hidden="true">↗</span></a>
+                <a class="project-read-link" href="projets/calcufolio.html">Étude de cas <span aria-hidden="true">→</span></a>
+                <a class="project-repository-link" href="https://github.com/alescis-wuin/calcufolio" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de Calcufolio">GitHub <span aria-hidden="true">↗</span></a>
               </div>
             </div>
           </article>
@@ -492,515 +287,362 @@
       </div>
     </section>
     <!-- GENERATED:HOME-PROJECTS:END -->
-
       <section
         id="competences"
-        class="section snap-section profile-section profile-skills"
+        class="section profile-skills"
         aria-labelledby="skills-title"
         data-section
         data-label="Compétences"
         data-profile-section="skills"
       >
         <div class="container">
-          <div class="section-heading" data-reveal>
-            <p class="eyebrow">Compétences</p>
-            <h2 id="skills-title">Compétences techniques principales</h2>
+          <div class="section-heading">
+            <p class="eyebrow">02 / Compétences</p>
+            <h2 id="skills-title">
+              Deux écosystèmes.<br />Une vue d’ensemble.
+            </h2>
             <p>
-              Une sélection volontairement resserrée sur les technologies et
-              pratiques utilisées dans mes projets récents, présentées avec leur
-              contexte d’emploi plutôt que comme une liste exhaustive.
+              De l’interface au stockage, les technologies prennent leur sens
+              dans un projet.
             </p>
           </div>
-          <div
-            class="capability-grid"
-            data-profile-capabilities
-            aria-label="Compétences contextualisées"
-          >
-            <article class="capability-card capability-card-primary" data-capability="java" data-reveal>
-              <div class="capability-heading">
-                <p class="capability-kicker">Applications Java</p>
-                <h3>Java / Spring</h3>
-              </div>
+          <div class="capability-grid" data-profile-capabilities>
+            <article
+              class="capability-card capability-card-primary"
+              data-capability="java"
+            >
+              <p class="capability-kicker">01 / Java</p>
+              <h3>Services et applications</h3>
               <p>
-                Backend Spring Boot et applications desktop JavaFX, avec Maven,
-                AtlantaFX, REST et OpenAPI selon les besoins du projet.
+                Spring Boot pour les API, la sécurité et les traitements. JavaFX
+                pour les interfaces desktop.
               </p>
-              <dl class="capability-context">
-                <div>
-                  <dt>Contextes</dt>
-                  <dd>API, services applicatifs, clients desktop et intégrations distantes.</dd>
-                </div>
-                <div>
-                  <dt>Projets associés</dt>
-                  <dd class="capability-links">
-                    <a href="projets/streamfolio.html">Streamfolio</a>
-                    <a href="projets/aelia.html">Aelia</a>
-                  </dd>
-                </div>
-              </dl>
+              <p class="skill-tools">Java · Spring · Maven · JavaFX</p>
+              <a class="text-link" href="projets/streamfolio.html"
+                >Le pipeline de Streamfolio <span aria-hidden="true">↗</span></a
+              >
             </article>
-
-            <article class="capability-card capability-card-primary" data-capability="dotnet" data-reveal>
-              <div class="capability-heading">
-                <p class="capability-kicker">Applications .NET</p>
-                <h3>C# / .NET</h3>
-              </div>
+            <article
+              class="capability-card capability-card-primary"
+              data-capability="dotnet"
+            >
+              <p class="capability-kicker">02 / C# · .NET</p>
+              <h3>Web, desktop et mobile</h3>
               <p>
-                C# et .NET 10 pour des applications web et desktop avec ASP.NET
-                Core, Blazor, Avalonia, .NET MAUI, Entity Framework Core et xUnit.
+                Des composants partagés avec Blazor et MAUI ; des interfaces
+                desktop avec Avalonia.
               </p>
-              <dl class="capability-context">
-                <div>
-                  <dt>Contextes</dt>
-                  <dd>Interfaces web, clients desktop, API REST, persistance et logique métier.</dd>
-                </div>
-                <div>
-                  <dt>Projets associés</dt>
-                  <dd class="capability-links">
-                    <a href="projets/kanban.html">Kanban</a>
-                    <a href="projets/agenda.html">Agenda</a>
-                    <a href="projets/calcufolio.html">Calcufolio</a>
-                    <a href="projets/alycia.html">Alycia</a>
-                  </dd>
-                </div>
-              </dl>
+              <p class="skill-tools">ASP.NET Core · Blazor · MAUI · Avalonia</p>
+              <a class="text-link" href="projets/agenda.html"
+                >L’architecture d’Agenda <span aria-hidden="true">↗</span></a
+              >
             </article>
-
-            <article class="capability-card" data-capability="web-data" data-reveal>
-              <div class="capability-heading">
-                <p class="capability-kicker">Web, API & données</p>
-                <h3>Interfaces et persistance</h3>
-              </div>
+            <article class="capability-card" data-capability="web-data">
+              <p class="capability-kicker">03 / Données</p>
+              <h3>Relier et conserver</h3>
               <p>
-                HTML, CSS et JavaScript côté interface ; REST et OpenAPI pour les
-                échanges ; PostgreSQL, SQLite, Redis et MinIO pour les données et
-                services associés.
+                Échanges REST, données métier, sessions et fichiers : une
+                responsabilité pour chaque composant.
               </p>
-              <dl class="capability-context">
-                <div>
-                  <dt>Contextes</dt>
-                  <dd>Applications full-stack, administration, cache, stockage et persistance locale.</dd>
-                </div>
-                <div>
-                  <dt>Projets associés</dt>
-                  <dd class="capability-links">
-                    <a href="projets/streamfolio.html">Streamfolio</a>
-                    <a href="projets/kanban.html">Kanban</a>
-                    <a href="projets/agenda.html">Agenda</a>
-                  </dd>
-                </div>
-              </dl>
+              <p class="skill-tools">PostgreSQL · SQLite · Redis · MinIO</p>
+              <a
+                class="text-link"
+                href="projets/streamfolio.html#architecture-title"
+                >Les choix de persistance <span aria-hidden="true">↗</span></a
+              >
             </article>
-
-            <article class="capability-card" data-capability="architecture-quality" data-reveal>
-              <div class="capability-heading">
-                <p class="capability-kicker">Architecture & qualité</p>
-                <h3>Structure, tests et CI</h3>
-              </div>
+            <article
+              class="capability-card"
+              data-capability="architecture-quality"
+            >
+              <p class="capability-kicker">04 / Méthode</p>
+              <h3>Tester et transmettre</h3>
               <p>
-                Séparation entre Domain, Application, Infrastructure et
-                Presentation lorsque le projet le justifie, avec tests unitaires,
-                intégration, E2E Playwright et automatisation GitHub Actions.
+                Séparer les responsabilités, tester les comportements et
+                documenter comment lancer et faire évoluer le projet.
               </p>
-              <dl class="capability-context">
-                <div>
-                  <dt>Contextes</dt>
-                  <dd>Contrats applicatifs, persistance, services externes, régressions et intégration continue.</dd>
-                </div>
-                <div>
-                  <dt>En pratique</dt>
-                  <dd class="capability-links">
-                    <a href="projets/index.html">Voir les études de cas</a>
-                  </dd>
-                </div>
-              </dl>
-            </article>
-
-            <article class="capability-card" data-capability="local-ai-media" data-reveal>
-              <div class="capability-heading">
-                <p class="capability-kicker">IA locale & média</p>
-                <h3>Inférence et pipeline média</h3>
-              </div>
-              <p>
-                llama.cpp, Hugging Face et modèles GGUF pour l’inférence locale ;
-                FFmpeg et HLS pour le traitement et la diffusion de médias.
-              </p>
-              <dl class="capability-context">
-                <div>
-                  <dt>Contextes</dt>
-                  <dd>Runtime local de modèles, gestion de modèles et préparation de flux vidéo.</dd>
-                </div>
-                <div>
-                  <dt>Projets associés</dt>
-                  <dd class="capability-links">
-                    <a href="projets/alycia.html">Alycia</a>
-                    <a href="projets/streamfolio.html">Streamfolio</a>
-                  </dd>
-                </div>
-              </dl>
+              <p class="skill-tools">Git · Docker · CI · xUnit · Playwright</p>
+              <a class="text-link" href="#apropos"
+                >Ma façon de travailler <span aria-hidden="true">↗</span></a
+              >
             </article>
           </div>
         </div>
       </section>
-
       <section
         id="experience"
-        class="section section-alt snap-section profile-experience"
+        class="section profile-experience"
         aria-labelledby="experience-title"
         data-section
-        data-label="Expérience"
+        data-label="Parcours"
         data-profile-section="experience"
       >
-        <div class="container">
-          <div class="section-heading" data-reveal>
-            <p class="eyebrow">Expérience</p>
-            <h2 id="experience-title">
-              Deux années au contact d’un produit connecté, du logiciel au
-              matériel
-            </h2>
+        <div class="container experience-editorial">
+          <div class="section-heading">
+            <p class="eyebrow">03 / Sur le terrain</p>
+            <h2 id="experience-title">Le code rencontre<br />le matériel.</h2>
             <p>
-              Familink constitue l’expérience principale du parcours. Elle
-              rassemble développement applicatif, backend, Linux/Raspberry Pi
-              et électronique dans un même contexte produit. Une immersion plus
-              courte à la Caisse d’Épargne complète ce parcours.
+              Chez Familink, j’ai travaillé sur des produits connectés : des
+              applications, mais aussi les appareils sur lesquels elles
+              fonctionnent.
             </p>
+            <a
+              class="text-link"
+              href="./assets/cv/CV_Alexis-GUINOT.pdf"
+              download
+              >Télécharger mon CV <span aria-hidden="true">↓</span></a
+            >
           </div>
-
-          <div
-            class="experience-layout"
-            aria-label="Expériences professionnelles"
-            data-experience-list
-          >
+          <div class="experience-layout" data-experience-list>
             <article
               class="experience-card experience-card-primary"
               data-experience-lead
-              data-reveal
             >
               <header class="experience-card-header">
                 <div class="experience-meta">
-                  <span class="experience-period">2023 - 2025</span>
-                  <span class="experience-label">Expérience principale · alternance</span>
+                  <span class="experience-period">2023 — 2025</span
+                  ><span class="experience-label">Alternance · 2 ans</span>
                 </div>
-                <div>
-                  <h3>Familink</h3>
-                  <p class="experience-role">
-                    Développeur informatique et électronicien
-                  </p>
-                </div>
+                <h3>Familink</h3>
+                <p class="experience-role">
+                  Développeur informatique et électronicien
+                </p>
               </header>
-
               <p class="experience-summary">
-                Développement et maintenance autour de cadres photo/vidéo
-                connectés et d’un boîtier TV connecté B2B, avec une autonomie
-                croissante au fil de l’alternance.
+                Cadres photo et vidéo connectés, et projet de boîtier TV destiné
+                aux entreprises.
               </p>
-
-              <dl class="experience-facts">
-                <div>
-                  <dt>Environnement</dt>
-                  <dd>
-                    Android Java · Python/Django/ReportLab · Linux/Raspberry Pi ·
-                    matériel et électronique
-                  </dd>
-                </div>
-                <div>
-                  <dt>Produits</dt>
-                  <dd>
-                    Cadres photo/vidéo connectés et projet de boîtier TV connecté
-                    orienté B2B
-                  </dd>
-                </div>
-                <div>
-                  <dt>Contributions</dt>
-                  <dd>
-                    Intégration des avatars dans les cadres, améliorations et
-                    corrections de l’application, travail sur le boîtier TV
-                  </dd>
-                </div>
-              </dl>
+              <ul class="contribution-list">
+                <li>Intégration des avatars dans les cadres connectés.</li>
+                <li>Améliorations et corrections de l’application.</li>
+                <li>Travail sur le boîtier TV connecté.</li>
+              </ul>
+              <p class="skill-tools">
+                Android / Java · Python / Django / ReportLab · Linux / Raspberry
+                Pi · électronique
+              </p>
             </article>
-
             <article
               class="experience-card experience-card-secondary"
               data-experience-secondary
-              data-reveal
             >
               <div class="experience-meta">
-                <span class="experience-period">2025</span>
-                <span class="experience-label">Immersion courte</span>
+                <span class="experience-period">2025</span
+                ><span class="experience-label">Stage de découverte</span>
               </div>
-              <div>
-                <h3>Caisse d’Épargne Normandie</h3>
-                <p class="experience-role">Stage de découverte</p>
-              </div>
+              <h3>Caisse d’Épargne Normandie</h3>
               <p>
-                Immersion au siège social autour de la gestion de projet, de
-                l’organisation, du management et du fonctionnement d’équipe.
+                Immersion au siège social : gestion de projet, organisation,
+                management et fonctionnement d’équipe.
               </p>
             </article>
           </div>
         </div>
       </section>
-
       <section
         id="formation"
-        class="section snap-section profile-formation"
+        class="section profile-formation"
         aria-labelledby="formation-title"
         data-section
         data-label="Formation"
         data-profile-section="formation"
       >
         <div class="container">
-          <div class="section-heading" data-reveal>
-            <p class="eyebrow">Formation & trajectoire</p>
+          <div class="section-heading">
+            <p class="eyebrow">04 / La prochaine étape</p>
             <h2 id="formation-title">
-              Un parcours acquis, une prochaine étape visée, puis l’IA
+              Continuer à apprendre.<br />En entreprise.
             </h2>
-            <p>
-              Mon Bac +2 Développeur Informatique au CESI est obtenu. Je vise
-              ensuite la troisième année du Bachelor Concepteur Développeur
-              d’Applications en alternance à partir d’octobre 2026, avant une
-              poursuite plus longue vers les systèmes d’IA.
-            </p>
           </div>
-
           <div class="education-layout">
             <section
               class="education-acquired"
               aria-labelledby="education-acquired-title"
               data-education-acquired
-              data-reveal
             >
-              <div class="education-panel-heading">
-                <p class="education-kicker">Formation acquise</p>
-                <h3 id="education-acquired-title">Étapes déjà réalisées</h3>
-                <p>
-                  Les éléments ci-dessous décrivent uniquement des formations
-                  déjà suivies ou obtenues.
-                </p>
-              </div>
-
-              <div class="education-history">
-                <article class="education-record">
-                  <span class="education-period">2023 - 2025</span>
-                  <div>
-                    <h4>CESI — Bac +2 Développeur Informatique</h4>
-                    <p>Diplôme obtenu après deux années en alternance.</p>
-                  </div>
-                </article>
-                <article class="education-record">
-                  <span class="education-period">2025</span>
-                  <div>
-                    <h4>CCI — certification entrepreneur</h4>
-                    <p>Comptabilité, juridique, communication et marketing.</p>
-                  </div>
-                </article>
-                <article class="education-record">
-                  <span class="education-period">2021</span>
-                  <div>
-                    <h4>Bac scientifique</h4>
-                    <p>
-                      Mathématiques, sciences de l’ingénieur, NSI,
-                      physique-chimie et mathématiques expertes.
-                    </p>
-                  </div>
-                </article>
-              </div>
+              <p class="education-kicker">Diplôme obtenu</p>
+              <h3 id="education-acquired-title">
+                CESI · Bac+2 Développeur Informatique
+              </h3>
+              <p>2023–2025, en alternance chez Familink.</p>
+              <details class="education-details">
+                <summary>Les autres étapes du parcours</summary>
+                <ul>
+                  <li>
+                    2025 — CCI : certification entrepreneur ; comptabilité,
+                    juridique, communication et marketing.
+                  </li>
+                  <li>
+                    2021 — Bac scientifique ; mathématiques, sciences de
+                    l’ingénieur, NSI, physique-chimie et mathématiques expertes.
+                  </li>
+                </ul>
+              </details>
             </section>
-
-            <div class="education-path" aria-label="Prochaines étapes">
-              <article
-                class="education-step education-step-target"
-                data-education-target
-                data-reveal
-              >
-                <span class="education-step-index" aria-hidden="true">01</span>
-                <div>
-                  <p class="education-kicker">Formation visée</p>
-                  <h3>CESI — Bachelor Concepteur Développeur d’Applications</h3>
-                  <p>
-                    Troisième année visée pour 2026 - 2027, dans le cadre d’une
-                    alternance d’un an.
-                  </p>
-                </div>
-              </article>
-
-              <article
-                class="education-step education-step-search"
-                data-education-search
-                data-reveal
-              >
-                <span class="education-step-index" aria-hidden="true">02</span>
-                <div>
-                  <p class="education-kicker">Entreprise recherchée</p>
-                  <h3>Alternance à partir d’octobre 2026</h3>
-                  <p>
-                    Je recherche une entreprise d’accueil dans la Métropole de
-                    Rouen, en présentiel ou en hybride ; le télétravail reste
-                    possible selon l’entreprise.
-                  </p>
-                </div>
-              </article>
-
-              <article
-                class="education-step education-step-future"
-                data-education-ai
-                data-reveal
-              >
-                <span class="education-step-index" aria-hidden="true">03</span>
-                <div>
-                  <p class="education-kicker">Trajectoire future</p>
-                  <h3>Intelligence artificielle et systèmes d’IA</h3>
-                  <p>
-                    À plus long terme, je souhaite poursuivre ma formation vers
-                    l’intelligence artificielle puis approfondir l’ingénierie
-                    des systèmes d’IA, idéalement en alternance.
-                  </p>
-                </div>
-              </article>
-            </div>
+            <article
+              class="education-step education-step-target"
+              data-education-target
+            >
+              <div>
+                <p class="education-kicker">Formation visée · 2026–2027</p>
+                <h3>Bachelor Concepteur Développeur d’Applications</h3>
+                <p>
+                  Je recherche une entreprise d’accueil pour la troisième année
+                  au CESI : une alternance d’un an à partir d’octobre 2026.
+                </p>
+                <p class="education-location" data-education-search>
+                  Métropole de Rouen, en présentiel ou en hybride. Télétravail
+                  possible selon l’entreprise.
+                </p>
+                <a class="text-link" href="#contact"
+                  >Parlons de votre équipe <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </article>
           </div>
         </div>
       </section>
-
       <section
         id="apropos"
-        class="section section-alt snap-section profile-method"
+        class="section profile-method"
         aria-labelledby="about-title"
         data-section
         data-label="À propos"
         data-profile-section="method"
       >
         <div class="container method-layout">
-          <div class="method-intro" data-reveal>
-            <p class="eyebrow">À propos / méthode</p>
-            <h2 id="about-title">Du besoin à une solution vérifiable</h2>
+          <div class="method-intro">
+            <p class="eyebrow">05 / Ce qui m’anime</p>
+            <h2 id="about-title">Comprendre<br />les rouages.</h2>
             <p>
-              Dans mes projets, le travail part du problème à résoudre avant le
-              choix des outils. Je précise le contexte et les contraintes, je
-              pose une structure, je rends rapidement les choix concrets, puis
-              je vérifie le résultat et j’en documente les limites.
+              Ce qui m’intéresse dans un projet, c’est le lien entre ses
+              parties. Comment une vidéo arrive jusqu’au lecteur. Comment deux
+              interfaces partagent la même logique. Comment une décision
+              d’architecture se traduit dans le code.
             </p>
             <p class="method-principle">
-              Le fil conducteur reste le même : comprendre, découper, essayer,
-              puis rendre le changement vérifiable et transmissible.
+              Je pars du problème, je découpe, j’essaie, puis je vérifie.
+            </p>
+            <p>
+              Cette curiosité dépasse le logiciel : je m’intéresse aussi à
+              l’électronique, aux sciences et à la botanique.
+            </p>
+            <p class="future-note" data-education-ai>
+              À plus long terme, je souhaite poursuivre ma formation vers
+              l’intelligence artificielle et l’ingénierie des systèmes d’IA.
             </p>
           </div>
-
           <ol class="profile-method-grid" aria-label="Méthode de travail">
-            <li class="method-step" data-method-step="clarify" data-reveal>
+            <li class="method-step" data-method-step="clarify">
               <span class="method-step-index" aria-hidden="true">01</span>
               <div class="method-step-body">
-                <p class="method-step-label">Clarifier</p>
-                <h3>Définir le problème à résoudre</h3>
+                <h3>Partir de l’usage</h3>
                 <p>
-                  Identifier les utilisateurs concernés, le besoin, les
-                  données, les contraintes techniques et les critères qui
-                  permettront de valider le résultat.
+                  Qui va s’en servir ? Avec quelles données et quelles
+                  contraintes ? Le besoin donne la direction.
                 </p>
               </div>
             </li>
-            <li class="method-step" data-method-step="structure" data-reveal>
+            <li class="method-step" data-method-step="structure">
               <span class="method-step-index" aria-hidden="true">02</span>
               <div class="method-step-body">
-                <p class="method-step-label">Structurer</p>
-                <h3>Séparer les responsabilités</h3>
+                <h3>Donner une place à chaque pièce</h3>
                 <p>
-                  Organiser l’interface, la logique métier, les données, les
-                  services et les intégrations pour rendre les dépendances
-                  explicites avant d’élargir l’implémentation.
+                  Interface, métier, données, intégrations : rendre les
+                  responsabilités et les dépendances explicites.
                 </p>
               </div>
             </li>
-            <li class="method-step" data-method-step="prototype" data-reveal>
+            <li class="method-step" data-method-step="prototype">
               <span class="method-step-index" aria-hidden="true">03</span>
               <div class="method-step-body">
-                <p class="method-step-label">Prototyper</p>
-                <h3>Rendre les choix concrets</h3>
+                <h3>Faire fonctionner un premier parcours</h3>
                 <p>
-                  Construire l’écran, le flux, l’API, le script ou la preuve
-                  technique minimale utile afin de confronter la structure à un
-                  usage réel.
+                  Un écran, une API ou un flux concret pour confronter les choix
+                  à leur fonctionnement réel.
                 </p>
               </div>
             </li>
-            <li class="method-step" data-method-step="verify" data-reveal>
+            <li class="method-step" data-method-step="verify">
               <span class="method-step-index" aria-hidden="true">04</span>
               <div class="method-step-body">
-                <p class="method-step-label">Tester et documenter</p>
-                <h3>Rendre le résultat vérifiable</h3>
+                <h3>Laisser de quoi vérifier</h3>
                 <p>
-                  Ajouter les tests utiles, des commandes reproductibles, une
-                  documentation exploitable et les limites ou compromis qui
-                  restent à connaître.
+                  Des tests utiles, des commandes reproductibles et les limites
+                  connues, pour pouvoir reprendre le travail.
                 </p>
               </div>
             </li>
           </ol>
         </div>
       </section>
-
       <section
         id="contact"
-        class="section contact-section snap-section profile-contact"
+        class="section profile-contact"
         aria-labelledby="contact-title"
         data-section
         data-label="Contact"
         data-profile-section="contact"
       >
-        <div class="container profile-contact-card" data-reveal>
+        <div class="container profile-contact-card">
           <div class="contact-primary">
-            <p class="eyebrow">Contact</p>
-            <h2 id="contact-title">
-              Un point d’entrée direct, des ressources en complément
-            </h2>
+            <p class="eyebrow">06 / Contact</p>
+            <h2 id="contact-title">Une place dans<br />votre équipe ?</h2>
             <p>
-              Pour échanger au sujet d’une alternance d’un an à partir
-              d’octobre 2026 dans la Métropole de Rouen, ou à propos d’un
-              projet, l’e-mail est le moyen de contact principal.
+              Je cherche une alternance d’un an à partir d’octobre 2026, dans la
+              Métropole de Rouen. Vous pouvez aussi m’écrire pour discuter d’un
+              projet.
             </p>
             <a
               class="contact-email-link"
               href="mailto:alexis.guinot@onsiea.com"
-              aria-label="Envoyer un e-mail à alexis.guinot@onsiea.com"
               data-contact-primary
+              ><span class="contact-email-value">alexis.guinot@onsiea.com</span
+              ><span aria-hidden="true">↗</span></a
+            ><button
+              class="copy-email"
+              type="button"
+              data-copy-email="alexis.guinot@onsiea.com"
+              hidden
             >
-              <span class="contact-link-label">E-mail</span>
-              <span class="contact-email-value">alexis.guinot@onsiea.com</span>
-            </a>
+              Copier l’adresse e-mail
+            </button>
+            <p class="copy-feedback" role="status" data-copy-feedback></p>
           </div>
-
           <nav class="contact-resources" aria-label="Ressources de contact">
-            <p class="contact-resources-title">Ressources</p>
-            <a
-              class="contact-resource-link"
-              href="https://www.linkedin.com/in/alexis-guinot/"
-              rel="me noopener noreferrer"
-            >
-              <span>LinkedIn</span>
-              <span class="contact-resource-meta">Profil professionnel</span>
-            </a>
-            <a
-              class="contact-resource-link"
-              href="https://github.com/alescis-wuin"
-              rel="me noopener noreferrer"
-            >
-              <span>GitHub</span>
-              <span class="contact-resource-meta">Dépôts et projets</span>
-            </a>
             <a
               class="contact-resource-link"
               href="./assets/cv/CV_Alexis-GUINOT.pdf"
               download
+              ><span>CV</span
+              ><span class="contact-resource-meta">PDF · télécharger ↓</span></a
+            ><a
+              class="contact-resource-link"
+              href="https://github.com/alescis-wuin"
+              rel="me noopener noreferrer"
+              ><span>GitHub</span
+              ><span class="contact-resource-meta">Explorer le code ↗</span></a
+            ><a
+              class="contact-resource-link"
+              href="https://www.linkedin.com/in/alexis-guinot/"
+              rel="me noopener noreferrer"
+              ><span>LinkedIn</span
+              ><span class="contact-resource-meta">Mon parcours ↗</span></a
             >
-              <span>CV PDF</span>
-              <span class="contact-resource-meta">Télécharger le document</span>
-            </a>
           </nav>
         </div>
       </section>
     </main>
-
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <p>
+          Alexis Guinot
+          <span class="footer-dot" aria-hidden="true">/</span>
+          Concepteur-développeur full-stack
+        </p>
+        <a class="text-link" href="#accueil">Retour en haut ↑</a>
+      </div>
+    </footer>
     <script type="module" src="./assets/js/main.js"></script>
   </body>
 </html>

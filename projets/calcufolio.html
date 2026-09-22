@@ -11,15 +11,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.alexis-guinot.fr/projets/calcufolio.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
-  <meta name="theme-color" content="#0B1020">
+  <meta name="theme-color" content="#101412">
   <title>Calcufolio — Étude de cas | Alexis Guinot</title>
   <link rel="canonical" href="https://www.alexis-guinot.fr/projets/calcufolio.html">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
-  <script>
-    document.documentElement.dataset.js = 'true';
-  </script>
+  <link rel="stylesheet" href="../assets/css/signature.css">
 </head>
 
 <body data-project-slug="calcufolio">
@@ -58,11 +56,12 @@
             <span class="project-detail-status">En cours</span>
           </div>
           <h1>Calcufolio</h1>
-          <p class="hero-lead">Calculatrice desktop Avalonia avec moteur d’expressions isolé, MVVM, historique, tests xUnit et CI .NET.</p>
+          <p class="hero-lead">Une calculatrice desktop centrée sur la saisie, l’édition et l’évaluation d’expressions.</p>
+          
           <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
             <div>
               <dt>Objectif</dt>
-              <dd>Concevoir une calculatrice testable au-delà d’une simple logique d’interface.</dd>
+              <dd>Relier un moteur d’expressions à une interface Avalonia.</dd>
             </div>
             <div>
               <dt>Points clés</dt>
@@ -86,11 +85,12 @@
       </div>
     </article>
 
+    <nav class="case-nav" aria-label="Dans cette étude de cas"><div class="content-shell"><a href="#problem-title">Contexte et rôle</a><a href="#architecture-title">Architecture</a><a href="#quality-title">Tests</a><a href="#limits-title">Limites</a><a href="#gallery-title">Captures</a></div></nav>
     <section class="section" aria-labelledby="problem-title">
       <div class="content-shell content-grid">
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
-          <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
+          <h2 id="problem-title">Le problème à résoudre</h2>
           <p>Construire une calculatrice desktop dont le parsing, l’édition, l’état d’interaction et l’interface restent découplés afin de tester les comportements complexes sans dépendre d’Avalonia.</p>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="role-title">
@@ -113,7 +113,7 @@
       <div class="content-shell two-columns">
         <div data-reveal>
           <p class="eyebrow">Architecture</p>
-          <h2 id="architecture-title">Comment le système est structuré</h2>
+          <h2 id="architecture-title">Les pièces du système</h2>
           <ul class="check-list"><li>Solution séparée en Domain, Application, Infrastructure et Presentation.</li><li>Moteur d’expressions dans la couche Application avec tokenization, parsing, modèle syntaxique, évaluation et erreurs typées.</li><li>Modèle d’interaction basé sur contrôleur, actions, état d’éditeur et reducer pour isoler les comportements de saisie.</li><li>Présentation Avalonia structurée en MVVM avec CommunityToolkit.Mvvm, historique et aperçu de calcul.</li></ul>
         </div>
         <div data-reveal>
@@ -187,7 +187,7 @@
       <div class="content-shell two-columns">
         <div data-reveal>
           <p class="eyebrow">Limites</p>
-          <h2 id="limits-title">Limites assumées</h2>
+          <h2 id="limits-title">Les limites actuelles</h2>
           <ul class="check-list"><li>Le projet reste en cours et n’est pas présenté comme une application finalisée.</li><li>Le README public actuel documente peu l’architecture et les fonctions présentes dans le dépôt.</li><li>Le périmètre fonctionnel doit encore être consolidé avant de considérer une release utilisateur stable.</li></ul>
         </div>
         <div data-reveal>
@@ -203,7 +203,7 @@
         <div class="section-heading reading" data-reveal>
           <p class="eyebrow">Captures</p>
           <h2 id="gallery-title">Le produit en situation</h2>
-          <p>Des états complémentaires sélectionnés pour montrer l’interface et les parcours réellement implémentés.</p>
+          <p>Quelques écrans pour parcourir le projet.</p>
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0" data-media-kind="screenshot">

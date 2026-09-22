@@ -1,6 +1,6 @@
 {
   "name": "alexis-portfolio-site",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Portfolio statique d'Alexis Guinot.",
   "type": "module",
@@ -32,11 +32,13 @@
     "capture:visual": "node scripts/run-visual-qa.mjs",
     "test:visual": "npm run test:qa && npm run capture:visual",
     "validate:media": "node scripts/validate-project-media.mjs",
-    "validate:performance": "node scripts/validate-project-performance.mjs"
+    "validate:performance": "node scripts/validate-project-performance.mjs",
+    "package:site": "npm run generate:check && npm run validate && node scripts/package-site.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.61.1",
     "@secretlint/secretlint-rule-preset-recommend": "13.0.2",
+    "axe-core": "4.13.0",
     "eslint": "10.5.0",
     "html-validate": "11.5.3",
     "prettier": "3.8.4",

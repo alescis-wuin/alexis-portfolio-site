@@ -11,15 +11,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.alexis-guinot.fr/projets/kanban.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
-  <meta name="theme-color" content="#0B1020">
+  <meta name="theme-color" content="#101412">
   <title>Kanban — Étude de cas | Alexis Guinot</title>
   <link rel="canonical" href="https://www.alexis-guinot.fr/projets/kanban.html">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
-  <script>
-    document.documentElement.dataset.js = 'true';
-  </script>
+  <link rel="stylesheet" href="../assets/css/signature.css">
 </head>
 
 <body data-project-slug="kanban">
@@ -58,11 +56,12 @@
             <span class="project-detail-status">En cours</span>
           </div>
           <h1>Kanban</h1>
-          <p class="hero-lead">Gestionnaire .NET 10 orienté métier : vues Liste/Kanban, règles WIP, récurrence, API REST et persistance SQLite.</p>
+          <p class="hero-lead">Organiser les tâches en liste ou en tableau, avec règles métier, récurrence et historique.</p>
+          
           <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
             <div>
               <dt>Objectif</dt>
-              <dd>Construire une application métier Web au-delà d’un CRUD de tâches.</dd>
+              <dd>Garder les mêmes règles métier dans l’interface et dans l’API.</dd>
             </div>
             <div>
               <dt>Points clés</dt>
@@ -89,11 +88,12 @@
       </div>
     </article>
 
+    <nav class="case-nav" aria-label="Dans cette étude de cas"><div class="content-shell"><a href="#problem-title">Contexte et rôle</a><a href="#architecture-title">Architecture</a><a href="#quality-title">Tests</a><a href="#limits-title">Limites</a><a href="#gallery-title">Captures</a></div></nav>
     <section class="section" aria-labelledby="problem-title">
       <div class="content-shell content-grid">
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
-          <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
+          <h2 id="problem-title">Le problème à résoudre</h2>
           <p>Créer un gestionnaire de tâches qui combine interactions Kanban, règles métier, historique, import/export et API sans dupliquer la logique entre l’interface Web et les endpoints HTTP.</p>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="role-title">
@@ -119,7 +119,7 @@
       <div class="content-shell two-columns">
         <div data-reveal>
           <p class="eyebrow">Architecture</p>
-          <h2 id="architecture-title">Comment le système est structuré</h2>
+          <h2 id="architecture-title">Les pièces du système</h2>
           <ul class="check-list"><li>Todo.Domain contient tâches, sous-tâches, étiquettes, colonnes, historique, paramètres et invariants.</li><li>Todo.Contracts regroupe DTO, requêtes, formats d’import/export et exceptions contractuelles.</li><li>Todo.Application orchestre les cas d’usage et le transfert de données.</li><li>Todo.Infrastructure fournit EF Core, SQLite, repository et initialisation/mise à niveau de la base.</li><li>Todo.Ui porte l’interface Razor, tandis que Todo.Web l’héberge en Blazor Interactive Server.</li><li>Todo.Api expose les mêmes capacités applicatives via des Minimal APIs et OpenAPI.</li></ul>
         </div>
         <div data-reveal>
@@ -193,7 +193,7 @@
       <div class="content-shell two-columns">
         <div data-reveal>
           <p class="eyebrow">Limites</p>
-          <h2 id="limits-title">Limites assumées</h2>
+          <h2 id="limits-title">Les limites actuelles</h2>
           <ul class="check-list"><li>Le branding public reste encore partagé entre le nom du dépôt Kanban et le nom interne Todo.</li><li>L’authentification et la collaboration multi-utilisateur ne sont pas incluses.</li><li>Les notifications natives et la synchronisation hors ligne avec l’API ne sont pas implémentées.</li></ul>
         </div>
         <div data-reveal>
@@ -209,7 +209,7 @@
         <div class="section-heading reading" data-reveal>
           <p class="eyebrow">Captures</p>
           <h2 id="gallery-title">Le produit en situation</h2>
-          <p>Des états complémentaires sélectionnés pour montrer l’interface et les parcours réellement implémentés.</p>
+          <p>Quelques écrans pour parcourir le projet.</p>
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0" data-media-kind="screenshot">
