@@ -60,7 +60,9 @@ test("parcours principal, catalogue canonique et données éditoriales", async (
   await expect(page.locator("[data-hero-availability]")).toContainText(
     "octobre 2026",
   );
-  await expect(page.locator(".brand-name")).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Accueil — Alexis Guinot" }),
+  ).toBeVisible();
   expect(
     await page
       .locator("[data-project-card]")
@@ -101,7 +103,8 @@ test("menu compact : clavier, Échap, transfert du focus et redimensionnement", 
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(toggle).toBeHidden();
-  await expect(page.locator("#home-navigation")).toBeVisible();
+  await expect(page.locator("#home-navigation")).toBeHidden();
+  await expect(page.locator(".section-rail")).toBeVisible();
 });
 
 test("lien d’évitement et contenu sans JavaScript", async ({ browser }) => {
