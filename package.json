@@ -41,7 +41,7 @@
     "axe-core": "4.13.0",
     "eslint": "10.5.0",
     "html-validate": "11.5.3",
-    "prettier": "3.8.4",
+    "prettier": "3.9.6",
     "secretlint": "13.0.2",
     "stylelint": "17.13.0"
   }
