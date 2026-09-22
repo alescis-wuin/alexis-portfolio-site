@@ -41,7 +41,7 @@ jobs:
               ;;
           esac
 
-      - name: Ensure testing contains main before develop promotion
+      - name: Ensure testing matches main before develop promotion
         run: |
           set -euo pipefail
           head="${{ github.head_ref }}"
@@ -52,10 +52,11 @@ jobs:
 
           git fetch origin main
           base_sha="${{ github.event.pull_request.base.sha }}"
-          if git merge-base --is-ancestor origin/main "$base_sha"; then
-            echo "testing is up to date with main."
+          if git diff --quiet origin/main "$base_sha"; then
+            echo "testing content matches main."
           else
-            echo "testing does not contain main. Merge main into testing before promoting develop."
+            echo "testing differs from main. Synchronize main into testing before promoting develop."
+            git diff --stat origin/main "$base_sha"
             exit 1
           fi
 

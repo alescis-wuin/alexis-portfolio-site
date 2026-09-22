@@ -38,8 +38,8 @@ jobs:
               ;;
           esac
 
-  basic-checks:
-    name: Basic checks
+  basic-validation:
+    name: Basic validation
     needs: guard-source
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -54,7 +54,7 @@ jobs:
 
   extended-checks:
     name: Extended checks
-    needs: basic-checks
+    needs: basic-validation
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -112,3 +112,21 @@ jobs:
       - name: Explain skipped browser checks
         if: steps.scope.outputs.run_extended != 'true'
         run: echo "No catalog, generated page, UI, E2E or dependency change requires browser checks."
+
+  required-quality-gate:
+    name: Basic checks
+    if: always()
+    needs:
+      - basic-validation
+      - extended-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Enforce required validation results
+        env:
+          BASIC_RESULT: ${{ needs.basic-validation.result }}
+          EXTENDED_RESULT: ${{ needs.extended-checks.result }}
+        run: |
+          set -euo pipefail
+          test "$BASIC_RESULT" = "success"
+          test "$EXTENDED_RESULT" = "success"

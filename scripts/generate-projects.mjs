@@ -555,6 +555,7 @@ function renderProjectCard(
     .map((id) => label("stack", id));
   const href = `${hrefPrefix}${project.slug}.html`;
   const cardVisual = project.visuals.hero;
+  const headingTag = surface === "catalog" ? "h2" : "h3";
   const facts = `<dl class="project-facts">
                 <div class="project-fact project-fact-mission">
                   <dt>Mission</dt>
@@ -584,7 +585,7 @@ function renderProjectCard(
               </div>
               <div class="project-heading">
                 <p class="project-kicker">${escapeHtml(project.subtitle)}</p>
-                <h3><a href="${escapeAttr(href)}">${escapeHtml(project.name)}</a></h3>
+                <${headingTag}><a href="${escapeAttr(href)}">${escapeHtml(project.name)}</a></${headingTag}>
               </div>
               <p class="project-summary">${escapeHtml(project.summary)}</p>
               ${factsBlock}
