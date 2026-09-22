@@ -41,7 +41,7 @@ jobs:
               ;;
           esac
 
-      - name: Ensure testing matches main before develop promotion
+      - name: Ensure promotion line contains current main
         run: |
           set -euo pipefail
           head="${{ github.head_ref }}"
@@ -52,13 +52,27 @@ jobs:
 
           git fetch origin main
           base_sha="${{ github.event.pull_request.base.sha }}"
-          if git diff --quiet origin/main "$base_sha"; then
-            echo "testing content matches main."
-          else
-            echo "testing differs from main. Synchronize main into testing before promoting develop."
-            git diff --stat origin/main "$base_sha"
-            exit 1
+          head_sha="${{ github.event.pull_request.head.sha }}"
+
+          if git merge-base --is-ancestor origin/main "$base_sha"; then
+            echo "testing already contains current main."
+            exit 0
           fi
+
+          if git merge-base --is-ancestor origin/main "$head_sha"; then
+            echo "develop contains current main; allowing history-recovery promotion."
+            exit 0
+          fi
+
+          if git diff --quiet origin/main "$base_sha"; then
+            echo "testing content matches main despite divergent history."
+            exit 0
+          fi
+
+          echo "Neither testing nor develop contains current main."
+          echo "Synchronize main into the promotion line before promoting develop."
+          git diff --stat origin/main "$base_sha" || true
+          exit 1
 
   release-candidate-checks:
     name: Release candidate checks
