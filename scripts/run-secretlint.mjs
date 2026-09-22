@@ -6,6 +6,8 @@ const patterns = [
   "projets/**/*.html",
   "assets/**/*.js",
   "assets/**/*.css",
+  "data/**/*.json",
+  "templates/**/*",
   "scripts/**/*.mjs",
   "tests/**/*.mjs",
   ".github/**/*.yml",

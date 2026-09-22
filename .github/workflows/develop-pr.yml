@@ -28,18 +28,18 @@ jobs:
           set -euo pipefail
           head="${{ github.head_ref }}"
           case "$head" in
-            ia/*|feature/*|fix/*|refactor/*|chore/*|docs/*)
+            ai/*|feature/*|fix/*|refactor/*|chore/*|docs/*)
               echo "Allowed source branch: $head"
               ;;
             *)
               echo "Invalid source branch for develop: $head"
-              echo "Allowed: ia/*, feature/*, fix/*, refactor/*, chore/*, docs/*"
+              echo "Allowed: ai/*, feature/*, fix/*, refactor/*, chore/*, docs/*"
               exit 1
               ;;
           esac
 
-  basic-checks:
-    name: Basic checks
+  basic-validation:
+    name: Basic validation
     needs: guard-source
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -49,28 +49,84 @@ jobs:
         with:
           node-version: 24
           package-manager-cache: false
-      - run: npm install --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
       - run: npm run check:basic
 
-  ai-checks:
-    name: AI extra checks
-    needs: basic-checks
+  extended-checks:
+    name: Extended checks
+    needs: basic-validation
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: 24
           package-manager-cache: false
-      - run: npm install --no-audit --no-fund
-      - name: Run AI checks when source branch starts with ia/
+      - run: npm ci --no-audit --no-fund
+      - name: Detect changes requiring browser checks
+        id: scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
-          head="${{ github.head_ref }}"
-          if [[ "$head" == ia/* ]]; then
-            npx playwright install --with-deps chromium
-            npm run check:ai
-          else
-            echo "Not an IA branch; AI checks are intentionally skipped."
+          run_extended=false
+
+          if [[ "$EVENT_NAME" == "workflow_dispatch" || "$HEAD_REF" == ai/* ]]; then
+            run_extended=true
+          elif [[ -n "$BASE_SHA" && -n "$HEAD_SHA" ]]; then
+            git diff --name-only "$BASE_SHA" "$HEAD_SHA" | tee /tmp/changed-files.txt
+            if grep -Eq '^(data/|templates/|projets/|assets/(css|js)/|tests/(e2e|qa|visual)/|index\.html$|sitemap\.xml$|scripts/(generate-projects|run-visual-qa)\.mjs$|playwright(\.visual)?\.config\.mjs$|package(-lock)?\.json$)' /tmp/changed-files.txt; then
+              run_extended=true
+            fi
           fi
+
+          echo "run_extended=$run_extended" >> "$GITHUB_OUTPUT"
+
+      - name: Install Playwright browser
+        if: steps.scope.outputs.run_extended == 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Run extended checks
+        if: steps.scope.outputs.run_extended == 'true'
+        run: npm run check:extended
+
+      - name: Capture deterministic visual QA
+        if: steps.scope.outputs.run_extended == 'true'
+        run: npm run capture:visual
+
+      - name: Upload visual QA artifact
+        if: always() && steps.scope.outputs.run_extended == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-qa-develop-pr-${{ github.event.pull_request.number || github.run_id }}
+          path: artifacts/visual
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Explain skipped browser checks
+        if: steps.scope.outputs.run_extended != 'true'
+        run: echo "No catalog, generated page, UI, E2E or dependency change requires browser checks."
+
+  required-quality-gate:
+    name: Basic checks
+    if: always()
+    needs:
+      - basic-validation
+      - extended-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Enforce required validation results
+        env:
+          BASIC_RESULT: ${{ needs.basic-validation.result }}
+          EXTENDED_RESULT: ${{ needs.extended-checks.result }}
+        run: |
+          set -euo pipefail
+          test "$BASIC_RESULT" = "success"
+          test "$EXTENDED_RESULT" = "success"

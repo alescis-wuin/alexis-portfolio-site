@@ -1,0 +1,741 @@
+import {
+  existsSync,
+  readFileSync,
+  readdirSync,
+  unlinkSync,
+  writeFileSync,
+} from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const rootDir = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+);
+const checkOnly = process.argv.includes("--check");
+
+const catalogPath = path.join(rootDir, "data", "projects.json");
+const projectTemplatePath = path.join(rootDir, "templates", "project.html.tpl");
+const catalogTemplatePath = path.join(
+  rootDir,
+  "templates",
+  "projects-index.html.tpl",
+);
+const projectsDir = path.join(rootDir, "projets");
+
+const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+validateCatalog(catalog);
+const publishedProjects = catalog.projects.filter(
+  (project) => project.published,
+);
+const featuredProjects = publishedProjects
+  .filter((project) => project.featured)
+  .sort((a, b) => a.featuredOrder - b.featuredOrder);
+const catalogProjects = [...publishedProjects].sort((a, b) => {
+  if (a.featured !== b.featured) return a.featured ? -1 : 1;
+  if (a.featured && b.featured) return a.featuredOrder - b.featuredOrder;
+  return 0;
+});
+
+const projectTemplate = readFileSync(projectTemplatePath, "utf8");
+const catalogTemplate = readFileSync(catalogTemplatePath, "utf8");
+const outputs = new Map();
+
+for (const project of publishedProjects) {
+  outputs.set(
+    path.join(projectsDir, `${project.slug}.html`),
+    renderProjectPage(project),
+  );
+}
+
+outputs.set(path.join(projectsDir, "index.html"), renderCatalogPage());
+outputs.set(path.join(rootDir, "sitemap.xml"), renderSitemap());
+
+const indexPath = path.join(rootDir, "index.html");
+const currentIndex = readFileSync(indexPath, "utf8");
+outputs.set(indexPath, renderHomeIndex(currentIndex));
+const orphanProjectPages = findOrphanProjectPages(outputs);
+
+if (checkOnly) {
+  const stale = [];
+  for (const [filePath, expected] of outputs) {
+    const actual = existsSync(filePath) ? readFileSync(filePath, "utf8") : null;
+    if (actual !== expected) {
+      stale.push(path.relative(rootDir, filePath).replaceAll(path.sep, "/"));
+    }
+  }
+
+  for (const filePath of orphanProjectPages) {
+    stale.push(
+      `${path.relative(rootDir, filePath).replaceAll(path.sep, "/")} (page projet orpheline)`,
+    );
+  }
+
+  if (stale.length > 0) {
+    console.error("Fichiers générés désynchronisés :");
+    for (const file of stale) console.error(`- ${file}`);
+    console.error("Exécute : npm run generate");
+    process.exit(1);
+  }
+
+  console.log(`Génération synchronisée (${outputs.size} fichier(s)).`);
+  process.exit(0);
+}
+
+for (const filePath of orphanProjectPages) {
+  unlinkSync(filePath);
+  console.log(
+    `removed ${path.relative(rootDir, filePath).replaceAll(path.sep, "/")}`,
+  );
+}
+
+for (const [filePath, content] of outputs) {
+  writeFileSync(filePath, content, "utf8");
+  console.log(
+    `generated ${path.relative(rootDir, filePath).replaceAll(path.sep, "/")}`,
+  );
+}
+
+function findOrphanProjectPages(expectedOutputs) {
+  if (!existsSync(projectsDir)) return [];
+
+  return readdirSync(projectsDir, { withFileTypes: true })
+    .filter(
+      (entry) =>
+        entry.isFile() &&
+        entry.name.endsWith(".html") &&
+        entry.name !== "index.html",
+    )
+    .map((entry) => path.join(projectsDir, entry.name))
+    .filter((filePath) => !expectedOutputs.has(filePath))
+    .sort();
+}
+
+function validateCatalog(data) {
+  if (data.schemaVersion !== 5) {
+    throw new Error("data/projects.json : schemaVersion doit valoir 5.");
+  }
+
+  for (const key of ["baseUrl", "title", "description"]) {
+    assertNonEmpty(data.site?.[key], `site.${key}`);
+  }
+
+  const taxonomyGroups = ["languages", "types", "stack", "status"];
+  for (const group of taxonomyGroups) {
+    const entries = data.taxonomy?.[group];
+    if (!entries || typeof entries !== "object" || Array.isArray(entries)) {
+      throw new Error(`taxonomy.${group} doit être un objet.`);
+    }
+  }
+
+  if (!Array.isArray(data.projects) || data.projects.length === 0) {
+    throw new Error("projects doit contenir au moins un projet.");
+  }
+
+  const ids = new Set();
+  const slugs = new Set();
+  const featuredOrders = new Set();
+
+  for (const project of data.projects) {
+    for (const field of [
+      "id",
+      "slug",
+      "name",
+      "status",
+      "subtitle",
+      "summary",
+      "metaDescription",
+      "mission",
+      "proof",
+      "problem",
+      "image",
+      "imageAlt",
+    ]) {
+      assertNonEmpty(project[field], `projects.${project.id || "?"}.${field}`);
+    }
+
+    if (typeof project.published !== "boolean") {
+      throw new Error(`${project.id} : published doit être un booléen.`);
+    }
+    if (!project.published) {
+      assertNonEmpty(project.publicationNote, `${project.id}.publicationNote`);
+      if (project.featured) {
+        throw new Error(
+          `${project.id} : un projet non publié ne peut pas être featured.`,
+        );
+      }
+    }
+
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.slug)) {
+      throw new Error(`${project.id} : slug invalide (${project.slug}).`);
+    }
+    if (project.slug === "index") {
+      throw new Error(
+        `${project.id} : le slug index est réservé au catalogue.`,
+      );
+    }
+    if (ids.has(project.id))
+      throw new Error(`ID projet dupliqué : ${project.id}`);
+    if (slugs.has(project.slug))
+      throw new Error(`Slug projet dupliqué : ${project.slug}`);
+    ids.add(project.id);
+    slugs.add(project.slug);
+
+    if (!Object.hasOwn(data.taxonomy.status, project.status)) {
+      throw new Error(`${project.id} : statut inconnu (${project.status}).`);
+    }
+
+    validateReferences(project, "languages", data.taxonomy.languages);
+    validateReferences(project, "types", data.taxonomy.types);
+    validateReferences(project, "stack", data.taxonomy.stack);
+    validateReferences(project, "homeStack", data.taxonomy.stack);
+
+    if (!Array.isArray(project.features) || project.features.length === 0) {
+      throw new Error(`${project.id} : features doit être non vide.`);
+    }
+    if (!Array.isArray(project.proofs) || project.proofs.length === 0) {
+      throw new Error(`${project.id} : proofs doit être non vide.`);
+    }
+
+    validateCaseStudy(project);
+    if (project.published || project.visuals !== undefined) {
+      validateVisuals(project);
+    }
+
+    if (project.featured) {
+      if (
+        !Number.isInteger(project.featuredOrder) ||
+        project.featuredOrder < 1
+      ) {
+        throw new Error(`${project.id} : featuredOrder invalide.`);
+      }
+      if (featuredOrders.has(project.featuredOrder)) {
+        throw new Error(`featuredOrder dupliqué : ${project.featuredOrder}`);
+      }
+      featuredOrders.add(project.featuredOrder);
+    }
+
+    if (
+      typeof project.sitemapPriority !== "number" ||
+      project.sitemapPriority < 0 ||
+      project.sitemapPriority > 1
+    ) {
+      throw new Error(
+        `${project.id} : sitemapPriority doit être compris entre 0 et 1.`,
+      );
+    }
+
+    const imagePath = path.join(rootDir, project.image);
+    if (!existsSync(imagePath)) {
+      throw new Error(`${project.id} : image introuvable (${project.image}).`);
+    }
+  }
+
+  const publicProjects = data.projects.filter((project) => project.published);
+  if (publicProjects.length === 0) {
+    throw new Error("Au moins un projet doit être publié.");
+  }
+  if (!publicProjects.some((project) => project.featured)) {
+    throw new Error("Au moins un projet publié doit être featured.");
+  }
+}
+
+function validateCaseStudy(project) {
+  const caseStudy = project.caseStudy;
+  if (!caseStudy || typeof caseStudy !== "object" || Array.isArray(caseStudy)) {
+    throw new Error(`${project.id} : caseStudy doit être un objet.`);
+  }
+
+  assertNonEmpty(caseStudy.role, `${project.id}.caseStudy.role`);
+
+  for (const field of [
+    "architecture",
+    "tradeoffs",
+    "quality",
+    "delivery",
+    "outcomes",
+    "limitations",
+    "nextSteps",
+  ]) {
+    validateNonEmptyStringArray(
+      caseStudy[field],
+      `${project.id}.caseStudy.${field}`,
+    );
+  }
+
+  for (const field of ["decisions", "challenges"]) {
+    validateNamedItems(caseStudy[field], `${project.id}.caseStudy.${field}`);
+  }
+}
+
+function validateVisuals(project) {
+  const visuals = project.visuals;
+  if (!visuals || typeof visuals !== "object" || Array.isArray(visuals)) {
+    throw new Error(
+      `${project.id} : visuals doit être un objet pour un projet publié.`,
+    );
+  }
+
+  validateVisualItem(project, visuals.hero, "visuals.hero", "screenshot");
+  validateVisualItem(
+    project,
+    visuals.architecture,
+    "visuals.architecture",
+    "diagram",
+  );
+
+  if (!Array.isArray(visuals.gallery) || visuals.gallery.length === 0) {
+    throw new Error(
+      `${project.id}.visuals.gallery doit être un tableau non vide.`,
+    );
+  }
+
+  const sources = new Set([visuals.hero.src, visuals.architecture.src]);
+  visuals.gallery.forEach((item, index) => {
+    validateVisualItem(project, item, `visuals.gallery[${index}]`);
+    if (sources.has(item.src)) {
+      throw new Error(
+        `${project.id} : source visuelle dupliquée (${item.src}).`,
+      );
+    }
+    sources.add(item.src);
+  });
+}
+
+function validateVisualItem(project, item, field, requiredKind = null) {
+  if (!item || typeof item !== "object" || Array.isArray(item)) {
+    throw new Error(`${project.id}.${field} doit être un objet.`);
+  }
+
+  for (const key of ["kind", "src", "alt", "caption"]) {
+    assertNonEmpty(item[key], `${project.id}.${field}.${key}`);
+  }
+
+  const mediaExtensions = { screenshot: ".webp", diagram: ".svg" };
+  if (!Object.hasOwn(mediaExtensions, item.kind)) {
+    throw new Error(
+      `${project.id}.${field}.kind doit valoir screenshot ou diagram (${item.kind}).`,
+    );
+  }
+  if (requiredKind !== null && item.kind !== requiredKind) {
+    throw new Error(
+      `${project.id}.${field}.kind doit valoir ${requiredKind} (${item.kind}).`,
+    );
+  }
+
+  for (const key of ["width", "height"]) {
+    if (!Number.isInteger(item[key]) || item[key] < 1) {
+      throw new Error(
+        `${project.id}.${field}.${key} doit être un entier positif.`,
+      );
+    }
+  }
+
+  const prefix = `assets/img/projects/${project.id}/`;
+  if (!item.src.startsWith(prefix)) {
+    throw new Error(
+      `${project.id}.${field}.src doit rester sous ${prefix} (${item.src}).`,
+    );
+  }
+
+  const normalized = path.posix.normalize(item.src);
+  if (normalized !== item.src || item.src.includes("..")) {
+    throw new Error(`${project.id}.${field}.src invalide (${item.src}).`);
+  }
+
+  const expectedExtension = mediaExtensions[item.kind];
+  if (path.posix.extname(item.src) !== expectedExtension) {
+    throw new Error(
+      `${project.id}.${field}.src doit utiliser ${expectedExtension} pour kind=${item.kind} (${item.src}).`,
+    );
+  }
+
+  const filePath = path.join(rootDir, item.src);
+  if (!existsSync(filePath)) {
+    throw new Error(`${project.id} : visuel introuvable (${item.src}).`);
+  }
+}
+
+function validateNonEmptyStringArray(values, field) {
+  if (!Array.isArray(values) || values.length === 0) {
+    throw new Error(`${field} doit être un tableau non vide.`);
+  }
+
+  values.forEach((value, index) => {
+    assertNonEmpty(value, `${field}[${index}]`);
+  });
+}
+
+function validateNamedItems(values, field) {
+  if (!Array.isArray(values) || values.length === 0) {
+    throw new Error(`${field} doit être un tableau non vide.`);
+  }
+
+  values.forEach((value, index) => {
+    if (!value || typeof value !== "object" || Array.isArray(value)) {
+      throw new Error(`${field}[${index}] doit être un objet.`);
+    }
+
+    assertNonEmpty(value.title, `${field}[${index}].title`);
+    assertNonEmpty(value.detail, `${field}[${index}].detail`);
+  });
+}
+
+function validateReferences(project, field, taxonomy) {
+  const values = project[field];
+  if (!Array.isArray(values)) {
+    throw new Error(`${project.id} : ${field} doit être un tableau.`);
+  }
+  for (const value of values) {
+    if (!Object.hasOwn(taxonomy, value)) {
+      throw new Error(
+        `${project.id} : référence ${field} inconnue (${value}).`,
+      );
+    }
+  }
+}
+
+function assertNonEmpty(value, field) {
+  if (typeof value !== "string" || value.trim() === "") {
+    throw new Error(`${field} doit être une chaîne non vide.`);
+  }
+}
+
+function renderProjectPage(project) {
+  const values = {
+    META_DESCRIPTION: escapeAttr(project.metaDescription),
+    PROJECT_SLUG: escapeAttr(project.slug),
+    NAME: escapeHtml(project.name),
+    CANONICAL_URL: escapeAttr(
+      `${catalog.site.baseUrl}/projets/${project.slug}.html`,
+    ),
+    SUBTITLE: escapeHtml(project.subtitle),
+    SUMMARY: escapeHtml(project.summary),
+    STATUS_LABEL: escapeHtml(label("status", project.status)),
+    MISSION: escapeHtml(project.mission),
+    PROOF: escapeHtml(project.proof),
+    TYPE_TAGS: renderTags(project.types.map((id) => label("types", id))),
+    REPOSITORY_ACTION: project.repository
+      ? `<a class="button button-secondary project-repository-button" href="${escapeAttr(project.repository)}" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>`
+      : "",
+    HERO_IMAGE: escapeAttr(`../${project.visuals.hero.src}`),
+    HERO_KIND: escapeAttr(project.visuals.hero.kind),
+    HERO_ALT: escapeAttr(project.visuals.hero.alt),
+    HERO_CAPTION: escapeHtml(project.visuals.hero.caption),
+    HERO_WIDTH: String(project.visuals.hero.width),
+    HERO_HEIGHT: String(project.visuals.hero.height),
+    HERO_VIEWER_OPEN: renderViewerTriggerOpen(project.visuals.hero, "../"),
+    HERO_VIEWER_CLOSE: "</a>",
+    ARCHITECTURE_IMAGE: escapeAttr(`../${project.visuals.architecture.src}`),
+    ARCHITECTURE_KIND: escapeAttr(project.visuals.architecture.kind),
+    ARCHITECTURE_ALT: escapeAttr(project.visuals.architecture.alt),
+    ARCHITECTURE_CAPTION: escapeHtml(project.visuals.architecture.caption),
+    ARCHITECTURE_WIDTH: String(project.visuals.architecture.width),
+    ARCHITECTURE_HEIGHT: String(project.visuals.architecture.height),
+    ARCHITECTURE_VIEWER_OPEN: renderViewerTriggerOpen(
+      project.visuals.architecture,
+      "../",
+    ),
+    ARCHITECTURE_VIEWER_CLOSE: "</a>",
+    GALLERY: renderGallery(project.visuals.gallery),
+    VIEWER_IMAGE: escapeAttr(`../${project.visuals.hero.src}`),
+    VIEWER_WIDTH: String(project.visuals.hero.width),
+    VIEWER_HEIGHT: String(project.visuals.hero.height),
+    STACK_TAGS: renderTags([
+      ...project.languages.map((id) => label("languages", id)),
+      ...project.stack.map((id) => label("stack", id)),
+    ]),
+    PROBLEM: escapeHtml(project.problem),
+    ROLE: escapeHtml(project.caseStudy.role),
+    ARCHITECTURE: renderListItems(project.caseStudy.architecture),
+    DECISIONS: renderNamedListItems(project.caseStudy.decisions),
+    FEATURES: renderListItems(project.features),
+    CHALLENGES: renderNamedListItems(project.caseStudy.challenges),
+    QUALITY: renderListItems(project.caseStudy.quality),
+    DELIVERY: renderListItems(project.caseStudy.delivery),
+    OUTCOMES: renderListItems(project.caseStudy.outcomes),
+    TRADEOFFS: renderListItems(project.caseStudy.tradeoffs),
+    LIMITATIONS: renderListItems(project.caseStudy.limitations),
+    NEXT_STEPS: renderListItems(project.caseStudy.nextSteps),
+    PROOFS: renderListItems(project.proofs),
+  };
+
+  return renderTemplate(projectTemplate, values);
+}
+
+function renderCatalogPage() {
+  return renderTemplate(catalogTemplate, {
+    CANONICAL_URL: escapeAttr(`${catalog.site.baseUrl}/projets/`),
+    FILTERS: renderFilters(),
+    PROJECT_COUNT: String(publishedProjects.length),
+    PROJECT_CARDS: catalogProjects
+      .map((project, index) =>
+        renderProjectCard(project, index + 1, "../", "./", {
+          surface: "catalog",
+          priority: project.featured ? "featured" : "secondary",
+          density: "catalog",
+          stackLimit: 3,
+        }),
+      )
+      .join("\n          "),
+  });
+}
+
+function renderHomeIndex(currentHtml) {
+  const startMarker = "<!-- GENERATED:HOME-PROJECTS:START -->";
+  const endMarker = "<!-- GENERATED:HOME-PROJECTS:END -->";
+  const featuredHeading =
+    featuredProjects.length === 1
+      ? "1 étude de cas technique"
+      : `${featuredProjects.length} études de cas techniques`;
+  const homeHtml = currentHtml;
+
+  const section = `    ${startMarker}
+    <section id="projets" class="section section-alt snap-section" aria-labelledby="projects-title" data-section data-label="Projets">
+      <div class="frame">
+        <div class="section-heading reading" data-reveal>
+          <p class="eyebrow">Projets</p>
+          <h2 id="projects-title">${featuredHeading}</h2>
+          <p>Une sélection courte de projets complémentaires, avec pour chacun le contexte, l’architecture, les choix techniques, les tests et les limites actuelles.</p>
+        </div>
+        <div class="project-grid project-grid-focus">
+          ${featuredProjects
+            .map((project, index) =>
+              renderProjectCard(project, index + 1, "", "projets/", {
+                surface: "home",
+                priority: index === 0 ? "lead" : "featured",
+                density: index === 0 ? "lead" : "featured",
+                stackLimit: index === 0 ? 4 : 3,
+              }),
+            )
+            .join("\n          ")}
+        </div>
+        <div class="project-section-actions">
+          <a class="button button-secondary" href="projets/index.html">Voir le catalogue complet</a>
+        </div>
+      </div>
+    </section>
+    ${endMarker}`;
+
+  if (homeHtml.includes(startMarker) && homeHtml.includes(endMarker)) {
+    const start = homeHtml.indexOf(startMarker);
+    const end = homeHtml.indexOf(endMarker, start) + endMarker.length;
+    return `${homeHtml.slice(0, start)}${section.trimStart()}${homeHtml.slice(end)}`;
+  }
+
+  const projectStart = homeHtml.indexOf('    <section id="projets"');
+  const nextSection = homeHtml.indexOf(
+    '    <section id="competences"',
+    projectStart,
+  );
+  if (projectStart < 0 || nextSection < 0) {
+    throw new Error("index.html : impossible de localiser la section projets.");
+  }
+
+  return `${homeHtml.slice(0, projectStart)}${section}\n\n${homeHtml.slice(nextSection)}`;
+}
+
+function renderProjectCard(
+  project,
+  index,
+  assetPrefix,
+  hrefPrefix,
+  {
+    surface = "catalog",
+    priority = "secondary",
+    density = "catalog",
+    stackLimit = 3,
+  } = {},
+) {
+  const languageTokens = project.languages.join(" ");
+  const typeTokens = project.types.join(" ");
+  const stackTokens = project.stack.join(" ");
+  const homeStack = project.homeStack
+    .slice(0, stackLimit)
+    .map((id) => label("stack", id));
+  const href = `${hrefPrefix}${project.slug}.html`;
+  const cardVisual = project.visuals.hero;
+  const headingTag = surface === "catalog" ? "h2" : "h3";
+  const facts = `<dl class="project-facts">
+                <div class="project-fact project-fact-mission">
+                  <dt>Mission</dt>
+                  <dd>${escapeHtml(project.mission)}</dd>
+                </div>
+                <div class="project-fact project-fact-proof">
+                  <dt>Points clés</dt>
+                  <dd>${escapeHtml(project.proof)}</dd>
+                </div>
+              </dl>`;
+  const factsBlock =
+    surface === "catalog"
+      ? `<details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                ${facts}
+              </details>`
+      : facts;
+
+  return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-project-surface="${escapeAttr(surface)}" data-project-priority="${escapeAttr(priority)}" data-project-density="${escapeAttr(density)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
+            <a class="project-media" href="${escapeAttr(href)}" data-media-kind="${escapeAttr(cardVisual.kind)}" aria-label="Lire l’étude de cas ${escapeAttr(project.name)}">
+              <img src="${escapeAttr(`${assetPrefix}${cardVisual.src}`)}" width="${cardVisual.width}" height="${cardVisual.height}" loading="lazy" decoding="async" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-signal">
+                <span class="project-index" aria-hidden="true">${String(index).padStart(2, "0")}</span>
+                <span class="project-status">${escapeHtml(label("status", project.status))}</span>
+              </div>
+              <div class="project-heading">
+                <p class="project-kicker">${escapeHtml(project.subtitle)}</p>
+                <${headingTag}><a href="${escapeAttr(href)}">${escapeHtml(project.name)}</a></${headingTag}>
+              </div>
+              <p class="project-summary">${escapeHtml(project.summary)}</p>
+              ${factsBlock}
+              <div class="project-stack" aria-label="Technologies principales">
+                <span class="project-metadata-label">Technologies</span>
+                <div class="tag-list">
+                  ${renderTags(homeStack)}
+                </div>
+              </div>
+              <div class="card-actions project-actions">
+                <a class="project-read-link" href="${escapeAttr(href)}">Étude de cas <span aria-hidden="true">→</span></a>
+                ${
+                  project.repository
+                    ? `<a class="project-repository-link" href="${escapeAttr(project.repository)}" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de ${escapeAttr(project.name)}">GitHub <span aria-hidden="true">↗</span></a>`
+                    : ""
+                }
+              </div>
+            </div>
+          </article>`;
+}
+
+function renderGallery(items) {
+  return items
+    .map((item, index) => {
+      const src = `../${item.src}`;
+      return `<figure class="case-study-media" data-gallery-item data-gallery-index="${index}" data-media-kind="${escapeAttr(item.kind)}">
+          ${renderViewerTriggerOpen(item, "../")}<img src="${escapeAttr(src)}" width="${item.width}" height="${item.height}" loading="lazy" decoding="async" alt="${escapeAttr(item.alt)}"></a>
+          <figcaption>${escapeHtml(item.caption)}</figcaption>
+        </figure>`;
+    })
+    .join("\n        ");
+}
+
+function renderViewerTriggerOpen(item, pathPrefix) {
+  const label =
+    item.kind === "diagram" ? "Agrandir le schéma" : "Agrandir la capture";
+  return `<a class="media-viewer-trigger" href="${escapeAttr(`${pathPrefix}${item.src}`)}" data-media-viewer-trigger aria-label="${escapeAttr(`${label} : ${item.caption}`)}">`;
+}
+
+function renderFilters() {
+  const groups = [
+    ["language", "languages", "Langage"],
+    ["type", "types", "Type"],
+    ["stack", "stack", "Stack"],
+    ["status", "status", "Statut"],
+  ];
+
+  const controls = groups.map(([dataset, taxonomyGroup, title]) => {
+    const used = usedTaxonomyValues(taxonomyGroup);
+    const options = used
+      .map(
+        (id) =>
+          `<option value="${escapeAttr(id)}">${escapeHtml(label(taxonomyGroup, id))}</option>`,
+      )
+      .join("");
+
+    return `<label class="project-filter-control">
+              <span>${escapeHtml(title)}</span>
+              <select data-filter-group="${dataset}">
+                <option value="all">Tous</option>
+                ${options}
+              </select>
+            </label>`;
+  });
+
+  return `<div class="project-filters" data-project-filters aria-label="Filtres des projets">
+          ${controls.join("\n          ")}
+        </div>`;
+}
+
+function usedTaxonomyValues(group) {
+  const used = new Set();
+  for (const project of publishedProjects) {
+    if (group === "status") {
+      used.add(project.status);
+    } else {
+      for (const value of project[group]) used.add(value);
+    }
+  }
+  return Object.keys(catalog.taxonomy[group]).filter((id) => used.has(id));
+}
+
+function renderSitemap() {
+  const urls = [
+    [`${catalog.site.baseUrl}/`, "1.0"],
+    [`${catalog.site.baseUrl}/projets/`, "0.9"],
+    ...publishedProjects.map((project) => [
+      `${catalog.site.baseUrl}/projets/${project.slug}.html`,
+      project.sitemapPriority.toFixed(1),
+    ]),
+  ];
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map(([url, priority]) => `  <url><loc>${escapeXml(url)}</loc><priority>${priority}</priority></url>`).join("\n")}
+</urlset>
+`;
+}
+
+function label(group, id) {
+  const value = catalog.taxonomy[group]?.[id];
+  if (!value) throw new Error(`Taxonomie inconnue : ${group}.${id}`);
+  return value;
+}
+
+function renderTags(values) {
+  return values
+    .map((value) => `<span class="tag">${escapeHtml(value)}</span>`)
+    .join("\n                ");
+}
+
+function renderNamedListItems(items) {
+  return items
+    .map(
+      (item) =>
+        `<li><strong>${escapeHtml(item.title)}.</strong> ${escapeHtml(item.detail)}</li>`,
+    )
+    .join("");
+}
+
+function renderListItems(values) {
+  return values.map((value) => `<li>${escapeHtml(value)}</li>`).join("");
+}
+
+function renderTemplate(template, values) {
+  const rendered = template.replace(/\{\{([A-Z0-9_]+)\}\}/g, (_, key) => {
+    if (!Object.hasOwn(values, key)) {
+      throw new Error(`Placeholder sans valeur : ${key}`);
+    }
+    return values[key];
+  });
+
+  const leftover = rendered.match(/\{\{[A-Z0-9_]+\}\}/);
+  if (leftover) throw new Error(`Placeholder non remplacé : ${leftover[0]}`);
+  return rendered.endsWith("\n") ? rendered : `${rendered}\n`;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function escapeAttr(value) {
+  return escapeHtml(value);
+}
+
+function escapeXml(value) {
+  return escapeHtml(value);
+}

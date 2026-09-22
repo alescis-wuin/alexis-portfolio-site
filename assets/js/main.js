@@ -1,206 +1,391 @@
-const root = document.documentElement;
-
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-function initAiRedesignStyles() {
-  const currentScript = document.currentScript;
-  const scriptSrc = currentScript?.getAttribute('src') || '';
-  const prefix = scriptSrc.startsWith('../') || location.pathname.includes('/projets/') ? '../' : './';
-
-  ['ai-redesign.css', 'paged-scroll.css'].forEach((fileName) => {
-    const href = `${prefix}assets/css/${fileName}`;
-    const exists = document.querySelector(`link[href$="/assets/css/${fileName}"], link[href="./assets/css/${fileName}"], link[href="../assets/css/${fileName}"]`);
-    if (exists) return;
-
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    document.head.append(link);
-  });
-}
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+).matches;
 
 function initNavigation() {
-  const toggle = document.querySelector('[data-nav-toggle]');
-  const nav = document.querySelector('[data-site-nav]');
+  const toggle = document.querySelector("[data-nav-toggle]");
+  const nav = document.querySelector("[data-site-nav]");
 
   if (!toggle || !nav) return;
 
   toggle.hidden = false;
 
   const setOpen = (open) => {
-    nav.classList.toggle('is-open', open);
-    toggle.setAttribute('aria-expanded', String(open));
-    const label = toggle.querySelector('.sr-only');
-    if (label) label.textContent = open ? 'Fermer le menu' : 'Ouvrir le menu';
+    nav.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    const label = toggle.querySelector(".sr-only");
+    if (label) label.textContent = open ? "Fermer le menu" : "Ouvrir le menu";
   };
 
-  toggle.addEventListener('click', () => {
-    setOpen(!nav.classList.contains('is-open'));
+  toggle.addEventListener("click", () => {
+    setOpen(!nav.classList.contains("is-open"));
   });
 
-  nav.addEventListener('click', (event) => {
+  nav.addEventListener("click", (event) => {
     if (event.target instanceof HTMLAnchorElement) {
       setOpen(false);
     }
   });
 
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') setOpen(false);
-  });
-}
-
-function initTheme() {
-  const button = document.querySelector('[data-theme-toggle]');
-  if (!button) return;
-
-  const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
-
-  const getCurrentTheme = () => {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark' || saved === 'light') return saved;
-    return systemDark.matches ? 'dark' : 'light';
-  };
-
-  const apply = (theme, persist = true) => {
-    root.dataset.theme = theme;
-    button.setAttribute('aria-pressed', String(theme === 'dark'));
-    button.setAttribute('aria-label', theme === 'dark' ? 'Activer le thème clair' : 'Activer le thème sombre');
-    if (persist) localStorage.setItem('theme', theme);
-  };
-
-  apply(getCurrentTheme(), false);
-
-  button.addEventListener('click', () => {
-    apply(getCurrentTheme() === 'dark' ? 'light' : 'dark');
-  });
-}
-
-function initProjectFilters() {
-  const filters = document.querySelector('[data-project-filters]');
-  const cards = [...document.querySelectorAll('[data-project-card]')];
-  if (!filters || cards.length === 0) return;
-
-  filters.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-filter]');
-    if (!(button instanceof HTMLButtonElement)) return;
-
-    const value = button.dataset.filter;
-
-    filters.querySelectorAll('[data-filter]').forEach((filterButton) => {
-      filterButton.setAttribute('aria-pressed', String(filterButton === button));
-    });
-
-    cards.forEach((card) => {
-      const tags = (card.dataset.tags || '').split(' ');
-      const visible = value === 'all' || tags.includes(value);
-      card.hidden = !visible;
-    });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || !nav.classList.contains("is-open")) return;
+    setOpen(false);
+    toggle.focus();
   });
 }
 
 function initReveal() {
-  const targets = [...document.querySelectorAll('[data-reveal]')];
+  const targets = [...document.querySelectorAll("[data-reveal]")];
   if (targets.length === 0) return;
 
-  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
-    targets.forEach((target) => target.classList.add('is-visible'));
+  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    targets.forEach((target) => target.classList.add("is-visible"));
     return;
   }
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+  );
 
   targets.forEach((target) => observer.observe(target));
 }
 
-function initSectionRail() {
-  const sections = [...document.querySelectorAll('[data-section]')];
-  const links = [...document.querySelectorAll('[data-section-link]')];
-  if (sections.length === 0 || links.length === 0) return;
+function initSectionNavigation() {
+  const sections = [...document.querySelectorAll("[data-section]")];
+  if (sections.length === 0) return;
+
+  const links = [...document.querySelectorAll("[data-section-link]")];
+  const sectionIndexById = (id) =>
+    sections.findIndex((section) => section.id === id);
 
   const setActive = (id) => {
+    if (sectionIndexById(id) < 0) return;
+
     links.forEach((link) => {
       const active = link.dataset.sectionLink === id;
-      if (active) {
-        link.setAttribute('aria-current', 'true');
-      } else {
-        link.removeAttribute('aria-current');
-      }
-      link.classList.toggle('is-active', active);
+      if (active) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+      link.classList.toggle("is-active", active);
     });
   };
 
   links.forEach((link) => {
-    link.addEventListener('click', (event) => {
-      const target = document.getElementById(link.dataset.sectionLink || '');
-      if (!target) return;
-      event.preventDefault();
-      target.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-      setActive(target.id);
-      history.replaceState(null, '', `#${target.id}`);
+    link.addEventListener("click", () => {
+      const id = link.dataset.sectionLink;
+      if (id) setActive(id);
     });
   });
 
-  if (!('IntersectionObserver' in window)) return;
+  const hashId = location.hash.slice(1);
+  setActive(sectionIndexById(hashId) >= 0 ? hashId : sections[0].id);
 
-  const visibilityById = new Map();
+  if (!("IntersectionObserver" in window)) return;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      visibilityById.set(entry.target.id, entry.intersectionRatio);
-    });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting);
+      if (visible.length === 0) return;
 
-    const best = sections
-      .map((section) => ({ id: section.id, ratio: visibilityById.get(section.id) || 0 }))
-      .sort((a, b) => b.ratio - a.ratio)[0];
+      visible.sort((a, b) => {
+        const viewportReference = window.innerHeight * 0.4;
+        return (
+          Math.abs(a.boundingClientRect.top - viewportReference) -
+          Math.abs(b.boundingClientRect.top - viewportReference)
+        );
+      });
 
-    if (best && best.ratio > 0) setActive(best.id);
-  }, {
-    threshold: [0.12, 0.24, 0.36, 0.48, 0.6, 0.72],
-    rootMargin: '-18% 0px -42% 0px',
-  });
+      setActive(visible[0].target.id);
+    },
+    {
+      threshold: 0,
+      rootMargin: "-35% 0px -55% 0px",
+    },
+  );
 
   sections.forEach((section) => observer.observe(section));
 }
 
-function initPortfolioCleanup() {
-  const isProjectPage = location.pathname.includes('/projets/');
-  if (!isProjectPage) return;
+function initHeroMotion() {
+  const visual = document.querySelector("[data-hero-visual]");
+  if (!visual || prefersReducedMotion) return;
 
-  document.querySelector('[data-nav-toggle]')?.remove();
-  document.querySelector('[data-site-nav]')?.remove();
+  const finePointer = window.matchMedia("(pointer: fine)");
+  if (!finePointer.matches) return;
 
-  document.querySelectorAll('a[href$="CV_Alexis-GUINOT.pdf"]').forEach((link) => {
-    if (!link.closest('#contact')) link.remove();
+  let framePending = false;
+  let pointerX = 0;
+  let pointerY = 0;
+
+  const writeMotion = () => {
+    const systemShiftX = pointerX * -4;
+    const systemShiftY = pointerY * -3;
+    const systemTiltX = pointerY * 0.7;
+    const systemTiltY = pointerX * -0.9;
+    const profileShiftX = pointerX * 5;
+    const profileShiftY = pointerY * 4;
+    const profileTiltX = pointerY * -0.7;
+    const profileTiltY = pointerX * 0.9;
+
+    visual.style.setProperty(
+      "--hero-system-shift-x",
+      `${systemShiftX.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-system-shift-y",
+      `${systemShiftY.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-system-tilt-x",
+      `${systemTiltX.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-system-tilt-y",
+      `${systemTiltY.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-shift-x",
+      `${profileShiftX.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-shift-y",
+      `${profileShiftY.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-tilt-x",
+      `${profileTiltX.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-tilt-y",
+      `${profileTiltY.toFixed(2)}deg`,
+    );
+    framePending = false;
+  };
+
+  const queueMotion = () => {
+    if (framePending) return;
+    framePending = true;
+    requestAnimationFrame(writeMotion);
+  };
+
+  const resetMotion = () => {
+    pointerX = 0;
+    pointerY = 0;
+    queueMotion();
+  };
+
+  visual.addEventListener(
+    "pointermove",
+    (event) => {
+      const rect = visual.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      pointerX = Math.max(
+        -1,
+        Math.min(1, ((event.clientX - rect.left) / rect.width - 0.5) * 2),
+      );
+      pointerY = Math.max(
+        -1,
+        Math.min(1, ((event.clientY - rect.top) / rect.height - 0.5) * 2),
+      );
+      queueMotion();
+    },
+    { passive: true },
+  );
+
+  visual.addEventListener("pointerleave", resetMotion);
+  visual.addEventListener("pointercancel", resetMotion);
+  window.addEventListener("blur", resetMotion);
+
+  visual.dataset.heroMotion = "interactive";
+  resetMotion();
+}
+
+function initProjectCatalogFilters() {
+  document.querySelectorAll("[data-project-catalog]").forEach((catalog) => {
+    const filters = catalog.querySelector("[data-project-filters]");
+    const cards = [...catalog.querySelectorAll("[data-project-card]")];
+    if (!filters || cards.length === 0) return;
+
+    const selects = [...filters.querySelectorAll("[data-filter-group]")];
+    const count = catalog.querySelector("[data-project-count]");
+    const empty = catalog.querySelector("[data-project-empty]");
+    const reset = catalog.querySelector("[data-filter-reset]");
+    const activeFilterCount = catalog.querySelector(
+      "[data-active-filter-count]",
+    );
+    const filterSummary = catalog.querySelector("[data-filter-summary]");
+    const filterPanel = catalog.querySelector("[data-filter-panel]");
+    const filterPanelSummary = filterPanel?.querySelector("summary");
+    const cardDisclosures = [
+      ...catalog.querySelectorAll("[data-project-facts-disclosure]"),
+    ];
+    const compactCatalog = window.matchMedia("(max-width: 45rem)");
+
+    const syncResponsiveDisclosures = () => {
+      if (filterPanel) filterPanel.open = !compactCatalog.matches;
+      cardDisclosures.forEach((details) => {
+        details.open = !compactCatalog.matches;
+      });
+    };
+
+    const activeSelections = () =>
+      selects.filter((select) => select.value !== "all");
+
+    const describeSelection = (select) => {
+      const label = select.closest("label")?.querySelector("span")?.textContent;
+      const option = select.selectedOptions[0]?.textContent;
+      if (!label || !option) return option || label || "Filtre actif";
+      return `${label.trim()} : ${option.trim()}`;
+    };
+
+    const update = () => {
+      const state = Object.fromEntries(
+        selects.map((select) => [select.dataset.filterGroup, select.value]),
+      );
+
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const visible = Object.entries(state).every(([group, value]) => {
+          if (!group || value === "all") return true;
+          const tokens = (card.dataset[group] || "")
+            .split(/\s+/)
+            .filter(Boolean);
+          return tokens.includes(value);
+        });
+
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+
+      const active = activeSelections();
+      const activeCount = active.length;
+
+      if (count)
+        count.textContent = `${visibleCount} projet${visibleCount === 1 ? "" : "s"}`;
+      if (empty) empty.hidden = visibleCount !== 0;
+      if (reset) reset.hidden = activeCount === 0;
+      if (activeFilterCount) {
+        activeFilterCount.textContent = `${activeCount} actif${activeCount === 1 ? "" : "s"}`;
+      }
+      if (filterSummary) {
+        filterSummary.textContent =
+          activeCount === 0
+            ? "Aucun filtre actif"
+            : active.map(describeSelection).join(" · ");
+      }
+    };
+
+    selects.forEach((select) => select.addEventListener("change", update));
+
+    reset?.addEventListener("click", () => {
+      selects.forEach((select) => {
+        select.value = "all";
+      });
+      update();
+
+      if (compactCatalog.matches && filterPanelSummary) {
+        filterPanelSummary.focus();
+      } else {
+        selects[0]?.focus();
+      }
+    });
+
+    syncResponsiveDisclosures();
+    compactCatalog.addEventListener("change", syncResponsiveDisclosures);
+    update();
+  });
+}
+
+function initProjectMediaViewer() {
+  const dialog = document.querySelector("[data-media-viewer]");
+  const triggers = [...document.querySelectorAll("[data-media-viewer-trigger]")];
+  if (!dialog || triggers.length === 0) return;
+
+  const supportsModalDialog =
+    "HTMLDialogElement" in window &&
+    dialog instanceof window.HTMLDialogElement &&
+    typeof dialog.showModal === "function";
+  if (!supportsModalDialog) return;
+
+  const viewerImage = dialog.querySelector("[data-media-viewer-image]");
+  const viewerCaption = dialog.querySelector("[data-media-viewer-caption]");
+  const viewerTitle = dialog.querySelector("[data-media-viewer-title]");
+  const closeButton = dialog.querySelector("[data-media-viewer-close]");
+  if (!viewerImage || !viewerCaption || !viewerTitle || !closeButton) return;
+
+  let lastTrigger = null;
+
+  const openViewer = (trigger) => {
+    const sourceImage = trigger.querySelector("img");
+    const figure = trigger.closest("[data-media-kind]");
+    const caption = figure?.querySelector("figcaption");
+    if (!(sourceImage instanceof window.HTMLImageElement) || !figure) return;
+
+    const kind = figure.dataset.mediaKind;
+    viewerTitle.textContent =
+      kind === "diagram" ? "Schéma technique agrandi" : "Capture produit agrandie";
+    viewerCaption.textContent = caption?.textContent?.trim() ?? "";
+    viewerImage.src = sourceImage.currentSrc || sourceImage.src;
+    viewerImage.alt = sourceImage.alt;
+
+    for (const attribute of ["width", "height"]) {
+      const value = sourceImage.getAttribute(attribute);
+      if (value) viewerImage.setAttribute(attribute, value);
+      else viewerImage.removeAttribute(attribute);
+    }
+
+    lastTrigger = trigger;
+    dialog.showModal();
+    document.documentElement.classList.add("media-viewer-open");
+    closeButton.focus({ preventScroll: true });
+  };
+
+  const closeViewer = () => {
+    if (dialog.open) dialog.close();
+  };
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      openViewer(trigger);
+    });
   });
 
-  const footerText = document.querySelector('.site-footer .footer-title + p');
-  if (footerText) footerText.textContent = 'Développeur et concepteur d’applications.';
+  closeButton.addEventListener("click", closeViewer);
 
-  const footerNav = document.querySelector('.site-footer nav');
-  if (footerNav) {
-    const contactLink = document.createElement('a');
-    contactLink.className = 'text-link';
-    contactLink.href = '../index.html#contact';
-    contactLink.textContent = 'Contact et CV';
-    footerNav.replaceWith(contactLink);
-  }
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) closeViewer();
+  });
+
+  dialog.addEventListener("close", () => {
+    document.documentElement.classList.remove("media-viewer-open");
+    lastTrigger?.focus({ preventScroll: true });
+    lastTrigger = null;
+  });
 }
 
-initAiRedesignStyles();
 initNavigation();
-initTheme();
-initProjectFilters();
 initReveal();
-initSectionRail();
-initPortfolioCleanup();
-
-if (!location.pathname.includes('/projets/')) {
-  import('./ai-home.js').then(() => import('./section-flow-fix.js'));
-}
+initSectionNavigation();
+initHeroMotion();
+initProjectCatalogFilters();
+initProjectMediaViewer();

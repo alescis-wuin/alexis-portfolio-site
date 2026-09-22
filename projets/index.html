@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Catalogue des projets d’Alexis Guinot : études de cas, technologies, architectures, applications web et desktop.">
+  <meta name="author" content="Alexis Guinot">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Projets — Alexis Guinot">
+  <meta property="og:description" content="Catalogue des projets d’Alexis Guinot, filtrable par langage, type, stack et statut.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.alexis-guinot.fr/projets/">
+  <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
+  <meta name="theme-color" content="#0B1020">
+  <title>Projets — Alexis Guinot</title>
+  <link rel="canonical" href="https://www.alexis-guinot.fr/projets/">
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/project-cards.css">
+  <script>
+    document.documentElement.dataset.js = 'true';
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu principal</a>
+  <header class="site-header" data-site-header>
+    <div class="content-shell header-inner">
+      <a class="brand" href="../index.html#accueil" aria-label="Retour à l’accueil">
+        <img src="../assets/img/logo.svg" width="40" height="40" alt="" aria-hidden="true">
+        <span>Alexis Guinot</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navigation-principale" data-nav-toggle hidden>
+        <span class="nav-toggle-bars" aria-hidden="true"></span>
+        <span class="sr-only">Ouvrir le menu</span>
+      </button>
+      <nav class="site-nav" aria-label="Navigation principale" data-site-nav>
+        <ul id="navigation-principale" class="nav-list">
+          <li><a href="../index.html#accueil">Accueil</a></li>
+          <li><a href="./index.html" aria-current="page">Projets</a></li>
+          <li><a href="../index.html#competences">Compétences</a></li>
+          <li><a href="../index.html#experience">Expérience</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a class="button button-small button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <section class="section-lg">
+      <div class="frame" data-project-catalog>
+        <div class="section-heading reading">
+          <p class="eyebrow">Catalogue</p>
+          <h1>Projets et études de cas</h1>
+          <p>Parcourez les projets par langage, type, stack ou statut, puis ouvrez une étude de cas pour consulter l’architecture, les choix techniques et les limites actuelles.</p>
+        </div>
+
+        <details class="project-filter-panel" data-filter-panel open>
+          <summary class="project-filter-toggle">
+            <span>Filtrer les projets</span>
+            <span class="project-filter-toggle-count" data-active-filter-count>0 actifs</span>
+          </summary>
+          <div class="project-filter-panel-body">
+            <div class="project-filters" data-project-filters aria-label="Filtres des projets">
+          <label class="project-filter-control">
+              <span>Langage</span>
+              <select data-filter-group="language">
+                <option value="all">Tous</option>
+                <option value="java">Java</option><option value="csharp">C#</option>
+              </select>
+            </label>
+          <label class="project-filter-control">
+              <span>Type</span>
+              <select data-filter-group="type">
+                <option value="all">Tous</option>
+                <option value="web">Web</option><option value="backend">Backend</option><option value="fullstack">Full-stack</option><option value="desktop">Desktop</option><option value="mobile">Mobile</option><option value="data">Données</option><option value="devops">DevOps</option><option value="architecture">Architecture</option><option value="accessibility">Accessibilité</option><option value="ai">IA</option>
+              </select>
+            </label>
+          <label class="project-filter-control">
+              <span>Stack</span>
+              <select data-filter-group="stack">
+                <option value="all">Tous</option>
+                <option value="spring-boot">Spring Boot</option><option value="postgresql">PostgreSQL</option><option value="redis">Redis</option><option value="minio">MinIO</option><option value="docker">Docker</option><option value="hls">HLS</option><option value="playwright">Playwright</option><option value="javafx">JavaFX</option><option value="atlantafx">AtlantaFX</option><option value="rest">REST</option><option value="maven">Maven</option><option value="tests">Tests</option><option value="github-actions">GitHub Actions</option><option value="aspnet-core">ASP.NET Core</option><option value="ef-core">Entity Framework Core</option><option value="avalonia">Avalonia</option><option value="maui">.NET MAUI</option><option value="xunit">xUnit</option><option value="dotnet-10">.NET 10</option><option value="communitytoolkit-mvvm">CommunityToolkit.Mvvm</option><option value="blazor">Blazor</option><option value="sqlite">SQLite</option><option value="java-26">Java 26</option><option value="llama-cpp">llama.cpp</option><option value="hugging-face">Hugging Face</option><option value="gguf">GGUF</option>
+              </select>
+            </label>
+          <label class="project-filter-control">
+              <span>Statut</span>
+              <select data-filter-group="status">
+                <option value="all">Tous</option>
+                <option value="finalized">Finalisé</option><option value="in-progress">En cours</option><option value="prototype">Prototype</option>
+              </select>
+            </label>
+        </div>
+          </div>
+        </details>
+
+        <div class="project-catalog-status" aria-live="polite" aria-atomic="true">
+          <div class="project-catalog-feedback">
+            <span data-project-count>6 projet(s)</span>
+            <span class="project-filter-summary" data-filter-summary>Aucun filtre actif</span>
+          </div>
+          <button class="button button-small button-ghost" type="button" data-filter-reset hidden>Réinitialiser les filtres</button>
+        </div>
+
+        <div class="project-grid project-grid-catalog">
+          <article class="project-card project-card-playful" data-project-card data-project-slug="alycia" data-project-surface="catalog" data-project-priority="featured" data-project-density="catalog" data-language="csharp" data-type="desktop ai architecture" data-stack="dotnet-10 avalonia llama-cpp hugging-face gguf xunit tests github-actions" data-status="in-progress" data-reveal>
+            <a class="project-media" href="./alycia.html" data-media-kind="screenshot" aria-label="Lire l’étude de cas Alycia">
+              <img src="../assets/img/projects/alycia/hero.webp" width="1440" height="810" loading="lazy" decoding="async" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-signal">
+                <span class="project-index" aria-hidden="true">01</span>
+                <span class="project-status">En cours</span>
+              </div>
+              <div class="project-heading">
+                <p class="project-kicker">Application desktop d’IA locale</p>
+                <h2><a href="./alycia.html">Alycia</a></h2>
+              </div>
+              <p class="project-summary">Application desktop C#/.NET et Avalonia pour conversations persistantes et inférence locale via llama.cpp CUDA et modèles GGUF.</p>
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
+                <div class="project-fact project-fact-mission">
+                  <dt>Mission</dt>
+                  <dd>Fournir une expérience de conversation locale en gardant le fournisseur d’inférence derrière des contrats applicatifs.</dd>
+                </div>
+                <div class="project-fact project-fact-proof">
+                  <dt>Points clés</dt>
+                  <dd>Architecture en couches, persistance locale, llama.cpp CUDA, GGUF Hugging Face, streaming contenu/raisonnement, tests et observabilité locale.</dd>
+                </div>
+              </dl>
+              </details>
+              <div class="project-stack" aria-label="Technologies principales">
+                <span class="project-metadata-label">Technologies</span>
+                <div class="tag-list">
+                  <span class="tag">.NET 10</span>
+                <span class="tag">Avalonia</span>
+                <span class="tag">llama.cpp</span>
+                </div>
+              </div>
+              <div class="card-actions project-actions">
+                <a class="project-read-link" href="./alycia.html">Étude de cas <span aria-hidden="true">→</span></a>
+                <a class="project-repository-link" href="https://github.com/alescis-wuin/alycia" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de Alycia">GitHub <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card project-card-playful" data-project-card data-project-slug="streamfolio" data-project-surface="catalog" data-project-priority="featured" data-project-density="catalog" data-language="java" data-type="backend fullstack data devops" data-stack="spring-boot postgresql redis minio docker hls playwright" data-status="finalized" data-reveal>
+            <a class="project-media" href="./streamfolio.html" data-media-kind="screenshot" aria-label="Lire l’étude de cas Streamfolio">
+              <img src="../assets/img/projects/streamfolio/hero.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-signal">
+                <span class="project-index" aria-hidden="true">02</span>
+                <span class="project-status">Finalisé</span>
+              </div>
+              <div class="project-heading">
+                <p class="project-kicker">Plateforme de streaming vidéo</p>
+                <h2><a href="./streamfolio.html">Streamfolio</a></h2>
+              </div>
+              <p class="project-summary">Plateforme de streaming full-stack : catalogue, sécurité, administration média et pipeline MP4/HLS avec FFmpeg.</p>
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
+                <div class="project-fact project-fact-mission">
+                  <dt>Mission</dt>
+                  <dd>Construire une plateforme web couvrant catalogue, sécurité, administration média et streaming.</dd>
+                </div>
+                <div class="project-fact project-fact-proof">
+                  <dt>Points clés</dt>
+                  <dd>Sécurité, streaming, traitement asynchrone, Docker et tests.</dd>
+                </div>
+              </dl>
+              </details>
+              <div class="project-stack" aria-label="Technologies principales">
+                <span class="project-metadata-label">Technologies</span>
+                <div class="tag-list">
+                  <span class="tag">Spring Boot</span>
+                <span class="tag">PostgreSQL</span>
+                <span class="tag">Redis</span>
+                </div>
+              </div>
+              <div class="card-actions project-actions">
+                <a class="project-read-link" href="./streamfolio.html">Étude de cas <span aria-hidden="true">→</span></a>
+                <a class="project-repository-link" href="https://github.com/alescis-wuin/streamfolio" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de Streamfolio">GitHub <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card project-card-playful" data-project-card data-project-slug="agenda" data-project-surface="catalog" data-project-priority="featured" data-project-density="catalog" data-language="csharp" data-type="web mobile backend architecture accessibility" data-stack="dotnet-10 aspnet-core blazor maui ef-core sqlite rest xunit tests github-actions" data-status="prototype" data-reveal>
+            <a class="project-media" href="./agenda.html" data-media-kind="screenshot" aria-label="Lire l’étude de cas Agenda">
+              <img src="../assets/img/projects/agenda/hero.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-signal">
+                <span class="project-index" aria-hidden="true">03</span>
+                <span class="project-status">Prototype</span>
+              </div>
+              <div class="project-heading">
+                <p class="project-kicker">Agenda accessible Web et MAUI</p>
+                <h2><a href="./agenda.html">Agenda</a></h2>
+              </div>
+              <p class="project-summary">Agenda .NET 10 partagé entre Web Blazor et MAUI, avec calendrier, événements, API REST et persistance SQLite.</p>
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
+                <div class="project-fact project-fact-mission">
+                  <dt>Mission</dt>
+                  <dd>Partager une même interface métier entre Web et application hybride.</dd>
+                </div>
+                <div class="project-fact project-fact-proof">
+                  <dt>Points clés</dt>
+                  <dd>Blazor, MAUI, API, EF Core, architecture multi-hôte, tests et CI.</dd>
+                </div>
+              </dl>
+              </details>
+              <div class="project-stack" aria-label="Technologies principales">
+                <span class="project-metadata-label">Technologies</span>
+                <div class="tag-list">
+                  <span class="tag">.NET 10</span>
+                <span class="tag">Blazor</span>
+                <span class="tag">.NET MAUI</span>
+                </div>
+              </div>
+              <div class="card-actions project-actions">
+                <a class="project-read-link" href="./agenda.html">Étude de cas <span aria-hidden="true">→</span></a>
+                <a class="project-repository-link" href="https://github.com/alescis-wuin/agenda" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de Agenda">GitHub <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card project-card-playful" data-project-card data-project-slug="aelia" data-project-surface="catalog" data-project-priority="featured" data-project-density="catalog" data-language="java" data-type="desktop accessibility architecture data" data-stack="java-26 javafx atlantafx maven tests github-actions" data-status="in-progress" data-reveal>
+            <a class="project-media" href="./aelia.html" data-media-kind="screenshot" aria-label="Lire l’étude de cas Aelia">
+              <img src="../assets/img/projects/aelia/hero.webp" width="1920" height="1204" loading="lazy" decoding="async" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-signal">
+                <span class="project-index" aria-hidden="true">04</span>
+                <span class="project-status">En cours</span>
+              </div>
+              <div class="project-heading">
+                <p class="project-kicker">Application météo desktop multi-fournisseurs</p>
+                <h2><a href="./aelia.html">Aelia</a></h2>
+              </div>
+              <p class="project-summary">Application météo JavaFX avec fournisseurs distants et fallback, qualité de l’air, UV, pollens et carte interactive native.</p>
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
+                <div class="project-fact project-fact-mission">
+                  <dt>Mission</dt>
+                  <dd>Agréger plusieurs sources météo dans une interface desktop avec stratégie de fallback.</dd>
+                </div>
+                <div class="project-fact project-fact-proof">
+                  <dt>Points clés</dt>
+                  <dd>Fournisseurs distants, stratégie de fallback, carte JavaFX native, cache, tests Maven et CI.</dd>
+                </div>
+              </dl>
+              </details>
+              <div class="project-stack" aria-label="Technologies principales">
+                <span class="project-metadata-label">Technologies</span>
+                <div class="tag-list">
+                  <span class="tag">Java 26</span>
+                <span class="tag">JavaFX</span>
+                <span class="tag">AtlantaFX</span>
+                </div>
+              </div>
+              <div class="card-actions project-actions">
+                <a class="project-read-link" href="./aelia.html">Étude de cas <span aria-hidden="true">→</span></a>
+                <a class="project-repository-link" href="https://github.com/alescis-wuin/Aelia" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de Aelia">GitHub <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card project-card-playful" data-project-card data-project-slug="kanban" data-project-surface="catalog" data-project-priority="secondary" data-project-density="catalog" data-language="csharp" data-type="web backend fullstack architecture accessibility" data-stack="dotnet-10 aspnet-core blazor ef-core sqlite rest xunit tests github-actions" data-status="in-progress" data-reveal>
+            <a class="project-media" href="./kanban.html" data-media-kind="screenshot" aria-label="Lire l’étude de cas Kanban">
+              <img src="../assets/img/projects/kanban/hero.webp" width="2400" height="1005" loading="lazy" decoding="async" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-signal">
+                <span class="project-index" aria-hidden="true">05</span>
+                <span class="project-status">En cours</span>
+              </div>
+              <div class="project-heading">
+                <p class="project-kicker">Gestionnaire de tâches avec vues Liste et Kanban</p>
+                <h2><a href="./kanban.html">Kanban</a></h2>
+              </div>
+              <p class="project-summary">Gestionnaire .NET 10 orienté métier : vues Liste/Kanban, règles WIP, récurrence, API REST et persistance SQLite.</p>
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
+                <div class="project-fact project-fact-mission">
+                  <dt>Mission</dt>
+                  <dd>Construire une application métier Web au-delà d’un CRUD de tâches.</dd>
+                </div>
+                <div class="project-fact project-fact-proof">
+                  <dt>Points clés</dt>
+                  <dd>Règles WIP, Blazor, API, EF Core, accessibilité, tests et CI.</dd>
+                </div>
+              </dl>
+              </details>
+              <div class="project-stack" aria-label="Technologies principales">
+                <span class="project-metadata-label">Technologies</span>
+                <div class="tag-list">
+                  <span class="tag">.NET 10</span>
+                <span class="tag">Blazor</span>
+                <span class="tag">Entity Framework Core</span>
+                </div>
+              </div>
+              <div class="card-actions project-actions">
+                <a class="project-read-link" href="./kanban.html">Étude de cas <span aria-hidden="true">→</span></a>
+                <a class="project-repository-link" href="https://github.com/alescis-wuin/kanban" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de Kanban">GitHub <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card project-card-playful" data-project-card data-project-slug="calcufolio" data-project-surface="catalog" data-project-priority="secondary" data-project-density="catalog" data-language="csharp" data-type="desktop architecture" data-stack="dotnet-10 avalonia communitytoolkit-mvvm xunit tests github-actions" data-status="in-progress" data-reveal>
+            <a class="project-media" href="./calcufolio.html" data-media-kind="screenshot" aria-label="Lire l’étude de cas Calcufolio">
+              <img src="../assets/img/projects/calcufolio/hero.webp" width="1920" height="1199" loading="lazy" decoding="async" alt="">
+            </a>
+            <div class="project-body">
+              <div class="project-signal">
+                <span class="project-index" aria-hidden="true">06</span>
+                <span class="project-status">En cours</span>
+              </div>
+              <div class="project-heading">
+                <p class="project-kicker">Calculatrice desktop à moteur d’expressions</p>
+                <h2><a href="./calcufolio.html">Calcufolio</a></h2>
+              </div>
+              <p class="project-summary">Calculatrice desktop Avalonia avec moteur d’expressions isolé, MVVM, historique, tests xUnit et CI .NET.</p>
+              <details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                <dl class="project-facts">
+                <div class="project-fact project-fact-mission">
+                  <dt>Mission</dt>
+                  <dd>Concevoir une calculatrice testable au-delà d’une simple logique d’interface.</dd>
+                </div>
+                <div class="project-fact project-fact-proof">
+                  <dt>Points clés</dt>
+                  <dd>Parser, séparation des couches, MVVM, tests automatisés et CI .NET.</dd>
+                </div>
+              </dl>
+              </details>
+              <div class="project-stack" aria-label="Technologies principales">
+                <span class="project-metadata-label">Technologies</span>
+                <div class="tag-list">
+                  <span class="tag">.NET 10</span>
+                <span class="tag">Avalonia</span>
+                <span class="tag">CommunityToolkit.Mvvm</span>
+                </div>
+              </div>
+              <div class="card-actions project-actions">
+                <a class="project-read-link" href="./calcufolio.html">Étude de cas <span aria-hidden="true">→</span></a>
+                <a class="project-repository-link" href="https://github.com/alescis-wuin/calcufolio" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub de Calcufolio">GitHub <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <p class="project-catalog-empty" data-project-empty role="status" hidden>Aucun projet ne correspond à ces filtres.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="content-shell footer-grid">
+      <div>
+        <p class="footer-title">Alexis Guinot</p>
+        <p>Concepteur-développeur full-stack.</p>
+      </div>
+      <nav aria-label="Liens externes">
+        <ul class="footer-links">
+          <li><a href="mailto:alexis.guinot@onsiea.com">E-mail</a></li>
+          <li><a href="https://www.linkedin.com/in/alexis-guinot/" rel="me noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://github.com/alescis-wuin" rel="me noopener noreferrer">GitHub</a></li>
+          <li><a href="../assets/cv/CV_Alexis-GUINOT.pdf" download>CV PDF</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+  <script type="module" src="../assets/js/main.js"></script>
+</body>
+</html>
