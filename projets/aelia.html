@@ -11,13 +11,15 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.alexis-guinot.fr/projets/aelia.html">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
-  <meta name="theme-color" content="#101412">
+  <meta name="theme-color" content="#0B1020">
   <title>Aelia — Étude de cas | Alexis Guinot</title>
   <link rel="canonical" href="https://www.alexis-guinot.fr/projets/aelia.html">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
-  <link rel="stylesheet" href="../assets/css/signature.css">
+  <script>
+    document.documentElement.dataset.js = 'true';
+  </script>
 </head>
 
 <body data-project-slug="aelia">
@@ -57,7 +59,6 @@
           </div>
           <h1>Aelia</h1>
           <p class="hero-lead">Application météo JavaFX avec fournisseurs distants et fallback, qualité de l’air, UV, pollens et carte interactive native.</p>
-          <p class="publication-note">Version de travail documentée : les captures et capacités décrites peuvent différer de la branche principale du dépôt public.</p>
           <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
             <div>
               <dt>Objectif</dt>
@@ -87,12 +88,11 @@
       </div>
     </article>
 
-    <nav class="case-nav" aria-label="Dans cette étude de cas"><div class="content-shell"><a href="#problem-title">Contexte et rôle</a><a href="#architecture-title">Architecture</a><a href="#quality-title">Tests</a><a href="#limits-title">Limites</a><a href="#gallery-title">Captures</a></div></nav>
     <section class="section" aria-labelledby="problem-title">
       <div class="content-shell content-grid">
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
-          <h2 id="problem-title">Le problème à résoudre</h2>
+          <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
           <p>Présenter des données météo riches sans coupler l’interface à un fournisseur unique et sans multiplier inutilement les requêtes cartographiques.</p>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="role-title">
@@ -115,7 +115,7 @@
       <div class="content-shell two-columns">
         <div data-reveal>
           <p class="eyebrow">Architecture</p>
-          <h2 id="architecture-title">Les pièces du système</h2>
+          <h2 id="architecture-title">Comment le système est structuré</h2>
           <ul class="check-list"><li>L’interface JavaFX consomme un contrat WeatherDashboardProvider.</li><li>RemoteWeatherDashboardProvider orchestre Open-Meteo puis les fallbacks configurés.</li><li>WorldMapView affiche des tuiles OSM sans WebView ; MapTileCache gère mémoire, disque, priorité et rafraîchissement.</li></ul>
         </div>
         <div data-reveal>
@@ -189,8 +189,8 @@
       <div class="content-shell two-columns">
         <div data-reveal>
           <p class="eyebrow">Limites</p>
-          <h2 id="limits-title">Les limites actuelles</h2>
-          <ul class="check-list"><li>Version de travail documentée : les captures et capacités décrites peuvent différer de la branche principale du dépôt public.</li><li>Pas de préchargement de zones complètes.</li><li>Les fournisseurs à clé ne fonctionnent qu’après configuration des identifiants nécessaires.</li></ul>
+          <h2 id="limits-title">Limites assumées</h2>
+          <ul class="check-list"><li>Pas de préchargement de zones complètes.</li><li>Les fournisseurs à clé ne fonctionnent qu’après configuration des identifiants nécessaires.</li></ul>
         </div>
         <div data-reveal>
           <p class="eyebrow">Suite</p>
@@ -205,7 +205,7 @@
         <div class="section-heading reading" data-reveal>
           <p class="eyebrow">Captures</p>
           <h2 id="gallery-title">Le produit en situation</h2>
-          <p>Quelques écrans pour parcourir le projet.</p>
+          <p>Des états complémentaires sélectionnés pour montrer l’interface et les parcours réellement implémentés.</p>
         </div>
         <div class="case-study-gallery">
           <figure class="case-study-media" data-gallery-item data-gallery-index="0" data-media-kind="screenshot">

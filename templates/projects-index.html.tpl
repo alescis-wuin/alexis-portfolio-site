@@ -11,14 +11,16 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{CANONICAL_URL}}">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
-  <meta name="theme-color" content="#101412">
+  <meta name="theme-color" content="#0B1020">
   <title>Projets — Alexis Guinot</title>
   <link rel="canonical" href="{{CANONICAL_URL}}">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="../assets/css/project-cards.css">
-  <link rel="stylesheet" href="../assets/css/signature.css">
+  <script>
+    document.documentElement.dataset.js = 'true';
+  </script>
 </head>
 
 <body>
@@ -54,7 +56,7 @@
         <div class="section-heading reading">
           <p class="eyebrow">Catalogue</p>
           <h1>Projets et études de cas</h1>
-          <p>Applications web, desktop et expérimentations. Chaque étude de cas détaille le besoin, mes choix techniques et les limites du projet.</p>
+          <p>Parcourez les projets par langage, type, stack ou statut, puis ouvrez une étude de cas pour consulter l’architecture, les choix techniques et les limites actuelles.</p>
         </div>
 
         <details class="project-filter-panel" data-filter-panel open>

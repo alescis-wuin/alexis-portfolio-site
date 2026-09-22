@@ -5,65 +5,30 @@ const prefersReducedMotion = window.matchMedia(
 function initNavigation() {
   const toggle = document.querySelector("[data-nav-toggle]");
   const nav = document.querySelector("[data-site-nav]");
+
   if (!toggle || !nav) return;
-  document.documentElement.dataset.js = "true";
+
   toggle.hidden = false;
-  const compact = window.matchMedia("(max-width: 900px)");
-  const setOpen = (open, restoreFocus = false) => {
+
+  const setOpen = (open) => {
     nav.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", String(open));
     const label = toggle.querySelector(".sr-only");
     if (label) label.textContent = open ? "Fermer le menu" : "Ouvrir le menu";
-    if (restoreFocus && compact.matches) toggle.focus();
   };
-  toggle.addEventListener("click", () =>
-    setOpen(!nav.classList.contains("is-open")),
-  );
-  nav.addEventListener("click", (event) => {
-    const link = event.target.closest("a");
-    if (!link) return;
-    const href = link.getAttribute("href");
-    setOpen(false);
-    if (href?.startsWith("#")) {
-      const target = document.getElementById(href.slice(1));
-      if (target) {
-        target.setAttribute("tabindex", "-1");
-        target.focus({ preventScroll: true });
-      }
-    }
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && nav.classList.contains("is-open"))
-      setOpen(false, true);
-  });
-  document.addEventListener("click", (event) => {
-    if (
-      !nav.contains(event.target) &&
-      !toggle.contains(event.target) &&
-      nav.classList.contains("is-open")
-    )
-      setOpen(false);
-  });
-  document.addEventListener("focusin", (event) => {
-    if (!nav.contains(event.target) && !toggle.contains(event.target))
-      setOpen(false);
-  });
-  compact.addEventListener("change", () => setOpen(false));
-}
 
-function initCopyEmail() {
-  const button = document.querySelector("[data-copy-email]");
-  const feedback = document.querySelector("[data-copy-feedback]");
-  if (!button || !feedback || !navigator.clipboard?.writeText) return;
-  button.hidden = false;
-  button.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(button.dataset.copyEmail);
-      feedback.textContent = "Adresse e-mail copiée.";
-    } catch {
-      feedback.textContent =
-        "La copie n’a pas abouti. Vous pouvez sélectionner l’adresse ci-dessus.";
+  toggle.addEventListener("click", () => {
+    setOpen(!nav.classList.contains("is-open"));
+  });
+
+  nav.addEventListener("click", (event) => {
+    if (event.target instanceof HTMLAnchorElement) {
+      setOpen(false);
     }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setOpen(false);
   });
 }
 
@@ -144,6 +109,101 @@ function initSectionNavigation() {
   );
 
   sections.forEach((section) => observer.observe(section));
+}
+
+function initHeroMotion() {
+  const visual = document.querySelector("[data-hero-visual]");
+  if (!visual || prefersReducedMotion) return;
+
+  const finePointer = window.matchMedia("(pointer: fine)");
+  if (!finePointer.matches) return;
+
+  let framePending = false;
+  let pointerX = 0;
+  let pointerY = 0;
+
+  const writeMotion = () => {
+    const systemShiftX = pointerX * -4;
+    const systemShiftY = pointerY * -3;
+    const systemTiltX = pointerY * 0.7;
+    const systemTiltY = pointerX * -0.9;
+    const profileShiftX = pointerX * 5;
+    const profileShiftY = pointerY * 4;
+    const profileTiltX = pointerY * -0.7;
+    const profileTiltY = pointerX * 0.9;
+
+    visual.style.setProperty(
+      "--hero-system-shift-x",
+      `${systemShiftX.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-system-shift-y",
+      `${systemShiftY.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-system-tilt-x",
+      `${systemTiltX.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-system-tilt-y",
+      `${systemTiltY.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-shift-x",
+      `${profileShiftX.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-shift-y",
+      `${profileShiftY.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-tilt-x",
+      `${profileTiltX.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-tilt-y",
+      `${profileTiltY.toFixed(2)}deg`,
+    );
+    framePending = false;
+  };
+
+  const queueMotion = () => {
+    if (framePending) return;
+    framePending = true;
+    requestAnimationFrame(writeMotion);
+  };
+
+  const resetMotion = () => {
+    pointerX = 0;
+    pointerY = 0;
+    queueMotion();
+  };
+
+  visual.addEventListener(
+    "pointermove",
+    (event) => {
+      const rect = visual.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      pointerX = Math.max(
+        -1,
+        Math.min(1, ((event.clientX - rect.left) / rect.width - 0.5) * 2),
+      );
+      pointerY = Math.max(
+        -1,
+        Math.min(1, ((event.clientY - rect.top) / rect.height - 0.5) * 2),
+      );
+      queueMotion();
+    },
+    { passive: true },
+  );
+
+  visual.addEventListener("pointerleave", resetMotion);
+  visual.addEventListener("pointercancel", resetMotion);
+  window.addEventListener("blur", resetMotion);
+
+  visual.dataset.heroMotion = "interactive";
+  resetMotion();
 }
 
 function initProjectCatalogFilters() {
@@ -244,9 +304,7 @@ function initProjectCatalogFilters() {
 
 function initProjectMediaViewer() {
   const dialog = document.querySelector("[data-media-viewer]");
-  const triggers = [
-    ...document.querySelectorAll("[data-media-viewer-trigger]"),
-  ];
+  const triggers = [...document.querySelectorAll("[data-media-viewer-trigger]")];
   if (!dialog || triggers.length === 0) return;
 
   const supportsModalDialog =
@@ -271,9 +329,7 @@ function initProjectMediaViewer() {
 
     const kind = figure.dataset.mediaKind;
     viewerTitle.textContent =
-      kind === "diagram"
-        ? "Schéma technique agrandi"
-        : "Capture produit agrandie";
+      kind === "diagram" ? "Schéma technique agrandi" : "Capture produit agrandie";
     viewerCaption.textContent = caption?.textContent?.trim() ?? "";
     viewerImage.src = sourceImage.currentSrc || sourceImage.src;
     viewerImage.alt = sourceImage.alt;
@@ -328,7 +384,6 @@ function initProjectMediaViewer() {
 initNavigation();
 initReveal();
 initSectionNavigation();
+initHeroMotion();
 initProjectCatalogFilters();
 initProjectMediaViewer();
-
-initCopyEmail();

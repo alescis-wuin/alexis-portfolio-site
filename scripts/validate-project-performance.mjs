@@ -18,7 +18,7 @@ const budgets = Object.freeze({
 
 const criticalCss = [
   "assets/css/styles.css",
-  "assets/css/signature.css",
+  "assets/css/ai-redesign.css",
   "assets/css/project-cards.css",
 ];
 

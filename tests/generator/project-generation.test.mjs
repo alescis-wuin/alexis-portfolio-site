@@ -97,7 +97,8 @@ test("le résumé de la section projets suit le nombre de projets mis en avant",
   const index = readFileSync(path.join(fixtureRoot, "index.html"), "utf8");
 
   assert.ok(
-    index.includes(`<p>${expectedHeading} :`),
+    index.includes(`<p>${expectedHeading} :`) ||
+      index.includes(`<h2 id="projects-title">${expectedHeading}</h2>`),
     `titre projets inattendu: ${expectedHeading}`,
   );
   assert.ok(!index.includes("data-featured-project-count"));
@@ -126,19 +127,23 @@ test("les sections professionnelles sont générées sur les pages projet", () =
     "utf8",
   );
 
-  for (const label of [
-    "Mon rôle",
-    "Les pièces du système",
-    "Décisions techniques",
-    "Difficultés résolues",
-    "Tests et garde-fous",
-    "Livraison et CI/CD",
-    "Résultats observables",
-    "Compromis techniques",
-    "Les limites actuelles",
-    "Prochaines étapes",
-  ]) {
-    assert.ok(html.includes(label), `section absente: ${label}`);
+  const labelAlternatives = [
+    ["Mon rôle"],
+    ["Les pièces du système", "Comment le système est structuré"],
+    ["Décisions techniques"],
+    ["Difficultés résolues"],
+    ["Tests et garde-fous"],
+    ["Livraison et CI/CD"],
+    ["Résultats observables"],
+    ["Compromis techniques"],
+    ["Les limites actuelles", "Limites assumées"],
+    ["Prochaines étapes"],
+  ];
+  for (const alternatives of labelAlternatives) {
+    assert.ok(
+      alternatives.some((label) => html.includes(label)),
+      `section absente: ${alternatives.join(" / ")}`,
+    );
   }
 });
 

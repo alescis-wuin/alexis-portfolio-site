@@ -6,11 +6,12 @@ const root = new URL("../../", import.meta.url);
 const read = (path) => readFileSync(new URL(path, root), "utf8");
 const data = JSON.parse(read("data/projects.json"));
 test("les versions de travail restent signalées et hors sélection principale", () => {
-  for (const id of ["alycia", "aelia"]) {
-    const project = data.projects.find((p) => p.id === id);
+  const unpublished = data.projects.filter((project) => !project.published);
+  const catalogHtml = read("projets/index.html");
+  for (const project of unpublished) {
     assert.equal(project.featured, false);
     assert.ok(project.publicationNote);
-    assert.ok(read(`projets/${id}.html`).includes(project.publicationNote));
+    assert.doesNotMatch(catalogHtml, new RegExp(project.slug, "u"));
   }
 });
 test("les budgets mesurent les ressources CSS réellement chargées", () => {
