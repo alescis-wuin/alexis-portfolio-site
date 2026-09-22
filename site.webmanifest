@@ -4,8 +4,8 @@
   "description": "Portfolio de développeur et concepteur d’applications.",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#070b14",
-  "theme_color": "#0b1020",
+  "background_color": "#101412",
+  "theme_color": "#101412",
   "icons": [
     {
       "src": "assets/img/logo.svg",

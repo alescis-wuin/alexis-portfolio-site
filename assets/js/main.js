@@ -1,4 +1,3 @@
-const root = document.documentElement;
 const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 ).matches;
@@ -30,39 +29,6 @@ function initNavigation() {
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") setOpen(false);
-  });
-}
-
-function initTheme() {
-  const buttons = [...document.querySelectorAll("[data-theme-toggle]")];
-  if (buttons.length === 0) return;
-
-  const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
-
-  const getCurrentTheme = () => {
-    const saved = localStorage.getItem("theme");
-    if (saved === "dark" || saved === "light") return saved;
-    return systemDark.matches ? "dark" : "light";
-  };
-
-  const apply = (theme, persist = true) => {
-    root.dataset.theme = theme;
-    buttons.forEach((button) => {
-      button.setAttribute("aria-pressed", String(theme === "dark"));
-      button.setAttribute(
-        "aria-label",
-        theme === "dark" ? "Activer le thème clair" : "Activer le thème sombre",
-      );
-    });
-    if (persist) localStorage.setItem("theme", theme);
-  };
-
-  apply(getCurrentTheme(), false);
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      apply(getCurrentTheme() === "dark" ? "light" : "dark");
-    });
   });
 }
 
@@ -145,6 +111,101 @@ function initSectionNavigation() {
   sections.forEach((section) => observer.observe(section));
 }
 
+function initHeroMotion() {
+  const visual = document.querySelector("[data-hero-visual]");
+  if (!visual || prefersReducedMotion) return;
+
+  const finePointer = window.matchMedia("(pointer: fine)");
+  if (!finePointer.matches) return;
+
+  let framePending = false;
+  let pointerX = 0;
+  let pointerY = 0;
+
+  const writeMotion = () => {
+    const systemShiftX = pointerX * -4;
+    const systemShiftY = pointerY * -3;
+    const systemTiltX = pointerY * 0.7;
+    const systemTiltY = pointerX * -0.9;
+    const profileShiftX = pointerX * 5;
+    const profileShiftY = pointerY * 4;
+    const profileTiltX = pointerY * -0.7;
+    const profileTiltY = pointerX * 0.9;
+
+    visual.style.setProperty(
+      "--hero-system-shift-x",
+      `${systemShiftX.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-system-shift-y",
+      `${systemShiftY.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-system-tilt-x",
+      `${systemTiltX.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-system-tilt-y",
+      `${systemTiltY.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-shift-x",
+      `${profileShiftX.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-shift-y",
+      `${profileShiftY.toFixed(2)}px`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-tilt-x",
+      `${profileTiltX.toFixed(2)}deg`,
+    );
+    visual.style.setProperty(
+      "--hero-profile-tilt-y",
+      `${profileTiltY.toFixed(2)}deg`,
+    );
+    framePending = false;
+  };
+
+  const queueMotion = () => {
+    if (framePending) return;
+    framePending = true;
+    requestAnimationFrame(writeMotion);
+  };
+
+  const resetMotion = () => {
+    pointerX = 0;
+    pointerY = 0;
+    queueMotion();
+  };
+
+  visual.addEventListener(
+    "pointermove",
+    (event) => {
+      const rect = visual.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      pointerX = Math.max(
+        -1,
+        Math.min(1, ((event.clientX - rect.left) / rect.width - 0.5) * 2),
+      );
+      pointerY = Math.max(
+        -1,
+        Math.min(1, ((event.clientY - rect.top) / rect.height - 0.5) * 2),
+      );
+      queueMotion();
+    },
+    { passive: true },
+  );
+
+  visual.addEventListener("pointerleave", resetMotion);
+  visual.addEventListener("pointercancel", resetMotion);
+  window.addEventListener("blur", resetMotion);
+
+  visual.dataset.heroMotion = "interactive";
+  resetMotion();
+}
+
 function initProjectCatalogFilters() {
   document.querySelectorAll("[data-project-catalog]").forEach((catalog) => {
     const filters = catalog.querySelector("[data-project-filters]");
@@ -155,6 +216,33 @@ function initProjectCatalogFilters() {
     const count = catalog.querySelector("[data-project-count]");
     const empty = catalog.querySelector("[data-project-empty]");
     const reset = catalog.querySelector("[data-filter-reset]");
+    const activeFilterCount = catalog.querySelector(
+      "[data-active-filter-count]",
+    );
+    const filterSummary = catalog.querySelector("[data-filter-summary]");
+    const filterPanel = catalog.querySelector("[data-filter-panel]");
+    const filterPanelSummary = filterPanel?.querySelector("summary");
+    const cardDisclosures = [
+      ...catalog.querySelectorAll("[data-project-facts-disclosure]"),
+    ];
+    const compactCatalog = window.matchMedia("(max-width: 45rem)");
+
+    const syncResponsiveDisclosures = () => {
+      if (filterPanel) filterPanel.open = !compactCatalog.matches;
+      cardDisclosures.forEach((details) => {
+        details.open = !compactCatalog.matches;
+      });
+    };
+
+    const activeSelections = () =>
+      selects.filter((select) => select.value !== "all");
+
+    const describeSelection = (select) => {
+      const label = select.closest("label")?.querySelector("span")?.textContent;
+      const option = select.selectedOptions[0]?.textContent;
+      if (!label || !option) return option || label || "Filtre actif";
+      return `${label.trim()} : ${option.trim()}`;
+    };
 
     const update = () => {
       const state = Object.fromEntries(
@@ -175,9 +263,22 @@ function initProjectCatalogFilters() {
         if (visible) visibleCount += 1;
       });
 
+      const active = activeSelections();
+      const activeCount = active.length;
+
       if (count)
-        count.textContent = `${visibleCount} projet${visibleCount > 1 ? "s" : ""}`;
+        count.textContent = `${visibleCount} projet${visibleCount === 1 ? "" : "s"}`;
       if (empty) empty.hidden = visibleCount !== 0;
+      if (reset) reset.hidden = activeCount === 0;
+      if (activeFilterCount) {
+        activeFilterCount.textContent = `${activeCount} actif${activeCount === 1 ? "" : "s"}`;
+      }
+      if (filterSummary) {
+        filterSummary.textContent =
+          activeCount === 0
+            ? "Aucun filtre actif"
+            : active.map(describeSelection).join(" · ");
+      }
     };
 
     selects.forEach((select) => select.addEventListener("change", update));
@@ -187,15 +288,102 @@ function initProjectCatalogFilters() {
         select.value = "all";
       });
       update();
-      selects[0]?.focus();
+
+      if (compactCatalog.matches && filterPanelSummary) {
+        filterPanelSummary.focus();
+      } else {
+        selects[0]?.focus();
+      }
     });
 
+    syncResponsiveDisclosures();
+    compactCatalog.addEventListener("change", syncResponsiveDisclosures);
     update();
   });
 }
 
+function initProjectMediaViewer() {
+  const dialog = document.querySelector("[data-media-viewer]");
+  const triggers = [...document.querySelectorAll("[data-media-viewer-trigger]")];
+  if (!dialog || triggers.length === 0) return;
+
+  const supportsModalDialog =
+    "HTMLDialogElement" in window &&
+    dialog instanceof window.HTMLDialogElement &&
+    typeof dialog.showModal === "function";
+  if (!supportsModalDialog) return;
+
+  const viewerImage = dialog.querySelector("[data-media-viewer-image]");
+  const viewerCaption = dialog.querySelector("[data-media-viewer-caption]");
+  const viewerTitle = dialog.querySelector("[data-media-viewer-title]");
+  const closeButton = dialog.querySelector("[data-media-viewer-close]");
+  if (!viewerImage || !viewerCaption || !viewerTitle || !closeButton) return;
+
+  let lastTrigger = null;
+
+  const openViewer = (trigger) => {
+    const sourceImage = trigger.querySelector("img");
+    const figure = trigger.closest("[data-media-kind]");
+    const caption = figure?.querySelector("figcaption");
+    if (!(sourceImage instanceof window.HTMLImageElement) || !figure) return;
+
+    const kind = figure.dataset.mediaKind;
+    viewerTitle.textContent =
+      kind === "diagram" ? "Schéma technique agrandi" : "Capture produit agrandie";
+    viewerCaption.textContent = caption?.textContent?.trim() ?? "";
+    viewerImage.src = sourceImage.currentSrc || sourceImage.src;
+    viewerImage.alt = sourceImage.alt;
+
+    for (const attribute of ["width", "height"]) {
+      const value = sourceImage.getAttribute(attribute);
+      if (value) viewerImage.setAttribute(attribute, value);
+      else viewerImage.removeAttribute(attribute);
+    }
+
+    lastTrigger = trigger;
+    dialog.showModal();
+    document.documentElement.classList.add("media-viewer-open");
+    closeButton.focus({ preventScroll: true });
+  };
+
+  const closeViewer = () => {
+    if (dialog.open) dialog.close();
+  };
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      openViewer(trigger);
+    });
+  });
+
+  closeButton.addEventListener("click", closeViewer);
+
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) closeViewer();
+  });
+
+  dialog.addEventListener("close", () => {
+    document.documentElement.classList.remove("media-viewer-open");
+    lastTrigger?.focus({ preventScroll: true });
+    lastTrigger = null;
+  });
+}
+
 initNavigation();
-initTheme();
 initReveal();
 initSectionNavigation();
+initHeroMotion();
 initProjectCatalogFilters();
+initProjectMediaViewer();

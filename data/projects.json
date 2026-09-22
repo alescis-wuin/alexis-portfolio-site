@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "site": {
     "baseUrl": "https://www.alexis-guinot.fr",
     "title": "Alexis Guinot — Concepteur-développeur full-stack",
@@ -197,14 +197,16 @@
           "alt": "Accueil de Streamfolio affichant le film Aurora Drift, la navigation, la recherche et le catalogue.",
           "caption": "Catalogue et navigation de Streamfolio, avec recherche, filtres et contenu d’exemple.",
           "width": 1920,
-          "height": 1080
+          "height": 1080,
+          "kind": "screenshot"
         },
         "architecture": {
           "src": "assets/img/projects/streamfolio/architecture.svg",
           "alt": "Schéma d’architecture de Streamfolio reliant le navigateur, Spring Boot, PostgreSQL, Redis, MinIO, les jobs média et FFmpeg.",
           "caption": "Architecture applicative et pipeline média persisté de Streamfolio.",
           "width": 1600,
-          "height": 900
+          "height": 900,
+          "kind": "diagram"
         },
         "gallery": [
           {
@@ -212,14 +214,16 @@
             "alt": "Page de détail Streamfolio pour le film Aurora Drift avec métadonnées et actions de lecture.",
             "caption": "Fiche de contenu avant lecture.",
             "width": 1920,
-            "height": 1080
+            "height": 1080,
+            "kind": "screenshot"
           },
           {
             "src": "assets/img/projects/streamfolio/player.webp",
             "alt": "Lecteur vidéo Streamfolio affichant le média d’exemple Canopées urbaines.",
             "caption": "Lecteur HTML5 utilisé dans le parcours de streaming.",
             "width": 1920,
-            "height": 1080
+            "height": 1080,
+            "kind": "screenshot"
           }
         ]
       },
@@ -355,14 +359,16 @@
           "alt": "Tableau Kanban en thème sombre avec cinq colonnes, tâches, priorités et limites WIP visibles.",
           "caption": "Tableau configurable montrant tâches, priorités et limites WIP.",
           "width": 2400,
-          "height": 1005
+          "height": 1005,
+          "kind": "screenshot"
         },
         "architecture": {
           "src": "assets/img/projects/kanban/architecture.svg",
           "alt": "Schéma du gestionnaire Kanban reliant l’hôte Web Blazor et l’API aux couches UI, Application, Domain, Contracts et Infrastructure SQLite.",
           "caption": "Architecture Web métier avec règles WIP dans le domaine et persistance EF Core/SQLite.",
           "width": 1600,
-          "height": 900
+          "height": 900,
+          "kind": "diagram"
         },
         "gallery": [
           {
@@ -370,7 +376,8 @@
             "alt": "Tableau Kanban en thème clair avec cinq colonnes et plusieurs tâches réparties selon leur état.",
             "caption": "Même tableau en thème clair.",
             "width": 2400,
-            "height": 1006
+            "height": 1006,
+            "kind": "screenshot"
           }
         ]
       }
@@ -500,14 +507,16 @@
           "alt": "Calendrier mensuel Agenda en thème sombre pour août 2026 avec un événement sélectionné et son panneau de détail.",
           "caption": "Vue mensuelle et panneau d’événement en thème sombre.",
           "width": 1920,
-          "height": 1080
+          "height": 1080,
+          "kind": "screenshot"
         },
         "architecture": {
           "src": "assets/img/projects/agenda/architecture.svg",
           "alt": "Schéma multi-hôte d’Agenda reliant Web Blazor, MAUI Blazor Hybrid et API aux couches UI, Application, Domain et Infrastructure.",
           "caption": "Architecture multi-hôte avec interface Razor partagée et persistance SQLite locale.",
           "width": 1600,
-          "height": 900
+          "height": 900,
+          "kind": "diagram"
         },
         "gallery": [
           {
@@ -515,7 +524,8 @@
             "alt": "Calendrier mensuel Agenda en thème clair avec un événement sélectionné et son panneau de détail.",
             "caption": "Même interface en thème clair.",
             "width": 1920,
-            "height": 1080
+            "height": 1080,
+            "kind": "screenshot"
           }
         ]
       },
@@ -767,14 +777,16 @@
           "alt": "Fenêtre Calcufolio affichant le résultat 72 et plusieurs calculs dans le panneau History.",
           "caption": "Résultat courant et historique de plusieurs expressions évaluées.",
           "width": 1920,
-          "height": 1199
+          "height": 1199,
+          "kind": "screenshot"
         },
         "architecture": {
           "src": "assets/img/projects/calcufolio/architecture.svg",
           "alt": "Schéma du flux Calcufolio depuis Avalonia et les contrôleurs applicatifs jusqu’au tokenizer, parser, évaluateur et moteur de calcul.",
           "caption": "Flux d’interaction et moteur d’expressions de Calcufolio.",
           "width": 1600,
-          "height": 900
+          "height": 900,
+          "kind": "diagram"
         },
         "gallery": [
           {
@@ -782,7 +794,8 @@
             "alt": "Fenêtre Calcufolio avec une expression arithmétique et la sous-expression 8 + 4 sélectionnée.",
             "caption": "Édition d’expression avec sélection explicite avant évaluation.",
             "width": 1920,
-            "height": 1199
+            "height": 1199,
+            "kind": "screenshot"
           }
         ]
       }
@@ -886,14 +899,16 @@
           "alt": "Tableau de bord météo Aelia.",
           "caption": "Dashboard météo desktop Aelia.",
           "width": 1920,
-          "height": 1204
+          "height": 1204,
+          "kind": "screenshot"
         },
         "architecture": {
           "src": "assets/img/projects/aelia/architecture.svg",
           "alt": "Schéma d’architecture d’Aelia.",
           "caption": "Interface JavaFX, contrat fournisseur et intégrations météo/cartographiques.",
           "width": 1600,
-          "height": 900
+          "height": 900,
+          "kind": "diagram"
         },
         "gallery": [
           {
@@ -901,7 +916,8 @@
             "alt": "Carte interactive Aelia.",
             "caption": "Carte JavaFX native avec sélection de localisation.",
             "width": 1920,
-            "height": 1080
+            "height": 1080,
+            "kind": "screenshot"
           }
         ]
       }
@@ -922,7 +938,7 @@
       "problem": "Intégrer llama.cpp comme runtime d’inférence locale sans coupler le domaine de conversation au fournisseur, tout en contrôlant installation, configuration, streaming, annulation et erreurs.",
       "repository": "https://github.com/alescis-wuin/alycia",
       "image": "assets/img/projects/alycia/hero.webp",
-      "imageAlt": "Illustration schématique d’Alycia, application desktop d’IA locale",
+      "imageAlt": "Capture de l’interface de conversation Alycia avec historique, reasoning et composition locale",
       "languages": ["csharp"],
       "types": ["desktop", "ai", "architecture"],
       "stack": [
@@ -1014,26 +1030,37 @@
       },
       "visuals": {
         "hero": {
+          "kind": "screenshot",
           "src": "assets/img/projects/alycia/hero.webp",
-          "alt": "Illustration schématique d’Alycia montrant une interface de conversation locale et les technologies principales.",
-          "caption": "Illustration schématique du flux de conversation locale Alycia.",
-          "width": 1280,
-          "height": 720
+          "alt": "Interface desktop Alycia ouverte sur une conversation locale avec historique, panneau de reasoning et zone de composition.",
+          "caption": "Conversation locale Alycia avec historique, reasoning séparé et contrôle explicite du streaming.",
+          "width": 1440,
+          "height": 810
         },
         "architecture": {
           "src": "assets/img/projects/alycia/architecture.svg",
           "alt": "Schéma des couches Desktop, Presentation, Application, Domain et Infrastructure d’Alycia avec llama.cpp.",
           "caption": "Architecture en couches et adaptateur local llama.cpp.",
           "width": 1600,
-          "height": 900
+          "height": 900,
+          "kind": "diagram"
         },
         "gallery": [
           {
+            "kind": "screenshot",
             "src": "assets/img/projects/alycia/configuration.webp",
-            "alt": "Illustration schématique des espaces Provider, Models et Conversation d’Alycia.",
-            "caption": "Illustration schématique de la configuration fournisseur, modèle et conversation.",
-            "width": 1280,
-            "height": 720
+            "alt": "Écran Models d’Alycia avec référence GGUF, paramètres de runtime, génération et reasoning.",
+            "caption": "Configuration du modèle et des paramètres de génération dans l’espace Models.",
+            "width": 1257,
+            "height": 1386
+          },
+          {
+            "kind": "screenshot",
+            "src": "assets/img/projects/alycia/provider.webp",
+            "alt": "Écran Runtime d’Alycia avec fournisseur llama.cpp CUDA et actions Detect, Install, Start et Stop local AI.",
+            "caption": "Cycle de vie explicite du runtime local llama.cpp CUDA dans l’espace Provider.",
+            "width": 1145,
+            "height": 379
           }
         ]
       }

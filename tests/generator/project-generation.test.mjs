@@ -68,7 +68,7 @@ test("le slug index est réservé au catalogue", () => {
   assert.match(result.stderr, /slug index est réservé/);
 });
 
-test("le compteur du hero suit le nombre de projets mis en avant", () => {
+test("le résumé de la section projets suit le nombre de projets mis en avant", () => {
   const catalogPath = path.join(fixtureRoot, "data", "projects.json");
   const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
   const featured = catalog.projects.filter((project) => project.featured);
@@ -80,18 +80,28 @@ test("le compteur du hero suit le nombre de projets mis en avant", () => {
   const project = featured.at(-1);
   project.featured = false;
   delete project.featuredOrder;
-  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+  writeFileSync(
+    catalogPath,
+    `${JSON.stringify(catalog, null, 2)}
+`,
+    "utf8",
+  );
 
   assertGeneratorSuccess(runGenerator());
 
   const expectedCount = featured.length - 1;
-  const expectedLabel = expectedCount === 1 ? "étude de cas" : "études de cas";
+  const expectedHeading =
+    expectedCount === 1
+      ? "1 étude de cas technique"
+      : `${expectedCount} études de cas techniques`;
   const index = readFileSync(path.join(fixtureRoot, "index.html"), "utf8");
+
   assert.ok(
-    index.includes(
-      `<dd data-featured-project-count>${expectedCount} ${expectedLabel}, CV, GitHub et projets documentés</dd>`,
-    ),
+    index.includes(`<p>${expectedHeading} :`) ||
+      index.includes(`<h2 id="projects-title">${expectedHeading}</h2>`),
+    `titre projets inattendu: ${expectedHeading}`,
   );
+  assert.ok(!index.includes("data-featured-project-count"));
   assertGeneratorSuccess(runGenerator("--check"));
 });
 
@@ -117,19 +127,23 @@ test("les sections professionnelles sont générées sur les pages projet", () =
     "utf8",
   );
 
-  for (const label of [
-    "Mon rôle",
-    "Comment le système est structuré",
-    "Décisions techniques",
-    "Difficultés résolues",
-    "Tests et garde-fous",
-    "Livraison et CI/CD",
-    "Résultats observables",
-    "Compromis techniques",
-    "Limites assumées",
-    "Prochaines étapes",
-  ]) {
-    assert.ok(html.includes(label), `section absente: ${label}`);
+  const labelAlternatives = [
+    ["Mon rôle"],
+    ["Les pièces du système", "Comment le système est structuré"],
+    ["Décisions techniques"],
+    ["Difficultés résolues"],
+    ["Tests et garde-fous"],
+    ["Livraison et CI/CD"],
+    ["Résultats observables"],
+    ["Compromis techniques"],
+    ["Les limites actuelles", "Limites assumées"],
+    ["Prochaines étapes"],
+  ];
+  for (const alternatives of labelAlternatives) {
+    assert.ok(
+      alternatives.some((label) => html.includes(label)),
+      `section absente: ${alternatives.join(" / ")}`,
+    );
   }
 });
 
@@ -166,6 +180,56 @@ test("un projet non publié reste hors de toutes les sorties publiques", () => {
   assert.ok(!catalogHtml.includes(`data-project-slug="${hidden.slug}"`));
   assert.ok(!homeHtml.includes(`data-project-slug="${hidden.slug}"`));
   assert.ok(!sitemap.includes(`/projets/${hidden.slug}.html`));
+});
+
+test("le schéma média v5 est obligatoire", () => {
+  const catalogPath = path.join(fixtureRoot, "data", "projects.json");
+  const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+  catalog.schemaVersion = 4;
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  const result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /schemaVersion doit valoir 5/);
+});
+
+test("le hero et l'architecture imposent leur type de média", () => {
+  const catalogPath = path.join(fixtureRoot, "data", "projects.json");
+  const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+  const published = catalog.projects.find((project) => project.published);
+  assert.ok(published);
+
+  published.visuals.hero.kind = "diagram";
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  let result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /visuals\.hero\.kind doit valoir screenshot/);
+
+  published.visuals.hero.kind = "screenshot";
+  published.visuals.architecture.kind = "screenshot";
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(
+    result.stderr,
+    /visuals\.architecture\.kind doit valoir diagram/,
+  );
+});
+
+test("le type de média détermine son extension", () => {
+  const catalogPath = path.join(fixtureRoot, "data", "projects.json");
+  const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+  const published = catalog.projects.find((project) => project.published);
+  assert.ok(published);
+
+  published.visuals.gallery[0].kind = "diagram";
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+
+  const result = runGenerator();
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /doit utiliser \.svg pour kind=diagram/);
 });
 
 test("les visuels sont obligatoires pour les projets publiés", () => {
@@ -210,6 +274,12 @@ test("les cartes projet utilisent le hero produit et des actions explicites", ()
     assert.ok(
       catalogHtml.includes(`../${project.visuals.hero.src}`),
       `hero absent de la carte ${project.slug}`,
+    );
+    assert.ok(
+      catalogHtml.includes(
+        `data-media-kind="${project.visuals.hero.kind}" aria-label="Lire l’étude de cas ${project.name}"`,
+      ),
+      `type média absent de la carte ${project.slug}`,
     );
     assert.ok(
       catalogHtml.includes(
@@ -273,9 +343,59 @@ test("les pages projet génèrent hero, architecture et galerie depuis visuals",
   assert.ok(html.includes("data-project-architecture"));
   assert.ok(html.includes("data-project-gallery"));
   assert.ok(html.includes(`../${published.visuals.hero.src}`));
+  assert.ok(
+    html.includes(
+      `data-project-hero data-media-kind="${published.visuals.hero.kind}"`,
+    ),
+  );
   assert.ok(html.includes(`../${published.visuals.architecture.src}`));
+  assert.ok(
+    html.includes(
+      `data-project-architecture data-media-kind="${published.visuals.architecture.kind}"`,
+    ),
+  );
   for (const item of published.visuals.gallery) {
     assert.ok(html.includes(`../${item.src}`));
+    assert.ok(html.includes(`data-media-kind="${item.kind}"`));
+  }
+});
+
+test("P2.4-F rend chaque média comme lien de progressive enhancement", () => {
+  assertGeneratorSuccess(runGenerator());
+
+  const catalog = JSON.parse(
+    readFileSync(path.join(fixtureRoot, "data", "projects.json"), "utf8"),
+  );
+  const published = catalog.projects.find((project) => project.published);
+  assert.ok(published);
+
+  const html = readFileSync(
+    path.join(fixtureRoot, "projets", `${published.slug}.html`),
+    "utf8",
+  );
+  const media = [
+    published.visuals.hero,
+    published.visuals.architecture,
+    ...published.visuals.gallery,
+  ];
+
+  assert.equal(
+    (html.match(/data-media-viewer-trigger/g) ?? []).length,
+    media.length,
+  );
+  assert.equal(
+    (html.match(/<dialog class="media-viewer" data-media-viewer/g) ?? [])
+      .length,
+    1,
+  );
+  assert.ok(html.includes("data-media-viewer-close"));
+  assert.ok(html.includes("data-media-viewer-image"));
+
+  for (const item of media) {
+    assert.ok(
+      html.includes(`href="../${item.src}" data-media-viewer-trigger`),
+      `fallback direct absent: ${item.src}`,
+    );
   }
 });
 

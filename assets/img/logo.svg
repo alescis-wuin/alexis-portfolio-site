@@ -3,11 +3,11 @@
   <desc id="desc">Logo géométrique avec les initiales A et G</desc>
   <defs>
     <linearGradient id="g" x1="8" x2="56" y1="8" y2="56" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#67E8F9"/>
-      <stop offset="1" stop-color="#A78BFA"/>
+      <stop stop-color="#C7E8A3"/>
+      <stop offset="1" stop-color="#DFc291"/>
     </linearGradient>
   </defs>
-  <rect x="4" y="4" width="56" height="56" rx="18" fill="#0B1020"/>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="#101412"/>
   <path d="M17 46L29 18h6l12 28h-7l-2.2-5.8H26.2L24 46h-7Zm11.2-11.6h7.6L32 24.5l-3.8 9.9Z" fill="url(#g)"/>
-  <path d="M42 28c0-5.8 4.3-10.5 10.2-10.5 2.5 0 4.7.7 6.4 2.1l-2.7 4.5a6.4 6.4 0 0 0-3.7-1.2c-2.8 0-4.6 2.1-4.6 5.1 0 3.1 1.9 5.2 4.8 5.2 1 0 1.8-.1 2.5-.4v-2.6h-3.4v-4.4H60v10.5a17 17 0 0 1-7.9 1.9C46.1 38.2 42 33.8 42 28Z" fill="#E6F0FF" transform="translate(-5 7) scale(.82)"/>
+  <path d="M42 28c0-5.8 4.3-10.5 10.2-10.5 2.5 0 4.7.7 6.4 2.1l-2.7 4.5a6.4 6.4 0 0 0-3.7-1.2c-2.8 0-4.6 2.1-4.6 5.1 0 3.1 1.9 5.2 4.8 5.2 1 0 1.8-.1 2.5-.4v-2.6h-3.4v-4.4H60v10.5a17 17 0 0 1-7.9 1.9C46.1 38.2 42 33.8 42 28Z" fill="#F0F0E8" transform="translate(-5 7) scale(.82)"/>
 </svg>

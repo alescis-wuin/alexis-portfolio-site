@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Gestionnaire de tâches C#/.NET 10 avec Blazor, vues Liste/Kanban, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.">
   <meta name="author" content="Alexis Guinot">
-  <meta name="color-scheme" content="dark light">
+  <meta name="color-scheme" content="dark">
   <meta property="og:title" content="Kanban — Étude de cas | Alexis Guinot">
   <meta property="og:description" content="Gestionnaire de tâches C#/.NET 10 avec Blazor, vues Liste/Kanban, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.">
   <meta property="og:type" content="website">
@@ -18,13 +18,7 @@
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
   <script>
-    (() => {
-      document.documentElement.dataset.js = 'true';
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        document.documentElement.dataset.theme = savedTheme;
-      }
-    })();
+    document.documentElement.dataset.js = 'true';
   </script>
 </head>
 
@@ -50,9 +44,6 @@
         </ul>
       </nav>
       <div class="header-actions">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer le thème" aria-pressed="false">
-          <span aria-hidden="true">◐</span>
-        </button>
         <a class="button button-small button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
       </div>
     </div>
@@ -91,8 +82,8 @@
             <a class="button button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
           </div>
         </div>
-        <figure class="project-figure case-study-media" data-project-hero data-reveal>
-          <img src="../assets/img/projects/kanban/hero.webp" width="2400" height="1005" decoding="async" fetchpriority="high" alt="Tableau Kanban en thème sombre avec cinq colonnes, tâches, priorités et limites WIP visibles.">
+        <figure class="project-figure case-study-media" data-project-hero data-media-kind="screenshot" data-reveal>
+          <a class="media-viewer-trigger" href="../assets/img/projects/kanban/hero.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Tableau configurable montrant tâches, priorités et limites WIP."><img src="../assets/img/projects/kanban/hero.webp" width="2400" height="1005" decoding="async" fetchpriority="high" alt="Tableau Kanban en thème sombre avec cinq colonnes, tâches, priorités et limites WIP visibles."></a>
           <figcaption>Tableau configurable montrant tâches, priorités et limites WIP.</figcaption>
         </figure>
       </div>
@@ -146,8 +137,8 @@
           <h2 id="architecture-visual-title">Vue d’ensemble de l’architecture</h2>
           <p>Le schéma complète l’étude de cas avec les composants et frontières réellement présents dans le projet.</p>
         </div>
-        <figure class="case-study-media case-study-architecture" data-project-architecture data-reveal>
-          <img src="../assets/img/projects/kanban/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma du gestionnaire Kanban reliant l’hôte Web Blazor et l’API aux couches UI, Application, Domain, Contracts et Infrastructure SQLite.">
+        <figure class="case-study-media case-study-architecture" data-project-architecture data-media-kind="diagram" data-reveal>
+          <a class="media-viewer-trigger" href="../assets/img/projects/kanban/architecture.svg" data-media-viewer-trigger aria-label="Agrandir le schéma : Architecture Web métier avec règles WIP dans le domaine et persistance EF Core/SQLite."><img src="../assets/img/projects/kanban/architecture.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Schéma du gestionnaire Kanban reliant l’hôte Web Blazor et l’API aux couches UI, Application, Domain, Contracts et Infrastructure SQLite."></a>
           <figcaption>Architecture Web métier avec règles WIP dans le domaine et persistance EF Core/SQLite.</figcaption>
         </figure>
       </div>
@@ -221,8 +212,8 @@
           <p>Des états complémentaires sélectionnés pour montrer l’interface et les parcours réellement implémentés.</p>
         </div>
         <div class="case-study-gallery">
-          <figure class="case-study-media" data-gallery-item data-gallery-index="0">
-          <img src="../assets/img/projects/kanban/theme-light.webp" width="2400" height="1006" loading="lazy" decoding="async" alt="Tableau Kanban en thème clair avec cinq colonnes et plusieurs tâches réparties selon leur état.">
+          <figure class="case-study-media" data-gallery-item data-gallery-index="0" data-media-kind="screenshot">
+          <a class="media-viewer-trigger" href="../assets/img/projects/kanban/theme-light.webp" data-media-viewer-trigger aria-label="Agrandir la capture : Même tableau en thème clair."><img src="../assets/img/projects/kanban/theme-light.webp" width="2400" height="1006" loading="lazy" decoding="async" alt="Tableau Kanban en thème clair avec cinq colonnes et plusieurs tâches réparties selon leur état."></a>
           <figcaption>Même tableau en thème clair.</figcaption>
         </figure>
         </div>
@@ -247,6 +238,21 @@
       </div>
     </section>
   </main>
+
+  <dialog class="media-viewer" data-media-viewer aria-labelledby="media-viewer-title" aria-describedby="media-viewer-caption">
+    <div class="media-viewer-panel">
+      <div class="media-viewer-toolbar">
+        <h2 id="media-viewer-title" data-media-viewer-title>Aperçu agrandi</h2>
+        <button class="media-viewer-close" type="button" data-media-viewer-close aria-label="Fermer la visionneuse">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <figure class="media-viewer-figure">
+        <img class="media-viewer-image" data-media-viewer-image src="../assets/img/projects/kanban/hero.webp" width="2400" height="1005" alt="">
+        <figcaption id="media-viewer-caption" data-media-viewer-caption></figcaption>
+      </figure>
+    </div>
+  </dialog>
 
   <footer class="site-footer">
     <div class="content-shell footer-grid">

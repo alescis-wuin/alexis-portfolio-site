@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Catalogue des projets d’Alexis Guinot : études de cas, technologies, architectures, applications web et desktop.">
   <meta name="author" content="Alexis Guinot">
-  <meta name="color-scheme" content="dark light">
+  <meta name="color-scheme" content="dark">
   <meta property="og:title" content="Projets — Alexis Guinot">
   <meta property="og:description" content="Catalogue des projets d’Alexis Guinot, filtrable par langage, type, stack et statut.">
   <meta property="og:type" content="website">
@@ -19,13 +19,7 @@
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="../assets/css/project-cards.css">
   <script>
-    (() => {
-      document.documentElement.dataset.js = 'true';
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        document.documentElement.dataset.theme = savedTheme;
-      }
-    })();
+    document.documentElement.dataset.js = 'true';
   </script>
 </head>
 
@@ -51,9 +45,6 @@
         </ul>
       </nav>
       <div class="header-actions">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer le thème" aria-pressed="false">
-          <span aria-hidden="true">◐</span>
-        </button>
         <a class="button button-small button-ghost" href="../assets/cv/CV_Alexis-GUINOT.pdf" download>Télécharger le CV</a>
       </div>
     </div>
@@ -68,18 +59,29 @@
           <p>Parcourez les projets par langage, type, stack ou statut, puis ouvrez une étude de cas pour consulter l’architecture, les choix techniques et les limites actuelles.</p>
         </div>
 
-        {{FILTERS}}
+        <details class="project-filter-panel" data-filter-panel open>
+          <summary class="project-filter-toggle">
+            <span>Filtrer les projets</span>
+            <span class="project-filter-toggle-count" data-active-filter-count>0 actifs</span>
+          </summary>
+          <div class="project-filter-panel-body">
+            {{FILTERS}}
+          </div>
+        </details>
 
-        <div class="project-catalog-status" aria-live="polite">
-          <span data-project-count>{{PROJECT_COUNT}} projet(s)</span>
-          <button class="button button-small button-ghost" type="button" data-filter-reset>Réinitialiser les filtres</button>
+        <div class="project-catalog-status" aria-live="polite" aria-atomic="true">
+          <div class="project-catalog-feedback">
+            <span data-project-count>{{PROJECT_COUNT}} projet(s)</span>
+            <span class="project-filter-summary" data-filter-summary>Aucun filtre actif</span>
+          </div>
+          <button class="button button-small button-ghost" type="button" data-filter-reset hidden>Réinitialiser les filtres</button>
         </div>
 
         <div class="project-grid project-grid-catalog">
           {{PROJECT_CARDS}}
         </div>
 
-        <p class="project-catalog-empty" data-project-empty hidden>Aucun projet ne correspond à ces filtres.</p>
+        <p class="project-catalog-empty" data-project-empty role="status" hidden>Aucun projet ne correspond à ces filtres.</p>
       </div>
     </section>
   </main>

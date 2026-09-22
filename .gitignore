@@ -45,3 +45,6 @@ playwright-report/
 
 # Deterministic visual QA artifacts
 artifacts/
+
+# Optional local CV editor environment
+.venv-cv/

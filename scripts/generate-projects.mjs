@@ -28,6 +28,14 @@ validateCatalog(catalog);
 const publishedProjects = catalog.projects.filter(
   (project) => project.published,
 );
+const featuredProjects = publishedProjects
+  .filter((project) => project.featured)
+  .sort((a, b) => a.featuredOrder - b.featuredOrder);
+const catalogProjects = [...publishedProjects].sort((a, b) => {
+  if (a.featured !== b.featured) return a.featured ? -1 : 1;
+  if (a.featured && b.featured) return a.featuredOrder - b.featuredOrder;
+  return 0;
+});
 
 const projectTemplate = readFileSync(projectTemplatePath, "utf8");
 const catalogTemplate = readFileSync(catalogTemplatePath, "utf8");
@@ -104,8 +112,8 @@ function findOrphanProjectPages(expectedOutputs) {
 }
 
 function validateCatalog(data) {
-  if (data.schemaVersion !== 4) {
-    throw new Error("data/projects.json : schemaVersion doit valoir 4.");
+  if (data.schemaVersion !== 5) {
+    throw new Error("data/projects.json : schemaVersion doit valoir 5.");
   }
 
   for (const key of ["baseUrl", "title", "description"]) {
@@ -268,12 +276,12 @@ function validateVisuals(project) {
     );
   }
 
-  validateVisualItem(project, visuals.hero, "visuals.hero", ".webp");
+  validateVisualItem(project, visuals.hero, "visuals.hero", "screenshot");
   validateVisualItem(
     project,
     visuals.architecture,
     "visuals.architecture",
-    ".svg",
+    "diagram",
   );
 
   if (!Array.isArray(visuals.gallery) || visuals.gallery.length === 0) {
@@ -284,7 +292,7 @@ function validateVisuals(project) {
 
   const sources = new Set([visuals.hero.src, visuals.architecture.src]);
   visuals.gallery.forEach((item, index) => {
-    validateVisualItem(project, item, `visuals.gallery[${index}]`, ".webp");
+    validateVisualItem(project, item, `visuals.gallery[${index}]`);
     if (sources.has(item.src)) {
       throw new Error(
         `${project.id} : source visuelle dupliquée (${item.src}).`,
@@ -294,13 +302,25 @@ function validateVisuals(project) {
   });
 }
 
-function validateVisualItem(project, item, field, expectedExtension) {
+function validateVisualItem(project, item, field, requiredKind = null) {
   if (!item || typeof item !== "object" || Array.isArray(item)) {
     throw new Error(`${project.id}.${field} doit être un objet.`);
   }
 
-  for (const key of ["src", "alt", "caption"]) {
+  for (const key of ["kind", "src", "alt", "caption"]) {
     assertNonEmpty(item[key], `${project.id}.${field}.${key}`);
+  }
+
+  const mediaExtensions = { screenshot: ".webp", diagram: ".svg" };
+  if (!Object.hasOwn(mediaExtensions, item.kind)) {
+    throw new Error(
+      `${project.id}.${field}.kind doit valoir screenshot ou diagram (${item.kind}).`,
+    );
+  }
+  if (requiredKind !== null && item.kind !== requiredKind) {
+    throw new Error(
+      `${project.id}.${field}.kind doit valoir ${requiredKind} (${item.kind}).`,
+    );
   }
 
   for (const key of ["width", "height"]) {
@@ -323,9 +343,10 @@ function validateVisualItem(project, item, field, expectedExtension) {
     throw new Error(`${project.id}.${field}.src invalide (${item.src}).`);
   }
 
+  const expectedExtension = mediaExtensions[item.kind];
   if (path.posix.extname(item.src) !== expectedExtension) {
     throw new Error(
-      `${project.id}.${field}.src doit utiliser ${expectedExtension} (${item.src}).`,
+      `${project.id}.${field}.src doit utiliser ${expectedExtension} pour kind=${item.kind} (${item.src}).`,
     );
   }
 
@@ -398,16 +419,28 @@ function renderProjectPage(project) {
       ? `<a class="button button-secondary project-repository-button" href="${escapeAttr(project.repository)}" rel="noopener noreferrer">Dépôt GitHub <span aria-hidden="true">↗</span></a>`
       : "",
     HERO_IMAGE: escapeAttr(`../${project.visuals.hero.src}`),
+    HERO_KIND: escapeAttr(project.visuals.hero.kind),
     HERO_ALT: escapeAttr(project.visuals.hero.alt),
     HERO_CAPTION: escapeHtml(project.visuals.hero.caption),
     HERO_WIDTH: String(project.visuals.hero.width),
     HERO_HEIGHT: String(project.visuals.hero.height),
+    HERO_VIEWER_OPEN: renderViewerTriggerOpen(project.visuals.hero, "../"),
+    HERO_VIEWER_CLOSE: "</a>",
     ARCHITECTURE_IMAGE: escapeAttr(`../${project.visuals.architecture.src}`),
+    ARCHITECTURE_KIND: escapeAttr(project.visuals.architecture.kind),
     ARCHITECTURE_ALT: escapeAttr(project.visuals.architecture.alt),
     ARCHITECTURE_CAPTION: escapeHtml(project.visuals.architecture.caption),
     ARCHITECTURE_WIDTH: String(project.visuals.architecture.width),
     ARCHITECTURE_HEIGHT: String(project.visuals.architecture.height),
+    ARCHITECTURE_VIEWER_OPEN: renderViewerTriggerOpen(
+      project.visuals.architecture,
+      "../",
+    ),
+    ARCHITECTURE_VIEWER_CLOSE: "</a>",
     GALLERY: renderGallery(project.visuals.gallery),
+    VIEWER_IMAGE: escapeAttr(`../${project.visuals.hero.src}`),
+    VIEWER_WIDTH: String(project.visuals.hero.width),
+    VIEWER_HEIGHT: String(project.visuals.hero.height),
     STACK_TAGS: renderTags([
       ...project.languages.map((id) => label("languages", id)),
       ...project.stack.map((id) => label("stack", id)),
@@ -435,9 +468,14 @@ function renderCatalogPage() {
     CANONICAL_URL: escapeAttr(`${catalog.site.baseUrl}/projets/`),
     FILTERS: renderFilters(),
     PROJECT_COUNT: String(publishedProjects.length),
-    PROJECT_CARDS: publishedProjects
+    PROJECT_CARDS: catalogProjects
       .map((project, index) =>
-        renderProjectCard(project, index + 1, "../", "./"),
+        renderProjectCard(project, index + 1, "../", "./", {
+          surface: "catalog",
+          priority: project.featured ? "featured" : "secondary",
+          density: "catalog",
+          stackLimit: 3,
+        }),
       )
       .join("\n          "),
   });
@@ -446,15 +484,11 @@ function renderCatalogPage() {
 function renderHomeIndex(currentHtml) {
   const startMarker = "<!-- GENERATED:HOME-PROJECTS:START -->";
   const endMarker = "<!-- GENERATED:HOME-PROJECTS:END -->";
-  const featured = publishedProjects
-    .filter((project) => project.featured)
-    .sort((a, b) => a.featuredOrder - b.featuredOrder);
-  const featuredCountText = `${featured.length} ${featured.length === 1 ? "étude de cas" : "études de cas"}, CV, GitHub et projets documentés`;
   const featuredHeading =
-    featured.length === 1
+    featuredProjects.length === 1
       ? "1 étude de cas technique"
-      : `${featured.length} études de cas techniques`;
-  const homeHtml = replaceFeaturedProjectCount(currentHtml, featuredCountText);
+      : `${featuredProjects.length} études de cas techniques`;
+  const homeHtml = currentHtml;
 
   const section = `    ${startMarker}
     <section id="projets" class="section section-alt snap-section" aria-labelledby="projects-title" data-section data-label="Projets">
@@ -465,9 +499,14 @@ function renderHomeIndex(currentHtml) {
           <p>Une sélection courte de projets complémentaires, avec pour chacun le contexte, l’architecture, les choix techniques, les tests et les limites actuelles.</p>
         </div>
         <div class="project-grid project-grid-focus">
-          ${featured
+          ${featuredProjects
             .map((project, index) =>
-              renderProjectCard(project, index + 1, "", "projets/"),
+              renderProjectCard(project, index + 1, "", "projets/", {
+                surface: "home",
+                priority: index === 0 ? "lead" : "featured",
+                density: index === 0 ? "lead" : "featured",
+                stackLimit: index === 0 ? 4 : 3,
+              }),
             )
             .join("\n          ")}
         </div>
@@ -496,31 +535,46 @@ function renderHomeIndex(currentHtml) {
   return `${homeHtml.slice(0, projectStart)}${section}\n\n${homeHtml.slice(nextSection)}`;
 }
 
-function replaceFeaturedProjectCount(html, text) {
-  const pattern = /<dd data-featured-project-count>[^<]*<\/dd>/;
-
-  if (!pattern.test(html)) {
-    throw new Error(
-      "index.html : compteur data-featured-project-count introuvable.",
-    );
-  }
-
-  return html.replace(
-    pattern,
-    `<dd data-featured-project-count>${escapeHtml(text)}</dd>`,
-  );
-}
-
-function renderProjectCard(project, index, assetPrefix, hrefPrefix) {
+function renderProjectCard(
+  project,
+  index,
+  assetPrefix,
+  hrefPrefix,
+  {
+    surface = "catalog",
+    priority = "secondary",
+    density = "catalog",
+    stackLimit = 3,
+  } = {},
+) {
   const languageTokens = project.languages.join(" ");
   const typeTokens = project.types.join(" ");
   const stackTokens = project.stack.join(" ");
-  const homeStack = project.homeStack.map((id) => label("stack", id));
+  const homeStack = project.homeStack
+    .slice(0, stackLimit)
+    .map((id) => label("stack", id));
   const href = `${hrefPrefix}${project.slug}.html`;
   const cardVisual = project.visuals.hero;
+  const facts = `<dl class="project-facts">
+                <div class="project-fact project-fact-mission">
+                  <dt>Mission</dt>
+                  <dd>${escapeHtml(project.mission)}</dd>
+                </div>
+                <div class="project-fact project-fact-proof">
+                  <dt>Points clés</dt>
+                  <dd>${escapeHtml(project.proof)}</dd>
+                </div>
+              </dl>`;
+  const factsBlock =
+    surface === "catalog"
+      ? `<details class="project-facts-disclosure" data-project-facts-disclosure open>
+                <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
+                ${facts}
+              </details>`
+      : facts;
 
-  return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
-            <a class="project-media" href="${escapeAttr(href)}" aria-label="Lire l’étude de cas ${escapeAttr(project.name)}">
+  return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-project-surface="${escapeAttr(surface)}" data-project-priority="${escapeAttr(priority)}" data-project-density="${escapeAttr(density)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
+            <a class="project-media" href="${escapeAttr(href)}" data-media-kind="${escapeAttr(cardVisual.kind)}" aria-label="Lire l’étude de cas ${escapeAttr(project.name)}">
               <img src="${escapeAttr(`${assetPrefix}${cardVisual.src}`)}" width="${cardVisual.width}" height="${cardVisual.height}" loading="lazy" decoding="async" alt="">
             </a>
             <div class="project-body">
@@ -533,16 +587,7 @@ function renderProjectCard(project, index, assetPrefix, hrefPrefix) {
                 <h3><a href="${escapeAttr(href)}">${escapeHtml(project.name)}</a></h3>
               </div>
               <p class="project-summary">${escapeHtml(project.summary)}</p>
-              <dl class="project-facts">
-                <div>
-                  <dt>Mission</dt>
-                  <dd>${escapeHtml(project.mission)}</dd>
-                </div>
-                <div>
-                  <dt>Points clés</dt>
-                  <dd>${escapeHtml(project.proof)}</dd>
-                </div>
-              </dl>
+              ${factsBlock}
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
                 <div class="tag-list">
@@ -563,16 +608,20 @@ function renderProjectCard(project, index, assetPrefix, hrefPrefix) {
 
 function renderGallery(items) {
   return items
-    .map(
-      (
-        item,
-        index,
-      ) => `<figure class="case-study-media" data-gallery-item data-gallery-index="${index}">
-          <img src="${escapeAttr(`../${item.src}`)}" width="${item.width}" height="${item.height}" loading="lazy" decoding="async" alt="${escapeAttr(item.alt)}">
+    .map((item, index) => {
+      const src = `../${item.src}`;
+      return `<figure class="case-study-media" data-gallery-item data-gallery-index="${index}" data-media-kind="${escapeAttr(item.kind)}">
+          ${renderViewerTriggerOpen(item, "../")}<img src="${escapeAttr(src)}" width="${item.width}" height="${item.height}" loading="lazy" decoding="async" alt="${escapeAttr(item.alt)}"></a>
           <figcaption>${escapeHtml(item.caption)}</figcaption>
-        </figure>`,
-    )
+        </figure>`;
+    })
     .join("\n        ");
+}
+
+function renderViewerTriggerOpen(item, pathPrefix) {
+  const label =
+    item.kind === "diagram" ? "Agrandir le schéma" : "Agrandir la capture";
+  return `<a class="media-viewer-trigger" href="${escapeAttr(`${pathPrefix}${item.src}`)}" data-media-viewer-trigger aria-label="${escapeAttr(`${label} : ${item.caption}`)}">`;
 }
 
 function renderFilters() {

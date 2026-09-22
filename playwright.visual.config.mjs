@@ -33,6 +33,12 @@ export default defineConfig({
     timezoneId: "Europe/Paris",
     deviceScaleFactor: 1,
     trace: "retain-on-failure",
+    launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+      ? {
+          executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
+          args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
+        }
+      : {},
   },
   webServer: {
     command: "python3 -m http.server 4173",

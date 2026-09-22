@@ -47,10 +47,11 @@ Les entrées C#/.NET sont utilisées par Calcufolio, Agenda et Kanban ; une tech
   "proof": "Preuve synthétique mise en avant.",
   "problem": "Problème traité par le projet.",
   "repository": "https://github.com/...",
-  "image": "assets/img/projects/mon-projet.svg",
-  "imageAlt": "Illustration du projet Mon projet",
+  "image": "assets/img/projects/mon-projet/hero.webp",
+  "imageAlt": "Capture principale du projet Mon projet",
   "visuals": {
     "hero": {
+      "kind": "screenshot",
       "src": "assets/img/projects/mon-projet/hero.webp",
       "alt": "Description de la capture principale",
       "caption": "Légende courte.",
@@ -58,6 +59,7 @@ Les entrées C#/.NET sont utilisées par Calcufolio, Agenda et Kanban ; une tech
       "height": 1080
     },
     "architecture": {
+      "kind": "diagram",
       "src": "assets/img/projects/mon-projet/architecture.svg",
       "alt": "Description du schéma",
       "caption": "Légende du schéma.",
@@ -66,6 +68,7 @@ Les entrées C#/.NET sont utilisées par Calcufolio, Agenda et Kanban ; une tech
     },
     "gallery": [
       {
+        "kind": "screenshot",
         "src": "assets/img/projects/mon-projet/detail.webp",
         "alt": "Description de la capture",
         "caption": "État complémentaire du produit.",
@@ -88,7 +91,7 @@ Les entrées C#/.NET sont utilisées par Calcufolio, Agenda et Kanban ; une tech
 
 ## Politique de publication — introduite au schéma v3
 
-P2.3-A.1 a introduit `published`. Le schéma courant vaut désormais `4`, mais les mêmes règles de publication restent applicables.
+P2.3-A.1 a introduit `published`. Le schéma courant vaut désormais `5`, mais les mêmes règles de publication restent applicables.
 
 - `published: true` : le projet peut être généré dans le catalogue, les pages projet, les filtres, la sélection featured et le sitemap ;
 - `published: false` : les données restent conservées et validées dans la source canonique, mais aucune surface publique n'est générée ;
@@ -104,35 +107,55 @@ Tous les fichiers `projets/*.html` autres que `projets/index.html` sont des sort
 
 
 
-## Preuves visuelles — schéma v4
+## Preuves visuelles — schéma v5
 
-P2.3-D fait passer `schemaVersion` à `4`. Chaque projet **publié** doit fournir un objet
+P2.4-E fait passer `schemaVersion` à `5`. Chaque projet **publié** doit fournir un objet
 `visuals` complet ; un projet masqué peut rester sans visuels.
 
 Le contrat contient :
 
-- `hero` : capture produit principale au format WebP ;
-- `architecture` : schéma SVG sourcé ;
-- `gallery` : une ou plusieurs captures WebP complémentaires ;
-- pour chaque élément : `src`, `alt`, `caption`, `width` et `height`.
+- `hero` : preuve produit principale, obligatoirement `kind: "screenshot"` ;
+- `architecture` : schéma sourcé, obligatoirement `kind: "diagram"` ;
+- `gallery` : une ou plusieurs preuves complémentaires pouvant être des `screenshot` ou des `diagram` ;
+- pour chaque élément : `kind`, `src`, `alt`, `caption`, `width` et `height`.
+
+Types de média :
+
+- `screenshot` → fichier WebP ;
+- `diagram` → fichier SVG.
 
 Invariants :
 
 - les chemins restent sous `assets/img/projects/<id>/` ;
-- le hero et la galerie utilisent des WebP ; le schéma utilise un SVG ;
+- l'extension est déterminée par `kind` ;
 - les chemins normalisés ne peuvent pas traverser hors du répertoire du projet ;
 - tous les fichiers doivent exister au moment de la génération ;
 - `alt` et `caption` sont non vides ;
-- `width` et `height` sont des entiers positifs ;
+- `width` et `height` sont des entiers positifs et doivent correspondre aux dimensions réelles du fichier ;
+- les WebP doivent avoir une structure RIFF complète et cohérente ;
+- les SVG doivent exposer des dimensions numériques et ne peuvent pas embarquer de script ;
 - une même source visuelle ne peut pas être réutilisée deux fois dans le même projet.
 
-Les pages générées utilisent le hero comme preuve principale, affichent ensuite le schéma
-d’architecture et une galerie statique. Le comportement de lightbox et la navigation
-interactive appartiennent à P2.3-E.
+Les sorties générées exposent `data-media-kind` sur les cartes, le hero, l'architecture et
+chaque élément de galerie. La validation des octets et dimensions est assurée par
+`npm run validate:media`.
+
+### Viewer P2.4-F
+
+Sur les pages d'étude de cas, chaque média est aussi un lien direct vers son fichier avec
+`data-media-viewer-trigger`. Le lien constitue le fallback sans JavaScript. Lorsque
+`HTMLDialogElement.showModal()` est disponible, `assets/js/main.js` intercepte uniquement le clic
+primaire sans modificateur et ouvre une visionneuse native `<dialog>`. Le type `kind` pilote le
+libellé de la visionneuse (`Capture produit agrandie` ou `Schéma technique agrandi`) sans changer
+le schéma v5.
+
+Le dialogue modal natif fournit l'inertie du document et le confinement du focus. Le bouton de
+fermeture, `Escape` et le clic hors du panneau ferment la visionneuse ; le focus est ensuite rendu
+au lien déclencheur.
 
 ## Étude de cas professionnelle — introduite au schéma v2
 
-P2.2 a introduit l'objet obligatoire `caseStudy`. Le schéma courant vaut désormais `4`,
+P2.2 a introduit l'objet obligatoire `caseStudy`. Le schéma courant vaut désormais `5`,
 mais les mêmes invariants éditoriaux restent appliqués à tous les projets, publiés ou non.
 Le générateur refuse une fiche incomplète : la qualité éditoriale devient un invariant au même titre
 que le slug, la taxonomie, l'image ou la politique de publication.
