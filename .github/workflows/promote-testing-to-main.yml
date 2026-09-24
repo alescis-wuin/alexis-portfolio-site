@@ -27,8 +27,18 @@ jobs:
         run: |
           set -euo pipefail
 
-          if gh pr view --repo "$REPO" --base main --head testing >/dev/null 2>&1; then
-            echo "PR testing -> main already exists."
+          existing_pr="$(
+            gh pr list \
+              --repo "$REPO" \
+              --base main \
+              --head testing \
+              --state open \
+              --json number \
+              --jq '.[0].number // empty'
+          )"
+
+          if [[ -n "$existing_pr" ]]; then
+            echo "PR testing -> main already exists: #$existing_pr"
           else
             gh pr create \
               --repo "$REPO" \
