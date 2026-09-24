@@ -78,9 +78,9 @@
       "featured": true,
       "status": "finalized",
       "subtitle": "Plateforme de streaming vidéo",
-      "summary": "Plateforme de streaming full-stack : catalogue, sécurité, administration média et pipeline MP4/HLS avec FFmpeg.",
+      "summary": "De la vidéo déposée au lecteur web : catalogue, comptes utilisateurs et traitement des médias avec FFmpeg.",
       "metaDescription": "Application web de streaming vidéo avec authentification, catalogue, administration média, upload, streaming MP4/HLS et pipeline FFmpeg.",
-      "mission": "Construire une plateforme web couvrant catalogue, sécurité, administration média et streaming.",
+      "mission": "Relier une application Spring Boot à un pipeline de traitement vidéo.",
       "proof": "Sécurité, streaming, traitement asynchrone, Docker et tests.",
       "problem": "Réunir dans une même application un accès sécurisé, un catalogue, la lecture vidéo, l’administration des médias et une chaîne de traitement asynchrone.",
       "repository": "https://github.com/alescis-wuin/streamfolio",
@@ -227,7 +227,7 @@
           }
         ]
       },
-      "featuredOrder": 2
+      "featuredOrder": 1
     },
     {
       "id": "kanban",
@@ -237,9 +237,9 @@
       "featured": false,
       "status": "in-progress",
       "subtitle": "Gestionnaire de tâches avec vues Liste et Kanban",
-      "summary": "Gestionnaire .NET 10 orienté métier : vues Liste/Kanban, règles WIP, récurrence, API REST et persistance SQLite.",
+      "summary": "Organiser les tâches en liste ou en tableau, avec règles métier, récurrence et historique.",
       "metaDescription": "Gestionnaire de tâches C#/.NET 10 avec Blazor, vues Liste/Kanban, règles WIP, sous-tâches, historique, import/export, API REST et EF Core/SQLite.",
-      "mission": "Construire une application métier Web au-delà d’un CRUD de tâches.",
+      "mission": "Garder les mêmes règles métier dans l’interface et dans l’API.",
       "proof": "Règles WIP, Blazor, API, EF Core, accessibilité, tests et CI.",
       "problem": "Créer un gestionnaire de tâches qui combine interactions Kanban, règles métier, historique, import/export et API sans dupliquer la logique entre l’interface Web et les endpoints HTTP.",
       "repository": "https://github.com/alescis-wuin/kanban",
@@ -390,9 +390,9 @@
       "featured": true,
       "status": "prototype",
       "subtitle": "Agenda accessible Web et MAUI",
-      "summary": "Agenda .NET 10 partagé entre Web Blazor et MAUI, avec calendrier, événements, API REST et persistance SQLite.",
+      "summary": "Un calendrier, deux environnements : une interface partagée entre le Web et une application MAUI.",
       "metaDescription": "Agenda C#/.NET 10 avec Blazor, MAUI Blazor Hybrid, API REST, EF Core/SQLite, interface partagée, validation métier et accessibilité clavier.",
-      "mission": "Partager une même interface métier entre Web et application hybride.",
+      "mission": "Partager l’interface et la logique métier sans les dupliquer entre les hôtes.",
       "proof": "Blazor, MAUI, API, EF Core, architecture multi-hôte, tests et CI.",
       "problem": "Concevoir un agenda accessible dont les mêmes composants Razor et cas d’usage peuvent fonctionner dans plusieurs hôtes sans confondre interface, règles métier et persistance locale.",
       "repository": "https://github.com/alescis-wuin/agenda",
@@ -529,7 +529,7 @@
           }
         ]
       },
-      "featuredOrder": 3
+      "featuredOrder": 2
     },
     {
       "id": "solvia",
@@ -658,12 +658,12 @@
       "slug": "calcufolio",
       "name": "Calcufolio",
       "published": true,
-      "featured": false,
+      "featured": true,
       "status": "in-progress",
       "subtitle": "Calculatrice desktop à moteur d’expressions",
-      "summary": "Calculatrice desktop Avalonia avec moteur d’expressions isolé, MVVM, historique, tests xUnit et CI .NET.",
+      "summary": "Une calculatrice desktop centrée sur la saisie, l’édition et l’évaluation d’expressions.",
       "metaDescription": "Calculatrice desktop C#/.NET 10 avec Avalonia, moteur d’expressions tokenisé et parsé, MVVM, tests automatisés et CI GitHub Actions.",
-      "mission": "Concevoir une calculatrice testable au-delà d’une simple logique d’interface.",
+      "mission": "Relier un moteur d’expressions à une interface Avalonia.",
       "proof": "Parser, séparation des couches, MVVM, tests automatisés et CI .NET.",
       "problem": "Construire une calculatrice desktop dont le parsing, l’édition, l’état d’interaction et l’interface restent découplés afin de tester les comportements complexes sans dépendre d’Avalonia.",
       "repository": "https://github.com/alescis-wuin/calcufolio",
@@ -798,14 +798,15 @@
             "kind": "screenshot"
           }
         ]
-      }
+      },
+      "featuredOrder": 3
     },
     {
       "id": "aelia",
       "slug": "aelia",
       "name": "Aelia",
       "published": true,
-      "featured": true,
+      "featured": false,
       "featuredOrder": 4,
       "status": "in-progress",
       "subtitle": "Application météo desktop multi-fournisseurs",
@@ -886,6 +887,7 @@
           "Carte native avec sélection de localisation et cache de tuiles."
         ],
         "limitations": [
+          "Version de travail documentée : les captures et capacités décrites peuvent différer de la branche principale du dépôt public.",
           "Pas de préchargement de zones complètes.",
           "Les fournisseurs à clé ne fonctionnent qu’après configuration des identifiants nécessaires."
         ],
@@ -920,14 +922,15 @@
             "kind": "screenshot"
           }
         ]
-      }
+      },
+      "publicationNote": "Version de travail documentée : les captures et capacités décrites peuvent différer de la branche principale du dépôt public."
     },
     {
       "id": "alycia",
       "slug": "alycia",
       "name": "Alycia",
       "published": true,
-      "featured": true,
+      "featured": false,
       "featuredOrder": 1,
       "status": "in-progress",
       "subtitle": "Application desktop d’IA locale",
@@ -1021,6 +1024,7 @@
           "Gestion explicite du fournisseur, du modèle et de la maintenance locale."
         ],
         "limitations": [
+          "Version de travail documentée : les captures et capacités décrites peuvent différer de la branche principale du dépôt public.",
           "Pas de tool calling, RAG/retrieval, pièces jointes ou multimodalité.",
           "Installation gérée CUDA limitée à Linux x64 pour le lot actuel."
         ],
@@ -1063,7 +1067,8 @@
             "height": 379
           }
         ]
-      }
+      },
+      "publicationNote": "Version de travail documentée : les captures et capacités décrites peuvent différer de la branche principale du dépôt public."
     }
   ]
 }

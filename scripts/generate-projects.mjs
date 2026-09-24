@@ -54,6 +54,11 @@ outputs.set(path.join(rootDir, "sitemap.xml"), renderSitemap());
 const indexPath = path.join(rootDir, "index.html");
 const currentIndex = readFileSync(indexPath, "utf8");
 outputs.set(indexPath, renderHomeIndex(currentIndex));
+
+for (const [filePath, content] of outputs) {
+  outputs.set(filePath, normalizeGeneratedText(content));
+}
+
 const orphanProjectPages = findOrphanProjectPages(outputs);
 
 if (checkOnly) {
@@ -411,6 +416,9 @@ function renderProjectPage(project) {
     ),
     SUBTITLE: escapeHtml(project.subtitle),
     SUMMARY: escapeHtml(project.summary),
+    PUBLICATION_NOTE: project.publicationNote
+      ? `<p class="publication-note">${escapeHtml(project.publicationNote)}</p>`
+      : "",
     STATUS_LABEL: escapeHtml(label("status", project.status)),
     MISSION: escapeHtml(project.mission),
     PROOF: escapeHtml(project.proof),
@@ -494,9 +502,9 @@ function renderHomeIndex(currentHtml) {
     <section id="projets" class="section section-alt snap-section" aria-labelledby="projects-title" data-section data-label="Projets">
       <div class="frame">
         <div class="section-heading reading" data-reveal>
-          <p class="eyebrow">Projets</p>
-          <h2 id="projects-title">${featuredHeading}</h2>
-          <p>Une sélection courte de projets complémentaires, avec pour chacun le contexte, l’architecture, les choix techniques, les tests et les limites actuelles.</p>
+          <p class="eyebrow">01 / Projets choisis</p>
+          <h2 id="projects-title">Du code, des choix,<br>des applications.</h2>
+          <p>${featuredHeading} : le besoin, ma contribution, les décisions et les limites. Les captures montrent les applications ; les dépôts permettent d’explorer le code.</p>
         </div>
         <div class="project-grid project-grid-focus">
           ${featuredProjects
@@ -555,7 +563,6 @@ function renderProjectCard(
     .map((id) => label("stack", id));
   const href = `${hrefPrefix}${project.slug}.html`;
   const cardVisual = project.visuals.hero;
-  const headingTag = surface === "catalog" ? "h2" : "h3";
   const facts = `<dl class="project-facts">
                 <div class="project-fact project-fact-mission">
                   <dt>Mission</dt>
@@ -572,9 +579,9 @@ function renderProjectCard(
                 <summary>Mission et points clés <span class="project-disclosure-icon" aria-hidden="true">+</span></summary>
                 ${facts}
               </details>`
-      : facts;
+      : "";
 
-  return `<article class="project-card project-card-playful" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-project-surface="${escapeAttr(surface)}" data-project-priority="${escapeAttr(priority)}" data-project-density="${escapeAttr(density)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
+  return `<article class="project-card" data-project-card data-project-slug="${escapeAttr(project.slug)}" data-project-surface="${escapeAttr(surface)}" data-project-priority="${escapeAttr(priority)}" data-project-density="${escapeAttr(density)}" data-language="${escapeAttr(languageTokens)}" data-type="${escapeAttr(typeTokens)}" data-stack="${escapeAttr(stackTokens)}" data-status="${escapeAttr(project.status)}" data-reveal>
             <a class="project-media" href="${escapeAttr(href)}" data-media-kind="${escapeAttr(cardVisual.kind)}" aria-label="Lire l’étude de cas ${escapeAttr(project.name)}">
               <img src="${escapeAttr(`${assetPrefix}${cardVisual.src}`)}" width="${cardVisual.width}" height="${cardVisual.height}" loading="lazy" decoding="async" alt="">
             </a>
@@ -585,9 +592,10 @@ function renderProjectCard(
               </div>
               <div class="project-heading">
                 <p class="project-kicker">${escapeHtml(project.subtitle)}</p>
-                <${headingTag}><a href="${escapeAttr(href)}">${escapeHtml(project.name)}</a></${headingTag}>
+                <${surface === "catalog" ? "h2" : "h3"}><a href="${escapeAttr(href)}">${escapeHtml(project.name)}</a></${surface === "catalog" ? "h2" : "h3"}>
               </div>
               <p class="project-summary">${escapeHtml(project.summary)}</p>
+              ${project.publicationNote ? `<p class="publication-note">${escapeHtml(project.publicationNote)}</p>` : ""}
               ${factsBlock}
               <div class="project-stack" aria-label="Technologies principales">
                 <span class="project-metadata-label">Technologies</span>
@@ -708,6 +716,11 @@ function renderNamedListItems(items) {
 
 function renderListItems(values) {
   return values.map((value) => `<li>${escapeHtml(value)}</li>`).join("");
+}
+
+function normalizeGeneratedText(value) {
+  const normalized = value.replace(/[ \t]+$/gm, "");
+  return normalized.endsWith("\n") ? normalized : `${normalized}\n`;
 }
 
 function renderTemplate(template, values) {
