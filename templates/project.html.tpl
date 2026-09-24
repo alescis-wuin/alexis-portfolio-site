@@ -11,15 +11,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{CANONICAL_URL}}">
   <meta property="og:image" content="https://www.alexis-guinot.fr/assets/img/photo-profil-800.webp">
-  <meta name="theme-color" content="#0B1020">
+  <meta name="theme-color" content="#101412">
   <title>{{NAME}} — Étude de cas | Alexis Guinot</title>
   <link rel="canonical" href="{{CANONICAL_URL}}">
   <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../assets/css/styles.css">
-  <script>
-    document.documentElement.dataset.js = 'true';
-  </script>
+  <link rel="stylesheet" href="../assets/css/signature.css">
 </head>
 
 <body data-project-slug="{{PROJECT_SLUG}}">
@@ -59,6 +57,7 @@
           </div>
           <h1>{{NAME}}</h1>
           <p class="hero-lead">{{SUMMARY}}</p>
+          {{PUBLICATION_NOTE}}
           <dl class="project-overview" data-project-overview aria-label="Résumé du projet">
             <div>
               <dt>Objectif</dt>
@@ -85,11 +84,12 @@
       </div>
     </article>
 
+    <nav class="case-nav" aria-label="Dans cette étude de cas"><div class="content-shell"><a href="#problem-title">Contexte et rôle</a><a href="#architecture-title">Architecture</a><a href="#quality-title">Tests</a><a href="#limits-title">Limites</a><a href="#gallery-title">Captures</a></div></nav>
     <section class="section" aria-labelledby="problem-title">
       <div class="content-shell content-grid">
         <div class="content-block" data-reveal>
           <p class="eyebrow">Problème</p>
-          <h2 id="problem-title">Ce que le projet cherche à résoudre</h2>
+          <h2 id="problem-title">Le problème à résoudre</h2>
           <p>{{PROBLEM}}</p>
         </div>
         <aside class="content-aside" data-reveal aria-labelledby="role-title">
@@ -106,7 +106,7 @@
       <div class="content-shell two-columns">
         <div data-reveal>
           <p class="eyebrow">Architecture</p>
-          <h2 id="architecture-title">Comment le système est structuré</h2>
+          <h2 id="architecture-title">Les pièces du système</h2>
           <ul class="check-list">{{ARCHITECTURE}}</ul>
         </div>
         <div data-reveal>
@@ -180,7 +180,7 @@
       <div class="content-shell two-columns">
         <div data-reveal>
           <p class="eyebrow">Limites</p>
-          <h2 id="limits-title">Limites assumées</h2>
+          <h2 id="limits-title">Les limites actuelles</h2>
           <ul class="check-list">{{LIMITATIONS}}</ul>
         </div>
         <div data-reveal>
@@ -196,7 +196,7 @@
         <div class="section-heading reading" data-reveal>
           <p class="eyebrow">Captures</p>
           <h2 id="gallery-title">Le produit en situation</h2>
-          <p>Des états complémentaires sélectionnés pour montrer l’interface et les parcours réellement implémentés.</p>
+          <p>Quelques écrans pour parcourir le projet.</p>
         </div>
         <div class="case-study-gallery">
           {{GALLERY}}
