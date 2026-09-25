@@ -48,7 +48,7 @@ jobs:
       - run: npm run capture:visual
       - name: Upload visual QA artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: visual-qa-main-pr-${{ github.event.pull_request.number || github.run_id }}
           path: artifacts/visual
